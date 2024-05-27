@@ -18,28 +18,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
-	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-	private final JwtAuthenticationFilter jwtRequestFilter;
-	
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable();
-        httpSecurity.headers().frameOptions().disable();
-
-        httpSecurity
-                .authorizeRequests().anyRequest().permitAll()
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Bean
-    public BCryptPasswordEncoder encodePassword() {
-        return new BCryptPasswordEncoder();
-    }
+	/*
+	 * private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	 * private final JwtAuthenticationFilter jwtRequestFilter;
+	 * 
+	 * @Override protected void configure(HttpSecurity httpSecurity) throws
+	 * Exception { httpSecurity.csrf().disable();
+	 * httpSecurity.headers().frameOptions().disable();
+	 * 
+	 * httpSecurity .authorizeRequests().anyRequest().permitAll() .and()
+	 * .exceptionHandling() .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+	 * .and()
+	 * .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	 * 
+	 * httpSecurity.addFilterBefore(jwtRequestFilter,
+	 * UsernamePasswordAuthenticationFilter.class); }
+	 * 
+	 * @Bean public BCryptPasswordEncoder encodePassword() { return new
+	 * BCryptPasswordEncoder(); }
+	 */
 	
 }
