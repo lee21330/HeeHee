@@ -8,6 +8,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring/root-context.xml
+			/WEB-INF/spring/security-context.xml
 		</param-value>
 	</context-param>
 	
@@ -45,4 +46,14 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+   <!--  <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>com.shinhan.heehee.config.JwtFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping> -->
 </web-app>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shinhan.heehee.user">
+
+	<select id="findUserByUsername" parameterType="string" resultType="com.shinhan.heehee.dto.response.UserDTO">
+        SELECT ID user_id, NICK_NAME username, PW password, ROLE role
+        FROM USER_ACC
+        WHERE NICK_NAME = #{username}
+    </select>
+
+    <select id="findByUserId" parameterType="string" resultType="com.shinhan.heehee.dto.response.UserDTO">
+        SELECT ID user_id, NICK_NAME username, PW password, ROLE role
+        FROM USER_ACC
+        WHERE ID = #{userId}
+    </select>
+    
+    <insert id="save" parameterType="com.shinhan.heehee.dto.response.UserDTO">
+        INSERT INTO user (username, password)
+        VALUES ( #{username}, #{password} )
+    </insert>
+</mapper>
