@@ -3,7 +3,7 @@
 /* Reset default browser styles */
 * {
     margin: 0;
-    padding: 0;
+    padding: 0%;
     box-sizing: border-box;
 }
 
@@ -24,6 +24,77 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between; /* 텍스트와 링크를 양쪽 끝으로 정렬 */
+    align-items: center;
+    width: 100%;
+}
+
+.price-check-link {
+    margin-left: 20px;
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.product-container {
+    display: flex;
+    align-items: flex-start; /* 이미지와 텍스트를 상단에 맞춥니다 */
+    gap: 20px; /* 이미지와 텍스트 사이의 간격을 설정합니다 */
+    
+}
+
+#url_copy {
+    width: 8%;
+    height: auto;
+    object-fit: contain;
+}
+
+#product_img {
+    width: 35%;
+    height: auto;
+    object-fit: contain;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column; /* 텍스트를 세로로 정렬합니다 */
+    justify-content: center;
+	width: 35%;
+}
+
+.product-details p,
+.product-details ul {
+    margin: 5px 0; /* 텍스트 요소 사이의 간격을 설정합니다 */
+}
+
+#gochat {
+	width: 50%;
+	background: #4949e9;
+	color: white;
+	font-size: 18px;
+}
+
+#gobuy {
+	width: 50%;
+	background: #dcf343;
+	color: #4949e9;
+	font-size: 18px;
+}
+
+#recentlyArea {
+	display: flex;
+	margin-left: 3%;
+}
+
+.button-container {
+    display: flex; /* 버튼들을 수평으로 정렬 */
+    gap: 5%; /* 버튼 사이의 간격 */
+    width: 100%;
+    justify-content: center;
 }
 
 .logo {
@@ -67,7 +138,7 @@ nav {
 /* Main content styles */
 main {
     padding: 20px;
-    background: #f4f4f4;
+    /* background: #f4f4f4; */
 }
 
 section {
