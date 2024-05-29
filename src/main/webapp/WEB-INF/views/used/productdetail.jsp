@@ -8,27 +8,11 @@
 <title>Responsive Web Page</title>
 <link rel="stylesheet" href="/heehee/resources/css/productdetail.css">
 </head>
-
+<%@ include file="../common/header.jsp" %>
 <body>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/productdetail.js"></script>
-	<header>
-		<nav>
-			<div class="logo">ㅎㅇㅎㅇ</div>
-			<ul class="nav-links">
-				<li><a href="#home">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#services">Services</a></li>
-				<li><a href="#contact">Contact</a></li>
-			</ul>
-			<div class="burger">
-				<div class="line1"></div>
-				<div class="line2"></div>
-				<div class="line3"></div>
-			</div>
-		</nav>
-	</header>
 
 	<main>
 		<div class="product-container">
@@ -36,7 +20,7 @@
 			<div class="product-details">
 				<div class="title-container">
                 	<p>장난감 > 인형</p>
-                	<img id="url_copy" src="/heehee/resources/images/1.png">
+                	<img id="url_copy" src="/heehee/resources/images/1.png" alt="Copy URL">
             	</div>
             	
 				<div class="title-container">
@@ -58,7 +42,9 @@
 			</div>
 			<div id="plusArea">
 				<p>최근 본 상품</p>
-				
+				<img class="recentimg" src="/heehee/resources/images/11.png">
+				<img class="recentimg" src="/heehee/resources/images/11.png">
+				<p id="top">TOP</p>
 			</div>
 		</div>
 		
