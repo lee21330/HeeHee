@@ -15,7 +15,7 @@
         WHERE ID = #{userId}
     </select>
     
-    <insert id="save" parameterType="com.shinhan.heehee.dto.response.UserDTO">
+    <insert id="save" parameterType="com.shinhan.heehee.dto.request.UserDTO">
         INSERT INTO user (username, password)
         VALUES ( #{username}, #{password} )
     </insert>

@@ -7,55 +7,48 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
-	
-	 <!-- auto-config="false" : 로그인 폼을 직접 만들어서 사용 -->
-    <security:http use-expressions="true">
-<!-- 
-        CSRF 보호 비활성화
-        <security:csrf disabled="true"></security:csrf>
 
-        API 로그인 설정
-        <security:form-login login-processing-url="/login" username-parameter="userId" password-parameter="userPw" authentication-success-handler-ref="authenticationSuccessHandler" authentication-failure-handler-ref="authenticationFailureHandler"></security:form-login>
+	<!-- auto-config="false" : 로그인 폼을 직접 만들어서 사용 -->
+	<security:http auto-config="true">
+		<security:csrf disabled="true"></security:csrf>
+		<!-- CSRF 보호 비활성화 API 로그인 설정 <security:form-login login-processing-url="/login" 
+			username-parameter="userId" password-parameter="userPw" authentication-success-handler-ref="authenticationSuccessHandler" 
+			authentication-failure-handler-ref="authenticationFailureHandler"></security:form-login> 
+			API 로그아웃 설정 <security:logout logout-url="/logout" invalidate-session="true" 
+			delete-cookies="JSESSIONID" success-handler-ref="jwtLogoutSuccessHandler"></security:logout> -->
 
-        API 로그아웃 설정
-        <security:logout logout-url="/logout" invalidate-session="true" delete-cookies="JSESSIONID" success-handler-ref="jwtLogoutSuccessHandler"></security:logout> -->
+		<!-- JwtTokenFilter를 추가하여 토큰 유효성 검사 수행 -->
+		<security:intercept-url pattern="/**" access="permitAll"/>
+		<security:custom-filter before="FORM_LOGIN_FILTER" ref="jwtFilter"></security:custom-filter>
+	</security:http>
 
-        <!-- JwtTokenFilter를 추가하여 토큰 유효성 검사 수행 -->
-        <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="jwtTokenProvider"></security:custom-filter>
-        
-        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
+	<!-- Spring Security의 사용자 인증을 수행 -->
+	<security:authentication-manager
+		id="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="customUserDetailsService">
+			<security:password-encoder
+				ref="passwordEncoder"></security:password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
 
-    </security:http>
+	<bean id="customUserDetailsService"
+		class="com.shinhan.heehee.service.CustomUserDetailsService"></bean>
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 
-    <!-- Spring Security의 사용자 인증을 수행 -->
-    <security:authentication-manager id="authenticationManager">
-        <security:authentication-provider user-service-ref="securityUserDetailsService">
-            <security:password-encoder ref="passwordEncoder"></security:password-encoder>
-        </security:authentication-provider>
-    </security:authentication-manager>
+	<bean id="jwtFilter" class="com.shinhan.heehee.config.JwtFilter">
+		<constructor-arg ref="jwtUtil"></constructor-arg>
+		<constructor-arg ref="customUserDetailsService"></constructor-arg>
+	</bean>
 
-  <bean id="securityUserDetailsService" class="com.shinhan.heehee.service.CustomUserDetailsService"></bean>
-  <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
-  
-  <bean id="jwtTokenProvider" class="com.shinhan.heehee.config.JwtFilter"></bean>
-  <!-- 
-   
-    jwtConfig bean
-    <bean id="jwtConfig" class="org.example.security.JwtConfig"></bean>
-
-    JWT 토큰 생성 및 유효성 검사 bean
-    
-
-    사용자 로그아웃 및 JWT 토큰 파기
-    <bean id="jwtLogoutSuccessHandler" class="org.example.security.JwtLogoutSuccessHandler">
-        <property name="jwtTokenProvider" ref="jwtTokenProvider"></property>
-    </bean>
-
-    인증 성공 bean
-    <bean id="authenticationSuccessHandler" class="org.example.security.SecurityAuthenticationSuccessHandler">
-        <constructor-arg ref="jwtTokenProvider"></constructor-arg>
-    </bean>
-
-    인증 실패 bean
-    <bean id="authenticationFailureHandler" class="org.example.security.SecurityAuthenticationFailureHandler"></bean> -->
+	<bean id="jwtUtil" class="com.shinhan.heehee.util.JwtUtil">
+	</bean>
+	<!-- jwtConfig bean <bean id="jwtConfig" class="org.example.security.JwtConfig"></bean> 
+		JWT 토큰 생성 및 유효성 검사 bean 사용자 로그아웃 및 JWT 토큰 파기 <bean id="jwtLogoutSuccessHandler" 
+		class="org.example.security.JwtLogoutSuccessHandler"> <property name="jwtTokenProvider" 
+		ref="jwtTokenProvider"></property> </bean> 인증 성공 bean <bean id="authenticationSuccessHandler" 
+		class="org.example.security.SecurityAuthenticationSuccessHandler"> <constructor-arg 
+		ref="jwtTokenProvider"></constructor-arg> </bean> 인증 실패 bean <bean id="authenticationFailureHandler" 
+		class="org.example.security.SecurityAuthenticationFailureHandler"></bean> -->
 </beans>

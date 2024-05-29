@@ -7,7 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,19 +21,27 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.shinhan.heehee.service.CustomUserDetailsService;
 import com.shinhan.heehee.util.JwtUtil;
 
-@Component
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 	
-	@Autowired
 	JwtUtil jwtUtil;
+	CustomUserDetailsService customUserDetailsService;
 	
-	@Autowired
-	CustomUserDetailsService service;
-
+	
+	/*
+	 * @Autowired public JwtFilter(@Qualifier("customUserDetailsService")
+	 * CustomUserDetailsService customUserDetailsService) { this.jwtUtil = new
+	 * JwtUtil(); this.customUserDetailsService = customUserDetailsService; }
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
 			throws ServletException, IOException {
-		System.out.println("DO필터");
+		System.out.println("힝..");
 		String authorizationHeader = httpServletRequest.getHeader("Authorization");
 		String token = null;
 		String userName = null;
@@ -39,7 +50,7 @@ public class JwtFilter extends OncePerRequestFilter {
 			userName = jwtUtil.extractUsername(token);
 		}
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = service.loadUserByUsername(userName);
+			UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
 			if (jwtUtil.validateToken(token, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
