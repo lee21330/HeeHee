@@ -10,7 +10,8 @@
 </head>
 
 <body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<div class="header">
 		<div class="inner">
 
@@ -30,30 +31,30 @@
 					</div>
 					<div class="category_content">
 						<ul class="category_list">
-							<li id="list1">여성의류</li>
-							<li id="list2">남성의류</li>
-							<li id="list3">신발</li>
-							<li id="list4">가방/지갑</li>
-							<li id="list5">시계</li>
-							<li id="list6">쥬얼리</li>
-							<li id="list7">패션 액세서리</li>
-							<li id="list8">디지털</li>
-							<li id="list9">가전제품</li>
-							<li id="list10">스포츠/레저</li>
-							<li id="list11">차량/오토바이</li>
-							<li id="list12">스타굿즈</li>
-							<li id="list13">키덜트</li>
-							<li id="list14">예술/희귀/수집품</li>
-							<li id="list15">음반/악기</li>
-							<li id="list16">도서/티켓/문구</li>
-							<li id="list17">뷰티/미용</li>
-							<li id="list18">가구/인테리어</li>
-							<li id="list19">생활/주방용품</li>
-							<li id="list20">공구/산업용품</li>
-							<li id="list21">식품</li>
-							<li id="list22">유아동/출산</li>
-							<li id="list23">반려동물용품</li>
-							<li id="list24">기타</li>
+							<li>여성의류</li>
+							<li>남성의류</li>
+							<li>신발</li>
+							<li>가방/지갑</li>
+							<li>시계</li>
+							<li>쥬얼리</li>
+							<li>패션 액세서리</li>
+							<li>디지털</li>
+							<li>가전제품</li>
+							<li>스포츠/레저</li>
+							<li>차량/오토바이</li>
+							<li>스타굿즈</li>
+							<li>키덜트</li>
+							<li>예술/희귀/수집품</li>
+							<li>음반/악기</li>
+							<li>도서/티켓/문구</li>
+							<li>뷰티/미용</li>
+							<li>가구/인테리어</li>
+							<li>생활/주방용품</li>
+							<li>공구/산업용품</li>
+							<li>식품</li>
+							<li>유아동/출산</li>
+							<li>반려동물용품</li>
+							<li>기타</li>
 						</ul>
 					</div>
 				</div>
@@ -62,7 +63,7 @@
 						<p></p>
 						<hr>
 					</div>
-					<div class="category_content">
+					<div class="category_content" id="category_content1">
 						<ul class="sub_list" id="sub_list1">
 							<li><a href="#home">아우터</a></li>
 							<li><a href="#home">상의</a></li>
@@ -79,56 +80,38 @@
 			</div>
 		</div>
 	</div>
-	<script>
-	/* $(function() {
-	    $(".detail_category").hide();
-	    
-	    $("#list1").mouseenter(show).mouseleave(hide);
-	    
-	    $(".detail_category").mouseenter(show).mouseleave(hide);
-	});
+ 	<script>
+		$(function() {
+			// detail_category 숨기기
+			$(".category").hide();
+			$(".detail_category").hide();
 
-	function show() {
-	    $(".detail_category").show();
-	    
-	}
+			$('.burger').mouseenter(function() {
+				$(".category").show();
+			});
 
-	function hide() {
-	    $(".detail_category").hide();
-	} */
+			$(".category_list li").mouseenter(function() {
+				var categoryName = $(this).text();
+				$(".detail_category .category_name p").text(categoryName);
+				$(".detail_category").show();
+				$(".category_list li").css({
+					"background" : "white",
+					"color" : "black"
+				});
+				$(this).css({
+					"background" : "#3F51A1",
+					"color" : "white"
+				});
 
-	$(function() {
-	    // detail_category 숨기기
-	    $(".detail_category").hide();
+			});
 
-	    // 마우스를 가져다 댔을 때 이벤트 처리
-	    $("#list1").mouseenter(function() {
-	        var categoryName = $(this).text();
-	        $(".detail_category .category_name p").text(categoryName);
-	        $(".detail_category").show();
-	    });
-	    $("#list2").mouseenter(function() {
-	        var categoryName = $(this).text();
-	        $(".detail_category .category_name p").text(categoryName);
-	        $(".detail_category").show();
-	    });
+			//product_category에서 마우스 떼었을 때
+			$(".product_category").mouseleave(function() {
+				$('.category').hide();
+				$(".detail_category").hide();
+			});
 
-	    // detail_category에서 마우스를 떼었을 때 숨기기
-	    $(".detail_category").mouseleave(function() {
-	        $(this).hide();
-	    });
-	});
-	</script>
-	<script>
-	$(function() {
-		const burger = document.querySelector('.burger');
-		const navLinks = document.querySelector('.category');
-		
-		burger.addEventListener('click', () => {
-	    navLinks.classList.toggle('nav-active');
 		});
-		}
-	)
 	</script> 
 </body>
 </html>

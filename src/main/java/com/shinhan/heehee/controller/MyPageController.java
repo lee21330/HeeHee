@@ -20,4 +20,14 @@ public class MyPageController {
 		return "/mypage/myPage";
 	}
 	
+	@GetMapping("/pointCharge")
+	public String chargePoint() {
+		return "/mypage/pointCharge";
+	}
+	
+	@GetMapping("/userUpdate")
+	public String updateUser() {
+		return "/mypage/pointCharge";
+	}
+	
 }

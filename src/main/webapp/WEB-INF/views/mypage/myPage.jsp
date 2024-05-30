@@ -11,23 +11,31 @@
 
 </head>
 <body>
-	<%-- <%@include file="../common/header.jsp"%> --%>
-	<%@include file="../common/header_category.jsp"%>
+	<header><%@include file="../common/header.jsp"%></header>
+	<section>
+		<div class="mypage_container">
+			<div class="profile">
+				<div>
+					<img src="${path}/resources/images/duck.jpg">
+				</div>
+				<div>
+					<h2>손동희</h2>
+					<button>개인정보 변경</button>
+				</div>
+			</div>
+			<div>평점</div>
+			<div>내 계좌</div>
+			<div>
+				포인트
 
-	
-	<div class="mypage_container">
-		<div>평점</div>
-		<div>내 계좌</div>
-		<div>
-			포인트
-
-			<!-- <button onclick="location.href='/heehee/WEB-INF/mypage/pointCharge.jsp'">충전</button> -->
+				<button onclick="location.href='${path}/pointCharge'">충전</button>
+			</div>
+			<ul>
+				<li>판매내역</li>
+				<li>구매내역</li>
+				<li>찜</li>
+			</ul>
 		</div>
-		<ul>
-			<li>판매내역</li>
-			<li>구매내역</li>
-			<li>찜</li>
-		</ul>
-	</div>
+	</section>
 </body>
 </html>
