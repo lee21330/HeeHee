@@ -1,54 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:set var="path" value="${pageContext.servletContext.contextPath}" />
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Web Page</title>
-<link rel="stylesheet" href="/heehee/resources/css/header.css">
+<title>header</title>
+<%-- header css --%>
+<link rel="stylesheet" href="${path}/resources/css/header.css">
+
 </head>
-
 <body>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script src="/heehee/resources/js/productdetail.js"></script>
-	<header>
-		<div class="header">
-			<div class="logo">희희낙락</div>
-			<nav class="nav">
-				<div class="burger">
-					<div class="line1"></div>
-					<div class="line2"></div>
-					<div class="line3"></div>
-				</div>
-			</nav>
-		</div>
-		<div class="product_category">
-			<div class="category">
-				<ul class="nav-links">
-					<li>전체 카테고리</li>
-					<li>수입명품</li>
-					<li>패션의류</li>
-					<li><a href="#services">패션잡화</a></li>
-					<li><a href="#contact">뷰티</a></li>
-					<li><a href="#contact">뷰티</a></li>
-					<li><a href="#contact">뷰티</a></li>
-					<li><a href="#contact">뷰티</a></li>
-					<li><a href="#contact">뷰티</a></li>
-					<li><a href="#contact">뷰티</a></li>
+	<div class="container">
+		<div class="login_container">
+			<div class="login_menu">
+				<!-- 로그인 전 -->
+				<div>로그인</div>
+				<div class="menu_line"></div>
+				<div class="login_text">회원가입</div>
 
-				</ul>
-			</div>
-			<div class="detail-category">
-				<ul class="sub-nav">
-					<li><a href="#home">여성신발</a></li>
-					<li><a href="#about">남성신발</a></li>
-					<li><a href="#services">벨트</a></li>
-					<li><a href="#contact">가방</a></li>
-				</ul>
+				<!-- 로그인 후 -->
+				<!-- <div>로그아웃</div>
+                <div class="login_line"></div>
+                <div class="login_text">마이페이지</div> -->
 			</div>
 		</div>
-	</header>
+		<div class="header_container">
+			<div class="logo">
+				<!--  <img src="images/logo.png"> -->
+			</div>
+			<div class="product_container">
+				<div>
+					<a href="https://www.naver.com/">중고물품</a>
+				</div>
+				<div class="menu_line"></div>
+				<div>
+					<a>경매물품</a>
+				</div>
+			</div>
+			<div class="menu_container">
+				<div>
+					<%-- <img src="../heehee_project/images/icon_sale.png"> --%>
+					<a>물품등록</a>
+				</div>
+				<div>
+					<%-- <img src="../heehee_project/images/icon_chat.png"> --%>
+					<a>채팅</a>
+				</div>
+				<div>
+					<%-- <img src="../heehee_project/images/icon_alarm_X.png"> --%>
+					알림
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

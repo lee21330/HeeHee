@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.mypage_container{
+	width: 1280px;
+    height: 0 auto;
+    margin: 0 auto;
+    
+    border: 1px solid red;
+	
+}

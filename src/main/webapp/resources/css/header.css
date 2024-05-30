@@ -1,89 +1,127 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    font-family: 'SEBANG_Gothic_Bold';
 }
 
-.header {
-	background: #333;
-	color: #fff;
-	padding: 10px 20px;
+.container {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    border: 1px solid red;
 }
 
-nav {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.login_container {
+    width: 100%;
+    height: 40px;
+    margin: 0 auto;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.login_menu {
+    width: 1280px;
+    height: 100%;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+    border: 1px solid green;
+}
+
+.login_menu div {
+    display: inline-block;
+    margin: 0 5px 0 5px;
+}
+
+.menu_line {
+    width: 1px;
+    height: 16px;
+    background-color: rgb(218 222 229);
+}
+
+.login_text {
+    color: rgb(63,81,161)
+}
+
+.header_container {
+    width: 1280px;
+    height: 145px;
+    margin: 0 auto;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 4px 0px; */
+    
+    border: 1px solid blue;
+}
+
+.header_container a {
+    text-decoration: none;
 }
 
 .logo {
-	font-size: 24px;
-	font-weight: bold;
+    width: 20%;
+    height: 90px;
+    float: left;
+    cursor: pointer;
+
+    border: 1px solid blue;
 }
 
-.nav-links {
-	width: 100%;
-	display: none;
-	flex-direction: column;
-	padding: 10px;
-	text-align: center;
+.logo img {
+    width: 100%;
+    height: 100%;
 }
 
-.nav-links li {
-	margin: 10px 0;
-	list-style: none;
+.product_container {
+    width: 15%;
+    height: 45px;
+    float: left;
+    margin-top: 45px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    border: 1px solid orange;
 }
 
-.nav-links a {
-	padding: 10px;
-	width: 100%;
-	display: block;
-	text-decoration: none;
-	color: black;
+.product_container div {
+    display: inline-block;
+    margin: 0 5px 0 5px;
 }
 
-.burger div {
-	width: 25px;
-	height: 3px;
-	background: #fff;
-	margin: 5px;
-	transition: all 0.3s ease;
+.menu_container {
+    width: 30%;
+    height: 45px;
+    float: right;
+    margin-top: 45px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid blue;
 }
 
-.nav-active {
-	display: flex;
+.menu_container div {
+    display: inline-block;
+    margin: 0 5px 0 5px;
 }
 
-.sub-nav {
-	display: none;
-	top: 0;
-	left: 100%; 
-	width: 200px; 
-	background-color: #fff;
-	border: 1px solid lightgray;
-	padding: 10px;
-	z-index: 1; 
+.menu_container img {
+    width: 25px;
+    height: 25px;
 }
 
-.category li:hover .sub-nav {
-	display: block;
-} 
-
-.product_category{
-	 display: flex;
-	 height: 80%;
-}
-.category{
-	width: 20%;
-	display: flex;
-	border: 1px solid lightgray;
-	
-}
-.detail-category{
-	width: 20%;
-	/* display: none; */
-    border: 1px solid lightgray;
-	
+@media screen and (max-width: 768px) {
+    /* 반응형 웹 구현예정 */
 }
