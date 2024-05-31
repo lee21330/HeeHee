@@ -56,6 +56,7 @@
 				</div>
 			</div>
 		</div>
+		<%@include file="../common/header_category.jsp" %>
 	</div>
 </body>
 </html>

@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>개인정보 수정</title>
+<title>Insert title here</title>
 </head>
 <body>
-개인정보 수정페이지입니다.
+계좌수정 모달입니다.
 </body>
 </html>

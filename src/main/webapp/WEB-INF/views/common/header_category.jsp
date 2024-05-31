@@ -14,7 +14,6 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<div class="header">
 		<div class="inner">
-
 			<div class="nav">
 				<div class="burger">
 					<div class="line1"></div>
@@ -63,8 +62,8 @@
 						<p></p>
 						<hr>
 					</div>
-					<div class="category_content" id="category_content1">
-						<ul class="sub_list" id="sub_list1">
+					<div class="category_content">
+						<ul class="sub_list">
 							<li><a href="#home">아우터</a></li>
 							<li><a href="#home">상의</a></li>
 							<li><a href="#home">바지</a></li>

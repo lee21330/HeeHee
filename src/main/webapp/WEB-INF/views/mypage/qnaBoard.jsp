@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>개인정보 수정</title>
+<title>1:1문의</title>
 </head>
 <body>
-개인정보 수정페이지입니다.
+1:1문의게시판입니다
 </body>
 </html>
