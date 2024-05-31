@@ -9,21 +9,25 @@
 }
 
 /* Body styles */
-
+.productDetail {
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+}
 
 body {
-	width: 80%;
+	width: 100%;
 	margin: 0 auto;
     line-height: 2;
     white-space: nowrap;
 }
 
 /* Header and navigation styles */
-header {
+/* header {
     background: #333;
     color: #fff;
     padding: 10px 20px;
-}
+} */
 
 nav {
     display: flex;
@@ -48,6 +52,9 @@ nav {
 }
 
 .product-container {
+	width: 100%;
+	height: auto;
+	
     display: flex;
     align-items: flex-start; /* 이미지와 텍스트를 상단에 맞춥니다 */
     gap: 20px; /* 이미지와 텍스트 사이의 간격을 설정합니다 */
