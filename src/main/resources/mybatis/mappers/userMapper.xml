@@ -4,19 +4,19 @@
 <mapper namespace="com.shinhan.heehee.user">
 
 	<select id="findUserByUsername" parameterType="string" resultType="com.shinhan.heehee.dto.response.UserDTO">
-        SELECT ID user_id, NICK_NAME username, PW password, ROLE role
-        FROM USER_ACC
-        WHERE NICK_NAME = #{username}
+        SELECT ID username, NAME username, PW password, ROLE role
+        FROM HH_USER
+        WHERE ID = #{username}
     </select>
 
     <select id="findByUserId" parameterType="string" resultType="com.shinhan.heehee.dto.response.UserDTO">
-        SELECT ID user_id, NICK_NAME username, PW password, ROLE role
-        FROM USER_ACC
+        SELECT ID user_id, NAME username, PW password, ROLE role
+        FROM HH_USER
         WHERE ID = #{userId}
     </select>
     
-    <insert id="save" parameterType="com.shinhan.heehee.dto.request.UserDTO">
-        INSERT INTO user (username, password)
-        VALUES ( #{username}, #{password} )
+    <insert id="signup" parameterType="com.shinhan.heehee.dto.response.UserDTO">
+        INSERT INTO HH_USER (ID, PW, NAME, EMAIL, PHONE_NUM)
+        VALUES ( #{username}, #{password}, #{realName}, #{email}, #{phone_num} )
     </insert>
 </mapper>

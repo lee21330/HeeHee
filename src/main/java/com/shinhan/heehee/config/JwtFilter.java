@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.shinhan.heehee.service.CustomUserDetailsService;
 import com.shinhan.heehee.util.JwtUtil;
+import com.shinhan.security.CustomUserDetailsService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -48,8 +48,10 @@ public class JwtFilter extends OncePerRequestFilter {
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			token = authorizationHeader.substring(7);
 			userName = jwtUtil.extractUsername(token);
+			System.out.println("이거 타?");
 		}
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			System.out.println("이것두??");
 			UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
 			if (jwtUtil.validateToken(token, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

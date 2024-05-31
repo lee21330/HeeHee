@@ -1,4 +1,4 @@
-package com.shinhan.heehee.service;
+package com.shinhan.security;
 
 import lombok.RequiredArgsConstructor;
 
@@ -10,11 +10,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.exception.UserNotFoundException;
+import com.shinhan.security.UserDAO;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -24,9 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return userDao.findByUserId(Long.valueOf(userId))
-                .map(user -> addAuthorities(user))
-                .orElseThrow(() -> new UserNotFoundException(userId + "> 찾을 수 없습니다."));
+    	UserDTO result = userDao.findUserByUsername(userId);
+    	return result;
     }
 
     private UserDTO addAuthorities(UserDTO userDto) {

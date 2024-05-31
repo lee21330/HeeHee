@@ -1,4 +1,4 @@
-package com.shinhan.heehee.dao;
+package com.shinhan.security;
 
 import java.util.Optional;
 
@@ -20,8 +20,7 @@ public class UserDAO {
 	
 	String namespace = "com.shinhan.heehee.user.";
 	
-	public Optional<UserDTO> findUserByUsername(String username) {
-		logger.info("타는거니???");
+	public UserDTO findUserByUsername(String username) {
 		return sqlSession.selectOne(namespace + "findUserByUsername", username);
 	}
 	
