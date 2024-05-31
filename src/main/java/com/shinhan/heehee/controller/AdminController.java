@@ -24,4 +24,39 @@ public class AdminController {
 	public String admin_user() {
 		return "/admin/user";
 	}
+	
+	@GetMapping("/ban")
+	public String admin_userVan() {
+		return "/admin/user-ban";
+	}
+	
+	@GetMapping("/product")
+	public String admin_product() {
+		return "/admin/product";
+	}
+	
+	@GetMapping("/auction")
+	public String admin_auction() {
+		return "/admin/auction";
+	}
+	
+	@GetMapping("/category")
+	public String admin_category() {
+		return "/admin/category";
+	}
+	
+	@GetMapping("/qnaManager")
+	public String admin_qnaManager() {
+		return "/admin/qnaManager";
+	}
+	
+	@GetMapping("/faqManager")
+	public String admin_faqManager() {
+		return "/admin/faqManager";
+	}
+	
+	@GetMapping("/questionManager")
+	public String admin_questionManager() {
+		return "/admin/questionManager";
+	}
 }

@@ -5,21 +5,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>희희낙찰 관리자 페이지 - 회원정보 관리</title>
-<link rel="stylesheet" href="/heehee/resources/css/admin/main.css">
+<title>희희낙찰 관리자 페이지 - 메인</title>
+<link rel="stylesheet" href="/heehee/resources/css/admin/main.css?after">
+<script type="text/javascript" src="${path}/resources/js/admin/user.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
+
 <%@ include file="../common/header.jsp" %>
 	<div id="bodyContainer">
 <%@ include file="../common/admin/sideMenu.jsp" %>
 	<div id="mainMenuContainer">
-	<p class="mainTitle">회원정보 관리</p>
+	<p class="mainTitle">이용상태 관리</p>
 		<p class="searchTitle">회원 검색</p>
 		<div id="searchContainer">
 		<div id="midContainer">
 		<p class="searchContext">검색어</p>
-		<select>
+		<select >
 			<option>회원번호</option>
 			<option>회원명</option>
 			<option>아이디</option>
@@ -48,17 +50,19 @@
 			<table>
 				<thead>
 					<tr>
+						<th><input type="checkbox" class ="cb" /></th>
+						<th>상태</th>
 						<th>회원번호</th>
 						<th>회원명</th>
 						<th>아이디</th>
-						<th>이메일</th>
-						<th>전화번호</th>
-						<th>주소</th>
-						<th>가입일</th>
+						<th>정지내용</th>
+						<th>시작일</th>
+						<th>종료일</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
+						<td><input type="checkbox" class ="cb" value="" /></td>
 						<td>ajax</td>
 						<td>ajax</td>
 						<td>ajax</td>
@@ -68,6 +72,7 @@
 						<td>ajax</td>
 					</tr>
 					<tr>
+						<td><input type="checkbox" class ="cb" value="" /></td>
 						<td>ajax</td>
 						<td>ajax</td>
 						<td>ajax</td>

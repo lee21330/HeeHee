@@ -1,0 +1,187 @@
+@charset "UTF-8";
+
+/* Font - 공통 , 수정시 통합 수정 */
+@font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Body styles - 공통 , 수정시 통합 수정 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	height: 1080px;
+}
+
+#bodyContainer {
+	display: flex;
+	width: 1280px;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#mainMenuContainer {
+	width: 1010px;
+	padding: 30px;
+	margin-top: 10px;
+	margin-left: 20px;
+	border: 2px solid blue;
+}
+
+#mainMenuContainer .mainTitle {
+	color: rgb(73,73,233);
+	font-size: 30px;
+	border-bottom: 3px solid rgb(233, 233, 233);
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+}
+
+#mainMenuContainer .searchTitle, .detailTitle {
+	color: black;
+	font-size: 25px;
+	padding-bottom: 5px;
+}
+
+#mainMenuContainer .searchContext {
+	color: black;
+	font-size: 20px;
+	}
+
+.containerHeadBlock {
+	padding: 0px 15px 0px 15px;
+	background-color: rgb(171,195,255);
+	margin-right: 10px;
+}
+
+.radios {
+	font-size: 15px;
+	}
+
+.commonSmallBtn {
+	font-size: 15px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 5px;
+	margin: 5px;
+}
+
+.questionsBtn, .productDetailBtn {
+	font-size: 25px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 5px;
+	margin: 5px;
+}
+
+/* 같은 블록에 컨텐츠 배치할때 사용 */
+#midContainer {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1px;
+	}
+	
+#btmContainer {
+	display: flex;
+	align-items: center;
+	}
+
+
+/* Table styles - 공통 , 수정시 통합 수정 */
+
+#allTable table thead tr th {
+	background-color: rgb(171,195,255);
+	padding: 5px 15px 5px 15px;
+	border: 2px solid rgb(233, 233, 233);
+}
+
+#allTable table tbody tr td {
+	padding: 5px 15px 5px 15px;
+	border: 2px solid rgb(233, 233, 233);
+}
+/* table 하위 수정시 메뉴 css */
+
+.updateContainer {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.editRow {
+    background-color: rgb(171,195,255);
+}
+
+.productUpdate {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#editStatus, #editInput {
+    padding: 5px;
+    margin-right: 10px;
+    width: auto;
+}
+
+.saveEditButton {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.saveEditButton:hover {
+	background-color: #45a049;
+}
+
+/* 공용영역 끝 */
+/* 페이지별 영역 시작 */
+
+/* admin_main */
+#totalOrder {
+	
+}
+
+#totalOrderCol {
+	margin-left: 20px;
+}
+
+#totalOrderCol table th {
+	padding-left: 20px;
+	padding-rignt: 20px;
+}
+
+#recentOrder {
+	
+}
+#recentOrderTop, #recentQuestionTop {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#recentQuestion {
+	
+}
+
+/* user 관련 */
+
+#searchContainer {
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+	margin-bottom: 30px;
+}
+
+
+

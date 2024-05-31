@@ -6,54 +6,123 @@
 <head>
 <meta charset="UTF-8">
 <title>희희낙찰 관리자 페이지 - 메인</title>
-<link rel="stylesheet" href="/heehee/resources/css/main.css">
+<link rel="stylesheet" href="/heehee/resources/css/admin/main.css?after">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <%@ include file="../common/header.jsp" %>
-	<header id="header">
-	헤더 영역
-	</header>
 	<div id="bodyContainer">
-	<div id="sideMenuContainer">
-		<ul>
-		<li>전체 관리메뉴</li>
-		<li><a>관리자 홈</a></li>
-		<li><a>회원정보 관리</a></li>
-		<li><a>상품 관리</a></li>
-		<li><a>고객 지원</a></li>
-		</ul>
-	</div>
+	
+	<%@ include file="../common/admin/sideMenu.jsp" %>
+
 	<div id="mainMenuContainer">
-		<div id="totalOrder">전체 주문통계
-			<hr>
+		<div id="totalOrder">
+		<p class="mainTitle">전체 주문통계</p>
 			<div id="totalOrderCol">
-				<table>
-					<th>이름</th>
-					<th>이름</th>
-					<th>이름</th>
-					<th>이름</th>
-					<th>이름</th>
-					
-				</table>
-				성명
+			<div id="allTable">
+			<table>
+				<thead>
+					<tr>
+						<th>회원번호</th>
+						<th>회원명</th>
+						<th>아이디</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>주소</th>
+						<th>가입일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+					</tr>
+					<tr>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+					</tr>
+				</tbody>
+			</table>
 			</div>
-			<hr>
-			<hr>
 		</div>
 		<div id="recentOrder">
-			<div id="recentOrderTop"><p>최근 주문내역</p><button id="productDetailBtn">상세정보 바로가기</button></div>
-			
-			<hr>
-			<hr>
-			<hr>
+			<div id="recentOrderTop"><p class="mainTitle">최근 주문내역</p><button class="productDetailBtn">상세정보 바로가기</button></div>
+			<div id="allTable">
+			<table>
+				<thead>
+					<tr>
+						<th>회원번호</th>
+						<th>회원명</th>
+						<th>아이디</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>주소</th>
+						<th>가입일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+					</tr>
+					<tr>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
 		</div>
 		<div id="recentQuestion">
-			<div id="recentQuestionTop"><p>최근 문의내역</p><button id="questionsBtn">1:1문의 바로가기</button></div>
-			<hr>
-			<hr>
-			<hr>
+			<div id="recentQuestionTop"><p class="mainTitle">최근 문의내역</p><button class="questionsBtn">1:1문의 바로가기</button></div>
+			<div id="allTable">
+			<table>
+				<thead>
+					<tr>
+						<th>회원번호</th>
+						<th>회원명</th>
+						<th>아이디</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>주소</th>
+						<th>가입일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+						<td>ajax</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
 		</div>
+	</div>
 	</div>
 	</div>
 </body>
