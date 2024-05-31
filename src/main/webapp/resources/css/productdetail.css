@@ -9,21 +9,19 @@
 }
 
 /* Body styles */
-
+.productDetail {
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+}
 
 body {
-	width: 80%;
+	width: 100%;
 	margin: 0 auto;
     line-height: 2;
     white-space: nowrap;
 }
 
-/* Header and navigation styles */
-header {
-    background: #333;
-    color: #fff;
-    padding: 10px 20px;
-}
 
 nav {
     display: flex;
@@ -48,6 +46,9 @@ nav {
 }
 
 .product-container {
+	width: 100%;
+	height: auto;
+	
     display: flex;
     align-items: flex-start; /* 이미지와 텍스트를 상단에 맞춥니다 */
     gap: 20px; /* 이미지와 텍스트 사이의 간격을 설정합니다 */
@@ -69,7 +70,7 @@ nav {
     display: flex;
     flex-direction: column; /* 텍스트를 세로로 정렬합니다 */
     justify-content: center;
-	width: 700px;
+	width: 850px;
 	margin-left: 30px;
 }
 
@@ -103,12 +104,14 @@ nav {
 }
 
 #plusArea {
-	margin: 0 auto;
-	gap: 15px;
+	position: fixed;
+    right: 7%;
+    margin: 0 auto;
+    gap: 15px;
     display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    justify-content: center; /* 중앙 정렬 */
-    align-items: center; /* 수직 방향으로 중앙 정렬 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #recentArea {
@@ -258,7 +261,7 @@ hr{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 85px;
+    gap: 60px;
     margin-top: 10px;
     
 }
@@ -295,35 +298,4 @@ footer {
     left: 0;
     right: 0;
     width: 100%;
-}
-
-/* Responsive styles */
-@media screen and (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background: #333;
-        position: absolute;
-        top: 60px;
-        left: 0;
-    }
-   
-
-    .nav-links li {
-        margin: 10px 0;
-    }
-
-    .nav-links a {
-        font-size: 20px;
-        padding: 10px;
-        text-align: center;
-        width: 100%;
-        display: block;
-    }
-
-}
-
-.nav-active {
-    display: flex;
 }

@@ -7,14 +7,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.shinhan.heehee.service.TestService;
 
 @Controller
-public class ProductDetailController {
+public class ProductController {
 	
 	@Autowired
 	TestService productservice;
 	
 	@GetMapping("/productdetail")
-	public String home() {
+	public String detail() {
 		System.out.println(productservice.test());
 		return "/used/productdetail";
+	}
+	
+	@GetMapping("/productregi")
+	public String regi() {
+		System.out.println(productservice.test());
+		return "/used/productregi";
 	}
 }
