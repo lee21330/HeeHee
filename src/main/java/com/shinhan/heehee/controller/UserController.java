@@ -1,9 +1,11 @@
 package com.shinhan.heehee.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shinhan.heehee.config.AuthenticationFailure;
+import com.shinhan.heehee.config.AuthenticationSuccess;
 import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.service.UserService;
 
@@ -38,6 +42,12 @@ public class UserController {
 	@Autowired
     @Qualifier("authenticationManager")
     private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	AuthenticationSuccess success;
+	
+	@Autowired
+	AuthenticationFailure failure;
 	
 	@PostMapping("/signup")
 	@ResponseBody
@@ -53,7 +63,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public void login(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	public void login(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes) throws IOException, ServletException {
 		String userId = request.getParameter("userId");
         String userPw = request.getParameter("userPw");
         System.out.println("이거도 안타나본데..");
@@ -68,7 +78,10 @@ public class UserController {
             // 인증 성공 후 SecurityContext에 인증 객체 설정
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            success.onAuthenticationSuccess(request, response, authentication);
+            
         } catch (Exception e) {
+        	failure.onAuthenticationFailure(request, response, null);
             redirectAttributes.addAttribute("error", true);
         }
     }

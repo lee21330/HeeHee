@@ -12,7 +12,7 @@ public class HomeController {
 	@Autowired
 	TestService testService;
 	
-	@GetMapping("/")
+	@GetMapping("/home")
 	public String home() {
 		System.out.println(testService.test());
 		return "home";

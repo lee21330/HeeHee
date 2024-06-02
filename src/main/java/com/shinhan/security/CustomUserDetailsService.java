@@ -26,6 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
     	UserDTO result = userDao.findUserByUsername(userId);
+    	if(result != null) result = addAuthorities(result);
     	return result;
     }
 

@@ -41,17 +41,14 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
 			throws ServletException, IOException {
-		System.out.println("힝..");
 		String authorizationHeader = httpServletRequest.getHeader("Authorization");
 		String token = null;
 		String userName = null;
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			token = authorizationHeader.substring(7);
 			userName = jwtUtil.extractUsername(token);
-			System.out.println("이거 타?");
 		}
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			System.out.println("이것두??");
 			UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
 			if (jwtUtil.validateToken(token, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

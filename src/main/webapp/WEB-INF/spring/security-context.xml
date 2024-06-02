@@ -12,7 +12,7 @@
 	<security:http auto-config="false" create-session="never">
 		<security:csrf disabled="true"></security:csrf>
 		<!-- CSRF 보호 비활성화 API 로그인 설정 --> 
-		<security:form-login login-processing-url="/user/login" username-parameter="userId" password-parameter="userPw"
+		<security:form-login login-processing-url="/user/login-processing" username-parameter="userId" password-parameter="userPw"
 			
 			authentication-success-handler-ref="authenticationSuccessHandler" 
 			authentication-failure-handler-ref="authenticationFailureHandler"></security:form-login> 
@@ -22,7 +22,7 @@
 			delete-cookies="JSESSIONID" success-handler-ref="jwtLogoutSuccessHandler"></security:logout>
  -->	 
 		<!-- JwtTokenFilter를 추가하여 토큰 유효성 검사 수행 -->
-		<security:intercept-url pattern="/**" access="permitAll"/>
+		<security:intercept-url pattern="/home" access="hasRole('USER')"/>
 		<security:intercept-url pattern="/user/**" access="permitAll"/>
 		<security:custom-filter before="FORM_LOGIN_FILTER" ref="jwtFilter"></security:custom-filter>
 	</security:http>
