@@ -14,12 +14,14 @@
 	height: auto;
 	margin: 0 auto;
 	border: 1px solid red;
+	display: flex;
 }
 
 .chatroom-text {
 	margin-left: 30px;
 	font-family: 'SEBANG_Gothic_Bold';
 	font-size: 30px;
+    margin-bottom: 10px;
 }
 
 .chatting-list {
@@ -31,12 +33,15 @@
 }
 
 .chatting-item {
-	height: 12%;
 	width: 90%;
 	display: flex;
 	padding: 10px 10px; /*위아래, 왼쪽오른쪽 */
 	border: 1px solid blue;
 	cursor: pointer;
+}
+
+.chatting-item.select {
+	background-color: #D9D9D9;
 }
 
 .chatting-item div {
@@ -62,11 +67,19 @@
 .item-body {
 	width: 80%;
 	padding: 5px 20px; /* 위아래, 왼쪽오른쪽 */
+	display: flex;
+	flex-direction: column; /* 수직 방향으로 정렬 */
 }
 
 .item-body p {
 	display: flex;
-	justify-content: space-between;
+	align-items: center;
+}
+
+.name-count {
+	display: flex;
+	align-items: center; /* 수직 방향 정렬 */
+	margin-bottom: 3px; /* name-count와 message-container 사이 간격 */
 }
 
 .receiver-nickname {
@@ -74,17 +87,18 @@
 	font-size: 20px;
 }
 
-.unread-count{
+.unread-count {
 	font-family: 'SEBANG_Gothic_Bold';
 	font-size: 10px;
 	width: 25px;
 	height: 25px;
 	display: flex; /* 수평-수직으로 정렬할 수 있도록 함 */
-    justify-content: center; /* 수평 방향 정렬 */
-    align-items: center; /* 수직 방향 정렬 */
+	justify-content: center; /* 수평 방향 정렬 */
+	align-items: center; /* 수직 방향 정렬 */
 	border-radius: 70%;
 	background-color: #DCF343;
 	color: #4949E9;
+	margin-left: auto;
 }
 
 .message-container {
@@ -94,6 +108,7 @@
 	display: flex;
 	border: 2px solid green;
 	text-align: left;
+	margin-bottom: 3px;
 }
 
 .recent-message {
@@ -102,10 +117,65 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	
 }
 
 .send-time {
 	color: gray;
 	white-space: nowrap;
+}
+
+.chatting-content {
+	width: 60%;
+	border: 1px solid gray;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	font-family: 'SEBANG_Gothic_Bold';
+}
+
+.content-header{
+	display:flex;
+	flex-direction: column;
+	margin-left:10px;
+}
+
+.selling-info{
+	display:flex;
+	flex-direction: row;
+}
+
+.price-name{
+	display:flex;
+	flex-direction: column;
+	margin-left: 10px;
+}
+
+.selling-price{
+	font-size: 15px;
+	margin-bottom:10px;
+}
+
+.selling-name{
+	font-size: 10px;
+	color: #7E7E7E;
+	margin:0;
+}
+
+.selling-image {
+	width: 8%;
+	aspect-ratio: 1/1;
+	border: 1px solid black;
+	overflow: hidden;
+	flex-shrink: 0;
+}
+
+.pay{
+	font-family: 'SEBANG_Gothic_Bold';
+	background-color:#ABC3FF;
+	color:#FFFFFF;
+	border:none;
+	margin-left:auto;
+	margin-right:30px;
+	margin-top:auto;
+	height: 50%;
 }
