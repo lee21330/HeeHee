@@ -23,4 +23,10 @@ public class ProductController {
 		System.out.println(productservice.test());
 		return "/used/productregi";
 	}
+	
+	@GetMapping("/productmodify")
+	public String modi() {
+		System.out.println(productservice.test());
+		return "/used/productmodify";
+	}
 }
