@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+구매 상품 detail
 </body>
 </html>

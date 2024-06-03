@@ -49,6 +49,10 @@ public class MyPageController {
 	public String saledetail() {
 		return "/mypage/saleDetail";
 	}
+	@GetMapping("/purchasedetail")
+	public String purchasedetail() {
+		return "/mypage/purchaseDetail";
+	}
 
 
 }

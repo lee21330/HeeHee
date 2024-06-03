@@ -29,7 +29,7 @@
 				<li>구매완료</li>
 			</ul>
 			<div class="list">
-				<div class="product">
+				<div class="product" onclick="location.href='${path}/purchasedetail'">
 					<img src="${path}/resources/images/보노보노1.jpg">
 					<p>보노보노 숲 라잉 쿠션</p>
 					<p>10,000원</p>
