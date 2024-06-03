@@ -96,6 +96,10 @@
     /* border: 1px solid red; */
 }
 
+.log_find div {
+    margin: 0 5px 0 5px;
+}
+
 .modal_btn {
     /* width: 315px; */
     width: 100%;

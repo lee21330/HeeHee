@@ -79,7 +79,11 @@
                     <div class="modal_label">
                         <input type="password" class="input_box" id="logPw" placeholder="비밀번호" />
                     </div>
-                    <div class="log_find">아이디 찾기 | 비밀번호 찾기</div>
+                    <div class="log_find">
+                        <div>아이디 찾기</div>
+                        <div>|</div>
+                        <div>비밀번호 찾기</div>
+                    </div>
                     <div class="modal_btn save" id="log_btn" onclick="">로그인</div>
                     <div class="modal_btn kakao_save" id="log_btn">카카오 로그인</div>
                     <div id="signup_btn" class="signup" onclick="join('signup')">회원가입</div>
