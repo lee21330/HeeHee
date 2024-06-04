@@ -11,14 +11,13 @@
 
 .chatting-area {
 	width: 1280px;
-	height: auto;
+	height: 600px;
 	margin: 0 auto;
 	border: 1px solid red;
 	display: flex;
 }
 
 .chatroom-text {
-	margin-left: 30px;
 	font-family: 'SEBANG_Gothic_Bold';
 	font-size: 30px;
     margin-bottom: 10px;
@@ -134,9 +133,12 @@
 }
 
 .content-header{
+	height:20%;
 	display:flex;
 	flex-direction: column;
-	margin-left:10px;
+	margin-left:20px;
+	margin-right:20px;
+	margin-bottom:10px;
 }
 
 .selling-info{
@@ -178,4 +180,86 @@
 	margin-right:30px;
 	margin-top:auto;
 	height: 50%;
+}
+
+.content-body{
+	height:65%;
+	flex-direction: column;
+	padding:10px;
+	font-family: 'SEBANG_Gothic_Bold';
+	border-top: 1px solid #D3D3D3;
+	border-bottom: 1px solid #D3D3D3;
+	overflow-x:hidden;
+}
+
+.message-list{
+	width:100%;
+	overflow:auto;
+	list-style:none;
+	flex-direction: column;
+	margin-left:20px;
+	
+}
+
+.my-chat{
+	text-align: right;
+	flex-direction: row;
+	align-items: center;
+	margin-right:50px;
+}
+
+.target-chat{
+	flex-direction: row;
+	align-items: center;
+}
+
+.chat{
+	font-size: 20px;
+	max-width: 300px;
+	border-radius: 10px;
+	border: 1px solid #000000;
+	padding: 10px;
+	margin: 0;
+	word-break: break-all;
+    white-space: pre-wrap;
+    display: inline-block;
+}
+
+.chatDate{
+	font-size: 15px;
+}
+
+.chatting-input{
+	height:15%;
+	display:flex;
+	align-items: center;
+	flex-direction: row;
+}
+
+.chatting-input img {
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	border-radius:10px;
+	background:#F1F1F1;
+	padding:5px;
+}
+
+.input-photo{
+	margin-right:auto;
+	margin-left:30px;
+}
+
+.input-area{
+	margin: 10px;
+	width:550px;
+	height:30px;
+	background-color: #F1F1F1;
+	border-radius:10px;
+	border:none;
+}
+
+.input-send{
+	margin-left:auto;
+	margin-right:50px;
 }

@@ -17,10 +17,10 @@
 		<!-- headerInclude 해줘야 해요 -->
 		<jsp:include page="../common/header.jsp"></jsp:include>
 	</div>
-	<p class="chatroom-text">전체 대화</p>
 	<div class="chatting-area">
 		<!-- C로 돌리기 -->
 		<ul class="chatting-list">
+		<li class="chatroom-text">전체 대화</li>
 			<li class="chatting-item">
 				<div class="item-header">
 					<img class="receiver-image"
@@ -54,7 +54,57 @@
 						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
 							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
 					</div>
+				</div>
+			</li>
+			<li class="chatting-item">
+				<div class="item-header">
+					<img class="receiver-image"
+						src="${path}/resources/images/pompompurin.png">
+				</div>
+				<div class="item-body">
+					<div class="name-count">
+						<p class="receiver-nickname">이두리</p>
+						<p class="unread-count">3</p>
+					</div>
 
+					<div class="message-container">
+						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
+							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
+					</div>
+				</div>
+			</li>
+			<li class="chatting-item">
+				<div class="item-header">
+					<img class="receiver-image"
+						src="${path}/resources/images/pompompurin.png">
+				</div>
+				<div class="item-body">
+					<div class="name-count">
+						<p class="receiver-nickname">이두리</p>
+						<p class="unread-count">3</p>
+					</div>
+
+					<div class="message-container">
+						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
+							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
+					</div>
+				</div>
+			</li>
+			<li class="chatting-item">
+				<div class="item-header">
+					<img class="receiver-image"
+						src="${path}/resources/images/pompompurin.png">
+				</div>
+				<div class="item-body">
+					<div class="name-count">
+						<p class="receiver-nickname">이두리</p>
+						<p class="unread-count">3</p>
+					</div>
+
+					<div class="message-container">
+						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
+							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
+					</div>
 				</div>
 			</li>
 		</ul>
@@ -71,6 +121,82 @@
 					</div>
 					<button class="pay">결제하기</button>
 				</div>
+			</div>
+			<div class="content-body">
+				<div class="message-list">
+					<div class="my-chat">
+						<!-- 나중에 읽음/안읽음 처리 해주기 -->
+						<span class="chatDate">14:58 읽음</span>
+						<p class="chat">폼폼푸린 팔렸나요?</p>
+					</div>
+
+					<div class="target-chat">
+						<p class="chat">아직 안 팔렸어요.</p>
+						<span class="chatDate">14:59 읽음</span>
+					</div>
+					
+					<div class="my-chat">
+						<!-- 나중에 읽음/안읽음 처리 해주기 -->
+						<span class="chatDate">14:58 읽음</span>
+						<p class="chat">폼폼푸린 팔렸나요?</p>
+					</div>
+
+					<div class="target-chat">
+						<p class="chat">아직 안 팔렸어요.</p>
+						<span class="chatDate">14:59 읽음</span>
+					</div>
+					
+					<div class="my-chat">
+						<!-- 나중에 읽음/안읽음 처리 해주기 -->
+						<span class="chatDate">14:58 읽음</span>
+						<p class="chat">폼폼푸린 팔렸나요?</p>
+					</div>
+
+					<div class="target-chat">
+						<p class="chat">아직 안 팔렸어요.</p>
+						<span class="chatDate">14:59 읽음</span>
+					</div>
+					
+					<div class="my-chat">
+						<!-- 나중에 읽음/안읽음 처리 해주기 -->
+						<span class="chatDate">14:58 읽음</span>
+						<p class="chat">폼폼푸린 팔렸나요?</p>
+					</div>
+
+					<div class="target-chat">
+						<p class="chat">아직 안 팔렸어요.</p>
+						<span class="chatDate">14:59 읽음</span>
+					</div>
+					
+					<div class="my-chat">
+						<!-- 나중에 읽음/안읽음 처리 해주기 -->
+						<span class="chatDate">14:58 읽음</span>
+						<p class="chat">폼폼푸린 팔렸나요?</p>
+					</div>
+
+					<div class="target-chat">
+						<p class="chat">아직 안 팔렸어요.</p>
+						<span class="chatDate">14:59 읽음</span>
+					</div>
+					
+					<div class="my-chat">
+						<!-- 나중에 읽음/안읽음 처리 해주기 -->
+						<span class="chatDate">14:58 읽음</span>
+						<p class="chat">폼폼푸린 팔렸나요?</p>
+					</div>
+
+					<div class="target-chat">
+						<p class="chat">아직 안 팔렸어요.</p>
+						<span class="chatDate">14:59 읽음</span>
+					</div>
+				</div>
+			</div>
+			<div class="chatting-input">
+				<img class="input-photo" src="${path}/resources/images/camera.png">
+				<div>
+					<input class="input-area" type="text">
+				</div>
+				<img class="input-send" src="${path}/resources/images/send.png">
 			</div>
 		</div>
 	</div>
