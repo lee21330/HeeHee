@@ -1,0 +1,32 @@
+@charset "UTF-8";
+*{
+	color: black;
+}
+.inner{
+	width: 1280px;
+	margin: 0 auto;
+	border: 1px solid red;
+}
+.profile_container div{
+	text-align: center;
+}
+p{
+	display: inline-block;
+}
+
+.btn{
+	cursor: pointer;
+	width: 100px;
+	height: 30px;
+	background: #4949e9;
+	border: none;
+	border-radius: 5px;
+	color: white;
+}
+.withdrawal{
+	text-decoration: none;
+	color: black;
+}
+.bottom{
+	text-align: right;
+}

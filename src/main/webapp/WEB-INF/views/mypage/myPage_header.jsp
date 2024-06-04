@@ -41,7 +41,6 @@
 				</div>
 				<div class="account">
 					<p class=>내 계좌</p>
-					<img src="${path}/resources/images/우리은행.png" class="bankImg">
 					<p class="bankName">우리은행</p>
 					<p class="accNum">123-123-123456</p>
 					<button onclick="location.href='${path}/account'" class="btn"
