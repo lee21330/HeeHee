@@ -21,7 +21,7 @@
 				<div class="product-details">
 					<div class="title-container">
 						<p id="product_category">장난감 > 인형</p>
-						<img id="url_copy" src="/heehee/resources/images/1.png" alt="Copy URL" style="cursor: pointer">
+						<img id="url_copy" src="/heehee/resources/images/linkcopy.png" alt="Copy URL" style="cursor: pointer">
 					</div>
 
 					<div class="title-container">
