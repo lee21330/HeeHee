@@ -7,7 +7,7 @@ import com.shinhan.heehee.dao.ProductDetailDAO;
 import com.shinhan.heehee.dao.TestDAO;
 
 @Service
-public class ProductDetailService {
+public class ProductService {
 
 	@Autowired
 	ProductDetailDAO productDetailDao;
@@ -15,4 +15,6 @@ public class ProductDetailService {
 	public int test() {
 		return productDetailDao.test();
 	}
+	
+	
 }
