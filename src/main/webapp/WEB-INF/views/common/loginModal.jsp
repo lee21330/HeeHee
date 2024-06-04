@@ -90,7 +90,7 @@
                 </div>
                 <div id="signupArea" class="selectedArea">
                     <form method="POST" enctype="multipart/form-data" id="signUpForm">
-                        <div id="signupImgArea">
+                        <!-- <div id="signupImgArea">
                             <div class="modal_label">프로필 이미지</div>
                             <img id="preview" style="max-width: 100px;">
                             <div class="imgLabel">
@@ -99,13 +99,49 @@
                                 </label>
                             </div>
                             <input type="file" name="uploadFile" id="imgFile" value="" />
+                        </div> -->
+                        <div class="modal_label">
+                            <input type="text" class="input_box" id="signId" name="id" placeholder="사용하실 아이디를 입력하세요" />
+                            <input type="button" class="dup_btn" value="중복체크">
                         </div>
-                        <div class="modal_label">아이디</div>
-                        <input type="text" class="input_box" id="signId" name="id" />
-                        <div class="modal_label">패스워드</div>
-                        <input type="password" class="input_box" id="signPw" name="pw" />
-                        <div class="modal_label">이름</div>
-                        <input type="text" class="input_box" id="signName" name="name" />
+                        <!-- <div class="modal_dup"> -->
+                        <!-- </div> -->
+                        <div class="modal_label">
+                            <input type="password" class="input_box" id="signPw" name="pw" placeholder="사용하실 비밀번호를 입력하세요" />
+                        </div>
+                        <div class="modal_label">
+                            <input type="text" class="input_box" id="signName" name="name" placeholder="사용하실 닉네임을 입력하세요" />
+                            <input type="button" class="dup_btn" value="중복체크">
+                        </div>
+                        <!-- <div class="modal_dup"> -->
+                        <!-- </div> -->
+                        <div class="modal_label">
+                            <input type="text" class="input_box" placeholder="사용하실 이메일을 입력하세요">
+                            <input type="button" class="dup_btn" value="중복체크">
+                        </div>
+                        <!-- <div class="modal_dup"> -->
+                        <!-- </div> -->
+                        <div class="modal_label">
+                            <input type="text" class="input_box" placeholder="우편번호를 검색하세요">
+                            <input type="button" class="dup_btn" value="검색">
+                        </div>
+                        <!-- <div class="modal_dup"> -->
+                        <!-- </div> -->
+                        <div class="modal_label">
+                            <input type="text" class="input_box" placeholder="사용하실 주소를 입력하세요">
+                        </div>
+                        <div class="modal_label">
+                            <input type="text" class="input_box" placeholder="사용하실 전화번호를 입력하세요">
+                        </div>
+                        <div class="modal_bank">
+                            <select name="" id="">
+                                <option>은행</option>
+                                <option>신한은행</option>
+                            </select>
+                        </div>
+                        <div class="modal_bank">
+                            <input type="text" placeholder="계좌번호를 입력하세요">
+                        </div>
                     </form>
                     <div class="modal_btn save" id="signup_btn">회원가입</div>
                 </div>
