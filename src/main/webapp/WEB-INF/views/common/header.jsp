@@ -75,16 +75,6 @@
 					<span>카테고리</span>
 
 					<div class="nav_category">
-						<nav>
-							<ul>
-								<li>패션의류</li>
-								<li>패션의류</li>
-								<li>패션의류</li>
-								<li>패션의류</li>
-								<li>패션의류</li>
-								<li>패션의류</li>
-							</ul>
-						</nav>
 					</div>
 				</div>
 			</div>
