@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+.pointList {
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+	
+}
+
+#point_text {
+	width: 350px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 50px;
+    position: absolute;
+    top: 420px;
+}
+
+#balance {
+	font-size: 30px;
+	margin-bottom: -10px;
+}
+
+#balance_t p {
+	display: inline-block;
+}
+
+#balance_int {
+	font-size: 45px;
+	color: #4949e9;
+}
+
+#balance_text {
+	font-size: 45px;
+	
+}
+
+#charge_btn {
+	background-color: #4949e9;
+	width: 125px;
+	height: 50px;
+	color: white;
+	font-size: 18px;
+	cursor: pointer;
+	border: none;
+}
+
+#point_box {
+	margin-left: 100px;
+    width: 750px;
+	display: inline-block;
+	text-align: center;
+	position: absolute;
+    right: 230px;
+}
+
+#point_history {
+	border: 4px solid #dcf343;
+	border-radius: 10px;
+	padding: 30px;
+}
+
+#month {
+	display: inline-block;
+}
+
+#month_list{
+	width: 25px;
+	cursor: pointer;
+}
+
+#month {
+	font-size: 25px;
+	margin-bottom: -5px;
+}
+
+#month_dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    width: 100px;
+}
+
+.month_option {
+    padding: 8px 16px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.month_option:hover {
+    background-color: #f1f1f1;
+}
+
+#date {
+	color: #acacac;
+	margin-bottom: 30px;
+}
+
+.detail {
+    overflow: hidden;
+}
+
+.detail_date {
+	float: left;
+	margin: 25px 40px 25px 40px;
+	color: #acacac;
+	font-size: 25px;
+}
+
+.detail_point {
+	float: right;
+	margin: 25px 40px 25px 40px;
+	font-size: 25px;
+}

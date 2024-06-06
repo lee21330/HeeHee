@@ -53,6 +53,9 @@ public class MyPageController {
 	public String purchasedetail() {
 		return "/mypage/purchaseDetail";
 	}
-
+	@GetMapping("/pointList")
+	public String pointList() {
+		return "/mypage/pointList";
+	}
 
 }
