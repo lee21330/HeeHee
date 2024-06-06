@@ -13,10 +13,6 @@
 }
 
 .modal {
-    /* position: absolute; */
-    /* top: 0; */
-    /* left: 0; */
-    /* 변경 */
     position: fixed;
     top: 0;
     bottom: 0;
@@ -52,14 +48,7 @@
     box-sizing: border-box;
 }
 
-/* .modal_title {
-    font-size: 18px;
-    color: gray;
-    font-weight: 500;
-} */
-
 .close_btn {
-    /* font-size: 20px; */
     color: rgb(139, 139, 139);
     font-weight: 900;
     cursor: pointer;
@@ -69,12 +58,9 @@
 }
 
 .modal_label {
-    /* padding-top: 10px; */
     width: 95%;
     position: relative;
     margin: 10px 0 10px 0;
-    
-    /* border: 1px solid red; */
 }
 
 .input_box {
@@ -91,7 +77,6 @@ input:focus {
 }
 
 .log_find {
-    /* width: 315px; */
     width: 100%;
     height: 30px;
     margin-top:15px;
@@ -100,8 +85,6 @@ input:focus {
     align-items: center;
     cursor: pointer;
     color: rgb(189, 189, 189);
-
-    /* border: 1px solid red; */
 }
 
 .log_find div {
@@ -109,13 +92,11 @@ input:focus {
 }
 
 .modal_btn {
-    /* width: 315px; */
     width: 100%;
     height: 35px;
     border-radius: 5px;
     font-size: 20px;
     font-weight: bolder;
-    /* padding-top: 5px; */
     padding: 3px;
     margin-top: 15px;
     cursor: pointer;
@@ -133,8 +114,6 @@ input:focus {
     align-items: center;
     cursor: pointer;
     color: rgb(63, 81, 161);
-
-    /* border: 1px solid red; */
 }
 
 .cancle {
@@ -159,18 +138,12 @@ input:focus {
     margin-bottom: 20px;
     text-align: center;
     font-size: 30px;
-
-    /* border: 1px solid blue; */
 }
 
 .selDiv div {
     width: 170px;
     height: 70px;
     display: inline-block;
-    /* padding: 7px 0; */
-    /* cursor: pointer; */
-
-    /* border: 1px solid red; */
 }
 
 .selDiv img {
@@ -178,7 +151,7 @@ input:focus {
     height: 100%;
 }
 
-/* 회원가입 */
+/* 본인인증, 회원가입 모달 */
 .selectedArea {
     display: none;
 }
@@ -187,25 +160,48 @@ input:focus {
     display: block;
 }
 
-/* .modal_dup {
-    width: 65px;
-    height: 30px;
-    float: right;
-    text-align: right;
-    position: absolute;
-    top: -35px;
+/* 본인인증 */
+.modal_pass {
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    margin-bottom: -5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    position: relative;
-    margin-right: 8px;
-} */
+.pass_input {
+    width: 100px;
+    height: 40px;
+    float: left;
+    margin-right: 10px;
+    padding-left: 10px;
+    border: none;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
+}
 
-.dup_btn {
+.pass_btn {
+    width: 70px;
+    height: 35px;
+
     color: white;
     border: 1px solid rgb(63, 81, 161);
     background-color: rgb(63, 81, 161);
     border-radius: 5px;
     padding: 5px;
 
+    border: 1px solid green;
+}
+
+/* 회원가입 */
+.dup_btn {
+    color: white;
+    border: 1px solid rgb(63, 81, 161);
+    background-color: rgb(63, 81, 161);
+    border-radius: 5px;
+    padding: 5px;
     position: absolute;
     top: 8px;
     right: -5px;
@@ -215,9 +211,7 @@ input:focus {
     width: 70px;
     height: 40px;
     float: left;
-    margin: 0 9px 35px 0;
-    
-    /* border: 1px solid red; */
+    margin: 0 9px 25px 0;
 }
 
 .modal_bank select {
@@ -238,46 +232,3 @@ input:focus {
     border-radius: 10px;
     box-sizing: border-box;
 }
-
-/* ~~~~~~~~~~ 삭제 ~~~~~~~~~~ */
-
-/* .topSel {
-    border: 1px solid gray;
-    border-radius: 15px;
-} */
-
-/* #signupImgArea {
-    height: 130px;
-} */
-
-/* #signupImgArea input {
-    width: 180px;
-} */
-
-/* .btn-upload {
-    width: 150px;
-    height: 30px;
-    background: #fff;
-    border: 1px solid rgb(77, 77, 77);
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &: hover {
-        background: rgb(77, 77, 77);
-        color: #fff;
-    }
-} */
-
-/* #imgFile {
-    display: none;
-} */
-
-/* #signupImgArea .imgLabel {
-    display: inline-block;
-    vertical-align: top;
-    width: 170px;
-} */
