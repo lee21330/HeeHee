@@ -1,6 +1,4 @@
- @charset "UTF-8";
- 
- @charset "UTF-8";
+@charset "UTF-8";
 
 @font-face {
     font-family: 'SEBANG_Gothic_Bold';
@@ -15,10 +13,6 @@
 }
 
 .modal {
-    /* position: absolute; */
-    /* top: 0; */
-    /* left: 0; */
-    /* 변경 */
     position: fixed;
     top: 0;
     bottom: 0;
@@ -54,14 +48,7 @@
     box-sizing: border-box;
 }
 
-/* .modal_title {
-    font-size: 18px;
-    color: gray;
-    font-weight: 500;
-} */
-
 .close_btn {
-    /* font-size: 20px; */
     color: rgb(139, 139, 139);
     font-weight: 900;
     cursor: pointer;
@@ -71,19 +58,25 @@
 }
 
 .modal_label {
-    padding-top: 10px;
+    width: 95%;
+    position: relative;
+    margin: 10px 0 10px 0;
 }
 
 .input_box {
-    width: 95%;
+    width: 100%;
     height: 40px;
+    border: none;
     padding-left: 10px;
     border: 1px solid rgb(189, 189, 189);
     border-radius: 10px;
 }
 
+input:focus {
+    outline: none;
+}
+
 .log_find {
-    /* width: 315px; */
     width: 100%;
     height: 30px;
     margin-top:15px;
@@ -92,8 +85,6 @@
     align-items: center;
     cursor: pointer;
     color: rgb(189, 189, 189);
-
-    /* border: 1px solid red; */
 }
 
 .log_find div {
@@ -101,13 +92,12 @@
 }
 
 .modal_btn {
-    /* width: 315px; */
     width: 100%;
     height: 35px;
     border-radius: 5px;
     font-size: 20px;
     font-weight: bolder;
-    padding-top: 5px;
+    padding: 3px;
     margin-top: 15px;
     cursor: pointer;
     display: flex;
@@ -124,8 +114,6 @@
     align-items: center;
     cursor: pointer;
     color: rgb(63, 81, 161);
-
-    /* border: 1px solid red; */
 }
 
 .cancle {
@@ -147,20 +135,15 @@
     width: 240px;
     height: 70px;
     margin: 5px auto;
+    margin-bottom: 20px;
     text-align: center;
     font-size: 30px;
-
-    /* border: 1px solid blue; */
 }
 
 .selDiv div {
     width: 170px;
     height: 70px;
     display: inline-block;
-    /* padding: 7px 0; */
-    /* cursor: pointer; */
-
-    /* border: 1px solid red; */
 }
 
 .selDiv img {
@@ -168,6 +151,7 @@
     height: 100%;
 }
 
+/* 본인인증, 회원가입 모달 */
 .selectedArea {
     display: none;
 }
@@ -176,190 +160,75 @@
     display: block;
 }
 
-.topSel {
-    border: 1px solid gray;
-    border-radius: 15px;
-}
-
-#signupImgArea {
-    height: 130px;
-}
-
-#signupImgArea input {
-    width: 180px;
-}
-
-.btn-upload {
-    width: 150px;
-    height: 30px;
-    background: #fff;
-    border: 1px solid rgb(77, 77, 77);
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
+/* 본인인증 */
+.modal_pass {
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    margin-bottom: -5px;
     display: flex;
-    align-items: center;
     justify-content: center;
-
-    &: hover {
-        background: rgb(77, 77, 77);
-        color: #fff;
-    }
+    align-items: center;
 }
 
-#imgFile {
-    display: none;
+.pass_input {
+    width: 100px;
+    height: 40px;
+    float: left;
+    margin-right: 10px;
+    padding-left: 10px;
+    border: none;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
 }
 
-#signupImgArea .imgLabel {
-    display: inline-block;
-    vertical-align: top;
-    width: 170px;
+.pass_btn {
+    width: 70px;
+    height: 35px;
+
+    color: white;
+    border: 1px solid rgb(63, 81, 161);
+    background-color: rgb(63, 81, 161);
+    border-radius: 5px;
+    padding: 5px;
+
+    border: 1px solid green;
 }
 
-/*
-.modal {
-	position: absolute;
-	top: 0;
-	left: 0;
-	변경
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	width: 100%;
-	height: 100%;
-	display: none;
-	background-color: rgba(0, 0, 0, 0.4);
-	z-index: 100;
+/* 회원가입 */
+.dup_btn {
+    color: white;
+    border: 1px solid rgb(63, 81, 161);
+    background-color: rgb(63, 81, 161);
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 8px;
+    right: -5px;
 }
 
-.modal.show {
-	display: block;
+.modal_bank {
+    width: 70px;
+    height: 40px;
+    float: left;
+    margin: 0 9px 25px 0;
 }
 
-.modal_body {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 350px;
-	height: 320px;
-	background-color: rgb(255, 255, 255);
-	border-radius: 10px;
-	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-	transform: translateX(-50%) translateY(-60%);
+.modal_bank select {
+    color: rgb(63, 81, 161);
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgb(189, 189, 189);
 }
 
-.m_body {
-	height: 80%;
-	padding: 20px;
+.modal_bank input {
+    width: 191px;
+    height: 40px;
+    float: left;
+    padding-left: 10px;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
+    box-sizing: border-box;
 }
-
-.modal_title {
-	font-size: 18px;
-	color: gray;
-	font-weight: 500;
-}
-
-.close_btn {
-	font-size: 20px;
-	color: rgb(139, 139, 139);
-	font-weight: 900;
-	cursor: pointer;
-	width: 20px;
-	float: right;
-}
-
-.modal_label {
-	padding-top: 10px;
-}
-
-.input_box {
-	width: 100%;
-	border: 1px solid rgb(189, 189, 189);
-	border-radius: 5px;
-	height: 30px;
-}
-
-.modal_btn {
-	width: 315px;
-	height: 30px;
-	border-radius: 5px;
-	text-align: center;
-	font-size: 20px;
-	font-weight: bolder;
-	padding-top: 5px;
-	margin-top: 20px;
-	cursor: pointer;
-}
-
-.cancle {
-	background-color: white;
-	color: black;
-}
-
-.save {
-	background-color: rgb(50, 77, 158);
-	color: white;
-}
-
-.selDiv {
-	width: 240px;
-	height: 55px;
-	margin: 15px auto;
-	text-align: center;
-	font-size: 30px;
-}
-
-.selDiv div {
-	display: inline-block;
-	padding: 7px 0;
-	width: 110px;
-	cursor: pointer;
-}
-
-.selectedArea {
-	display: none;
-}
-
-.selectedArea.show {
-	display: block;
-}
-
-.topSel {
-	border: 1px solid gray;
-	border-radius: 15px;
-}
-
-#signupImgArea {
-	height: 130px;
-}
-
-#signupImgArea input {
-	width: 180px;
-}
-
-.btn-upload {
-	width: 150px;
-	height: 30px;
-	background: #fff;
-	border: 1px solid rgb(77, 77, 77);
-	border-radius: 10px;
-	font-weight: 500;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center; &: hover {background : rgb( 77, 77, 77); color: #fff;}
-}
-
-#imgFile {
-	display: none;
-}
-
-#signupImgArea .imgLabel {
-	display: inline-block;
-	vertical-align: top;
-	width: 170px;
-} */

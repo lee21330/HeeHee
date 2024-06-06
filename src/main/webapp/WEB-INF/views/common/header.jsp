@@ -21,7 +21,7 @@
 					<%-- 로그인 전 --%>
 					<div id="loginBtn">로그인</div>
 					<div class="div_line"></div>
-					<div id="signupBtn" class="login_text">회원가입</div>
+					<div id="signupBtn" class="login_text" onclick="join('signup')">회원가입</div>
 
 					<%-- 로그인 후 --%>
 					<%-- <div>로그아웃</div>
@@ -81,34 +81,12 @@
 		</div>
 	</header>
 	<script>
+		// 수정중
 		var text = document.querySelector(".a_color");
 		
 		text.onclick = function() {
 			text.style.color = "rgb(63,81,161)";
 		}
-	
-		 /* if ($("#loginModal").isOpen) {
-			// document.querySelector(".home_container").style.overflow = 'hidden';
-			// $(".home_container").css("overflow", "hidden");
-			
-		} else {
-			// document.querySelector(".home_container").style.overflow = 'scroll';
-			// $(".home_container").css("overflow", "scroll");
-			
-		} */
-		
-		// 모달 열 때
-		/* $("html, body").css({"overflow": "hidden", "height": "100%"}); // 모달 중 html, body의 scroll을 hidden시킴
-		$("#element").on("scroll touchmove mousewheel", function(event) { // 터치무브와 마우스휠 스크롤 방지
-			event.preventDefault();
-			event.stopPropagation();
-
-			return false;
-		}); */
-
-		// 모달 닫을 때
-		/* $("html, body").css({"overflow": "scroll", "height": "100%"}); // scroll hidden 해제
-		$("#element").off("scroll touchmove mousewheel"); // 터치무브 및 마우스휠 스크롤 가능 */
 	</script>
 </body>
 </html>
