@@ -51,9 +51,7 @@
 					<div class="point">
 						<p>포인트</p><br>
 						<p>1,000,000원</p>
-						<img onclick="location.href='${path}/pointlist'"
-						
-						src="${path}/resources/images/화살표.png">
+						<img onclick="location.href='${path}/pointlist'" src="${path}/resources/images/화살표.png">
 						<button onclick="location.href='${path}/chargepoint'"
 							class="btn-point">충전</button>
 					</div>

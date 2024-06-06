@@ -5,23 +5,57 @@
 .inner{
 	width: 1280px;
 	margin: 0 auto;
-	border: 1px solid red;
+	border: 1px solid black;
 }
-.profile_container div{
-	text-align: center;
+.align{
+	width: 500px;
+	margin: 0 auto;
+	
 }
+.item{
+	margin: 16px 0px;
+	display: flex;
+	justify-content: space-between;
+}
+.photo{
+	width: 150px;
+	height: 150px;
+	border-radius: 7px;
+}
+.file{
+	border: none;
+}
+
 p{
 	display: inline-block;
+	margin: 0px 0px;
+}
+input{
+	width: 350px;
+	height: 25px;
+	border: 1px solid #acacac;
+	border-radius: 7px;
+	margin-right: 0;
+}
+#readonly{
+	background-color: #D9D9D9;
+	color: #989898;
 }
 
 .btn{
 	cursor: pointer;
-	width: 100px;
+	width: 80px;
 	height: 30px;
 	background: #4949e9;
 	border: none;
 	border-radius: 5px;
 	color: white;
+}
+#address{
+	display: inline;
+}
+.submit{
+	text-align: center;
 }
 .withdrawal{
 	text-decoration: none;

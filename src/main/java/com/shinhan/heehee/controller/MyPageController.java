@@ -7,52 +7,57 @@ import com.shinhan.heehee.service.DealService;
 
 @Controller
 public class MyPageController {
-
-	@Autowired
-	DealService dealService;
-
-	@GetMapping("/chargepoint")
-	public String chargePoint() {
-		return "/mypage/pointCharge";
-	}
-
-	@GetMapping("/profile")
-	public String editProfile() {
-		return "/mypage/editProfile";
-	}
-
-	@GetMapping("/qnaBoard")
-	public String qnaBoard() {
-		return "/mypage/qnaBoard";
-	}
-
-	@GetMapping("/account")
-	public String editAccount() {
-		return "/mypage/editAccount";
-	}
-
-	@GetMapping("/salelist")
-	public String saleList() {
-		return "/mypage/saleList";
-	}
-
-	@GetMapping("/purchaseList")
-	public String purchaseList() {
-		return "/mypage/purchaseList";
-	}
-
-	@GetMapping("/jjimList")
-	public String jjimList() {
-		return "/mypage/jjimList";
-	}
-	@GetMapping("/saledetail")
-	public String saledetail() {
-		return "/mypage/saleDetail";
-	}
-	@GetMapping("/purchasedetail")
-	public String purchasedetail() {
-		return "/mypage/purchaseDetail";
-	}
-
-
+	
+    @Autowired
+    DealService dealService;
+    @GetMapping("/account")
+    public String editAccount() {
+        return "/mypage/editAccount";
+    }
+    @GetMapping("/profile")
+    public String editProfile() {
+        return "/mypage/editProfile";
+    }
+    @GetMapping("/jjimList")
+    public String jjimList() {
+        return "/mypage/jjimList";
+    }
+    @GetMapping("/chargepoint")
+    public String chargePoint() {
+        return "/mypage/pointCharge";
+    }
+    @GetMapping("/pointlist")
+    public String pointlist() {
+        return "/mypage/pointList";
+    }
+    @GetMapping("/purchasedetail")
+    public String purchasedetail() {
+        return "/mypage/purchaseDetail";
+    }
+    @GetMapping("/purchaseList")
+    public String purchaseList() {
+        return "/mypage/purchaseList";
+    }
+    @GetMapping("/qnaBoard")
+    public String qnaBoard() {
+        return "/mypage/qnaBoard";
+    }
+    @GetMapping("/saledetail")
+    public String saledetail() {
+        return "/mypage/saleDetail";
+    }
+    @GetMapping("/saleList")
+    public String saleList() {
+        return "/mypage/saleList";
+    }
 }
+
+
+
+
+
+
+
+
+
+

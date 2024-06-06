@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+    포인트 충전내역
 </body>
 </html>

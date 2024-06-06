@@ -18,7 +18,7 @@
 	<section>
 		<div class="mypage_container">
 			<ul class="menu">
-				<li><a href="${path}/salelist">판매내역</a></li>
+				<li><a href="${path}/saleList">판매내역</a></li>
 				<li><a href="${path}/purchaseList">구매내역</a></li>
 				<li class="selected">찜</li>
 			</ul>
