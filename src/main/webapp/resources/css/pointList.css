@@ -4,7 +4,9 @@
 	width: 1280px;
 	height: auto;
 	margin: 0 auto;
-	
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #point_text {
@@ -12,8 +14,6 @@
     display: inline-block;
     text-align: center;
     margin-left: 50px;
-    position: absolute;
-    top: 420px;
 }
 
 #balance {
@@ -50,7 +50,7 @@
     width: 750px;
 	display: inline-block;
 	text-align: center;
-	position: absolute;
+	
     right: 230px;
 }
 
@@ -76,7 +76,7 @@
 
 #month_dropdown {
     display: none;
-    position: absolute;
+    
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
