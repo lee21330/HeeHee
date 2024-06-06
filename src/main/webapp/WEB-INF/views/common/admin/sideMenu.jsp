@@ -32,18 +32,18 @@
 					<li><a href="${path}/admin/product">상세조회</a></li> <!-- 초안 제작 완료 -->
 					<li><a class="middleMenu">경매상품 관리</a></li>
 					<li><a href="${path}/admin/auction">상세조회</a></li> <!-- 초안 제작 완료 -->
-					<li><a href="${path}/admin/category">카테고리 관리</a></li> <!-- 제작 필요 -->
+					<li><a href="${path}/admin/category">카테고리 관리</a></li> <!-- 초안 제작 완료 -->
 				</ul>		
 			</li>
 			<li class="dropdown">
 			<a href="javascript:void(0)">고객 지원</a>
 				<ul class="submenu">
 					<li><a class="middleMenu">문의사항 관리</a></li>
-					<li><a href="${path}/admin/qnaManager">1:1 상담문의</a></li> <!-- 제작 필요 -->
+					<li><a href="${path}/admin/qnaManager">1:1 상담문의</a></li> <!-- 초안 제작 완료 -->
 					<li><a class="middleMenu">FAQ 관리</a></li>
-					<li><a href="${path}/admin/faqManager">FAQ 내용관리</a></li> <!-- 제작 필요 -->
+					<li><a href="${path}/admin/faqManager">FAQ 내용관리</a></li> <!-- 초안 제작 완료 -->
 					<li><a class="middleMenu">문의 유형 관리</a></li>
-					<li><a href="${path}/admin/questionManager">문의 유형 관리</a></li> <!-- 제작 필요 -->
+					<li><a href="${path}/admin/questionManager">문의 유형 관리</a></li> <!-- 초안 제작 완료 -->
 				</ul>
 			</li>
 		</ul>

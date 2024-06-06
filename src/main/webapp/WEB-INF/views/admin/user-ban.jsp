@@ -45,7 +45,10 @@
 		</div>
 		
 		</div>
+		<div id="btmContainer">
 		<p class="detailTitle">상세 정보</p>
+		<button class="commonSmallBtn" id="editButton">수정</button>
+		</div>
 		<div id="allTable">
 			<table>
 				<thead>

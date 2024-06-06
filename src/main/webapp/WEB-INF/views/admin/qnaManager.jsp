@@ -20,11 +20,10 @@
 		<div id="btmContainer">
 		<div class="containerHeadBlock"><p class="searchContext">검색어</p></div>
 		<select>
-			<option>등록번호</option>
-			<option>카테고리</option>
-			<option>세부 카테고리</option>
-			<option>판매자ID</option>
-			<option>상태</option>
+			<option>번호</option>
+			<option>유형</option>
+			<option>제목</option>
+			<option>작성자ID</option>
 		</select>
 		<input type="text" placeholder="입력란 (제목 혹은 내용 입력)">
 		<button class="commonSmallBtn">검색</button>
@@ -33,14 +32,14 @@
 		</div>
 		<div id="btmContainer">
 		<p class="detailTitle">문의 내용</p>
-		<button class="commonSmallBtn">수정</button>
-		<button class="commonSmallBtn">삭제</button>
+		<button class="commonSmallBtn" id="editButton">수정</button>
+		<button class="commonSmallBtn" id="deleteButton">삭제</button>
 		</div>
 		<div id="allTable">
 			<table>
 				<thead>
 					<tr>
-						<th>checkbox</th>
+						<th>선택</th>
 						<th>번호</th>
 						<th>유형</th>
 						<th>제목</th>
@@ -50,7 +49,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>checkbox</td>
+						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
 						<td>ajax</td>
 						<td>ajax</td>
 						<td>ajax</td>

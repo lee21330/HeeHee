@@ -40,9 +40,9 @@
     color: black;
 }
 
-#sideMenuContainer li a:hover {
+/* #sideMenuContainer li a:hover {
     background-color: lightgray;
-}
+} */
 
 .dropdown > a {
     cursor: pointer;

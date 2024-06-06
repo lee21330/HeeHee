@@ -33,14 +33,14 @@
 		</div>
 		<div id="btmContainer">
 		<p class="detailTitle">상세 내용</p>
-		<button class="commonSmallBtn">수정</button>
-		<button class="commonSmallBtn">삭제</button>
+		<button class="commonSmallBtn" id="editButton">수정</button>
+		<button class="commonSmallBtn" id="deleteButton">삭제</button>
 		</div>
 		<div id="allTable">
 			<table>
 				<thead>
 					<tr>
-						<th>checkbox</th>
+						<th>선택</th>
 						<th>등록번호</th>
 						<th>카테고리</th>
 						<th>세부 카테고리</th>
@@ -52,7 +52,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>checkbox</td>
+						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
 						<td>ajax</td>
 						<td>ajax</td>
 						<td>ajax</td>

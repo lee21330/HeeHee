@@ -76,7 +76,7 @@ body {
 }
 
 .questionsBtn, .productDetailBtn {
-	font-size: 25px;
+	font-size: 15px;
 	font-weight: 400;
 	font-family: 'Arial', SEBANG_Gothic_Bold;
 	color: white;
@@ -84,6 +84,8 @@ body {
 	border: 0px;
 	padding: 5px;
 	margin: 5px;
+	position: absolute;
+	right: 10px;
 }
 
 /* 같은 블록에 컨텐츠 배치할때 사용 */

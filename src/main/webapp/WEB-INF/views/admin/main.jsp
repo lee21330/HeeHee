@@ -8,6 +8,7 @@
 <title>희희낙찰 관리자 페이지 - 메인</title>
 <link rel="stylesheet" href="/heehee/resources/css/admin/main.css?after">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -16,6 +17,7 @@
 	<%@ include file="../common/admin/sideMenu.jsp" %>
 
 	<div id="mainMenuContainer">
+	<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/camera.png">
 		<div id="totalOrder">
 		<p class="mainTitle">전체 주문통계</p>
 			<div id="totalOrderCol">
@@ -71,15 +73,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-					</tr>
 					<tr>
 						<td>ajax</td>
 						<td>ajax</td>
