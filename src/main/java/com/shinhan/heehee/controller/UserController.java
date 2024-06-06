@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shinhan.heehee.config.AuthenticationFailure;
 import com.shinhan.heehee.config.AuthenticationSuccess;
 import com.shinhan.heehee.dto.response.UserDTO;
+import com.shinhan.heehee.exception.UserNotFoundException;
 import com.shinhan.heehee.service.UserService;
 
 @Controller
@@ -66,15 +67,16 @@ public class UserController {
 	public void login(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes) throws IOException, ServletException {
 		String userId = request.getParameter("userId");
         String userPw = request.getParameter("userPw");
-        System.out.println("이거도 안타나본데..");
+        
+        UserDTO user = userService.login(userId, userPw);
+        
+        if(user == null) throw new UserNotFoundException();
+        
         try {
-        	System.out.println("첫쨰줄 타?");
             // 사용자 인증을 위한 UsernamePasswordAuthenticationToken 객체 생성
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, userPw);
-            System.out.println("둘쨰줄 타?");
             // AuthenticationManager를 사용하여 인증 수행
             Authentication authentication = authenticationManager.authenticate(token);
-            System.out.println("셋쨰줄 타?");
             // 인증 성공 후 SecurityContext에 인증 객체 설정
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

@@ -18,6 +18,7 @@
 
 	<div class="home_container">
 		<%@ include file="/WEB-INF/views/common/header.jsp"%>
+		<div></div>
 		<div id="main_container">
 			<div>
 				<div id="prodRankArea">
@@ -139,11 +140,140 @@
 					<div id="recommandListArea">
 						<div id="classifyPrev" class="prevBtn">&lt;</div>
 						<div id="classifyNext" class="nextBtn">&gt;</div>
+						<div class="recommandProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="recommandProdInfo">
+								<p class="recommandTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="recommandPrice">200,000원</p>
+								<p class="recommandUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="recommandProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="recommandProdInfo">
+								<p class="recommandTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="recommandPrice">200,000원</p>
+								<p class="recommandUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="recommandProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="recommandProdInfo">
+								<p class="recommandTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="recommandPrice">200,000원</p>
+								<p class="recommandUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="recommandProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="recommandProdInfo">
+								<p class="recommandTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="recommandPrice">200,000원</p>
+								<p class="recommandUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="recommandProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="recommandProdInfo">
+								<p class="recommandTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="recommandPrice">200,000원</p>
+								<p class="recommandUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="recommandProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="recommandProdInfo">
+								<p class="recommandTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="recommandPrice">200,000원</p>
+								<p class="recommandUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="recommandProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="recommandProdInfo">
+								<p class="recommandTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="recommandPrice">200,000원</p>
+								<p class="recommandUpTime">2시간 전</p>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-pagination">
+						<span class="pagination-bullet pagination-bullet-active"></span>
+						<span class="pagination-bullet"></span>
+						<span class="pagination-bullet"></span>
+						<span class="pagination-bullet"></span>
+						<span class="pagination-bullet"></span>
 					</div>
 				</div>
 				<div id="prodNowRegArea">
 					<p class="classifyTitle">방금 등록된 상품</p>
-					<div id="nowRegListArea"></div>
+					<div id="nowRegListArea">
+						<div id="classifyPrev" class="prevBtn">&lt;</div>
+						<div id="classifyNext" class="nextBtn">&gt;</div>
+						<div class="nowRegProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="nowRegProdInfo">
+								<p class="nowRegProdTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="nowRegProdPrice">200,000원</p>
+								<p class="nowRegProdUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="nowRegProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="nowRegProdInfo">
+								<p class="nowRegProdTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="nowRegProdPrice">200,000원</p>
+								<p class="nowRegProdUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="nowRegProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="nowRegProdInfo">
+								<p class="nowRegProdTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="nowRegProdPrice">200,000원</p>
+								<p class="nowRegProdUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="nowRegProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="nowRegProdInfo">
+								<p class="nowRegProdTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="nowRegProdPrice">200,000원</p>
+								<p class="nowRegProdUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="nowRegProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="nowRegProdInfo">
+								<p class="nowRegProdTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="nowRegProdPrice">200,000원</p>
+								<p class="nowRegProdUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="nowRegProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="nowRegProdInfo">
+								<p class="nowRegProdTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="nowRegProdPrice">200,000원</p>
+								<p class="nowRegProdUpTime">2시간 전</p>
+							</div>
+						</div>
+						<div class="nowRegProdDiv">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
+							<div class="nowRegProdInfo">
+								<p class="nowRegProdTitle">애플워치 se2 44mm gps 블랙</p>
+								<p class="nowRegProdPrice">200,000원</p>
+								<p class="nowRegProdUpTime">2시간 전</p>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-pagination">
+						<span class="pagination-bullet pagination-bullet-active"></span>
+						<span class="pagination-bullet"></span>
+						<span class="pagination-bullet"></span>
+						<span class="pagination-bullet"></span>
+						<span class="pagination-bullet"></span>
+					</div>
 				</div>
 			</div>
 		</div>
