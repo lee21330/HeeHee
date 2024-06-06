@@ -21,11 +21,12 @@
 	border: 1px solid yellow;
 }
 .qna li{
-	display:inline-block;
+	display: flex;
 	width: 30%;
 	height: 30px;
 	border: 1px solid #D3D3D3;
-	text-align: center;
+	justify-content: center;
+	align-items: center;
 	margin-bottom: 15px;
 }
 .qna ul{
@@ -54,19 +55,29 @@ textarea{
 	display: none;
 }
 #img_preview {
-	width: 50px;
-	height: 50px;
+	width: 80px;
+	height: 80px;
     border-radius: 5px;
 }
 
 .faq{
-	width: 40%;
+	width: 50%;
 	margin: 0px;
 	border: 1px solid green;
 }
+.faq ul{
+	padding: 0px 0px 0px 0px;
+}
 .faq li{
-	border: 1px solid pink;
-	list-style: no
+	height: 50px;
+	border: 1px solid gray;
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+.faq li:hover{
+	background-color: #DCF343;
+	
 }
 #img_q {
 	width: 30px;

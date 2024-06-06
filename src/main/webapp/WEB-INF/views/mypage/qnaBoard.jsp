@@ -53,16 +53,36 @@
                     <h1>Best FAQ</h1>
                     <hr>
                     <ul>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[탈퇴/기타] 회원 탈퇴는 어떻게 하나요?</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[로그인/정보] 아이디와 비밀번호가 기억나지 않아요.</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[상품 문의] 구매했을 때보다 가격이 떨어졌어요 차액 환불이 되나요?</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[배송 일반] 출고가 지연된다는 알림톡을 받았어요.</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[기타] 배송 완료 상품을 받지 못했어요.</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[기타] 송장 흐름 확인이 안되고 있어요.</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[배송 일반] 배송 조회는 어떻게 하나요?</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[배송 일반] 고객 보상 지원 제도가 무엇인가요?</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[배송 일반] 일반 배송 상품은 언제 배송 되나요?</li>
-                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">[취소/반품(환불)] 반송장을 입력하라고 하는데, 반송장 입력 버튼이 보이지 않아요.</li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [탈퇴/기타] 회원 탈퇴는 어떻게 하나요?
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [로그인/정보] 아이디와 비밀번호가 기억나지 않아요.
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [상품 문의] 구매했을 때보다 가격이 떨어졌어요 차액 환불이 되나요?
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [배송 일반] 출고가 지연된다는 알림톡을 받았어요.
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [기타] 배송 완료 상품을 받지 못했어요.
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [기타] 송장 흐름 확인이 안되고 있어요.
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [배송 일반] 배송 조회는 어떻게 하나요?
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [배송 일반] 고객 보상 지원 제도가 무엇인가요?
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [배송 일반] 일반 배송 상품은 언제 배송 되나요?
+                        </li>
+                        <li><img id="img_q" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/Q%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB.png">
+                            [취소/반품(환불)] 반송장을 입력하라고 하는데, 반송장 입력 버튼이 보이지 않아요.
+                        </li>
                     </ul>
                     
                 </div>
