@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>희희낙찰 관리자 페이지 - 상품 관리</title>
 <link rel="stylesheet" href="/heehee/resources/css/admin/main.css">
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
@@ -34,7 +33,7 @@
 		</div>
 		<div id="btmContainer">
 		<p class="detailTitle">상세 내용</p>
-				<button class="commonSmallBtn" id="addButton">신규 등록</button> <!-- 기능구현 추가 필요함 -->
+		<button class="commonSmallBtn" id="addButton">신규 등록</button>
 		<button class="commonSmallBtn" id="editButton">수정</button>
 		<button class="commonSmallBtn" id="deleteButton">삭제</button>
 		</div>
@@ -46,7 +45,6 @@
 						<th>번호</th>
 						<th>카테고리</th>
 						<th>세부 카테고리</th>
-						<th>카테고리 상세내용</th>
 						<th>작성자ID</th>
 						<th>작성일</th>
 					</tr>
@@ -54,29 +52,26 @@
 				<tbody id="tableBody">
 					<!-- Ajax로 동적 업데이트 -->
 					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="1"></td>
                         <td>00001</td>
                         <td>상의</td>
                         <td>아우터</td>
-                        <td>글자수가 얼마나 들어갈 수 있을지</td>
                         <td>cutehs97</td>
                         <td>2024-05-31</td>
                     </tr>
 					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="2"></td>
                         <td>00002</td>
                         <td>하의</td>
                         <td>아우터</td>
-                        <td>글자수가 얼마나 들어갈 수 있을지</td>
                         <td>cutehs97</td>
                         <td>2024-05-31</td>
                     </tr>
 					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="3"></td>
                         <td>00003</td>
                         <td>신발</td>
                         <td>아우터</td>
-                        <td>글자수가 얼마나 들어갈 수 있을지</td>
                         <td>cutehs97</td>
                         <td>2024-05-31</td>
                     </tr>
@@ -85,6 +80,6 @@
 		</div>
 	</div>
 	</div>
-	<script type="text/javascript" src="${path}/resources/js/admin/crud.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/admin/category.js"></script>
 </body>
 </html>

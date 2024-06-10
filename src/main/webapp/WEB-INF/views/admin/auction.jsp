@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <title>희희낙찰 관리자 페이지 - 상품 관리</title>
 <link rel="stylesheet" href="/heehee/resources/css/admin/main.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <%@ include file="../common/header.jsp" %>
 	<div id="bodyContainer">
 <%@ include file="../common/admin/sideMenu.jsp" %>
@@ -18,18 +18,20 @@
 		<p class="searchTitle">상품 검색</p>
 		<div id="searchContainer">
 		<div id="btmContainer">
-		<div class="containerHeadBlock"><p class="searchContext">검색어</p></div>
-		<select>
-			<option>등록번호</option>
-			<option>카테고리</option>
-			<option>세부 카테고리</option>
-			<option>판매자ID</option>
-			<option>상태</option>
-		</select>
-		<input type="text" placeholder="입력란 (제목 혹은 내용 입력)">
-		<button class="commonSmallBtn">검색</button>
-		<button class="commonSmallBtn">초기화</button>
-		</div>
+			<div class="containerHeadBlock">
+				<p class="searchContext">검색어</p>
+			</div>
+				<select id="searchCategory">
+					<option value="regNumber">등록번호</option>
+					<option value="category">카테고리</option>
+					<option value="subCategory">세부 카테고리</option>
+					<option value="sellerID">판매자ID</option>
+					<option value="status">상태</option>
+				</select>
+				<input type="text" id="searchInput" placeholder="입력란 (제목 혹은 내용 입력)">
+				<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>
+				<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
+			</div>
 		</div>
 		<div id="btmContainer">
 		<p class="detailTitle">상세 내용</p>
@@ -50,7 +52,8 @@
 						<th>상태</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="tableBody">
+					<!-- Ajax로 동적 업데이트 -->
 					<tr>
 						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
 						<td>ajax</td>
@@ -66,5 +69,6 @@
 		</div>
 	</div>
 	</div>
+	<script type="text/javascript" src="${path}/resources/js/admin/auction.js"></script>
 </body>
 </html>

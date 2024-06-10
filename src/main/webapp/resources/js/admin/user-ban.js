@@ -37,13 +37,14 @@ $(document).ready(function() {
 
                 data.forEach(function(item) {
                     var row = `<tr>
-                        <td>${item.memberNumber}</td>
-                        <td>${item.memberName}</td>
-                        <td>${item.userID}</td>
-                        <td>${item.email}</td>
-                        <td>${item.phoneNumber}</td>
-                        <td>${item.address}</td>
-                        <td>${item.joinDate}</td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+						<td>${item.status}</td>
+						<td>${item.memberNumber}</td>
+						<td>${item.memberName}</td>
+						<td>${item.userID}</td>
+						<td>${item.banReason}</td>
+						<td>${item.startDate}</td>
+						<td>${item.endDate}</td>
                     </tr>`;
                     tableBody.append(row);
                 });
@@ -52,6 +53,63 @@ $(document).ready(function() {
                 alert('데이터를 가져오는 중 오류가 발생했습니다.');
             }
         });
+    }
+    
+    // 수정 버튼 클릭 시
+    $('#editButton').click(function() {
+        var selected = getSelectedRow();
+
+        if (selected.length === 1) {
+            var row = selected.closest('tr');
+            var id = selected.data('id');
+
+            // 수정할 내용 입력란을 추가
+            if (row.next().hasClass('editRow')) {
+                row.next().remove();
+            } else {
+                var editRow = `
+                    <tr class="editRow">
+						<td colspan="8">
+						    <div class="updateContainer">
+						        <p class="productUpdate">정지내용<br>입력</p>
+						    </div>
+						    <select id="editStatus${id}">
+						        <option value="Y" ${row.find('td').eq(1).text() === 'Y' ? 'selected' : ''}>Y</option>
+						        <option value="N" ${row.find('td').eq(1).text() === 'N' ? 'selected' : ''}>N</option>
+						    </select>
+						    <input type="text" id="editReason${id}" placeholder="정지 혹은 해제 사유를 입력해주세요" value="${row.find('td').eq(5).text()}">
+						    <button class="saveEditButton" data-id="${id}">수정 등록</button>
+						</td>
+                    </tr>`;
+                row.after(editRow);
+            }
+        } else if (selected.length === 0) { 
+        	alert('수정할 항목을 선택해주세요');
+        } else {
+            alert('수정할 항목을 하나만 선택해주세요');
+        }
+    });
+    
+    // 저장 버튼 클릭 시
+    $(document).on('click', '.saveEditButton', function() {
+        var id = $(this).data('id');
+        var newStatus = $(`#editStatus${id}`).val();
+        var newReason = $(`#editReason${id}`).val();
+        $.ajax({
+            url: '/your-server-endpoint/' + id,
+            method: 'PUT',
+            data: { newStatus: newStatus, newReason: newReason },
+            success: function() {
+                loadTable();
+            },
+            error: function() {
+                alert('수정 중 오류가 발생했습니다.');
+            }
+        });
+    });
+    
+    function getSelectedRow(){
+    	return $('input.rowCheckbox:checked');
     }
     
 	// 라디오 버튼 클릭 시 날짜 필터 설정

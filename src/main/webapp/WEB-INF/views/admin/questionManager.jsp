@@ -73,6 +73,6 @@
 		</div>
 	</div>
 	</div>
-	<script type="text/javascript" src="${path}/resources/js/admin/crud.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/admin/제작중.js"></script>
 </body>
 </html>

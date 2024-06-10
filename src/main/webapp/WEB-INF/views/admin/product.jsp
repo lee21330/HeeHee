@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>희희낙찰 관리자 페이지 - 상품 관리</title>
 <link rel="stylesheet" href="/heehee/resources/css/admin/main.css">
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
@@ -90,6 +89,6 @@
 		</div>
 	</div>
 	</div>
-	<script type="text/javascript" src="${path}/resources/js/admin/crud.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/admin/product.js"></script>
 </body>
 </html>
