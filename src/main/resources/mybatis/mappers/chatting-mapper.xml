@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shinhan.chatting">
+	<select id="getRoomList" parameterType="int" resultType="com.shinhan.heehee.dto.response.ChatRoomDTO">
+		select room_id as id,
+		(
+		select max(m.content) keep(dense_rank first order by m.send_time desc)
+		from chat_message m
+		where m.room_id=r.room_id) as lastContent,
+		to_char((select max(send_time) from chat_message m where m.room_id=r.room_id),
+		'MM.DD') sendTime,
+		nvl2((select seller from chat_room r2
+		where r.room_id=r2.room_id and r2.seller='a'),
+		r.buyer, r.seller) receiverId,
+		(select count(*) from chat_message m
+		where m.room_id=r.room_id
+		and m.read_check='N'
+		and m.sender!='a') unreadCount,
+		nvl2((select seller from chat_room r2
+		where r.room_id=r2.room_id
+		and r2.seller='a'),
+		(select hh_user.nick_name from hh_user where hh_user.id=r.buyer),
+		(select hh_user.nick_name from hh_user where hh_user.id=r.seller))
+		receiverNickname,
+		nvl2((select seller from chat_room r2
+		where r.room_id=r2.room_id
+		and r2.seller='a'),
+		(select hh_user.profile_img from hh_user where hh_user.id=r.buyer),
+		(select hh_user.profile_img from hh_user where hh_user.id=r.seller))
+		receiverimg,
+		(select max(msg_id) as max_message_no
+		from chat_message m
+		where r.room_id = m.room_id) as max_message_no
+		from chat_room r
+		where seller='a' or buyer='a'
+		order by max_message_no desc nulls last;
+	</select>
+</mapper>

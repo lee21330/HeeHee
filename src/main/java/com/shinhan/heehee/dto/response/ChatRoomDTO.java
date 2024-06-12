@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ChatRoomDTO {
 	private int id;
-	private String lastContent;
+	private String content;
 	private String sendTime;
 	private String receiverId;
 	private String receiverNickname;

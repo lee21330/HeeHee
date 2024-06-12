@@ -119,6 +119,7 @@
 						<p class="selling-price">50000원</p>
 						<p class="selling-name">폼폼푸린 아이스크림</p>
 					</div>
+					<!-- roomId 판매자/구매자별로 버튼 내용 다르게 하기 -->
 					<button class="pay">결제하기</button>
 				</div>
 			</div>
@@ -192,7 +193,7 @@
 				</div>
 			</div>
 			<div class="chatting-input">
-				<img class="input-photo" src="${path}/resources/images/camera.png">
+				<img class="input-photo" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/camera.png">
 				<div>
 					<input class="input-area" type="text">
 				</div>
