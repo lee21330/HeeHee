@@ -212,6 +212,7 @@ body {
     /* border: 1px solid blue; */
 }
 
+<<<<<<< HEAD
 /* 카테고리 메뉴 */
 .nav_container {
     width: 10%;
@@ -238,4 +239,8 @@ body {
 
     box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 2px 0px;
     /* border: 1px solid blue; */
+=======
+@media screen and (max-width: 768px) {
+    /* 반응형 웹 구현예정 */
+>>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 }

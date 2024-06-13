@@ -3,11 +3,17 @@
 .pointList {
 	width: 1280px;
 	margin: 0 auto;
+<<<<<<< HEAD
 	border: 1px solid red;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	
+=======
+	display: flex;
+    justify-content: center;
+    align-items: center;
+>>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 }
 
 #point_text {
@@ -15,7 +21,10 @@
     display: inline-block;
     text-align: center;
     margin-left: 50px;
+<<<<<<< HEAD
     border: 1px solid pink;
+=======
+>>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 }
 
 #balance {
@@ -52,6 +61,10 @@
     width: 750px;
 	display: inline-block;
 	text-align: center;
+<<<<<<< HEAD
+=======
+	
+>>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
     right: 230px;
     border: 1px solid blue;
 }
@@ -78,7 +91,7 @@
 
 #month_dropdown {
     display: none;
-    position: absolute;
+    
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
