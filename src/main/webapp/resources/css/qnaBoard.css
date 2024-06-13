@@ -1,0 +1,147 @@
+@charset "UTF-8";
+
+.main_container {
+	width: 1280px;
+	margin: 0 auto;
+}
+
+.qnaboard {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin: 30px 0px;
+}
+h1{
+	border-bottom: 2px solid #979797; 
+	margin: 0px 0px 0px 0px;
+	padding: 16px 0px;
+}
+.qna {
+	width: 45%;
+
+}
+
+.qna_item {
+	display: flex;
+	gap: 60px;
+	margin: 10px 0px;
+
+}
+
+.radioContainer {
+	width: 30%;
+	height: 30px;
+	border: 1px solid #D3D3D3;
+	margin-bottom: 15px;
+	cursor: pointer;
+}
+input[type="radio"] {
+	display: none;
+}
+
+.type {
+	width: 450px;
+	height: 100%;
+	display: flex;
+	flex-flow: wrap;
+	justify-content: space-between;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+.radioLabel{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.radioContainer input[type="radio"]:checked +label {
+	background-color: #ABC3FF;
+}
+.qna p {
+	height: 100%;
+	margin-top: 0;
+	display: inline-block;
+}
+#qna_type{
+	display: none;
+}
+textarea {
+	width: 450px;
+	height: 200px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 15px;
+}
+
+#input_file {
+	display: none;
+}
+
+#img_preview {
+	width: 80px;
+	height: 80px;
+	border-radius: 5px;
+}
+
+.faq {
+	width: 50%;
+	margin: 0px;
+}
+
+.faq a {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+.faq a:hover {
+	color: #4949e9;
+}
+
+.faq div {
+	height: 50px;
+	border-bottom: 1px solid gray;
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+.faq_header:hover {
+	background-color: #DCF343;
+	cursor: pointer;
+}
+.faq_content{
+	background-color: #EFEFEF;
+	height: 80px !important;
+	padding: 0px 10px;
+}
+#img_q {
+	width: 30px;
+	height: 30px;
+}
+
+.btn {
+	width: 100%;
+	text-align: center;
+}
+
+.btn_submit {
+	cursor: pointer;
+	width: 150px;
+	height: 50px;
+	background: #4949e9;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	margin: 0px 5px 0px 5px;
+}
+
+.btn_cancel {
+	cursor: pointer;
+	width: 150px;
+	height: 50px;
+	border: 1px solid #4949e9;
+	border-radius: 5px;
+	color: #4949e9;
+	background-color: white;
+	margin: 0px 5px 0px 5px;
+}
