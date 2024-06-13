@@ -3,8 +3,17 @@
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.productDetail">
 	<select id="productInfo" parameterType="int" resultType="com.shinhan.heehee.dto.response.SellProDTO">
-		SELECT PRODUCT_SEQ, ARTICLE_TITLE, PRODUCT_PRICE, INTRODUCE, CONDITION, PRO_STATUS, DEAL, D_CHARGE, SELECT_SEQ, ID
-  		FROM SELL_PRODUCT
- 		WHERE PRODUCT_SEQ = #{prodSeq}
+		SELECT SELL.*, CATE.*, TYPE.PROD_NAME
+    	,(SELECT COUNT(*) FROM JJIM J WHERE J.PRODUCT_SEQ = SELL.PRODUCT_SEQ) JJIM_CNT
+	    FROM SELL_PRODUCT SELL, PRODUCT_TYPE TYPE, PRODUCT_CATEGORY CATE, JJIM
+	    WHERE SELL.SELECT_SEQ = TYPE.PRODUCT_SEQ
+	    AND TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
+	    AND SELL.PRODUCT_SEQ = #{PROD_SEQ}
+	</select>
+	
+	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.SellProDTO">
+		SELECT IMG.IMG_NAME
+		FROM IMG_FILES IMG, SELL_PRODUCT SELL
+		WHERE IMG.TABLE_PK = #{PROD_SEQ}
 	</select>
 </mapper>

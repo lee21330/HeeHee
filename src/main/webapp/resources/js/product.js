@@ -36,6 +36,12 @@ $(document).ready(function() {
 			$("#preview").attr("src", "");
 		}
 		
+	$('.product-images').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1
+    });
+		
 	});
 	
 	$("img[id='preview']").click(function () {

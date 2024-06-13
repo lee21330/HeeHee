@@ -15,6 +15,28 @@
 	margin: 0 auto;
 }
 
+.slick-prev,
+.slick-next {
+	background-color: red !important;
+}
+
+.slick-prev,
+.slick-next:hover {
+	background-color: gray !important;
+}
+
+.slick-prev:before, .slick-next:before {
+	line-height: 1.2 !important;  /* 라이브러리때문에 써야함 */
+}
+
+.slick-arrow {
+	border-radius: 25px;
+	background-color: lightgray !important;
+}
+
+/* .<button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="">Previous</button>
+.<button class="slick-next slick-arrow" aria-label="Next" type="button" style="">Next</button>
+ */
 body {
 	width: 100%;
 	margin: 0 auto;
@@ -61,7 +83,13 @@ nav {
     object-fit: contain;
 }
 
-#product_img {
+.product_slider {
+	width: 350px;
+	height: 325px;
+	
+}
+
+.product_img {
     width: 350px;
     height: 325px;
 }
@@ -71,7 +99,7 @@ nav {
     flex-direction: column; /* 텍스트를 세로로 정렬합니다 */
     justify-content: center;
 	width: 850px;
-	margin-left: 30px;
+	margin-left: 70px;
 }
 
 .product-details p,
@@ -166,7 +194,7 @@ nav {
 	width: 100%;
 	display: flex;
 	margin-bottom: 10px;
-	margin-top: 30px;
+	margin-top: 70px;
 }
 
 hr{
@@ -282,6 +310,7 @@ hr{
 /* Main content styles */
 main {
     padding: 20px;
+    margin-top: 40px;
 }
 
 
