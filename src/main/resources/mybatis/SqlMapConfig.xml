@@ -9,5 +9,7 @@
   <setting name="mapUnderscoreToCamelCase" value="true"/>
 </settings>
    <typeAliases>
+   	<typeAlias type="java.util.Map" alias="map"/>
+   	<typeAlias type="java.util.HashMap" alias="hashMap"/>
    </typeAliases>
 </configuration>

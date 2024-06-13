@@ -6,4 +6,9 @@
 		SELECT COUNT(*) num
   		FROM DUAL
 	</select>
+	
+	<select id="mapTest" resultType="map">
+		SELECT *
+		FROM HH_USER
+	</select>
 </mapper>

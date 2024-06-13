@@ -10,4 +10,9 @@ public class MainController {
 	public String main() {
 		return "/main/main";
 	}
+	
+	@GetMapping("/auction")
+	public String auction() {
+		return "/main/auction";
+	}
 }
