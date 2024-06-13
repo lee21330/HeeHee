@@ -13,9 +13,10 @@
 <body>
 	<header>
 		<%@include file="../common/header.jsp"%>
-		<%@include file="../mypage/myPage_header.jsp"%>
+		
 	</header>
 	<section>
+		<%@include file="../mypage/myPage_header.jsp"%>
 		<div class="mypage_container">
 			<ul class="menu">
 				<li><a href="${path}/saleList">판매내역</a></li>

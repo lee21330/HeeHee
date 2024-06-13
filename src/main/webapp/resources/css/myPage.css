@@ -12,7 +12,8 @@
 	display: flex;
 	margin: 10px 0px 0px;
 	padding: 0px 0px 0px 0px;
-	border: 1px solid #C1C1C1;
+	border-bottom: 1px solid #C1C1C1;
+	border-top: 1px solid #C1C1C1;
 }
 
 .menu li {
@@ -69,6 +70,7 @@
 /* 	border: 1px solid blue; */
 	display: flex;
 	justify-content: space-around;
+	flex-flow: wrap;
 }
 .product {
 	width: 200px;

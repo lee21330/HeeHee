@@ -19,7 +19,9 @@
 		<div>
 			<p id="date">구매확정일 2024.05.28(화)</p>
 			<p id="prod_name">보노보노 얼굴 쿠션</p>
+			<%@ include file="/WEB-INF/views/mypage/accountModal.jsp" %>
 			<button id="enter_invoice">송장 입력하기</button>
+			
 		</div>
 	</div>
 	

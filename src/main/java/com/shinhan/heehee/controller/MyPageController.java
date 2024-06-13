@@ -10,21 +10,18 @@ public class MyPageController {
 	
     @Autowired
     DealService dealService;
-    @GetMapping("/account")
-    public String editAccount() {
-        return "/mypage/editAccount";
-    }
+
     @GetMapping("/profile")
     public String editProfile() {
         return "/mypage/editProfile";
     }
+    @GetMapping("/faqBoard")
+    public String faqBoard() {
+        return "/mypage/faqBoard";
+    }
     @GetMapping("/jjimList")
     public String jjimList() {
         return "/mypage/jjimList";
-    }
-    @GetMapping("/chargepoint")
-    public String chargePoint() {
-        return "/mypage/pointCharge";
     }
     @GetMapping("/pointlist")
     public String pointlist() {

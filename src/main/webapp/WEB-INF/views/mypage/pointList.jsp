@@ -28,18 +28,7 @@
                 <p id="month">5월</p>
                 <img id="month_list" src="${path}/resources/images/month_list.png">
                 <div id="month_dropdown">
-                    <div class="month_option">1월</div>
-                    <div class="month_option">2월</div>
-                    <div class="month_option">3월</div>
-                    <div class="month_option">4월</div>
-                    <div class="month_option">5월</div>
-                    <div class="month_option">6월</div>
-                    <div class="month_option">7월</div>
-                    <div class="month_option">8월</div>
-                    <div class="month_option">9월</div>
-                    <div class="month_option">10월</div>
-                    <div class="month_option">11월</div>
-                    <div class="month_option">12월</div>
+					<input type="month" id="month_option">
                 </div>
             </div>
 		</div>

@@ -13,9 +13,9 @@
 <body>
 	<header>
 		<%@include file="../common/header.jsp"%>
-		<%@include file="../mypage/myPage_header.jsp"%>
 	</header>
 	<section>
+		<%@include file="../mypage/myPage_header.jsp"%>
 		<div class="mypage_container">
 			<ul class="menu">
 				<li class="selected">판매내역</li>
@@ -54,6 +54,42 @@
 					<p>보노보노 더블 범퍼 케이스</p>
 					<p>10,000원</p>
 				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				
 				
 			</div>
 		</div>
