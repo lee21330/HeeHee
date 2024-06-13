@@ -10,6 +10,16 @@
 <link rel="stylesheet" href="${path}/resources/css/chatting.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+$(function(){
+	  $(".chatting-item").on("click", function() {
+		  var nickname = $(this).children(".item-body").children(".name-count").children(".receiver-nickname").text();
+		  
+		  console.log(nickname);
+	  });
+	});
+
+</script>
 </head>
 <body>
 
@@ -18,62 +28,33 @@
 		<jsp:include page="../common/header.jsp"></jsp:include>
 	</div>
 	<div class="chatting-area">
-		<!-- C로 돌리기 -->
+		<!-- 왼쪽 채팅방 목록 영역 -->
 		<ul class="chatting-list">
 		<li class="chatroom-text">전체 대화</li>
-			<li class="chatting-item">
+		<c:forEach var="room" items="${roomList}">
+		    <!-- 채팅방 목록 한칸 -->
+			<li class="chatting-item" room-id="${room.id}" receiver-id="${room.receiverId}">
+			    <!-- 왼쪽 상대방 사진 부분 -->
 				<div class="item-header">
 					<img class="receiver-image"
-						src="${path}/resources/images/pompompurin.png">
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverImg}">
 				</div>
+				<!-- 오른쪽 상대방 닉네임, 안 읽은 메세지 수, 최근 메세지 내용, 최근 메시지 보낸 날짜 -->
 				<div class="item-body">
 					<div class="name-count">
-						<p class="receiver-nickname">이두리</p>
-						<p class="unread-count">3</p>
+						<p class="receiver-nickname" >${room.receiverNickname}</p>
+						<p class="unread-count">${room.unreadCount}</p>
 					</div>
 
 					<div class="message-container">
-						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
-							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
-					</div>
-
-				</div>
-			</li>
-			<li class="chatting-item">
-				<div class="item-header">
-					<img class="receiver-image"
-						src="${path}/resources/images/pompompurin.png">
-				</div>
-				<div class="item-body">
-					<div class="name-count">
-						<p class="receiver-nickname">이두리</p>
-						<p class="unread-count">3</p>
-					</div>
-
-					<div class="message-container">
-						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
-							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
+						<span class="recent-message">${room.lastContent}</span> <span class="send-time">5월 28일</span>
 					</div>
 				</div>
 			</li>
-			<li class="chatting-item">
-				<div class="item-header">
-					<img class="receiver-image"
-						src="${path}/resources/images/pompompurin.png">
-				</div>
-				<div class="item-body">
-					<div class="name-count">
-						<p class="receiver-nickname">이두리</p>
-						<p class="unread-count">3</p>
-					</div>
-
-					<div class="message-container">
-						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
-							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
-					</div>
-				</div>
-			</li>
-			<li class="chatting-item">
+			</c:forEach>
+			</ul>
+			
+			<!-- <li class="chatting-item">
 				<div class="item-header">
 					<img class="receiver-image"
 						src="${path}/resources/images/pompompurin.png">
@@ -107,9 +88,44 @@
 					</div>
 				</div>
 			</li>
-		</ul>
+			<li class="chatting-item">
+				<div class="item-header">
+					<img class="receiver-image"
+						src="${path}/resources/images/pompompurin.png">
+				</div>
+				<div class="item-body">
+					<div class="name-count">
+						<p class="receiver-nickname">이두리</p>
+						<p class="unread-count">3</p>
+					</div>
 
+					<div class="message-container">
+						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
+							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
+					</div>
+				</div>
+			</li>
+			<li class="chatting-item">
+				<div class="item-header">
+					<img class="receiver-image"
+						src="${path}/resources/images/pompompurin.png">
+				</div>
+				<div class="item-body">
+					<div class="name-count">
+						<p class="receiver-nickname">이두리</p>
+						<p class="unread-count">3</p>
+					</div>
+
+					<div class="message-container">
+						<span class="recent-message">폼폼푸린 구매하고 싶습니다. 폼폼푸린 구매하고
+							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
+					</div>
+				</div>
+			</li> -->
+			
+        <!-- 오른쪽 채팅방 채팅 메세지 내역 -->
 		<div class="chatting-content">
+		    <!-- 채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명) -->
 			<div class="content-header">
 				<p class="receiver-nickname">이두리</p>
 				<div class="selling-info">
@@ -123,14 +139,16 @@
 					<button class="pay">결제하기</button>
 				</div>
 			</div>
+			<!-- 채팅 메시지 내역 -->
 			<div class="content-body">
 				<div class="message-list">
+				    <!-- 내 메세지 -->
 					<div class="my-chat">
 						<!-- 나중에 읽음/안읽음 처리 해주기 -->
 						<span class="chatDate">14:58 읽음</span>
 						<p class="chat">폼폼푸린 팔렸나요?</p>
 					</div>
-
+                    <!-- 상대 메세지 -->
 					<div class="target-chat">
 						<p class="chat">아직 안 팔렸어요.</p>
 						<span class="chatDate">14:59 읽음</span>

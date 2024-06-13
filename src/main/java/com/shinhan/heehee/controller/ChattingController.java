@@ -21,6 +21,7 @@ public class ChattingController {
 	@GetMapping("/chatting")
 	public String chatting(Model model) {
 		//model에 담을 것: 유저별 채팅방 목록
+		model.addAttribute("roomList", cService.getRoomList("a"));
 		return "chatting/chatting";
 	}
 	
