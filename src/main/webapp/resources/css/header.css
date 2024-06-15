@@ -12,24 +12,21 @@
     /* white-space: nowrap; */
 }
 
- .home_container {
-	/* height: 100%; */
-	height: auto;
-	overflow: scroll;
-	border: 1px solid red;
-}
-
-.home_container::-webkit-scrollbar {
-	display: none;
+::-webkit-scrollbar {
+    display: none;
 }
 
 .home_container {
-	-ms-overflow-style: none; /* 인터넷 익스플로러 */
-	scrollbar-width: none; /* 파이어폭스 */
+    /* height: 100%; */
+    height: auto;
+    overflow: scroll;
 }
 
-::-webkit-scrollbar {
-	display: none;
+.home_container {
+    -ms-overflow-style: none;
+    /* 인터넷 익스플로러 */
+    scrollbar-width: none;
+    /* 파이어폭스 */
 }
 
 header {
@@ -93,7 +90,7 @@ body {
 }
 
 .login_text {
-    color: rgb(63,81,161);
+    color: rgb(63, 81, 161);
 }
 
 .header_container {
@@ -101,7 +98,7 @@ body {
     height: 150px;
     margin: 0 auto;
     margin-top: 10px;
-    
+
     /* border: 1px solid blue; */
 }
 
@@ -136,7 +133,7 @@ body {
     justify-content: center;
     align-items: center;
     white-space: nowrap;
-    
+
     /* border: 1px solid orange; */
 }
 
@@ -151,7 +148,7 @@ body {
     height: 45px;
     float: left;
     margin: 45px 0 0 20px;
-    border: 2px solid rgb(63,81,161);
+    border: 2px solid rgb(63, 81, 161);
     box-sizing: border-box;
 }
 
@@ -208,34 +205,172 @@ body {
     position: absolute;
     top: -10px;
     left: -30px;
-    
+
     /* border: 1px solid blue; */
 }
 
 /* 카테고리 메뉴 */
 .nav_container {
-    width: 10%;
+    width: 70px;
     height: 20px;
+    position: relative;
     float: left;
     margin: 20px 0 0 90px;
-    position: relative;
-    
-    /* border: 1px solid blue; */
+
+    box-sizing: border-box;
+    /* border: 1px solid gray; */
 }
 
 .nav_container img {
-    width:20px;
+    width: 20px;
     height: 15px;
     position: absolute;
     top: 1px;
     left: -30px;
+
+    /* border: 1px solid gray; */
 }
 
-.nav_category {
-    width: 300px;
-    height: auto;
-    margin-top: 25px;
+.nav_menu {
+    width: 100%;
+    height: 100%;
 
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 2px 0px;
-    /* border: 1px solid blue; */
+    /* border: 1px solid green; */
+}
+
+/* 카테고리 타이틀 */
+.nav_inner {
+    width: 400px;
+    height: auto;
+    position: relative;
+    top: -20px;
+    /* top: 20px; */
+    left: -30px;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 4px 0px; */
+    /* border: 1px solid rgba(0, 0, 0, 0.05) 0px 2px 2px 0px; */
+
+    /* border: 1px solid red; */
+}
+
+/* .nav_inner {
+    display: flex;
+    width: 40%;
+} */
+
+.nav_title {
+    /* width: 200px; */
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid lightgray;
+
+    margin-top: 40px;
+}
+
+.category_name p {
+    text-align: center;
+    color: black;
+}
+
+.category_name {
+    border-bottom: 1px solid lightgray;
+}
+
+.category_list {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 0px;
+    overflow: auto;
+
+    /* overflow-y: scroll; */
+    /* border: 1px solid skyblue; */
+}
+
+/* 카테고리 메뉴바만 스크롤 보이게 */
+.category_list::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+}
+
+.category_list::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.category_list::-webkit-scrollbar-track {
+    /* background: rgb(210,223,81, 0.4); */
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.category_list li {
+    padding: 10px 0;
+    list-style: none;
+    color: black;
+}
+
+.category_list a {
+    width: 100%;
+    color: black;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+/* nav_content */
+.nav_content {
+    /* width: 200px; */
+    width: 50%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid lightgray;
+
+    position: absolute;
+    top: 0px;
+    left: 201px;
+    /* border: 1px solid pink; */
+}
+
+.content_list {
+    width: 100%;
+    height: 400px;
+    text-align: center;
+    padding: 0px;
+    /* overflow-y: scroll; */
+}
+
+.content_list li {
+    color: black;
+    /* color: rgb(102, 102, 102); */
+    list-style: none;
+    padding: 10px 0;
+}
+
+.content_list a {
+    text-decoration: none;
+    /* color: black; */
+
+    /* color: rgb(102, 102, 102); */
+
+}
+
+.content_list a:hover {
+    /* color: #3F51A1; */
+    /* color: rgb(210,223,81); */
+    color: rgb(63, 81, 161);
+    text-decoration: underline;
+
+    margin-right: -10px;
+    -webkit-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+
+    /* color: white; */
+    /* background-color: rgb(63, 81, 161); */
 }
