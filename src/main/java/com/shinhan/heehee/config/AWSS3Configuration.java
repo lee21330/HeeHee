@@ -14,7 +14,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Configuration
 @EnableWebMvc
-public class AWSConfiguration implements WebMvcConfigurer{
+public class AWSS3Configuration implements WebMvcConfigurer{
 	private String accessKey = "AKIAZAABOJHT2CWSCSEQ";
 	private String secretKey = "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";
 	
