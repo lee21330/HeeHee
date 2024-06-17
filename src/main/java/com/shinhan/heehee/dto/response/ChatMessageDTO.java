@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRoomDTO {
-	private int id;
-	private String lastContent;
+public class ChatMessageDTO {
+	private String productImg;
+	private int productPrice;
+	private String productName;
+	private String status;
+	private int msgId;
+	private String content;
 	private String sendTime;
-	private String receiverId;
-	private String receiverNickname;
-	private String receiverImg;
-	private int unreadCount;
-	private int maxMessageNo;
+	private String readCheck;
 }

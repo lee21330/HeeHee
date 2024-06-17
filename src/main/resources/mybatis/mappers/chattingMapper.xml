@@ -45,4 +45,5 @@
 		where seller=#{userId} or buyer=#{userId}
 		order by maxMessageNo desc nulls last
 	</select>
+	
 </mapper>
