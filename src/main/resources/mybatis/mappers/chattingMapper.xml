@@ -46,4 +46,64 @@
 		order by maxMessageNo desc nulls last
 	</select>
 	
+<select id="getRoomProduct" parameterType="hashMap" resultType="com.shinhan.heehee.dto.response.RoomProductDTO">
+   select
+   	  COALESCE(NVL((SELECT img_name from img_files i
+                 where r.sell_seq=i.table_pk and i.img_cate_seq=2 and rownum=1),
+                 (SELECT img_name from img_files i 
+                  where r.auc_seq=i.table_pk and i.img_cate_seq=3 and rownum=1)),
+            'no image') AS productImg,
+ 	  COALESCE(NVL((SELECT product_price from sell_product s
+                 where r.sell_seq=s.product_seq),
+                 (SELECT end_price from auc_product a
+                  where r.auc_seq=a.product_seq)),
+             0) AS productPrice,
+  	  COALESCE(NVL((select prod_name from product_type t
+                 where t.product_seq=r.auc_seq),
+                (select prod_name from product_type t
+                 where t.product_seq=r.sell_seq)),
+            'no name') AS productName,
+  	  COALESCE(NVL2((SELECT seller from chat_room r2 where r2.room_id=r.room_id and r2.seller=#{loginUserId}),
+              '판매자', '구매자'),
+             'no user') AS status
+	from chat_room r
+	where r.room_id=#{chatRoomId}
+</select>
+
+<select id="getRoomMessage" parameterType="int" resultType="com.shinhan.heehee.dto.response.RoomMessageDTO">
+    select msg_id msgId, content, to_char(send_time,'HH24:MI') as sendTime, read_check as readCheck, sender
+	from chat_message m
+	where m.room_id=#{chatRoomId}
+</select>
+
+<update id="updateReadCheck">
+	update chat_message
+	set read_check='Y'
+	where room_id=#{chatRoomId} and sender!=#{loginUserId}
+</update>
+
+<!-- 이미지 없이 텍스트만 보낸 경우 -->
+<insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.MessageDTO">
+	<selectKey keyProperty="msgId" order="BEFORE" resultType="_int">
+         SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
+     </selectKey>
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, 'N')
+</insert>
+
+<!-- 이미지를 보낸 경우 (1)메세지 저장 / content: [img] 이미지 이름 -->
+<insert id="insertChatMsg" parameterType="com.shinhan.heehee.dto.request.MessageDTO">
+     <selectKey keyProperty="msgId" order="BEFORE" resultType="_int">
+         SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
+     </selectKey>
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, 'N')
+</insert>
+
+<!-- 이미지를 보낸 경우 (2)이미지 저장 / content: 폴더/이미지이름 -->
+<insert id="insertChatImg" parameterType="com.shinhan.heehee.dto.request.MessageDTO">
+     <selectKey keyProperty="imgId" order="BEFORE" resultType="_int">
+         SELECT SEQ_IMG_FILES.NEXTVAL FROM DUAL
+     </selectKey>
+     insert into img_files values(#{imgId}, #{content}, #{msgId}, 1, #{sender})
+</insert>
+	
 </mapper>

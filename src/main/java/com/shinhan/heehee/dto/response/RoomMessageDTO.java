@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessageDTO {
+public class RoomMessageDTO {
 	private String productImg;
 	private int productPrice;
 	private String productName;

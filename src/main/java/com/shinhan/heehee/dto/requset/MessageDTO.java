@@ -1,0 +1,18 @@
+package com.shinhan.heehee.dto.requset;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MessageDTO {
+	private int msgId;
+	private int roomId;
+	private String sender;
+	private String receiver;
+	private String content;
+}
