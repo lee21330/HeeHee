@@ -9,7 +9,6 @@
 
 * {
     font-family: 'SEBANG_Gothic_Bold';
-    /* white-space: nowrap; */
 }
 
 /* 스크롤바 숨기기 */
@@ -18,7 +17,6 @@
 }
 
 .home_container {
-    /* height: 100%; */
     height: auto;
     overflow: scroll;
 }
@@ -44,8 +42,6 @@ header {
     margin: 0 auto;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 4px 0px;
-
-    /* border: 1px solid red; */
 }
 
 body {
@@ -196,16 +192,32 @@ body {
     right: 0;
     width: 270px;
     height: 300px;
+    /* height: 150px; */
     padding: 15px;
     background-color: rgb(247,247,247);
     overflow: auto;
 }
 
+.alarm_container.none {
+    height: 150px;
+}
+
+.alarm_container p {
+    text-align: center;
+}
+
 .alarm_type {
     width: 70px;
-    height: 30px;
+    height: 20px;
     display: inline-block;
     text-align: center;
+    padding: 2px;
+    margin-bottom: 10px;
+}
+
+.alarm_type.add {
+    background-color: lightgray;
+    border-radius: 5px;
 }
 
 .alarm_list ul {
