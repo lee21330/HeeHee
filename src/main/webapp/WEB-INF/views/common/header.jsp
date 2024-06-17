@@ -79,46 +79,54 @@
 								<div id="alarmAll" class="alarm_type add">전체 알림</div>
 								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
-							<!-- 알림 없는 경우 -->
-							<!-- <div>
+							
+							<%-- 알림 없는 경우 --%>
+							<c:if test="${empty alarmList}">
+								<div>
                                     <p>최근 알림이 없습니다.</p>
-                                </div> -->
-
-							<!-- 알림 있는 경우 -->
-							<div class="alarm_list">
-								<a href="">
-									<ul>
-										<li class="alarm_date">2024-06-01 / 16:00</li>
-										<li>swimming</li>
-										<li>안녕하세요~ 문의 드립니다</li>
-									</ul>
-								</a>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-							</div>
+                                </div>
+							</c:if>
+                                
+                           	<%-- 알림 있는 경우 --%>
+							<c:if test="${not empty alarmList}">
+								<c:forEach items="${alarmList}" var="alarm">
+									<div class="alarm_list">
+										<a id="here" href="">
+											<ul>
+												<li class="alarm_date">${alarm.sendTime}</li>
+												<li>${alarm.sender}</li>
+												<li>${alarm.alContent}</li>
+											</ul>
+										</a>
+										<ul>
+											<li class="alarm_date">2024-06-01 / 16:00</li>
+											<li>swimming</li>
+											<li>안녕하세요~ 문의 드립니다</li>
+										</ul>
+										<ul>
+											<li class="alarm_date">2024-06-01 / 16:00</li>
+											<li>swimming</li>
+											<li>안녕하세요~ 문의 드립니다</li>
+										</ul>
+										<ul>
+											<li class="alarm_date">2024-06-01 / 16:00</li>
+											<li>swimming</li>
+											<li>안녕하세요~ 문의 드립니다</li>
+										</ul>
+										<ul>
+											<li class="alarm_date">2024-06-01 / 16:00</li>
+											<li>swimming</li>
+											<li>안녕하세요~ 문의 드립니다</li>
+										</ul>
+										<ul>
+											<li class="alarm_date">2024-06-01 / 16:00</li>
+											<li>swimming</li>
+											<li>안녕하세요~ 문의 드립니다</li>
+										</ul>
+									</div>
+								</c:forEach>
+							</c:if>
+							
 						</div>
 					</div>
 				</div>

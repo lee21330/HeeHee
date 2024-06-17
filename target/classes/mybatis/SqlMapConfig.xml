@@ -6,7 +6,11 @@
 <settings>
   <setting name="logImpl" value="LOG4J"/>
   <setting name="jdbcTypeForNull" value="NULL"/>
+  <setting name="mapUnderscoreToCamelCase" value="true"/>
 </settings>
    <typeAliases>
+   		<typeAlias type="com.shinhan.heehee.dto.response.AlarmDTO" alias="alarmDTO"/>
+   		<typeAlias type="com.shinhan.heehee.dto.response.NfCategoryDTO" alias="nfCategoryDTO"/>
+   		<typeAlias type="com.shinhan.heehee.dto.response.AlarmChatDTO" alias="alarmChatDTO"/>
    </typeAliases>
 </configuration>

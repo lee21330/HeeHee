@@ -17,6 +17,31 @@ function alarmList() {
 	if ($(".alarm_container").css("display") == "none") {
 		$("#alarmAll").addClass("add"); // default 전체조회
 		$(".alarm_container").show();
+		
+		$.ajax({
+			url : "/heehee/alarm/alarmAll",
+			type : "get",
+			success : function(responseData) {
+				alert(responseData);
+				
+				var output = "<ul>";
+				
+				// 알림 리스트 반복문
+				$.each(responseData, function(index, item) {
+					output += "<li>" + item.alContent + "</li>";
+					output += "<li>" + item.sender + "</li>";
+					output += "<li>" + item.sendTime + "</li>";
+				});
+				
+				output = "</ul>";
+				
+				$("#here").html(output);
+				
+			},
+			error : function(data) {
+				alert(data);
+			}
+		});
                 
 	} else {
 		$(".alarm_container").scrollTop(0);
