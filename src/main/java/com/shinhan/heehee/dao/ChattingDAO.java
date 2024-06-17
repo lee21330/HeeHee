@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.shinhan.heehee.dto.requset.MessageDTO;
+import com.shinhan.heehee.dto.request.MessageDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 import com.shinhan.heehee.dto.response.RoomMessageDTO;
@@ -40,8 +40,8 @@ public class ChattingDAO {
 		return sqlSession.insert(namespace + "insertMessage", messageDTO);
 	}
 
-	public void insertChatMsg(MessageDTO messageDTO) {
-		sqlSession.insert(namespace + "insertChatMsg", messageDTO);
+	public int insertChatMsg(MessageDTO messageDTO) {
+		return sqlSession.insert(namespace + "insertChatMsg", messageDTO);
 		
 	}
 

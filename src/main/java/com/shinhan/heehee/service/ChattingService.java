@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.ChattingDAO;
-import com.shinhan.heehee.dto.requset.MessageDTO;
+import com.shinhan.heehee.dto.request.MessageDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 
@@ -43,9 +43,9 @@ public class ChattingService {
 	public void insertMsgImg(MessageDTO messageDTO, MultipartFile img) {
 		String imgName=img.getOriginalFilename();
 		messageDTO.setContent("[img_asdfzv] " + imgName);
-		cDao.insertChatMsg(messageDTO);
-		int msgId = (Integer) messageDTO.getMsgId();
+		int msgId = cDao.insertChatMsg(messageDTO);
 		
+		messageDTO.setMsgId(msgId);
 		messageDTO.setContent("chat/" + imgName);
 		cDao.insertChatImg(messageDTO);
 	}

@@ -84,7 +84,7 @@
 
 <!-- 이미지 없이 텍스트만 보낸 경우 -->
 <insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.MessageDTO">
-	<selectKey keyProperty="msgId" order="BEFORE" resultType="_int">
+	<selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
      insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, 'N')
@@ -92,7 +92,7 @@
 
 <!-- 이미지를 보낸 경우 (1)메세지 저장 / content: [img] 이미지 이름 -->
 <insert id="insertChatMsg" parameterType="com.shinhan.heehee.dto.request.MessageDTO">
-     <selectKey keyProperty="msgId" order="BEFORE" resultType="_int">
+     <selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
      insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, 'N')
@@ -100,7 +100,7 @@
 
 <!-- 이미지를 보낸 경우 (2)이미지 저장 / content: 폴더/이미지이름 -->
 <insert id="insertChatImg" parameterType="com.shinhan.heehee.dto.request.MessageDTO">
-     <selectKey keyProperty="imgId" order="BEFORE" resultType="_int">
+     <selectKey keyProperty="imgId" order="BEFORE" resultType="int">
          SELECT SEQ_IMG_FILES.NEXTVAL FROM DUAL
      </selectKey>
      insert into img_files values(#{imgId}, #{content}, #{msgId}, 1, #{sender})

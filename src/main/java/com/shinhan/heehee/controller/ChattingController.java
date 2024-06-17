@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shinhan.heehee.dto.requset.MessageDTO;
+import com.shinhan.heehee.dto.request.MessageDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
+import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.ChattingService;
 
 @Controller
@@ -58,7 +60,7 @@ public class ChattingController {
 	//선택한 채팅방에서 상대 메세지 읽음 체크
 	//업데이트 성공 시 1 반환
 	//추후 로그인 유저 정보 수정하기
-	@PutMapping(value="/chatting/read")
+	@PutMapping("/chatting/read")
 	@ResponseBody
 	public int updateReadCheck(@RequestBody Map<String, Object> map) {
 		return cService.updateReadCheck(map);
@@ -66,13 +68,17 @@ public class ChattingController {
 	
 	//메시지(+이미지) insert
 	//추후 로그인 유저 정보 수정하기
-	@PostMapping(value="/chatting/message")
+	@PostMapping("/chatting/message")
 	@ResponseBody
-	public void insertMessage(@RequestBody MessageDTO messageDTO, @RequestParam(required = false) MultipartFile img) {
+	public String insertMessage(@RequestPart(required = false) MessageDTO messageDTO, @RequestPart(required = false) MultipartFile img) {
 		if(img!=null && !img.isEmpty()) {
 			cService.insertMsgImg(messageDTO, img);
+			return "test";
 		} else {
+			System.out.println(messageDTO);
 			cService.insertMessage(messageDTO);
+			return "test";
 		}
 	}
+	
 }
