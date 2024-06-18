@@ -15,10 +15,6 @@
 	margin: 0 auto;
 }
 
-.slick-prev,
-.slick-next {
-	background-color: red !important;
-}
 
 .slick-prev,
 .slick-next:hover {
@@ -34,9 +30,6 @@
 	background-color: lightgray !important;
 }
 
-/* .<button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="">Previous</button>
-.<button class="slick-next slick-arrow" aria-label="Next" type="button" style="">Next</button>
- */
 body {
 	width: 100%;
 	margin: 0 auto;
@@ -296,6 +289,7 @@ hr{
 
 .reco {
     width: 200px;
+    height: 200px;
     object-fit: contain;
     padding: 25px 25px 25px 25px;
     border: 1px solid #acacac;

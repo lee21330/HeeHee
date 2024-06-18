@@ -21,4 +21,17 @@ public class ProductDetailService {
 	public List<SellProDTO> prodImg(Integer prodSeq) {
 		return productDetailDao.productImg(prodSeq);
 	}
+	
+	public SellProDTO userIntroduce(Integer prodSeq) {
+		return productDetailDao.userIntroduce(prodSeq);
+	}
+
+	public List<SellProDTO> prodReco() {
+		return productDetailDao.prodReco();
+	}
+	
+	/*
+	 * public SellProDTO viewLog(Integer prodSeq) { return
+	 * productDetailDao.viewLog(prodSeq); }
+	 */
 }
