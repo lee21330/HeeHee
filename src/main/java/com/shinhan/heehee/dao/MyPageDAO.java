@@ -9,18 +9,14 @@ import org.springframework.stereotype.Repository;
 import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Repository
-public class SaleListDAO {
+public class MyPageDAO {
 
 	@Autowired
 	SqlSession sqlSession;
 	
-	String namespace = "com.shinhan.saleList.";
+	String namespace = "com.shinhan.myPage.";
 	public List<SellProDTO> saleList(String userId) {
 		return sqlSession.selectList(namespace + "saleList", userId);
 	}
-	public List<SellProDTO> productImg(String userId) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace + "productImg", userId);
-	}
-	
+
 }

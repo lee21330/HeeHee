@@ -2,59 +2,21 @@ package com.shinhan.heehee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.shinhan.heehee.service.DealService;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.shinhan.heehee.service.MyPageService;
 
 @Controller
 public class MyPageController {
+
+	@Autowired
+	MyPageService mypageservice;
 	
-    @Autowired
-    DealService dealService;
-
-    @GetMapping("/profile")
-    public String editProfile() {
-        return "/mypage/editProfile";
-    }
-    @GetMapping("/faqBoard")
-    public String faqBoard() {
-        return "/mypage/faqBoard";
-    }
-    @GetMapping("/jjimList")
-    public String jjimList() {
-        return "/mypage/jjimList";
-    }
-    @GetMapping("/pointlist")
-    public String pointlist() {
-        return "/mypage/pointList";
-    }
-    @GetMapping("/purchasedetail")
-    public String purchasedetail() {
-        return "/mypage/purchaseDetail";
-    }
-    @GetMapping("/purchaseList")
-    public String purchaseList() {
-        return "/mypage/purchaseList";
-    }
-    @GetMapping("/qnaBoard")
-    public String qnaBoard() {
-        return "/mypage/qnaBoard";
-    }
-    @GetMapping("/saledetail")
-    public String saledetail() {
-        return "/mypage/saleDetail";
-    }
-    @GetMapping("/saleList")
-    public String saleList() {
-        return "/mypage/saleList";
-    }
+	@GetMapping("/myPage/{user_id}")
+	public String searchSaleList(@PathVariable("user_id") String userId, Model model) {
+		model.addAttribute("info", mypageservice.saleList(userId));
+		return "/mypage/myPage";
+	}
 }
-
-
-
-
-
-
-
-
-
-
