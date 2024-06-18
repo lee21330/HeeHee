@@ -19,6 +19,9 @@ public class AlarmController {
 	@Autowired
 	AlarmService alarmService;
 	
+	// DB 조회 후 소켓 연결
+	
+	// 미확인 알림 전체 조회
 	@ResponseBody
 	@GetMapping(value = "/alarmAll", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<AlarmChatDTO> alarmList() {

@@ -22,24 +22,40 @@ function alarmList() {
 				console.log(responseData);
 				
 				// 알림별로 경로 다르게 걸어줘야 함
-				var output = "<a href='/heehee/chatting'>";
+				var output = "<a>";
 				
 				// 리스트 비어있는지 확인 후 html 다르게 찍어주기 (전체라서 굳이?)
 				// if (responseData.length != 0) {
 				
 					// 알림 리스트 반복문
 					$.each(responseData, function(index, item) {
-						output += "<ul>";
-						output += "<li class='alarm_date'>" + item.sendTime + "</li>";
-						output += "<li>" + item.sender + "</li>";
-						output += "<li>" + item.alContent + "</li>";
-						output += "</ul>";
+						
+						if (item.cateNum == 1) { // 채팅
+							// $("#urlLocation").attr("href", "/heehee/chatting")
+							
+							output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
+							
+						} else if (item.cateNum == 2) { // 판매
+						
+							// $("#urlLocation").prop("href", "/heehee/saledetail/${sale.productSeq}")
+						
+							// 수정중
+							output += "<ul onclick='urlClick(\"/heehee/saledetail/item.reqSeq\")'>";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
+						}
+						
 					});
 					
 					output += "</a>";
 					
 					$("#here").html(output);
-				
 				// }
 			},
 			error : function(data) {
@@ -72,4 +88,9 @@ function alarmClick(e) {
 		// $(".alarm_container").addClass("none"); // 높이 변경 확인용
 		e.stopPropagation(); // 부모 요소는 실행되지 않고 자식 요소만 실행
 	}
+}
+
+// 알림 별 페이지 이동
+function urlClick(url) {
+	location.href = url;
 }
