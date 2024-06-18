@@ -43,7 +43,9 @@ $(function(){
 				<div class="item-body">
 					<div class="name-count">
 						<p class="receiver-nickname" >${room.receivernickname}</p>
+						<c:if test="${room.unreadcount > 0}">
 						<p class="unread-count">${room.unreadcount}</p>
+						</c:if>
 					</div>
 
 					<div class="message-container">
@@ -127,7 +129,7 @@ $(function(){
 		<div class="chatting-content">
 		    <!-- 채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명) -->
 			<div class="content-header">
-				<p class="receiver-nickname">이두리</p>
+			<%-- <p class="receiver-nickname">이두리</p>
 				<div class="selling-info">
 					<img class="selling-image"
 						src="${path}/resources/images/pompompurin.png">
@@ -137,10 +139,11 @@ $(function(){
 					</div>
 					<!-- roomId 판매자/구매자별로 버튼 내용 다르게 하기 -->
 					<button class="pay">결제하기</button>
-				</div>
+				</div> --%>
 			</div>
 			<!-- 채팅 메시지 내역 -->
 			<div class="content-body">
+			 <%-- 
 				<div class="message-list">
 				    <!-- 내 메세지 -->
 					<div class="my-chat">
@@ -208,7 +211,7 @@ $(function(){
 						<p class="chat">아직 안 팔렸어요.</p>
 						<span class="chatDate">14:59 읽음</span>
 					</div>
-				</div>
+				</div> --%>
 			</div>
 			<div class="chatting-input">
 				<img class="input-photo" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/camera.png">
@@ -226,8 +229,8 @@ $(function(){
 		src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
 	<script>
 		// 로그인한 회원 번호 => 추후 수정
-		loginMemberNo = "a";
+		loginMemberNo = "b";
 	</script>
-	<script type="text/javascript" src="/resources/js/chatting.js"></script>
+	<script type="text/javascript" src="/heehee/resources/js/chatting.js"></script>
 </body>
 </html>

@@ -43,6 +43,10 @@
 	background-color: #D9D9D9;
 }
 
+.chatting-item.select{
+    background-color: #D9D9D9;
+ }
+
 .chatting-item div {
 	height: 100%;
 	text-align: center;
