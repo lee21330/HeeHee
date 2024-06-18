@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="${path}/resources/css/myPage.css">
 </head>
 <body>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="/heehee/resources/js/myPage.js"></script>
 	<header>
 		<%@include file="../common/header.jsp"%>
 	</header>
@@ -18,7 +21,7 @@
 		<%@include file="../mypage/myPage_header.jsp"%>
 		<div class="mypage_container">
 			<ul class="menu">
-				<li class="selected">판매내역</li>
+				<li class="select">판매내역</li>
 				<li>구매내역</li>
 				<li>찜</li>
 			</ul>
@@ -65,83 +68,51 @@
 			</div>
 
 			<!-- 판매내역 -->
-			
-			<p class="message">최근 판매 내역이 없습니다.</p>
+			<div id="salelist" class="list">
+				<p class="message">최근 판매 내역이 없습니다.</p>
 
-			<c:forEach var="pro" items="${info}">
-				<div class="product"
-					onclick="location.href='${path}/saledetail/${pro.productSeq}'">
-					<img class="product_img"
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${pro.imgName}">
-					<p>${pro.articleTitle}</p>
-					<p>${pro.productPrice}</p>
-				</div>
-			</c:forEach>
-
-			<!-- 구매내역 -->
-			<p class="message">최근 구매 내역이 없습니다.</p>
-
-			<c:forEach var="pro" items="${info}">
-				<div class="product"
-					onclick="location.href='${path}/saledetail/${pro.productSeq}'">
-					<img class="product_img"
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${pro.imgName}">
-					<p>${pro.articleTitle}</p>
-					<p>${pro.productPrice}</p>
-				</div>
-			</c:forEach>
-
-
-			<!-- 찜 -->
-			<p class="message">최근 찜이 없습니다.</p>
-			<form>
-				<div class="checkbox">
-					<input type="checkbox" name="checkBno" value=""> <input
-						type="submit" value="삭제" class="btn">
-				</div>
-				<div class="list">
+				<c:forEach var="sale" items="${sInfo}">
 					<div class="product"
-						onclick="location.href='${path}/productdetail'">
-						<img src="${path}/resources/images/보노보노1.jpg">
-						<p>보노보노 숲 라잉 쿠션</p>
-						<p>10,000원</p>
+						onclick="location.href='${path}/saledetail/${sale.productSeq}'">
+						<img class="product_img"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}">
+						<p>${sale.articleTitle}</p>
+						<p>${sale.productPrice}</p>
 					</div>
-					<div class="product">
-						<img src="${path}/resources/images/보노보노2.jpg">
-						<p>보노보노 얼굴 쿠션</p>
-						<p>10,000원</p>
-					</div>
-					<div class="product">
-						<img src="${path}/resources/images/보노보노3.jpg">
-						<p>보노보노 듀얼 고속 무선 충전 거치대</p>
-						<p>10,000원</p>
-					</div>
-					<div class="product">
-						<img src="${path}/resources/images/보노보노4.jpg">
-						<p>보노보노 인스탁스 미니9</p>
-						<p>10,000원</p>
-					</div>
-					<div class="product">
-						<img src="${path}/resources/images/보노보노5.jpg">
-						<p>보노보노 더블 범퍼 케이스</p>
-						<p>10,000원</p>
-					</div>
-				</div>
-			</form>
+				</c:forEach>
+			</div>
+			<!-- 구매내역 -->
+			<div id="purchaselist" class="list">
+				<p class="message">최근 구매 내역이 없습니다.</p>
 
+				<c:forEach var="purchase" items="${pInfo}">
+					<div class="product"
+						onclick="location.href='${path}/purchasedetail/${purchase.productSeq}'">
+						<img class="product_img"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${purchase.imgName}">
+						<p>${purchase.articleTitle}</p>
+						<p>${purchase.productPrice}</p>
+					</div>
+				</c:forEach>
+			</div>
+			<!-- 찜 -->
+			<div id="jjimlist" class="list">
+				<p class="message">최근 찜이 없습니다.</p>
+				<!-- <form>
+					<div class="checkbox"> <input type="checkbox" name="checkBno" value=""> <input
+							type="submit" value="삭제" class="btn">
+					</div> -->
+					<c:forEach var="jjim" items="${jInfo}">
+						<div class="product" onclick="location.href='${path}/productdetail/${jjim.productSeq}'">
+							<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${jjim.imgName}">
+							<p>${jjim.articleTitle}</p>
+							<p>${jjim.productPrice}</p>
+						</div>
+					</c:forEach>
+
+				<!-- </form> -->
+			</div>
 		</div>
 	</section>
-	<script>
-		$(function() {
-			$("#btn_search").on("click", show);
-			$(".mModal_close").on("click", hide);
-		});
-		function show() {
-			$("#search").addClass("show");
-		}
-		function hide() {
-			$("#search").removeClass("show");
-		}
-	</script>
 </body>
 </html>

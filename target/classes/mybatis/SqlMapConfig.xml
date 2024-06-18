@@ -9,5 +9,8 @@
   <setting name="mapUnderscoreToCamelCase" value="true"/>
 </settings>
    <typeAliases>
+      <typeAlias type="com.shinhan.heehee.dto.response.SaleListDTO" alias="salevo"/>
+      <typeAlias type="com.shinhan.heehee.dto.response.PurchaseListDTO" alias="purchasevo"/>
+      <typeAlias type="com.shinhan.heehee.dto.response.JjimDTO" alias="jjimvo"/>
    </typeAliases>
 </configuration>

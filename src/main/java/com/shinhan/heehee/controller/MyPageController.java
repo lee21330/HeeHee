@@ -16,7 +16,9 @@ public class MyPageController {
 	
 	@GetMapping("/myPage/{user_id}")
 	public String searchSaleList(@PathVariable("user_id") String userId, Model model) {
-		model.addAttribute("info", mypageservice.saleList(userId));
+		model.addAttribute("sInfo", mypageservice.saleList(userId));
+		model.addAttribute("pInfo", mypageservice.purchaseList(userId));
+		model.addAttribute("jInfo", mypageservice.jjimList(userId));
 		return "/mypage/myPage";
 	}
 }

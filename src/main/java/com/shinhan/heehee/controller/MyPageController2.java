@@ -3,13 +3,8 @@ package com.shinhan.heehee.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.shinhan.heehee.service.DealService;
-
 @Controller
 public class MyPageController2 {
-	
-    @Autowired
-    DealService dealService;
 
     @GetMapping("/profile")
     public String editProfile() {
