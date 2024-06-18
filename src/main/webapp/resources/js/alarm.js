@@ -13,35 +13,40 @@ $(function () {
 // 클릭하면 알림 보여주거나 숨기기
 function alarmList() {
 // $(".alarm_container").toggle();
+
+	$.ajax({
+			url : "/heehee/alarm/alarmAll",
+			type : "get",
+			success : function(responseData) {
+				// alert("성공");
+				console.log(responseData);
+				
+				var output = "<ul>";
+				
+				// 리스트 비어있는지 확인 후 html 다르게 찍어주기 (전체라서 굳이?)
+				// if (responseData.length != 0) {
+				
+					// 알림 리스트 반복문
+					$.each(responseData, function(index, item) {
+						output += "<li class='alarm_date'>" + item.sendTime + "</li>";
+						output += "<li>" + item.sender + "</li>";
+						output += "<li>" + item.alContent + "</li>";
+					});
+					
+					output += "</ul>";
+					
+					$("#here").html(output);
+				
+				// }
+			},
+			error : function(data) {
+				alert("실패");
+			}
+		});
             
 	if ($(".alarm_container").css("display") == "none") {
 		$("#alarmAll").addClass("add"); // default 전체조회
 		$(".alarm_container").show();
-		
-		$.ajax({
-			url : "/heehee/alarm/alarmAll",
-			type : "get",
-			success : function(responseData) {
-				alert(responseData);
-				
-				var output = "<ul>";
-				
-				// 알림 리스트 반복문
-				$.each(responseData, function(index, item) {
-					output += "<li>" + item.alContent + "</li>";
-					output += "<li>" + item.sender + "</li>";
-					output += "<li>" + item.sendTime + "</li>";
-				});
-				
-				output = "</ul>";
-				
-				$("#here").html(output);
-				
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
                 
 	} else {
 		$(".alarm_container").scrollTop(0);

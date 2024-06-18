@@ -9,7 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
@@ -79,54 +80,16 @@
 								<div id="alarmAll" class="alarm_type add">전체 알림</div>
 								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
-							
+
 							<%-- 알림 없는 경우 --%>
-							<c:if test="${empty alarmList}">
-								<div>
-                                    <p>최근 알림이 없습니다.</p>
-                                </div>
-							</c:if>
-                                
-                           	<%-- 알림 있는 경우 --%>
-							<c:if test="${not empty alarmList}">
-								<c:forEach items="${alarmList}" var="alarm">
-									<div class="alarm_list">
-										<a id="here" href="">
-											<ul>
-												<li class="alarm_date">${alarm.sendTime}</li>
-												<li>${alarm.sender}</li>
-												<li>${alarm.alContent}</li>
-											</ul>
-										</a>
-										<ul>
-											<li class="alarm_date">2024-06-01 / 16:00</li>
-											<li>swimming</li>
-											<li>안녕하세요~ 문의 드립니다</li>
-										</ul>
-										<ul>
-											<li class="alarm_date">2024-06-01 / 16:00</li>
-											<li>swimming</li>
-											<li>안녕하세요~ 문의 드립니다</li>
-										</ul>
-										<ul>
-											<li class="alarm_date">2024-06-01 / 16:00</li>
-											<li>swimming</li>
-											<li>안녕하세요~ 문의 드립니다</li>
-										</ul>
-										<ul>
-											<li class="alarm_date">2024-06-01 / 16:00</li>
-											<li>swimming</li>
-											<li>안녕하세요~ 문의 드립니다</li>
-										</ul>
-										<ul>
-											<li class="alarm_date">2024-06-01 / 16:00</li>
-											<li>swimming</li>
-											<li>안녕하세요~ 문의 드립니다</li>
-										</ul>
-									</div>
-								</c:forEach>
-							</c:if>
-							
+							<div id="none">
+								<p>최근 알림이 없습니다.</p>
+							</div>
+
+							<%-- 알림 있는 경우 --%>
+							<div class="alarm_list">
+								<a id="here" href=""></a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -181,33 +144,15 @@
 							<%-- 카테고리 소분류 --%>
 							<div class="category_content">
 								<ul class="content_list">
-									<li>
-										<a href="#home">아우터</a>
-									</li>
-									<li>
-										<a href="#home">상의</a>
-									</li>
-									<li>
-										<a href="#home">바지</a>
-									</li>
-									<li>
-										<a href="#home">치마</a>
-									</li>
-									<li>
-										<a href="#home">원피스</a>
-									</li>
-									<li>
-										<a href="#home">점프수트</a>
-									</li>
-									<li>
-										<a href="#home">셋업/세트</a>
-									</li>
-									<li>
-										<a href="#home">언더웨어/홈웨어</a>
-									</li>
-									<li>
-										<a href="#home">테마/이벤트</a>
-									</li>
+									<li><a href="#home">아우터</a></li>
+									<li><a href="#home">상의</a></li>
+									<li><a href="#home">바지</a></li>
+									<li><a href="#home">치마</a></li>
+									<li><a href="#home">원피스</a></li>
+									<li><a href="#home">점프수트</a></li>
+									<li><a href="#home">셋업/세트</a></li>
+									<li><a href="#home">언더웨어/홈웨어</a></li>
+									<li><a href="#home">테마/이벤트</a></li>
 								</ul>
 							</div>
 						</div>
