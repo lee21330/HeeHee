@@ -43,7 +43,9 @@ public class ChattingService {
 	public void insertMsgImg(MessageDTO messageDTO, MultipartFile img) {
 		String imgName=img.getOriginalFilename();
 		messageDTO.setContent("[img_asdfzv] " + imgName);
-		int msgId = cDao.insertChatMsg(messageDTO);
+		cDao.insertChatMsg(messageDTO);
+		
+		int msgId=messageDTO.getMsgId();
 		
 		messageDTO.setMsgId(msgId);
 		messageDTO.setContent("chat/" + imgName);

@@ -1,5 +1,6 @@
 package com.shinhan.heehee.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +30,14 @@ public class ChattingController {
 	@Autowired
 	private ChattingService cService;
 	
+	@Autowired
+	private AWSS3Service s3Service;
+	
 	//채팅 페이지
 	@GetMapping("/chatting")
 	public String chatting(Model model) {
 		//model에 담을 것: 유저별 채팅방 목록
-		model.addAttribute("roomList", cService.getRoomList("a"));
+		model.addAttribute("roomList", cService.getRoomList("b"));
 		return "chatting/chatting";
 	}
 	
@@ -43,7 +47,7 @@ public class ChattingController {
 	@ResponseBody
 	public List<ChatRoomDTO> getRoomList(){
 		//System.out.println(cService.getRoomList("a"));
-		return cService.getRoomList("a"); //로그인 유저 Id 전달
+		return cService.getRoomList("b"); //로그인 유저 Id 전달
 	}
 	
 	//채팅방 목록에서 채팅방 클릭 시 해당 채팅방의 판매 물품 정보, 메시지 목록 조회
@@ -53,7 +57,7 @@ public class ChattingController {
 	public RoomDetailDTO getRoomDetail(@PathVariable("id") int chatRoomId){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("chatRoomId", chatRoomId);
-		map.put("loginUserId", "a");
+		map.put("loginUserId", "b");
 		return cService.getRoomDetail(map); //채팅방 번호와 로그인 유저 Id 전달
 	}
 	
@@ -70,9 +74,11 @@ public class ChattingController {
 	//추후 로그인 유저 정보 수정하기
 	@PostMapping("/chatting/message")
 	@ResponseBody
-	public String insertMessage(@RequestPart(required = false) MessageDTO messageDTO, @RequestPart(required = false) MultipartFile img) {
+	public String insertMessage(@RequestPart(required = false) MessageDTO messageDTO, @RequestPart(required = false) MultipartFile img) throws IOException {
 		if(img!=null && !img.isEmpty()) {
 			cService.insertMsgImg(messageDTO, img);
+			String filePath ="images/chat/";
+			s3Service.uploadObject(img, filePath + img.getOriginalFilename());
 			return "test";
 		} else {
 			System.out.println(messageDTO);

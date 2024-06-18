@@ -11,11 +11,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ChatRoomDTO {
 	private int id;
-	private String lastContent;
-	private String sendTime;
-	private String receiverId;
-	private String receiverNickname;
-	private String receiverImg;
-	private int unreadCount;
-	private int maxMessageNo;
+	private String lastcontent;
+	private String sendtime;
+	private String receiverid;
+	private String receivernickname;
+	private String receiverimg;
+	private int unreadcount;
+	private int maxmessageno;
 }

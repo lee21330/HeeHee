@@ -10,12 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomMessageDTO {
-	private String productImg;
-	private int productPrice;
-	private String productName;
-	private String status;
 	private int msgId;
 	private String content;
 	private String sendTime;
 	private String readCheck;
+	private String sender;
+	private String receiver;
 }

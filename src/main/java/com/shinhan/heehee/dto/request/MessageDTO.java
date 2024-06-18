@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MessageDTO {
 	private int msgId;
+	private int imgId;
 	private int roomId;
 	private String sender;
 	private String receiver;

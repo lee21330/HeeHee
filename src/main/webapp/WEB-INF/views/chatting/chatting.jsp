@@ -33,21 +33,21 @@ $(function(){
 		<li class="chatroom-text">전체 대화</li>
 		<c:forEach var="room" items="${roomList}">
 		    <!-- 채팅방 목록 한칸 -->
-			<li class="chatting-item" room-id="${room.id}" receiver-id="${room.receiverId}">
+			<li class="chatting-item" room-id="${room.id}" receiver-id="${room.receiverid}">
 			    <!-- 왼쪽 상대방 사진 부분 -->
 				<div class="item-header">
 					<img class="receiver-image"
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverImg}">
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverimg}">
 				</div>
 				<!-- 오른쪽 상대방 닉네임, 안 읽은 메세지 수, 최근 메세지 내용, 최근 메시지 보낸 날짜 -->
 				<div class="item-body">
 					<div class="name-count">
-						<p class="receiver-nickname" >${room.receiverNickname}</p>
-						<p class="unread-count">${room.unreadCount}</p>
+						<p class="receiver-nickname" >${room.receivernickname}</p>
+						<p class="unread-count">${room.unreadcount}</p>
 					</div>
 
 					<div class="message-container">
-						<span class="recent-message">${room.lastContent}</span> <span class="send-time">5월 28일</span>
+						<span class="recent-message">${room.lastcontent}</span> <span class="send-time">${room.sendtime}</span>
 					</div>
 				</div>
 			</li>
@@ -226,7 +226,7 @@ $(function(){
 		src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
 	<script>
 		// 로그인한 회원 번호 => 추후 수정
-		const loginMemberNo = "test";
+		loginMemberNo = "a";
 	</script>
 	<script type="text/javascript" src="/resources/js/chatting.js"></script>
 </body>

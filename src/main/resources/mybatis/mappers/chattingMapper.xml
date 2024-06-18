@@ -7,43 +7,43 @@
 		(
 		select max(m.content) keep(dense_rank first order by m.send_time desc)
 		from chat_message m
-		where m.room_id=r.room_id) as lastContent,
+		where m.room_id=r.room_id) as lastcontent,
 		to_char((select max(send_time) from chat_message m where m.room_id=r.room_id),
-		'MM.DD') sendTime,
+		'MM.DD') sendtime,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
              WHERE r.room_id = r2.room_id 
-             AND r2.seller = #{userId}),
-            r.buyer, r.seller), '알 수 없음') receiverId,
+             AND r2.seller = 'b'),
+            r.buyer, r.seller), '알 수 없음') receiverid,
 		(select count(*) from chat_message m
 		where m.room_id=r.room_id
 		and m.read_check='N'
-		and m.sender!=#{userId}) unreadCount,
+		and m.sender!='b') unreadcount,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
                       WHERE r.room_id = r2.room_id 
-                      AND r2.seller = #{userId}),
+                      AND r2.seller = 'b'),
                      (SELECT hh_user.nick_name 
                       FROM hh_user 
                       WHERE hh_user.id = r.buyer),
                      (SELECT hh_user.nick_name 
                       FROM hh_user 
                       WHERE hh_user.id = r.seller)),
-                '알 수 없음') receiverNickname,
+                '알 수 없음') receivernickname,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
                       WHERE r.room_id = r2.room_id 
-                      AND r2.seller = #{userId}),
+                      AND r2.seller = 'b'),
                      (SELECT hh_user.profile_img 
                       FROM hh_user 
                       WHERE hh_user.id = r.buyer),
                      (SELECT hh_user.profile_img 
                       FROM hh_user 
                       WHERE hh_user.id = r.seller)),
-                '알 수 없음') receiverImg,
+                '알 수 없음') receiverimg,
 		(select max(msg_id) as max_message_no
 		from chat_message m
-		where r.room_id = m.room_id) as maxMessageNo
+		where r.room_id = m.room_id) as maxmessageno
 		from chat_room r
-		where seller=#{userId} or buyer=#{userId}
-		order by maxMessageNo desc nulls last
+		where seller='b' or buyer='b'
+		order by maxmessageno desc nulls last
 	</select>
 	
 <select id="getRoomProduct" parameterType="hashMap" resultType="com.shinhan.heehee.dto.response.RoomProductDTO">
@@ -71,7 +71,7 @@
 </select>
 
 <select id="getRoomMessage" parameterType="int" resultType="com.shinhan.heehee.dto.response.RoomMessageDTO">
-    select msg_id msgId, content, to_char(send_time,'HH24:MI') as sendTime, read_check as readCheck, sender
+    select msg_id msgId, content, to_char(send_time,'HH24:MI') as sendTime, read_check as readCheck, sender, receiver
 	from chat_message m
 	where m.room_id=#{chatRoomId}
 </select>
