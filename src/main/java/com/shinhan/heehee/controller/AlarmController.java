@@ -24,9 +24,7 @@ public class AlarmController {
 	public List<AlarmChatDTO> alarmList() {
 		
 		List<AlarmChatDTO> alarmList = alarmService.alarmList();
-		 System.out.println("알림 리스트 확인 : " + alarmList);
-		 
-		 // 알림 리스트 비어있는지 확인
+		System.out.println("알림 리스트 확인 : " + alarmList);
 		
 		return alarmList;
 	}

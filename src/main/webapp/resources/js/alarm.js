@@ -24,6 +24,7 @@ function alarmList() {
 				var output = "<ul>";
 				
 				// 리스트 비어있는지 확인 후 html 다르게 찍어주기 (전체라서 굳이?)
+				// a태그도 같이 생성할 경우 분류 코드 컬럼별로 경로 다르게 걸어주기
 				// if (responseData.length != 0) {
 				
 					// 알림 리스트 반복문
@@ -61,12 +62,12 @@ function alarmClick(e) {
 		$("#alarmAll").addClass("add");
 		$("#alarmUnck").removeClass("add");
 		// $(".alarm_container").removeClass("none"); // 높이 변경 확인용
-		e.stopPropagation(); // 부모 요소는 실행되지 않고 자식요소만 실행
+		e.stopPropagation(); // 부모 요소는 실행되지 않고 자식 요소만 실행
                 
 	} else {
 		$("#alarmUnck").addClass("add");
 		$("#alarmAll").removeClass("add");
 		// $(".alarm_container").addClass("none"); // 높이 변경 확인용
-		e.stopPropagation(); // 부모 요소는 실행되지 않고 자식요소만 실행
+		e.stopPropagation(); // 부모 요소는 실행되지 않고 자식 요소만 실행
 	}
 }
