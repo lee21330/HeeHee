@@ -3,8 +3,147 @@
 .mypage_container {
 	width: 1280px;
 	margin: 0 auto;
-	/* border: 1px solid red; */
 }
+
+
+.top {
+	height: 220px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	
+}
+
+.btn {
+	width: 95px;
+	height: 25px;
+	background-color: white;
+	color: #787878;
+	border: 1px solid #EAEAEA;
+}
+
+.profile {
+	width: 30%;
+	height: 180px;
+	margin-top: 30px;
+	margin-left: 40px;
+	text-align: left;
+}
+
+.profileImg img {
+	width: 150px;
+	height: 150px;
+	margin-top: 50px;
+	object-fit: cover;
+	border-radius: 15%;
+}
+
+
+
+.profile h2 {
+	display: inline-block;
+}
+
+.self-intro {
+	border: 1px solid #CECECE;
+	border-radius: 10px;
+	width: 450px;
+	height: 100px;
+}
+
+.self-intro p {
+	padding: 0px 0px;
+	resize: none;
+	border: 1px solid white;
+	margin-top: 5px;
+	margin-left: 3px;
+	width: 450px;
+	height: 100px;
+}
+
+#btn-intro {
+	float: right;
+}
+
+#rating {
+	width: 15%;
+	height: 70px;
+	margin-top: 60px;
+	margin-left: 120px;
+}
+#rating p {
+	margin-top: 5px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+}
+#rating img {
+	width: 30px;
+}
+.account {
+	width: 25%;
+	height: 100px;
+	margin-top: 100px;
+	border: 1px solid #CECECE;
+	border-radius: 10px;
+}
+
+.account p {
+	margin: 5px 0px;
+}
+
+.bankImg {
+	width: 30px;
+	height: 30px;
+}
+
+.bankName {
+	display: inline-block;
+}
+
+.accNum {
+	display: inline-block;
+}
+
+#btn-account {
+	float: right;
+}
+
+.top-right {
+	width: 15%;
+	height: 120px;
+	margin-top: 80px;
+	text-align: right;
+}
+
+.qna {
+	text-decoration: none;
+	color: #8B8B8B;
+}
+
+.point {
+	height: 100px;
+	text-align: center;
+	border: 1px solid #CECECE;
+	border-radius: 10px;
+}
+
+.point p {
+	margin: 5px 0px;
+	display: inline-block;
+}
+.point img {
+	width: 10px;
+}
+.btn-point {
+	cursor: pointer;
+	width: 150px;
+	height: 30px;
+	background: #4949e9;
+	color: white;
+	border: none;
+	border-radius: 10px;
+}
+
 
 /* ---------------nav--------------- */
 .menu {
@@ -63,18 +202,20 @@
 	border: 1px solid pink;
 }
 .list{
-	
-	height: 320px;
-	padding: 0px 40px 0px 40px;
-/* 	border: 1px solid blue; */
+	height: 540px;
+	padding: 0px 0px 0px 0px;
+/* 	overflow: auto; */
 	display: flex;
-	justify-content: space-around;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	gap: 20px;
 }
 .product {
 	width: 200px;
 	height: 270px;
 	display: inline-block;
-	/* border: 1px solid green; */
+	margin: 0px 20px 0px 20px;
+	
 }
 
 .product img {
@@ -87,6 +228,16 @@
 .product p {
 	width: 100%;
 	height: 50px;
-	margin: 5px 0px;
 	object-fit: cover;
+}
+
+
+#sellprodtitle {
+	margin-top: 50px;
+    margin-left: 20px;
+    font-size: 25px;
+}
+
+.sellerprodintro {
+	text-align: center;
 }

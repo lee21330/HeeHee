@@ -7,7 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.shinhan.heehee.dto.response.SellProDTO;
+import com.shinhan.heehee.dto.response.ProdDetailDTO;
+import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
+import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
 
 @Repository
 public class ProductDetailDAO {
@@ -17,19 +19,20 @@ public class ProductDetailDAO {
 	
 	String namespace = "com.shinhan.productDetail.";
 	
-	public SellProDTO productInfo(Integer prodSeq) {
+	public ProdDetailDTO productInfo(Integer prodSeq) {
 		return sqlSession.selectOne(namespace + "productInfo", prodSeq);
 	}
 	
-	public List<SellProDTO> productImg(Integer prodSeq) {
+	public List<ProdDetailImgDTO> productImg(Integer prodSeq) {
 		return sqlSession.selectList(namespace + "productImg", prodSeq);
 	}
 	
-	public SellProDTO userIntroduce(Integer prodSeq) {
-		return sqlSession.selectOne(namespace + "userIntroduce", prodSeq);
-	}
+	/*
+	 * public SellProDTO userIntroduce(Integer prodSeq) { return
+	 * sqlSession.selectOne(namespace + "userIntroduce", prodSeq); }
+	 */
 
-	public List<SellProDTO> prodReco() {
+	public List<ProdDetailRecoDTO> prodReco() {
 		return sqlSession.selectList(namespace + "prodrecoDetail");
 	}
 	

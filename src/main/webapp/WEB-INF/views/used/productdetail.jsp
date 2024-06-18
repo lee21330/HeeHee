@@ -22,11 +22,7 @@
 </head>
 <%@ include file="../common/header.jsp" %>
 <body>
-	
 	<script src="/heehee/resources/js/product.js"></script>
-	
-	
-	
 	<div class="productDetail">
 		<main>
 			<div class="product-container">
@@ -37,13 +33,13 @@
 				</div>
 				<div class="product-details">
 					<div class="title-container">
-						<p id="product_category">${info.category} > ${info.detailCategory}</p>
+						<p id="product_category">${info.category} > ${info.detailCategory} > ${info.prodName}</p>
 						<img id="url_copy" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/linkcopy.png" alt="Copy URL" style="cursor: pointer">
 					</div>
 
 					<div class="title-container">
 
-						<p id="product_name">${info.prodName}</p>
+						<p id="product_name">${info.articleTitle}</p>
 						<a href="#" class="price-check-link">시세조회</a>
 
 					</div>
@@ -84,7 +80,7 @@
 					<p class="info_title">판매자 정보</p>
 					<hr>
 					<div id="seller_score">
-						<img id="sellerimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images//${info.profileImg}">
+						<img id="sellerimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}">
 						<div>
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
@@ -95,7 +91,7 @@
 					</div>
 
 					<div id="seller_info">
-						<a class="seller" href="#">${info.nickName}</a>
+						<a class="seller" href="${path}/sellerProfile/${info.id}">${info.nickName}</a>
 						<p class="seller_comm">${info.userIntroduce}</p>
 					</div>
 				</div>
@@ -114,18 +110,8 @@
 	</footer>
 	
 	<script>
-		jQuery.noConflict();
-	
-		$(document).ready(function() {
-			$('.product_slider').slick({
-				  infinite: true,
-				  slidesToShow: 1,
-				  slidesToScroll: 1
-				});
-    	});
-		
 		document.addEventListener('DOMContentLoaded', function () {
-	        var userRating = ${info.userRate};
+	        var userRating = ${info.userRating}; // EL문법때문에 js파일로 따로 못뺌
 	        var stars = document.querySelectorAll('#seller_score .star');
 
 	        for (var i = 0; i < userRating; i++) {
