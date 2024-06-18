@@ -64,7 +64,7 @@
 						</a>
 					</div>
 					<div class="menu_div">
-						<a href="">
+						<a href="/heehee/chatting">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_chat.png" alt="채팅 아이콘">
 							<span>채팅</span>
 						</a>
