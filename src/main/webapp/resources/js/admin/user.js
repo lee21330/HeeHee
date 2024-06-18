@@ -26,10 +26,10 @@ $(document).ready(function() {
             url: '/your-server-endpoint',
             method: 'GET',
             data: { 
-            	category: category, 
-            	keyword: keyword, 
-            	startDate: startDate, 
-            	endDate: endDate 
+            	'category': category, 
+            	'keyword': keyword, 
+            	'startDate': startDate, 
+            	'endDate': endDate 
             	},
             success: function(data) {
                 var tableBody = $('#tableBody');

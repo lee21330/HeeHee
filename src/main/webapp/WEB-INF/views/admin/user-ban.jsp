@@ -10,7 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/admin/header.jsp" %>
 	<div id="bodyContainer">
 <%@ include file="../common/admin/sideMenu.jsp" %>
 	<div id="mainMenuContainer">
@@ -63,7 +63,7 @@
 		<p class="detailTitle">상세 정보</p>
 		<button class="commonSmallBtn" id="editButton">수정</button>
 		</div>
-		<div id="allTable">
+		<div class="userBanTable">
 			<table>
 				<thead>
 					<tr>
@@ -81,7 +81,7 @@
 					<tr>
 						<td><input type="checkbox" class="rowCheckbox" data-id="1"></td>
 						<td>Y</td>
-						<td>000001</td>
+						<td>0001</td>
 						<td>홍길동</td>
 						<td>hong123</td>
 						<td>사유1</td>
@@ -91,7 +91,7 @@
 					<tr>
 						<td><input type="checkbox" class="rowCheckbox" data-id="2"></td>
 						<td>N</td>
-						<td>000002</td>
+						<td>0002</td>
 						<td>이순신</td>
 						<td>lee456</td>
 						<td>사유2</td>

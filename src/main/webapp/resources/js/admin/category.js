@@ -23,7 +23,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/your-server-endpoint',
             method: 'GET',
-            data: { category: category, keyword: keyword },
+            data: { 'category': category, 'keyword': keyword },
             success: function(data) {
                 var tableBody = $('#tableBody');
                 tableBody.empty();
@@ -65,8 +65,8 @@ $(document).ready(function() {
                             <div class="updateContainer">
                                 <p class="productUpdate">카테고리<br>수정</p>
                             </div>
-                            <input type="text" id="editCategory${id}" placeholder="카테고리 입력" value="${row.find('td').eq(2).text()}">
-                            <input type="text" id="editSubCategory${id}" placeholder="세부 카테고리 입력" value="${row.find('td').eq(3).text()}">
+                            <input type="text" id="editCategory${id}" class="categoryInputSmall" placeholder="카테고리 입력" value="${row.find('td').eq(2).text()}">
+                            <input type="text" id="editSubCategory${id}" class="categoryInputBigger" placeholder="세부 카테고리 입력" value="${row.find('td').eq(3).text()}">
                             <button class="saveEditButton" data-id="${id}">수정 등록</button>
                         </td>
                     </tr>`;
@@ -88,22 +88,23 @@ $(document).ready(function() {
         }
 
         // 신규 등록할 내용 입력란을 추가
-        if ($('#tableBody').find('.editRow').length === 0) {
+       if ($('#tableBody').children('.newRow').length > 0) {
+                $('.newRow').remove();
+            } else {
+			console.log("tani?");
             var newRow = `
-                <tr class="editRow">
+                <tr class="newRow">
                     <td colspan="6">
                         <div class="updateContainer">
                             <p class="productUpdate">카테고리<br>신규 등록</p>
                         </div>
-                        <input type="text" id="newCategory" placeholder="카테고리 입력">
-                        <input type="text" id="newSubCategory" placeholder="세부 카테고리 입력">
+                        <input type="text" id="newCategory" class="categoryInputSmall" placeholder="카테고리 입력">
+                        <input type="text" id="newSubCategory" class="categoryInputBigger" placeholder="세부 카테고리 입력">
                         <button class="saveNewButton" data-id="${id}">신규 등록</button>
                     </td>
                 </tr>`;
             $('#tableBody').append(newRow);
-        } else {
-        	$('.newRow').remove();
-        }
+        } 
     });
 
     // 저장 버튼 클릭 시 (수정 등록)
@@ -115,12 +116,12 @@ $(document).ready(function() {
         $.ajax({
             url: '/your-server-endpoint/' + id,
             method: 'PUT',
-            data: { category: newCategory, subCategory: newSubCategory },
+            data: { 'category': newCategory, 'subCategory': newSubCategory },
             success: function() {
                 loadTable();
             },
             error: function() {
-                alert('수정 중 오류가 발생했습니다.');
+                alert('등록 중 오류가 발생했습니다.');
             }
         });
     });
@@ -134,7 +135,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/your-server-endpoint',
             method: 'POST',
-            data: { category: newCategory, subCategory: newSubCategory, userID: userID },
+            data: { 'category': newCategory, 'subCategory': newSubCategory, 'userID': userID },
             success: function() {
                 loadTable();
             },
@@ -142,7 +143,7 @@ $(document).ready(function() {
                 alert('신규 등록 중 오류가 발생했습니다.');
             }
         });
-    });
+	});
 
     // 삭제 버튼 클릭 시
     $('#deleteButton').click(function() {

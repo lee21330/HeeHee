@@ -5,18 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.shinhan.heehee.service.TestService;
-
+import com.shinhan.heehee.service.AdminBanHistoryService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 	
 	@Autowired
-	TestService productservice;
+	AdminBanHistoryService banHistoryService;
 	
 	@GetMapping("/main")
 	public String admin_main() {
+		banHistoryService.searchAll();
+		System.out.println();
 		return "/admin/main";
 	}
 	

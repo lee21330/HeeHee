@@ -26,10 +26,10 @@ $(document).ready(function() {
             url: '/your-server-endpoint',
             method: 'GET',
             data: { 
-            	category: category, 
-            	keyword: keyword, 
-            	startDate: startDate, 
-            	endDate: endDate 
+            	'category': category, 
+            	'keyword': keyword, 
+            	'startDate': startDate, 
+            	'endDate': endDate 
             	},
             success: function(data) {
                 var tableBody = $('#tableBody');
@@ -77,7 +77,9 @@ $(document).ready(function() {
 						        <option value="Y" ${row.find('td').eq(1).text() === 'Y' ? 'selected' : ''}>Y</option>
 						        <option value="N" ${row.find('td').eq(1).text() === 'N' ? 'selected' : ''}>N</option>
 						    </select>
-						    <input type="text" id="editReason${id}" placeholder="정지 혹은 해제 사유를 입력해주세요" value="${row.find('td').eq(5).text()}">
+						    <input type="text" id="editReason${id}" class="userbanInput" placeholder="정지 혹은 해제 사유를 입력해주세요" value="${row.find('td').eq(5).text()}">
+						    <input type="date" id="startDateSelect">
+						    <input type="date" id="endDateSelect">
 						    <button class="saveEditButton" data-id="${id}">수정 등록</button>
 						</td>
                     </tr>`;
@@ -98,12 +100,12 @@ $(document).ready(function() {
         $.ajax({
             url: '/your-server-endpoint/' + id,
             method: 'PUT',
-            data: { newStatus: newStatus, newReason: newReason },
+            data: { 'newStatus': newStatus, 'newReason': newReason },
             success: function() {
                 loadTable();
             },
             error: function() {
-                alert('수정 중 오류가 발생했습니다.');
+                alert('등록 중 오류가 발생했습니다.');
             }
         });
     });

@@ -10,35 +10,36 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/admin/header.jsp" %>
 	<div id="bodyContainer">
 <%@ include file="../common/admin/sideMenu.jsp" %>
 	<div id="mainMenuContainer">
-	<p class="mainTitle">일반상품 상세조회</p>
-		<p class="searchTitle">상품 검색</p>
-		<div id="searchContainer">
-			<div id="btmContainer">
-				<div class="containerHeadBlock">
-					<p class="searchContext">검색어</p>
+		<p class="mainTitle">일반상품 상세조회</p>
+			<p class="searchTitle">상품 검색</p>
+			<div id="searchContainer">
+				<div id="btmContainer">
+					<div class="containerHeadBlock">
+						<p class="searchContext">검색어</p>
+					</div>
+					<select id="searchCategory">
+						<option value="regNumber">등록번호</option>
+						<option value="category">카테고리</option>
+						<option value="subCategory">세부 카테고리</option>
+						<option value="sellerID">판매자ID</option>
+						<option value="status">상태</option>
+					</select>
+					<input type="text" id="searchInput" placeholder="입력란 (제목 혹은 내용 입력)">
+					<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>
+					<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
 				</div>
-				<select id="searchCategory">
-					<option value="regNumber">등록번호</option>
-					<option value="category">카테고리</option>
-					<option value="subCategory">세부 카테고리</option>
-					<option value="sellerID">판매자ID</option>
-					<option value="status">상태</option>
-				</select>
-				<input type="text" id="searchInput" placeholder="입력란 (제목 혹은 내용 입력)">
-				<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>
-				<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
 			</div>
-		</div>
-		<div id="btmContainer">
-		<p class="detailTitle">상세 내용</p>
-		<button class="commonSmallBtn" id="editButton">수정</button>
-		<button class="commonSmallBtn" id="deleteButton">삭제</button>
-		</div>
-		<div id="allTable">
+		
+			<div id="btmContainer">
+				<p class="detailTitle">상세 내용</p>
+				<button class="commonSmallBtn" id="editButton">수정</button>
+				<button class="commonSmallBtn" id="deleteButton">삭제</button>
+			</div>
+		<div class="productInfoTable">
 			<table>
 				<thead>
 					<tr>
@@ -76,10 +77,400 @@
                     </tr>
 					<tr>
                         <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>00003</td>
-                        <td>신발</td>
-                        <td>등산화</td>
-                        <td>cutedh99</td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나  있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
+                        <td>글자수가 얼마나 들어갈 수 있을지</td>
+                        <td>2024-05-31</td>
+                        <td>Y</td>
+                    </tr>
+					<tr>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td>00002</td>
+                        <td>하의</td>
+                        <td>아우터</td>
+                        <td>cutedr00</td>
                         <td>글자수가 얼마나 들어갈 수 있을지</td>
                         <td>2024-05-31</td>
                         <td>Y</td>

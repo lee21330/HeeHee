@@ -10,7 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/admin/header.jsp" %>
 	<div id="bodyContainer">
 <%@ include file="../common/admin/sideMenu.jsp" %>
 	<div id="mainMenuContainer">
@@ -34,11 +34,11 @@
 			</div>
 		</div>
 		<div id="btmContainer">
-		<p class="detailTitle">상세 내용</p>
-		<button class="commonSmallBtn" id="editButton">수정</button>
-		<button class="commonSmallBtn" id="deleteButton">삭제</button>
+			<p class="detailTitle">상세 내용</p>
+			<button class="commonSmallBtn" id="editButton">수정</button>
+			<button class="commonSmallBtn" id="deleteButton">삭제</button>
 		</div>
-		<div id="allTable">
+		<div class="productInfoTable">
 			<table>
 				<thead>
 					<tr>

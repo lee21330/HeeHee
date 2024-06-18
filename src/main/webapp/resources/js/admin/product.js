@@ -23,7 +23,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/your-server-endpoint',
             method: 'GET',
-            data: { category: category, keyword: keyword },
+            data: { 'category': category, 'keyword': keyword },
             success: function(data) {
                 var tableBody = $('#tableBody');
                 tableBody.empty();
@@ -70,7 +70,7 @@ $(document).ready(function() {
 						        <option value="Y" ${row.find('td').eq(7).text() === 'Y' ? 'selected' : ''}>Y</option>
 						        <option value="N" ${row.find('td').eq(7).text() === 'N' ? 'selected' : ''}>N</option>
 						    </select>
-						    <input type="text" id="editInput${id}" value="${row.find('td').eq(5).text()}">
+						    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(5).text()}">
 						    <button class="saveEditButton" data-id="${id}">수정 등록</button>
 						</td>
                     </tr>`;
@@ -92,12 +92,12 @@ $(document).ready(function() {
         $.ajax({
             url: '/your-server-endpoint/' + id,
             method: 'PUT',
-            data: { newStatus: newStatus, newValue: newValue },
+            data: { 'newStatus': newStatus, 'newValue': newValue },
             success: function() {
                 loadTable();
             },
             error: function() {
-                alert('수정 중 오류가 발생했습니다.');
+                alert('등록 중 오류가 발생했습니다.');
             }
         });
     });

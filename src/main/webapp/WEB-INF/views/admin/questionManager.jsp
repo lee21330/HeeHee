@@ -7,11 +7,10 @@
 <meta charset="UTF-8">
 <title>희희낙찰 관리자 페이지 - 고객지원</title>
 <link rel="stylesheet" href="/heehee/resources/css/admin/main.css">
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/admin/header.jsp" %>
 	<div id="bodyContainer">
 <%@ include file="../common/admin/sideMenu.jsp" %>
 	<div id="mainMenuContainer">
@@ -23,7 +22,7 @@
 					<p class="searchContext">검색어</p>
 				</div>
 				<select id="searchCategory">
-					<option value="regNumber">등록번호</option>
+					<option value="number">번호</option>
 					<option value="category">카테고리</option>
 					<option value="subCategory">세부 카테고리</option>
 				</select>
@@ -38,7 +37,7 @@
 		<button class="commonSmallBtn" id="editButton">수정</button>
 		<button class="commonSmallBtn" id="deleteButton">삭제</button>
 		</div>
-		<div id="allTable">
+		<div class="qnaManagerTable">
 			<table>
 				<thead>
 					<tr>
@@ -73,6 +72,6 @@
 		</div>
 	</div>
 	</div>
-	<script type="text/javascript" src="${path}/resources/js/admin/제작중.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/admin/questionManager.js"></script>
 </body>
 </html>

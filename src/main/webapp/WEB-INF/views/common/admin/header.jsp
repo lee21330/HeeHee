@@ -29,7 +29,7 @@
         </div>
         <div class="header_container">
             <div class="logo">
-                <img src="images/logo.png">
+                <!-- <img src="images/널어야.png"> -->
             </div>
             <div class="product_container">
                 <div><a href="https://www.naver.com/">중고물품</a></div>

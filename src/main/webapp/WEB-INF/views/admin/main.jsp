@@ -11,15 +11,15 @@
 
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/admin/header.jsp" %>
 	<div id="bodyContainer">
 	
 	<%@ include file="../common/admin/sideMenu.jsp" %>
 
 	<div id="mainMenuContainer">
-		<div id="totalOrder">
-		<p class="mainTitle">전체 주문통계</p>
-			<div id="totalOrderCol">
+	
+		<div id="totalOrderCol">
+			<div id="mainTitleContainer"><p class="mainTitle">전체 주문통계</p></div>
 			<div id="allTable">
 			<table>
 				<thead>
@@ -33,7 +33,8 @@
 						<th>가입일</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="totalOrderTableBody">
+				<!-- Ajax로 동적 업데이트 -->
 					<tr>
 						<td>ajax</td>
 						<td>ajax</td>
@@ -56,8 +57,9 @@
 			</table>
 			</div>
 		</div>
+		
 		<div id="recentOrder">
-			<div id="recentOrderTop"><p class="mainTitle">최근 주문내역</p><button class="productDetailBtn">상세정보 바로가기</button></div>
+			<div id="mainTitleContainer"><p class="mainTitle">최근 주문내역</p><button class="productDetailBtn" onclick="location.href='${path}/admin/product'">상세정보 바로가기</button></div>
 			<div id="allTable">
 			<table>
 				<thead>
@@ -71,7 +73,8 @@
 						<th>가입일</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="recentOrderTableBody">
+				<!-- Ajax로 동적 업데이트 -->
 					<tr>
 						<td>ajax</td>
 						<td>ajax</td>
@@ -85,8 +88,9 @@
 			</table>
 			</div>
 		</div>
+		
 		<div id="recentQuestion">
-			<div id="recentQuestionTop"><p class="mainTitle">최근 문의내역</p><button class="questionsBtn">1:1문의 바로가기</button></div>
+			<div id="mainTitleContainer"><p class="mainTitle">최근 문의내역</p><button class="questionsBtn" onclick="location.href='${path}/admin/qnaManager'">1:1문의 바로가기</button></div>
 			<div id="allTable">
 			<table>
 				<thead>
@@ -100,7 +104,8 @@
 						<th>가입일</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="recentQuestionTableBody">
+				<!-- Ajax로 동적 업데이트 -->
 					<tr>
 						<td>ajax</td>
 						<td>ajax</td>
@@ -114,8 +119,10 @@
 			</table>
 			</div>
 		</div>
+		
 	</div>
+	
 	</div>
-	</div>
+	
 </body>
 </html>

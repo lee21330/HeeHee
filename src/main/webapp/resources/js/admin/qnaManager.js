@@ -35,7 +35,7 @@ $(document).ready(function() {
                         <td>${item.category}</td>
                         <td>${item.subCategory}</td>
                         <td>${item.sellerID}</td>
-                        <td>${item.title}</td>
+                        <td class="qnaContent">${item.title}</td>
                         <td>${item.postDate}</td>
                         <td>${item.status}</td>
                     </tr>`;
@@ -48,7 +48,7 @@ $(document).ready(function() {
         });
     }
 
-    // 수정 버튼 클릭 시
+    // 답변 버튼 클릭 시
     $('#editButton').click(function() {
         var selected = getSelectedRow();
 
@@ -57,31 +57,52 @@ $(document).ready(function() {
             var id = selected.data('id');
 
             // 수정할 내용 입력란을 추가
-            if (row.next().hasClass('editRow')) {
+            if (row.next().hasClass('qnaContentRow')) {
+				row.next().next().remove();
                 row.next().remove();
             } else {
                 var editRow = `
                     <tr class="editRow">
-						<td colspan="8">
+						<td colspan="6">
 						    <div class="updateContainer">
-						        <p class="productUpdate">판매상태<br>수정</p>
+						        <p class="productUpdate">답변<br>입력</p>
 						    </div>
-						    <select id="editStatus${id}">
-						        <option value="Y" ${row.find('td').eq(7).text() === 'Y' ? 'selected' : ''}>Y</option>
-						        <option value="N" ${row.find('td').eq(7).text() === 'N' ? 'selected' : ''}>N</option>
-						    </select>
-						    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(5).text()}">
-						    <button class="saveEditButton" data-id="${id}">수정 등록</button>
+						    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(3).text()}">
+						    <button class="saveEditButton" data-id="${id}">답변 등록</button>
 						</td>
                     </tr>`;
+				
+                var qnaContentRow = `
+					<tr class="qnaContentRow">
+                        <td colspan="6">
+                            <div class="qnaContainer">
+                                    <p class="productUpdate">문의내용</p>
+                                    <br>
+                                <div class="qnaContentText">
+                                    <p>여기에 문의내용이 나오도록 할 예정입니다. 그를 위해서 구역설정도 해줘야하고 이것저것 할게 많네.... asdkasldlaskjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdalskdjalksdjaslkdjaslkdjaslkdjaslkdjsalkdjaslkdjaslkdjaslkdjaslkjd</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                
                 row.after(editRow);
+                row.after(qnaContentRow);
+                
             }
         } else if (selected.length === 0) { 
-        	alert('수정할 항목을 선택해주세요');
+        	alert('열람할 항목을 선택해주세요');
         } else {
-            alert('수정할 항목을 하나만 선택해주세요');
+            alert('열람할 항목을 하나만 선택해주세요');
         }
     });
+    
+    //제목 글자 클릭 시
+    $('.qnaContent').click(function(){
+		var selected = getSelectedRow();
+		
+		
+	});
 
     // 저장 버튼 클릭 시
     $(document).on('click', '.saveEditButton', function() {
