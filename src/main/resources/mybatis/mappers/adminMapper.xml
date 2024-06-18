@@ -5,7 +5,7 @@
 <mapper namespace="com.shinhan.heehee.dao">
 <!--id는 DAO에서 namespace + "여기" 들어가는 것과 일치해야 한다. -->
 <!-- resultType은 SqlMapConfig의 typeAlia 중 alias에 작성해놓은 명칭과 일치하도록 쓴다. -->
-	<select id="searchTest" resultType="banvo">
+	<select id="searchTest" resultType="com.shinhan.heehee.dto.requset.AdminBanHistoryDTO">
 		SELECT * FROM BAN_HISTORY
 
 	</select>
