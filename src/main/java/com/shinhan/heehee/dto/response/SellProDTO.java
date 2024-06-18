@@ -32,18 +32,9 @@ public class SellProDTO {
 	private String imgName;
 	private String profileImg;
 	private String nickName;
-	private String userRating;
+	private String userRate;
 	private String userIntroduce;
 	private int viewCnt;
 	private int jjimCnt;
 	private String agoTime;
 }
-
-
-
-
-
-
-
-
-

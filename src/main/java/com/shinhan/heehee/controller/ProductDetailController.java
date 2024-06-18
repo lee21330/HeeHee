@@ -19,7 +19,8 @@ public class ProductDetailController {
 	@GetMapping("/productdetail/{prod_seq}")
 	public String home(@PathVariable("prod_seq") Integer prodSeq, Model model) {
 		model.addAttribute("info", productservice.prodInfo(prodSeq));
-		/* model.addAttribute("prodImg",productservice.prodImg(prodSeq)); */
+		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
+		model.addAttribute("prodRecoList",productservice.prodReco());
 		return "/used/productdetail";
 	}
 }

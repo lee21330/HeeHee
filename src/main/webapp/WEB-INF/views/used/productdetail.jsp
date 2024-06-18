@@ -31,15 +31,14 @@
 		<main>
 			<div class="product-container">
 				<div class="product_slider">
-				<div id="here"></div>
-					<c:forEach var="product" items="${prodImg}">
-						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${product.imgName}">
+					<c:forEach var="product" items="${prodImgList}">
+						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 					</c:forEach>
 				</div>
 				<div class="product-details">
 					<div class="title-container">
 						<p id="product_category">${info.category} > ${info.detailCategory}</p>
-						<img id="url_copy" src="/heehee/resources/images/linkcopy.png" alt="Copy URL" style="cursor: pointer">
+						<img id="url_copy" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/linkcopy.png" alt="Copy URL" style="cursor: pointer">
 					</div>
 
 					<div class="title-container">
@@ -52,13 +51,13 @@
 					<p id="product_etc">
 					<fmt:formatDate value="${info.createDate}" pattern="yyyy/MM/dd" type="date"/>
 					 · 
-					 조회 1.5만 
+					 조회 ${info.viewCnt}
 					 · 
-					 찜 2.1천 ❤️</p>
+					 찜 ${info.jjimCnt} ❤️</p>
 					<ul id="product_state">
 						<li>제품 상태: ${info.condition}</li>
 						<li>거래 방식: ${info.deal}</li>
-						<li>배송비: ${info.DCharge}</li>
+						<li>배송비: ${info.DCharge}원</li>
 					</ul>
 					<div class="button-container">
 						<button onclick="location.href='#'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
@@ -69,8 +68,8 @@
 				<div id="plusArea">
 					<p>최근 본 상품</p>
 					<div id="recentArea">
-						<img class="recentimg" src="/heehee/resources/images/11.png" style="cursor: pointer">
-						<img class="recentimg" src="/heehee/resources/images/11.png" style="cursor: pointer">
+						<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
+						<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
 					</div>
 					<p id="gotop" style="cursor: pointer">TOP</p>
 				</div>
@@ -79,41 +78,33 @@
 				<div class="product-info-container">
 					<p class="info_title">물품 정보</p>
 					<hr>
-					<p id="info">
-					상태 깨끗한 너부리입니다. 마스코트인형이랑 비교하면 크기가 크고 2023년에 구매했으며 정품이에요 환불은 불가합니다.
-					상태 깨끗한 너부리입니다. 마스코트인형이랑 비교하면 크기가 크고 2023년에 구매했으며 정품이에요 환불은 불가합니다.
-					상태 깨끗한 너부리입니다. 마스코트인형이랑 비교하면 크기가 크고 2023년에 구매했으며 정품이에요 환불은 불가합니다.
-					상태 깨끗한 너부리입니다. 마스코트인형이랑 비교하면 크기가 크고 2023년에 구매했으며 정품이에요 환불은 불가합니다.
-					상태 깨끗한 너부리입니다. 마스코트인형이랑 비교하면 크기가 크고 2023년에 구매했으며 정품이에요 환불은 불가합니다.
-					</p>
+					<p id="info">${info.introduce}</p>
 				</div>
 				<div class="seller-info-container">
 					<p class="info_title">판매자 정보</p>
 					<hr>
 					<div id="seller_score">
-						<img id="sellerimg" src="/heehee/resources/images/11.png">
+						<img id="sellerimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images//${info.profileImg}">
 						<div>
-							<img class="star" src="/heehee/resources/images/star0.png">
-							<img class="star" src="/heehee/resources/images/star0.png">
-							<img class="star" src="/heehee/resources/images/star0.png">
-							<img class="star" src="/heehee/resources/images/star0.png">
-							<img class="star" src="/heehee/resources/images/star0.png">
+							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 						</div>
 					</div>
 
 					<div id="seller_info">
-						<a class="seller" href="#">곰두리두리</a>
-						<p class="seller_comm">ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇ</p>
+						<a class="seller" href="#">${info.nickName}</a>
+						<p class="seller_comm">${info.userIntroduce}</p>
 					</div>
 				</div>
 			</div>
 			<p id="recommand_title">제품 추천</p>
 			<div id="recommand">
-				<img class="reco" src="/heehee/resources/images/11.png">
-				<img class="reco" src="/heehee/resources/images/star0.png">
-				<img class="reco" src="/heehee/resources/images/star0.png">
-				<img class="reco" src="/heehee/resources/images/star0.png">
-				<img class="reco" src="/heehee/resources/images/44.png">
+				<c:forEach var="prodReco" items="${prodRecoList}">
+					<img class="reco" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${prodReco.imgName}">
+				</c:forEach>
 			</div>
 		</main>
 	</div>
@@ -131,16 +122,17 @@
 				  slidesToShow: 1,
 				  slidesToScroll: 1
 				});
-			
-			/* $(".product_slider").slick({
-				slidesToShow : 1,
-				slidesToScroll : 1,
-				autoplay : true,
-				autoplaySpeed : 2000,
-			}); */
     	});
+		
+		document.addEventListener('DOMContentLoaded', function () {
+	        var userRating = ${info.userRate};
+	        var stars = document.querySelectorAll('#seller_score .star');
+
+	        for (var i = 0; i < userRating; i++) {
+	            stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
+	        }
+	    });
 	
-		/* $('.product_img').slick(); */
 	</script>
 </body>
 </html>

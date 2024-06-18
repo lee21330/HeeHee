@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Function to copy the URL to clipboard
+    // URL을 클립보드에 복사하는 함수
     function copyToClipboard(text) {
         var $temp = $('<input>');
         $('body').append($temp);
@@ -9,45 +9,46 @@ $(document).ready(function() {
         alert('URL이 복사되었습니다.');
     }
 
-    // Event listener for copying the URL
+    // URL 복사를 위한 이벤트 리스너
     $('#url_copy').on('click', function(e) {
         e.preventDefault();
-        var link = window.location.href; // Get the current page URL
-        copyToClipboard(link); // Call the function to copy the URL
+        var link = window.location.href; // 현재 페이지의 URL을 가져옵니다
+        copyToClipboard(link); // URL을 복사하는 함수를 호출합니다
     });
 
-    // Event listener for scrolling to the top
+    // 맨 위로 스크롤하는 이벤트 리스너
     $('#gotop').on('click', function(e) {
         e.preventDefault();
         $('html, body').animate({scrollTop: 0}, 500);
     });
     
     $("#regi_img").on("change", function(e) {
-		var file = e.target.files[0];
-		if(isImageFile(file)) {
-		var reader = new FileReader(); 
-		reader.onload = function(e) {
-		 	$("#preview").attr("src", e.target.result);
-		}
-		reader.readAsDataURL(file);
-		} else {
-		    alert("이미지 파일만 첨부 가능합니다.");
-		    $("#regi_img").val("");
-			$("#preview").attr("src", "");
-		}
-		
-	$('.product-images').slick({
+        var file = e.target.files[0];
+        if (isImageFile(file)) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#preview").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(file);
+        } else {
+            alert("이미지 파일만 첨부 가능합니다.");
+            $("#regi_img").val("");
+            $("#preview").attr("src", "");
+        }
+    });
+    
+    $("img[id='preview']").click(function () {
+        $("#input_file").click();
+    });
+
+    // 슬라이더 초기화
+    $('.product-images').slick({
         infinite: true,
         slidesToShow: 3,
         slidesToScroll: 1
     });
-		
-	});
-	
-	$("img[id='preview']").click(function () {
-    	$("#input_file").click();
-  	});
 });
+
 
 function isImageFile(file) {
 	// 파일명에서 확장자를 가져옴
