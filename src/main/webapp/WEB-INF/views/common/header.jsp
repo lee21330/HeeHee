@@ -89,10 +89,7 @@
 							--%>
 
 							<%-- 알림 있는 경우 --%>
-							<%-- ajax에서 a태그를 같이 생성해주고 경로를 처리? --%>
-							<div class="alarm_list">
-								<a id="here" href=""></a>
-							</div>
+							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
 				</div>

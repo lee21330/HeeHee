@@ -21,20 +21,22 @@ function alarmList() {
 				// alert("성공");
 				console.log(responseData);
 				
-				var output = "<ul>";
+				// 알림별로 경로 다르게 걸어줘야 함
+				var output = "<a href='/heehee/chatting'>";
 				
 				// 리스트 비어있는지 확인 후 html 다르게 찍어주기 (전체라서 굳이?)
-				// a태그도 같이 생성할 경우 분류 코드 컬럼별로 경로 다르게 걸어주기
 				// if (responseData.length != 0) {
 				
 					// 알림 리스트 반복문
 					$.each(responseData, function(index, item) {
+						output += "<ul>";
 						output += "<li class='alarm_date'>" + item.sendTime + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
+						output += "</ul>";
 					});
 					
-					output += "</ul>";
+					output += "</a>";
 					
 					$("#here").html(output);
 				
