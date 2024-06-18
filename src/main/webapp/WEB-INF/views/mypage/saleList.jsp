@@ -28,72 +28,71 @@
 				<li>판매중</li>
 				<li>판매완료</li>
 			</ul>
-			<div class="list">
-				<div class="product" onclick="location.href='${path}/saledetail'">
-					<img src="${path}/resources/images/보노보노1.jpg">
-					<p>보노보노 숲 라잉 쿠션</p>
-					<p>10,000원</p>
+			<!-- 상세필터  -->
+			<button id="btn_search">상세 필터</button>
+			<div id="search">
+				<img
+					src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
+					alt="로그인 창 닫기 아이콘" class="mModal_close">
+				<p>조회기간</p>
+				<div class="type">
+					<div class="radioContainer">
+						<input type="radio" id="day" name="typeSelect"> <label
+							for="day" class="radioLabel">1일</label>
+					</div>
+					<div class="radioContainer">
+						<input type="radio" id="week" name="typeSelect"> <label
+							for="week" class="radioLabel">1주일</label>
+					</div>
+					<div class="radioContainer">
+						<input type="radio" id="month" name="typeSelect"> <label
+							for="month" class="radioLabel">1개월</label>
+					</div>
+					<div class="radioContainer">
+						<input type="radio" id="halfYear" name="typeSelect"> <label
+							for="halfYear" class="radioLabel">6개월</label>
+					</div>
+					<div class="radioContainer">
+						<input type="radio" id="year" name="typeSelect"> <label
+							for="year" class="radioLabel">1년</label>
+					</div>
+					<div class="radioContainer">
+						<input type="date">직접입력
+					</div>
 				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노2.jpg">
-					<p>보노보노 얼굴 쿠션</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노3.jpg">
-					<p>보노보노 듀얼 고속 무선 충전 거치대</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노4.jpg">
-					<p>보노보노 인스탁스 미니9</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				<div class="product">
-					<img src="${path}/resources/images/보노보노5.jpg">
-					<p>보노보노 더블 범퍼 케이스</p>
-					<p>10,000원</p>
-				</div>
-				
-				
+				<button class="btn_submit">조회</button>
 			</div>
+			<p class="message">최근 판매 내역이 없습니다.</p>
+
+			<div class="product"
+				onclick="location.href='${path}/saledetail/${pro.productSeq}'">
+				<%-- <c:forEach var="product" items="${prodImg}">
+					<img class="product_img"
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				</c:forEach> --%>
+				<c:forEach var="pro" items="${info}">
+					<img class="product_img"
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${pro.imgName}">
+					<p>${pro.articleTitle}</p>
+					<p>${pro.productPrice}</p>
+
+				</c:forEach>
+			</div>
+
 		</div>
 	</section>
+	<script>
+		$(function() {
+			$("#btn_search").on("click", show);
+			$(".mModal_close").on("click", hide);
 
+		});
+		function show() {
+			$("#search").addClass("show");
+		}
+		function hide() {
+			$("#search").removeClass("show");
+		}
+	</script>
 </body>
 </html>

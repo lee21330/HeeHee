@@ -67,7 +67,8 @@
             </div>
            
             <div class="bottom">
-                <a href="" class="withdrawal">회원 탈퇴</a>
+            	<%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%>
+                <p id="drawal">회원 탈퇴</p>
             </div>
         </div>
         

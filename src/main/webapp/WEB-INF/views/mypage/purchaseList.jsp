@@ -30,6 +30,7 @@
 				<li>구매완료</li>
 			</ul>
 			<div class="list">
+				<p class="message">최근 구매 내역이 없습니다.</p>
 				<div class="product" onclick="location.href='${path}/purchasedetail'">
 					<img src="${path}/resources/images/보노보노1.jpg">
 					<p>보노보노 숲 라잉 쿠션</p>
@@ -48,6 +49,101 @@
 				<div class="product">
 					<img src="${path}/resources/images/보노보노4.jpg">
 					<p>보노보노 인스탁스 미니9</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
+					<p>10,000원</p>
+				</div>
+				<div class="product">
+					<img src="${path}/resources/images/보노보노5.jpg">
+					<p>보노보노 더블 범퍼 케이스</p>
 					<p>10,000원</p>
 				</div>
 				<div class="product">

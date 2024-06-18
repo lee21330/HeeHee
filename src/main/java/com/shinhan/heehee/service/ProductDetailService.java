@@ -11,7 +11,6 @@ import com.shinhan.heehee.dto.response.SellProDTO;
 @Service
 public class ProductDetailService {
 
-	@Autowired
 	ProductDetailDAO productDetailDao;
 	
 	public SellProDTO prodInfo(Integer prodSeq) {

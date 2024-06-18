@@ -17,7 +17,7 @@
 	display: flex;
 	align-items: center;
 	gap: 15px;
-	border: 1px solid pink;
+	/* border: 1px solid pink; */
 	
 	
 }
@@ -38,7 +38,7 @@ p{
 	height: 100%;
 	display: inline-block;
 	margin: 0px 0px;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	
 }
 input{
@@ -79,4 +79,8 @@ input{
 }
 .bottom{
 	text-align: right;
+}
+#drawal:hover{
+	cursor: pointer;
+	color: #4949e9;
 }

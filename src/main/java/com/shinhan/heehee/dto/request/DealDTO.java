@@ -1,4 +1,4 @@
-package com.shinhan.heehee.dto.requset;
+package com.shinhan.heehee.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

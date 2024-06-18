@@ -10,22 +10,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ㅎㅇ</title>
-<<<<<<< HEAD
-<link rel="stylesheet" href="/heehee/resources/css/productdetail.css">
-</head>
-<%@ include file="../common/header.jsp" %>
-<body>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script src="/heehee/resources/js/product.js"></script>
-=======
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <%-- slick slider --%>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
->>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 
 <link rel="stylesheet" href="/heehee/resources/css/productdetail.css">
 
@@ -48,11 +38,7 @@
 				</div>
 				<div class="product-details">
 					<div class="title-container">
-<<<<<<< HEAD
-						<p id="product_category">장난감 > 인형</p>
-=======
 						<p id="product_category">${info.category} > ${info.detailCategory}</p>
->>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 						<img id="url_copy" src="/heehee/resources/images/linkcopy.png" alt="Copy URL" style="cursor: pointer">
 					</div>
 

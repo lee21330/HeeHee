@@ -20,7 +20,8 @@
 			<p id="balance_int">500</p>
 			<p id="balance_text">원</p>
 		</div>
-		<button id="charge_btn">충전하기</button>
+		<%@ include file="/WEB-INF/views/mypage/pointModal.jsp"%>
+		<button id="btn-point">충전하기</button>
 	</div>	
 	<div id="point_box">
 		<div id="point_box_text">

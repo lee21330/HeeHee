@@ -48,11 +48,12 @@ input[type="radio"] {
 	width: 120px;
 	list-style: none;
 	border: 2px solid #D3D3D3;
-	cursor: pointer;
+	
 }
 .radioLabel{
 	display: inline-block;
 	width: 120px;
+	cursor: pointer;
 }
 
 .radioContainer input[type="radio"]:checked +label {
@@ -82,7 +83,10 @@ tr {
 .title {
 	width: 75%;
 }
-
+.question:hover {
+	background-color: #DCF343;
+	cursor: pointer;
+}
 .answer {
 	background-color: #EFEFEF;
 	height: 80px;

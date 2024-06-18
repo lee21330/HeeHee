@@ -110,6 +110,7 @@ textarea {
 	cursor: pointer;
 }
 .faq_content{
+	display: none;
 	background-color: #EFEFEF;
 	height: 80px !important;
 	padding: 0px 10px;

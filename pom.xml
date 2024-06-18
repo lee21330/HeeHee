@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.shinhan</groupId>
   <artifactId>heehee</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-
   <name>heehee</name>
-
   <properties>
   	<java-version>1.11</java-version>
 	<org.springframework-version>5.3.5</org.springframework-version>
@@ -21,21 +17,24 @@
     <maven.compiler.target>1.11</maven.compiler.target>
     <spring-security.version>5.6.1</spring-security.version>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
     </dependency>
-    
     <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
 	    <artifactId>spring-security-config</artifactId>
 	    <version>${spring-security.version}</version>
 	</dependency>
-	
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.18.20</version>
+		<scope>provided</scope>
+	</dependency>
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
 	    <artifactId>spring-security-web</artifactId>
@@ -91,7 +90,6 @@
 	    <artifactId>spring-expression</artifactId>
 	    <version>${org.springframework-version}</version>
 	</dependency>
-   
     <dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-jdbc</artifactId>
@@ -128,13 +126,11 @@
 			<version>${org.aspectj-version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjtools</artifactId>
 			<version>${org.aspectj-version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
@@ -183,7 +179,6 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -246,7 +241,6 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -254,7 +248,6 @@
 		</dependency>
 		
   </dependencies>
-
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
@@ -303,7 +296,6 @@
       </plugins>
     </pluginManagement>
   </build>
-
   <reporting>
     <plugins>
       <plugin>

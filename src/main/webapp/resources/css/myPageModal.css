@@ -11,10 +11,9 @@
 
 * {
 	font-family: 'SEBANG_Gothic_Bold';
-	/* white-space: nowrap; */
 }
-/*pointModal*/
-#pModal {
+
+.mModal {
 	position: fixed;
 	top: 0;
 	bottom: 0;
@@ -28,11 +27,11 @@
 	z-index: 99;
 }
 
-#pModal.show {
+.mModal.show {
 	display: block;
 }
 
-#pModal_body {
+.mModal_body {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -43,73 +42,17 @@
 	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 	transform: translateX(-50%) translateY(-60%);
 	padding: 40px;
-}
-
-#pModal_close {
-	width: 20px;
-	cursor: pointer;
-	float: right;
-}
-
-/*accountModal*/
-#aModal {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	width: 100%;
-	height: 100%;
-	display: none;
-	background-color: rgba(0, 0, 0, 0.4);
-	z-index: 99;
-}
-
-#aModal.show {
-	display: block;
-}
-
-#aModal_body {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 600px;
-	height: 300px;
-	background-color: rgb(255, 255, 255);
-	border-radius: 10px;
-	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-	transform: translateX(-50%) translateY(-60%);
-	padding: 40px;
-}
-
-#aModal_close {
-	width: 20px;
-	cursor: pointer;
-	float: right;
-}
-
-.aModal_bank select{
-	color: rgb(63, 81, 161);
-	width: 100px;
-	height: 50px;
-	font-size: 17px;
-	border: 1px solid rgb(189, 189, 189);
-	border-radius: 10px;
-	text-align: center;
 	
 }
-.aModal_bank input{
-	width: 285px;
-	height: 50px;
-	padding: 0px;
-	font-size: 17px;
-	border: 1px solid rgb(189, 189, 189);
-	border-radius: 10px;
-	padding-left: 10px;
+
+.mModal_close {
+	width: 20px;
+	cursor: pointer;
+	float: right;
 }
 
-.input_acc {
+.input {
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -117,7 +60,6 @@
 	margin: 0px 0px 60px 0px;
 }
 
-/* ------------------------------ */
 .modal_form {
 	height: 90%;
 	padding: 20px 0px 20px 0px;
@@ -129,23 +71,17 @@
 	display: inline-block;
 }
 
-.modal_acc {
+.modal_info {
 	color: #4949E9;
-}
-
-.charge {
-	width: 400px;
-	height: 60px;
-	border-width: 0 0 2px;
-	margin: 0px 0px 60px 0px;
-	font-size: 20px;
 }
 
 .btn_modal {
 	width: 100%;
+	text-align: center;
+	margin: 0px 0px 20px 0px;
 }
 
-#btn_submit {
+.btn_submit {
 	cursor: pointer;
 	width: 150px;
 	height: 50px;
@@ -157,7 +93,7 @@
 	font-size: 20px;
 }
 
-#btn_cancel {
+.btn_cancel {
 	cursor: pointer;
 	width: 150px;
 	height: 50px;
@@ -167,4 +103,85 @@
 	background-color: white;
 	margin: 0px 5px 0px 5px;
 	font-size: 20px;
+}
+/* accountModal */
+.Modal_bank select {
+	color: rgb(63, 81, 161);
+	width: 100px;
+	height: 50px;
+	font-size: 17px;
+	border: 1px solid rgb(189, 189, 189);
+	border-radius: 10px;
+	text-align: center;
+}
+
+.Modal_bank input {
+	width: 285px;
+	height: 50px;
+	padding: 0px;
+	font-size: 17px;
+	border: 1px solid rgb(189, 189, 189);
+	border-radius: 10px;
+	padding-left: 10px;
+}
+
+/* Modal_delivery */
+#dMdal_p {
+	margin-left: 0px;
+}
+
+#input_d {
+	justify-content: space-between;
+}
+
+.Modal_delivery select {
+	color: rgb(63, 81, 161);
+	width: 250px;
+	height: 50px;
+	font-size: 17px;
+	border: 1px solid rgb(189, 189, 189);
+	border-radius: 10px;
+	text-align: center;
+}
+
+.Modal_delivery input {
+	width: 320px;
+	height: 50px;
+	padding: 0px;
+	font-size: 17px;
+	border: 1px solid rgb(189, 189, 189);
+	border-radius: 10px;
+	padding-left: 10px;
+}
+
+#d_btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* pointModal.jsp */
+#charge {
+	width: 400px;
+	height: 60px;
+	border-width: 0 0 2px;
+	margin: 0px 0px 60px 0px;
+	font-size: 20px;
+}
+/* withdrawalModal.jsp */
+.wModal_h {
+	color: #4949e9;
+	height: 30px;
+	margin: 25px 0px 75px 0px;
+	font-size: 30px;
+	text-align: center;
+}
+
+.wModal_p {
+	display: block;
+	width: 100%;
+	height: 20px;
+	font-size: 20px;
+	margin: 0px 0px 75px 0px;
+	text-align: center;
 }
