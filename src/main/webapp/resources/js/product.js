@@ -1,4 +1,14 @@
 $(document).ready(function() {
+	jQuery.noConflict();
+	
+		$(document).ready(function() {
+			$('.product_slider').slick({
+				  infinite: true,
+				  slidesToShow: 1,
+				  slidesToScroll: 1
+				});
+    	});
+
     // URL을 클립보드에 복사하는 함수
     function copyToClipboard(text) {
         var $temp = $('<input>');

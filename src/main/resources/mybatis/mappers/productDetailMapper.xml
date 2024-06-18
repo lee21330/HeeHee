@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.productDetail">
-	<select id="productInfo" parameterType="int" resultType="com.shinhan.heehee.dto.response.SellProDTO">
+	<select id="productInfo" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
 	    SELECT 
 		    SELL.*, 
 		    CATE.*, 
@@ -10,7 +10,7 @@
 		    JJIM_CNT.COUNT AS JJIM_CNT,
 		    USER_INFO.PROFILE_IMG,
 		    USER_INFO.NICK_NAME,
-		    USER_INFO.USER_RATING AS USER_RATE,
+		    USER_INFO.USER_RATING AS USER_RATING,
 		    USER_INFO.USER_INTRODUCE,
 		    (SELECT COUNT(*) FROM VIEW_LOG WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS VIEW_CNT,
 		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT
@@ -28,7 +28,7 @@
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
 	</select>
 	
-	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.SellProDTO">
+	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
 		SELECT IMG.IMG_NAME
 		FROM IMG_FILES IMG, SELL_PRODUCT SELL
 		WHERE IMG.TABLE_PK = #{PROD_SEQ}
@@ -39,7 +39,7 @@
 		VALUES (#{PROD_SEQ}, #{ID}, SYSDATE)
 	</insert>
 	
-	<select id="prodrecoDetail" resultType="com.shinhan.heehee.dto.response.SellProDTO">
+	<select id="prodrecoDetail" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT IMG.IMG_NAME
 		FROM IMG_FILES IMG
 		JOIN SELL_PRODUCT SELL ON IMG.TABLE_PK = SELL.PRODUCT_SEQ
@@ -91,10 +91,24 @@
         ORDER BY (SYSDATE - CREATE_DATE)
 	</select>
 	
-	<select id="sellerInfo">
-		SELECT PROFILE_IMG, NICK_NAME, USER_RATING, USER_INTRODUCE
-		FROM HH_USER
-		INNER JOIN SELL_PRODUCT SELL ON SELL.ID = HH_USER.ID
+	<select id="sellerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProfileDTO">
+		SELECT *
+  		FROM HH_USER
+		WHERE HH_USER.ID = #{id}
+	</select>
+	
+	<select id="sellerprod" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProdDTO">
+	   SELECT *
+	   FROM SELL_PRODUCT SELL, IMG_FILES IMG
+	   WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
+	   AND SELL.ID = #{id}
+	   AND IMG_CATE_SEQ = 2
+	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ) 
+	                    FROM IMG_FILES
+	                    WHERE IMG_CATE_SEQ = 2
+	                    GROUP BY TABLE_PK)
+	   <!-- AND ROWNUM <![CDATA[<]]> 6 -->
+	   ORDER BY DBMS_RANDOM.RANDOM
 	</select>
 	
 </mapper>

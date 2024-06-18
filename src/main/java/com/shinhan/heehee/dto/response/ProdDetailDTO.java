@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class SellProDTO {
+public class ProdDetailDTO {
 	private int productSeq;
 	private String articleTitle;
 	private int productPrice;
@@ -25,4 +25,14 @@ public class SellProDTO {
 	private int selectSeq;
 	private String id;
 	private Date createDate;
+	private int productCateSeq;
+	private String category;
+	private String detailCategory;
+	private String prodName;
+	private int jjimCnt;
+	private String profileImg;
+	private String nickName;
+	private int userRating;
+	private String userIntroduce;
+	private int viewCnt;
 }

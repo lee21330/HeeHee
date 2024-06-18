@@ -7,48 +7,70 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>판매 내역</title>
+<title>판매자 프로필</title>
 <link rel="stylesheet" href="${path}/resources/css/sellerProfile.css">
 </head>
 <body>
 	<header>
 		<%@include file="../common/header.jsp"%>
-		<%@include file="../mypage/myPage_header.jsp"%>
 	</header>
 	<section>
+	<div class="mypage_container">
+			<div class="top">
+				<div class="profileImg">
+					<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerinfo.profileImg}">
+				</div>
+				<div class="profile">
+						<h2>${sellerinfo.nickName}</h2>
+					<div class="self-intro">
+						<%-- <textarea readonly="readonly">${sellerinfo.userIntroduce}</textarea> --%>
+						<p>${sellerinfo.userIntroduce}</p>
+					</div>
+				</div>
+				<div id="rating">
+					<p>평점</p>
+					<div class="ratingImg">
+						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
+						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
+						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
+						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
+						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
 		<div class="mypage_container">
-			<p>판매중인 제품목록</p>
+			<p id="sellprodtitle">판매중인 제품목록</p>
 			<form>
 				<div class="list">
-					<div class="product" onclick="location.href='${path}/productdetail'">
-						<img src="${path}/resources/images/보노보노1.jpg">
-						<p>보노보노 숲 라잉 쿠션</p>
-						<p>10,000원</p>
-					</div>
+				<c:forEach var="sellerprod" items="${sellerprodList}">
 					<div class="product">
-						<img src="${path}/resources/images/보노보노2.jpg">
-						<p>보노보노 얼굴 쿠션</p>
-						<p>10,000원</p>
+						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sellerprod.imgName}"
+						onclick="location.href='${path}/productdetail/${sellerprod.productSeq}'"
+						style="cursor: pointer;">
+						<p class="sellerprodintro" onclick="location.href='${path}/productdetail/${sellerprod.productSeq}'"
+						style="cursor: pointer;">
+						${sellerprod.articleTitle}
+						</p>
 					</div>
-					<div class="product">
-						<img src="${path}/resources/images/보노보노3.jpg">
-						<p>보노보노 듀얼 고속 무선 충전 거치대</p>
-						<p>10,000원</p>
-					</div>
-					<div class="product">
-						<img src="${path}/resources/images/보노보노4.jpg">
-						<p>보노보노 인스탁스 미니9</p>
-						<p>10,000원</p>
-					</div>
-					<div class="product">
-						<img src="${path}/resources/images/보노보노5.jpg">
-						<p>보노보노 더블 범퍼 케이스</p>
-						<p>10,000원</p>
-					</div>
+				</c:forEach>
 				</div>
 			</form>
 		</div>
 	</section>
+	
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var userRating = ${sellerinfo.userRating};
+    var stars = document.querySelectorAll('#rating .star');
+
+    for (var i = 0; i < userRating; i++) {
+        stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
+    }
+});
+</script>
 
 </body>
 </html>

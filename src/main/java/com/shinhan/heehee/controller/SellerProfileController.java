@@ -17,6 +17,7 @@ public class SellerProfileController {
 	@GetMapping("/sellerProfile/{id}")
 	public String home(@PathVariable("id") String id, Model model) {
 		model.addAttribute("sellerinfo", sellerprofileservice.sellerinfo(id));
+		model.addAttribute("sellerprodList", sellerprofileservice.sellerprod(id));
 		return "/used/sellerProfile";
 	}
 }
