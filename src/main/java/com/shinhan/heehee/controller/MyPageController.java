@@ -2,23 +2,24 @@ package com.shinhan.heehee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.shinhan.heehee.service.DealService;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.shinhan.heehee.service.MyPageService;
 
 @Controller
 public class MyPageController {
 
 	@Autowired
-	DealService dealService;
+	MyPageService mypageservice;
 
-	@GetMapping("/chargepoint")
-	public String chargePoint() {
-		return "/mypage/pointCharge";
-	}
-
-	@GetMapping("/profile")
-	public String editProfile() {
-		return "/mypage/editProfile";
+	@GetMapping("/myPage/{user_id}")
+	public String searchSaleList(@PathVariable("user_id") String userId, Model model) {
+		model.addAttribute("sInfo", mypageservice.saleList(userId));
+		model.addAttribute("pInfo", mypageservice.purchaseList(userId));
+		model.addAttribute("jInfo", mypageservice.jjimList(userId));
+		return "/mypage/myPage";
 	}
 
 	@GetMapping("/qnaBoard")
@@ -26,36 +27,13 @@ public class MyPageController {
 		return "/mypage/qnaBoard";
 	}
 
-	@GetMapping("/account")
-	public String editAccount() {
-		return "/mypage/editAccount";
+	@GetMapping("/faqBoard")
+	public String faqBoard() {
+		return "/mypage/faqBoard";
 	}
-
-	@GetMapping("/salelist")
-	public String saleList() {
-		return "/mypage/saleList";
-	}
-
-	@GetMapping("/purchaseList")
-	public String purchaseList() {
-		return "/mypage/purchaseList";
-	}
-
-	@GetMapping("/jjimList")
-	public String jjimList() {
-		return "/mypage/jjimList";
-	}
-	@GetMapping("/saledetail")
-	public String saledetail() {
+	@GetMapping("/saledetail/{productSeq}")
+	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model) {
 		return "/mypage/saleDetail";
-	}
-	@GetMapping("/purchasedetail")
-	public String purchasedetail() {
-		return "/mypage/purchaseDetail";
-	}
-	@GetMapping("/pointList")
-	public String pointList() {
-		return "/mypage/pointList";
 	}
 
 }

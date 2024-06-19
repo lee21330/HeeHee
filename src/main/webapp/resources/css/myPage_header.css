@@ -2,6 +2,7 @@
 
 .mypage_container {
 	width: 1280px;
+	height: auto;
 	margin: 0 auto;
 }
 
@@ -43,19 +44,13 @@
 	display: inline-block;
 }
 
-.self-intro {
-	height: 100px;
-	margin-top: 20px;
+textarea {
+	width: 100%;
+	height: 80px;
+	padding: 10px 0px;
+	resize: none;
 	border: 1px solid #CECECE;
 	border-radius: 10px;
-}
-
-.self-intro textarea {
-	width: 100%;
-	height: 60px;
-	padding: 0px 0px;
-	resize: none;
-	border: 1px solid white;
 }
 
 #btn-intro {
@@ -117,8 +112,8 @@
 }
 
 .point {
-	height: 100px;
 	text-align: center;
+	height: 100px;
 	border: 1px solid #CECECE;
 	border-radius: 10px;
 }
@@ -127,10 +122,10 @@
 	margin: 5px 0px;
 	display: inline-block;
 }
-.point img {
+#pointImg{
 	width: 10px;
 }
-.btn-point {
+#btn-point {
 	cursor: pointer;
 	width: 150px;
 	height: 30px;

@@ -46,6 +46,7 @@
 	</bean>
 
 	<bean id="jwtUtil" class="com.shinhan.heehee.util.JwtUtil"/>
+	
 	<bean id="authenticationSuccessHandler" 
 		class="com.shinhan.heehee.config.AuthenticationSuccess">
 		<constructor-arg ref="jwtUtil"></constructor-arg>
