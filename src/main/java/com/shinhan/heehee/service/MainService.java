@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.MainDAO;
+import com.shinhan.heehee.dto.response.MainProdRankDTO;
+import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
+import com.shinhan.heehee.dto.response.MainProdRecoDTO;
 import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Service
@@ -14,15 +17,15 @@ public class MainService {
 	@Autowired
 	MainDAO mainDao;
 	
-	public List<SellProDTO> rankProdList() {
+	public List<MainProdRankDTO> rankProdList() {
 		return mainDao.rankProdList();
 	}
 
-	public List<SellProDTO> recommandList() {
+	public List<MainProdRecoDTO> recommandList() {
 		return mainDao.recommandList();
 	}
 
-	public List<SellProDTO> recentprodList() {
+	public List<MainProdRecentlyDTO> recentprodList() {
 		return mainDao.recentprodList();
 	}
 }
