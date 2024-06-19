@@ -9,7 +9,10 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/heehee/resources/js/headerCategory.js"></script>
+<script src="/heehee/resources/js/alarm.js"></script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 </head>
 <body>
@@ -32,8 +35,8 @@
 			</div>
 			<div class="header_container">
 				<div class="logo">
-					<a href="">
-						<img src="${path}/resources/images/logo.png" alt="로고 이미지">
+					<a href="${path}/home">
+						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo.png" alt="로고 이미지">
 					</a>
 				</div>
 				<div class="product_container">
@@ -49,74 +52,52 @@
 					<div class="search_bar">
 						<input placeholder="어떤 상품을 찾으시나요?">
 						<a href="">
-							<img src="${path}/resources/images/icon_search.png" alt="검색 버튼 아이콘">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
 						</a>
 					</div>
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
 						<a href="">
-							<img src="${path}/resources/images/icon_sale.png" alt="물품등록 아이콘">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
 							<span>물품등록</span>
 						</a>
 					</div>
 					<div class="menu_div">
-						<a href="">
-							<img src="${path}/resources/images/icon_chat.png" alt="채팅 아이콘">
+						<a href="/heehee/chatting">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_chat.png" alt="채팅 아이콘">
 							<span>채팅</span>
 						</a>
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
-							<img src="${path}/resources/images/icon_alarm_X.png" alt="알림 아이콘">
+							<%-- <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 없는 아이콘"> --%>
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 있는 아이콘">
 							<span>알림</span>
 						</div>
 						<div class="alarm_container">
 							<div>
-								<div class="alarm_type">전체 알림</div>
-								<div class="alarm_type">미확인 알림</div>
+								<div id="alarmAll" class="alarm_type add">전체 알림</div>
+								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
+
+							<%-- 알림 없는 경우 --%>
+							<%--
+							<div id="none">
+								<p>최근 알림이 없습니다.</p>
+							</div>
+							--%>
+
 							<%-- 알림 있는 경우 --%>
-							<div class="alarm_list">
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-								<ul>
-									<li class="alarm_date">2024-06-01 / 16:00</li>
-									<li>swimming</li>
-									<li>안녕하세요~ 문의 드립니다</li>
-								</ul>
-							</div>
+							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
 				</div>
-				
+
 				<%-- 카테고리 --%>
 				<div class="nav_container">
 					<div class="nav_menu">
-						<img src="${path}/resources/images/icon_menu.png" alt="메뉴 아이콘">
+						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_menu.png" alt="메뉴 아이콘">
 						<span>카테고리</span>
 					</div>
 					<div class="nav_inner">
@@ -180,62 +161,5 @@
 			</div>
 		</div>
 	</header>
-	<script>
-		// 수정중
-		/* var text = document.querySelector(".a_color");
-		
-		text.onclick = function() {
-			text.style.color = "rgb(63,81,161)";
-		} */
-		
-		$(function () {
-			// 알림 숨겨놓기
-            $(".alarm_container").hide();
-
-            // 클릭하면 알림 보여주거나 숨기기
-            $("#alarmDiv").on("click", alarmList);
-
-            function alarmList() {
-                $(".alarm_container").toggle();
-                $(".alarm_container").scrollTop(0);
-            }
-
-            // 카테고리 메뉴 숨겨놓기
-            $(".nav_title").hide();
-            $(".nav_content").hide();
-
-            // 숨긴 카테고리 메뉴 보여주기
-            $(".nav_container").mouseenter(function () {
-                $(".nav_title").show();
-            });
-
-            // 카테고리 메뉴 css 추가
-            $(".category_list li").mouseenter(function () {
-                var categoryName = $(this).text();
-
-                $(".nav_content .category_name p").text(categoryName);
-                $(".nav_content").show();
-                $(".category_list li").css({
-                    "background": "white",
-                    "color": "black"
-                });
-
-                /* 마우스 올라가면 카테고리에 css 추가 */
-                $(this).css({
-                    "background-color": "rgb(63, 81, 161)",
-                    "color": "white"
-                });
-            });
-
-            // 카테고리 메뉴 숨기기
-            $(".nav_inner").mouseleave(function () {
-                $(".category_list").scrollTop(0); /* 스크롤 위치 초기화 */
-                $(".nav_title").hide();
-                $(".nav_content").hide();
-                $(".category_list li").css("background", "white"); /* css 초기화 */
-                $(".category_list li").css("color", "black"); /* css 초기화 */
-            })
-        });
-	</script>
 </body>
 </html>
