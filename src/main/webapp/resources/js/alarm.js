@@ -24,10 +24,11 @@ function alarmList() {
 				// 알림별로 경로 다르게 걸어줘야 함
 				var output = "<div>";
 				
-				// 리스트 비어있는지 확인 후 html 다르게 찍어주기
+				// 미확인 알림 있는지 확인 후 알림 없는 경우랑 html 다르게 찍어주기 (추가 예정)
+				// 알림 종류 조건 걸어야 함, 전체 알림 (알림 전체 리스트 존재 여부만 확인) / 미확인 알림 (AL_CHECK = 'N')
 				// if (responseData.length != 0) {
 				
-					// 알림 리스트 반복문
+					// 미확인 알림 리스트 반복문
 					$.each(responseData, function(index, item) {
 						
 						if (item.cateNum == 1) {
@@ -43,8 +44,24 @@ function alarmList() {
 							
 							// output += "<ul onclick='urlClick(\"/heehee/saledetail/$(item.reqSeq)\")'>";
 							
-							// 경로 수정중
+							// 상품 번호 같이 넘겨줘야 함 (두리 컨트롤러 풀 받고 확인 필)
 							output += "<ul onclick='urlClick(\"/heehee/saledetail/\")'>";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
+							
+						} else if (item.cateNum == 4) {
+							// 문의 (페이지 경로 수정해야 함)
+							output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
+						
+						} else if (item.cateNum == 5) {
+							// 상품 번호 같이 넘겨줘야 함 (두리 컨트롤러 풀 받고 확인 필)
+							output += "<ul onclick='urlClick(\"/heehee/purchasedetail\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
 							output += "<li>" + item.alContent + "</li>";

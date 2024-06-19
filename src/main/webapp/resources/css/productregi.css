@@ -1,15 +1,20 @@
 @charset "UTF-8";
 
 /* Reset default browser styles */
-* {
+
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
+/* * {
 	
     margin: 0;
     padding: 0%;
     box-sizing: border-box;
-}
+} */
 
-p {
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 클래스명 추가 */
+.productRegistrate p {
 	color: black;
+	margin: 0;
+    padding: 0%;
 }
 
 /* Body styles */
@@ -25,14 +30,17 @@ p {
 	width: 50%;
 	height: auto;
 	margin: 0 auto;
+	line-height: 2;
+	white-space: nowrap;
 }
 
-body {
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
+/* body {
 	width: 100%;
 	margin: 0 auto;
     line-height: 2;
     white-space: nowrap;
-}
+} */
 
 #regi_title {
 	text-align: center;
@@ -56,6 +64,7 @@ body {
 	display: none;
 }
 
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! box-sizing 추가 */
 #preview {
 	width: 250px;
 	height: 225px;
@@ -63,6 +72,7 @@ body {
 	padding: 25px 25px 25px 25px;
     border: 1px solid #acacac;
     border-radius: 10px;
+    box-sizing: border-box;
 }
 
 .inner{

@@ -1,12 +1,14 @@
 @charset "UTF-8";
 
 /* Reset default browser styles */
-* {
+
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
+/* * {
 	
     margin: 0;
     padding: 0%;
     box-sizing: border-box;
-}
+} */
 
 /* Body styles */
 .productDetail {
@@ -30,19 +32,20 @@
 	background-color: lightgray !important;
 }
 
-body {
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
+/* body {
 	width: 100%;
 	margin: 0 auto;
     line-height: 2;
     white-space: nowrap;
-}
+} */
 
-
-nav {
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
+/* nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 .title-container {
     display: flex;
@@ -124,15 +127,19 @@ nav {
 	justify-content: left;
 }
 
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 동희한테 물어보기 */
 #plusArea {
 	position: fixed;
-    right: 7%;
     margin: 0 auto;
     gap: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+	/* 기존 속성 주석, margin-left 추가 */    
+    /* right: 7%; */
+    margin-left: 1280px;
 }
 
 #recentArea {
@@ -172,8 +179,12 @@ nav {
 	font-size: 13px;
 }
 
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 속성 추가함 */
 #product_state {
 	font-size: 15px;
+	line-height: 2;
+	padding: 0%;
+    box-sizing: border-box;
 }
 
 .button-container {
@@ -284,9 +295,9 @@ hr{
     align-items: center;
     gap: 60px;
     margin-top: 10px;
-    
 }
 
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 속성 추가함 */
 .reco {
     width: 200px;
     height: 200px;
@@ -294,6 +305,9 @@ hr{
     padding: 25px 25px 25px 25px;
     border: 1px solid #acacac;
     border-radius: 10px;
+    
+    padding: 0%;
+    box-sizing: border-box;
 }
 
 .burger {
