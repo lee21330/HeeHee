@@ -33,11 +33,4 @@ public class MainController {
 		model.addAttribute("aucList", auctionService.aucProdList());
 		return "/main/auction";
 	}
-	
-	@PostMapping("/upload")
-	@ResponseBody
-	public String upload(MultipartFile multipartFile) throws IOException {
-		String filePath ="images/auction/";
-		return s3Service.uploadObject(multipartFile, filePath + multipartFile.getOriginalFilename());
-	}
 }

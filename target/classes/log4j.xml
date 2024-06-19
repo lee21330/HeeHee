@@ -19,12 +19,6 @@
 		</layout>
 	</appender>
 	
-	
-	<!-- Application Loggers -->
-	<logger name="com.shinhan.myapp">
-		<level value="info" />
-	</logger>
-	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
@@ -44,7 +38,7 @@
 
 	<!-- Query Loggers -->
 	<logger name="jdbc.sqlonly" additivity="false">
-		<level value="INFO" />
+		<level value="off" />
 		<appender-ref ref="console" />
 	</logger>
 	
@@ -57,8 +51,23 @@
 	 <logger name="jdbc.audit" >
 	 	<level value="off"></level>
 	 </logger>
-
-
+	 
+	 <logger name="jdbc.connection" >
+	 	<level value="info"></level>
+	 </logger>
+	 
+	 <logger name="jdbc.sqltiming" >
+	 	<level value="info"></level>
+	 </logger>
+	 
+	 <logger name="com.shinhan.auction">
+        <level value="info" />
+    </logger>
+	 
+	 <logger name="org.apache.ibatis">
+        <level value="info" />
+    </logger>
+	 
 	<!-- Root Logger -->
 	<root>
 		<priority value="info" />

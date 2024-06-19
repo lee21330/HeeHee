@@ -17,42 +17,79 @@
 		 setInterval(function() {
 			 getExpTime();
 		 },1000);
+		 
+		 setInterval(function() {
+			 getAucPrice();
+		 },500);
 		
+		 $(".card").on("click", function() {
+			var aucSeq = $(this).children(".seq").val();
+			location.href = "/heehee/auc/detail/" + aucSeq;
+		 });
 	})
+	
+	function getAucPrice() {
+		var cards = $(".card");
+		var seqArr = [];
+		for(let i = 0; i < cards.length; i++) {
+			var seq = $(".card").eq(i).children(".seq").val();
+			seqArr.push(seq);
+		}
+		
+		$.ajax({
+		    url: '/heehee/auc/prices',
+		    method: 'GET',
+		    data : {"seqArr" : seqArr},
+		    dataType : 'json',
+		    success: function (data, status, xhr) {
+		    	for(let i = 0; i < data.length; i++) {
+		    		$("#pr_" + data[i].productSeq).text(data[i].aucPrice + "원")
+		    	}
+		    },
+		    error: function (data, status, err) {
+		    	console.log(err);
+		    }
+		});
+	}
 	
 	function getExpTime() {
 		var cards = $(".card");
 		for(let i = 0; i < cards.length; i++) {
 			var seq = $(".card").eq(i).children(".seq").val();
 			var expDate = $(".card").eq(i).children(".aucExpDate").val();
-			remaindTime(seq,expDate);
+			var expTime = $(".card").eq(i).children(".aucExpTime").val();
+			remaindTime(seq, expDate, expTime);
 		}
 	}
 	
-	function remaindTime(seq,time) {
-			var txt = time
-			var tSplit = txt.split(":");
+	function fGet2char(num) {
+	      return num < 10 ? "0" + num : String(num);
+	}
+	
+	function remaindTime(seq, expDate, expTime) {
+			var expD = expDate;
+			var dSplit = expD.split("/");
+			
+			var expT = expTime;
+			var tSplit = expT.split(":");
+			
 		    var now = new Date();
-		    var exp = new Date(now.getFullYear(),now.getMonth(),now.getDate(),tSplit[0],tSplit[1],tSplit[2]);
-		  
-		    var nt = now.getTime();
-		    var et = exp.getTime();
+		    var exp = new Date(dSplit[0],dSplit[1] - 1,dSplit[2],tSplit[0],tSplit[1],tSplit[2]);
+
+	      	let gap = Math.max(exp.getTime() - now.getTime(), 0);
+	      	let day = Math.floor((gap / 3600000)/24);
+	      	let HH = fGet2char(Math.floor(gap / 3600000) % 24 + (day * 24));
+	      	let MM = fGet2char(Math.floor((gap % 3600000) / 60000));
+	      	let SS = fGet2char(Math.floor((gap % 60000) / 1000));
+	      
+		    if((gap/60000) < 30) {
+		    	$(".c_" + seq).removeClass("blue");
+		    	$(".c_" + seq).addClass("red");
+		    }
 		    
-		     sec =parseInt(et - nt) / 1000;
-		     day  = parseInt(sec/60/60/24);
-		     sec = (sec - (day * 60 * 60 * 24));
-		     hour = parseInt(sec/60/60);
-		     sec = (sec - (hour*60*60));
-		     min = parseInt(sec/60);
-		     sec = parseInt(sec-(min*60));
-		     
-		     if(hour<10){hour="0"+hour;}
-		     if(min<10){min="0"+min;}
-		     if(sec<10){sec="0"+sec;}
-		     
-		      $(".h_" + seq).html(hour);
-		      $(".m_" + seq).html(min);
-		      $(".s_" + seq).html(sec);
+		    $(".h_" + seq).html(HH);
+		    $(".m_" + seq).html(MM);
+		    $(".s_" + seq).html(SS);
 		 }
 </script>
 
@@ -68,115 +105,33 @@
 				<div id="prodRankArea">
 					<p class="classifyTitle">마감 임박 상품</p>
 					<div id="auctionListArea">
-						<div class="card">
-							<input class="seq" type="hidden" value="1">
-							<input class="aucExpDate" type="hidden" value="23:10:00">
-							<div class="timer blue">
-								<span class="h_1"></span>
+						<c:forEach items="${aucList}" var="aucProd">
+							<div class="card">
+							<input class="seq" type="hidden" value="${aucProd.productSeq}">
+							<input class="aucExpDate" type="hidden" value="${aucProd.expDate}">
+							<input class="aucExpTime" type="hidden" value="${aucProd.expTime}">
+							<p>${aucProd.auctionTitle}</p>
+							<div class="timer blue c_${aucProd.productSeq}">
+								<span class="h_${aucProd.productSeq}"></span>
 								:
-								<span class="m_1"></span>
+								<span class="m_${aucProd.productSeq}"></span>
 								:
-								<span class="s_1"></span>
+								<span class="s_${aucProd.productSeq}"></span>
 							</div>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/image+29.png" alt="Sheep">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${aucProd.imgName}" alt="${aucProd.imgName}">
 							<div class="price">
-								입찰가<br>1000원
+								<p>입찰가</p>
+								<p id="pr_${aucProd.productSeq}">${aucProd.aucPrice}원</p>
 							</div>
 						</div>
-						<div class="card">
-							<input class="seq" type="hidden" value="2">
-							<input class="aucExpDate" type="hidden" value="23:15:00">
-							<div class="timer blue">
-								<span class="h_2"></span>
-								:
-								<span class="m_2"></span>
-								:
-								<span class="s_2"></span>
-							</div>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/image+29.png" alt="Sheep">
-							<div class="price">
-								입찰가<br>1000원
-							</div>
-						</div>
-						<div class="card">
-							<input class="seq" type="hidden" value="3">
-							<input class="aucExpDate" type="hidden" value="23:17:00">
-							<div class="timer blue">
-								<span class="h_3"></span>
-								:
-								<span class="m_3"></span>
-								:
-								<span class="s_3"></span>
-							</div>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/image+29.png" alt="Sheep">
-							<div class="price">
-								입찰가<br>1000원
-							</div>
-						</div>
-						<div class="card">
-							<input class="seq" type="hidden" value="4">
-							<input class="aucExpDate" type="hidden" value="23:18:00">
-							<div class="timer blue">
-								<span class="h_4"></span>
-								:
-								<span class="m_4"></span>
-								:
-								<span class="s_4"></span>
-							</div>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/image+29.png" alt="Sheep">
-							<div class="price">
-								입찰가<br>1000원
-							</div>
-						</div>
-						<div class="card">
-							<input class="seq" type="hidden" value="5">
-							<input class="aucExpDate" type="hidden" value="23:22:00">
-							<div class="timer blue">
-								<span class="h_5"></span>
-								:
-								<span class="m_5"></span>
-								:
-								<span class="s_5"></span>
-							</div>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/image+29.png" alt="Sheep">
-							<div class="price">
-								입찰가<br>1000원
-							</div>
-						</div>
-						<div class="card">
-							<input class="seq" type="hidden" value="6">
-							<input class="aucExpDate" type="hidden" value="23:30:00">
-							<div class="timer red">
-								<span class="h_6"></span>
-								:
-								<span class="m_6"></span>
-								:
-								<span class="s_6"></span>
-							</div>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/image+29.png" alt="Sheep">
-							<div class="price">
-								입찰가<br>1000원
-							</div>
-						</div>
-						<div class="card">
-							<input class="seq" type="hidden" value="7">
-							<input class="aucExpDate" type="hidden" value="23:40:00">
-							<div class="timer red">
-								<span class="h_7"></span>
-								:
-								<span class="m_7"></span>
-								:
-								<span class="s_7"></span>
-							</div>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/image+29.png" alt="Sheep">
-							<div class="price">
-								입찰가<br>1000원
-							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<footer>
+        <p>&copy; 2024 희희낙찰. All rights reserved.</p>
+    </footer>
 </body>
 </html>
