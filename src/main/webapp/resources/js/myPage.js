@@ -3,7 +3,8 @@ $(function() {
 	$("#jjimlist").hide();
 	$("#btn_search").on("click", show);
 	$(".mModal_close").on("click", hide);
-	$(".menu li").on("click", change);
+	$(".menu li").on("click", changeMenu);
+	$(".sub_menu p").on("click", changeStatus);
 });
 function show() {
 	$("#search").addClass("show");
@@ -11,7 +12,7 @@ function show() {
 function hide() {
 	$("#search").removeClass("show");
 }
-function change() {
+function changeMenu() {
 	$(".menu li").removeClass("select");
 	$(this).addClass("select");
 
@@ -25,5 +26,10 @@ function change() {
 		$(".list").hide();
 		$("#jjimlist").show();
 	}
+
+}
+function changeStatus() {
+	$(".sub_menu p").removeClass("select_sub");
+	$(this).addClass("select_sub");
 
 }

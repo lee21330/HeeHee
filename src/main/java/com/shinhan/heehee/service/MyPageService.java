@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.MyPageDAO;
 import com.shinhan.heehee.dto.response.JjimDTO;
+import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
@@ -28,6 +29,10 @@ public class MyPageService {
 
 	public List<JjimDTO> jjimList(String userId) {
 		return mypageDao.jjimList(userId);
+	}
+
+	public MyPageHeaderDTO sellerInfo(String userId) {
+		return mypageDao.sellerInfo(userId);
 	}
 
 }

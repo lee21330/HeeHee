@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shinhan.heehee.dto.response.JjimDTO;
+import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
@@ -27,6 +28,10 @@ public class MyPageDAO {
 
 	public List<JjimDTO> jjimList(String userId) {
 		return sqlSession.selectList(namespace + "jjimList", userId);
+	}
+
+	public MyPageHeaderDTO sellerInfo(String userId) {
+		return sqlSession.selectOne(namespace + "sellerInfo", userId);
 	}
 
 }

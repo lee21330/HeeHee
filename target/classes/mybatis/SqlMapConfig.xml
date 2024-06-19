@@ -24,6 +24,9 @@
 		<typeAlias
 			type="com.shinhan.heehee.dto.response.AlarmChatDTO"
 			alias="alarmChatDTO" />
-
+			<typeAlias
+			type="com.shinhan.heehee.dto.response.MyPageHeaderDTO"
+			alias="myHeaderDTO" />
+			
 	</typeAliases>
 </configuration>

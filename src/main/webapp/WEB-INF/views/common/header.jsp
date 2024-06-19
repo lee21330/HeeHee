@@ -35,7 +35,7 @@
 			</div>
 			<div class="header_container">
 				<div class="logo">
-					<a href="${path}/home">
+					<a href="${path}/main">
 						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo.png" alt="로고 이미지">
 					</a>
 				</div>

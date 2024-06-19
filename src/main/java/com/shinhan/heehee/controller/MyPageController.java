@@ -19,6 +19,7 @@ public class MyPageController {
 		model.addAttribute("sInfo", mypageservice.saleList(userId));
 		model.addAttribute("pInfo", mypageservice.purchaseList(userId));
 		model.addAttribute("jInfo", mypageservice.jjimList(userId));
+		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
 		return "/mypage/myPage";
 	}
 
@@ -31,9 +32,20 @@ public class MyPageController {
 	public String faqBoard() {
 		return "/mypage/faqBoard";
 	}
+
 	@GetMapping("/saledetail/{productSeq}")
 	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model) {
 		return "/mypage/saleDetail";
+	}
+
+	@GetMapping("/purchasedetail/{productSeq}")
+	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model) {
+		return "/mypage/purchaseDetail";
+	}
+
+	@GetMapping("/jjimList/{productSeq}")
+	public String jjimList(@PathVariable("productSeq") int proSeq, Model model) {
+		return "/mypage/jjimList";
 	}
 
 }
