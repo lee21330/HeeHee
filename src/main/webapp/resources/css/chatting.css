@@ -137,12 +137,17 @@
 }
 
 .content-header{
-	height:25%;
+	height:30%;
 	display:flex;
 	flex-direction: column;
 	margin-left:20px;
 	margin-right:20px;
 	margin-bottom:10px;
+}
+
+.receiver-nickname{
+	font-size:20px;
+	margin-bottom:5px;
 }
 
 .selling-info{
@@ -157,12 +162,12 @@
 }
 
 .selling-price{
-	font-size: 15px;
+	font-size: 20px;
 	margin-bottom:10px;
 }
 
 .selling-name{
-	font-size: 10px;
+	font-size: 20px;
 	color: #7E7E7E;
 	margin:0;
 }
@@ -171,11 +176,12 @@
 	width: 8%;
 	aspect-ratio: 1/1;
 	/* border: 1px solid black; */
+	object-fit: contain;
 	overflow: hidden;
 	flex-shrink: 0;
 }
 
-.pay{
+.payEdit{
 	font-family: 'SEBANG_Gothic_Bold';
 	background-color:#ABC3FF;
 	color:#FFFFFF;
@@ -184,6 +190,8 @@
 	margin-right:30px;
 	margin-top:auto;
 	height: 50%;
+	font-size: 15px;
+	cursor: pointer;
 }
 
 .content-body{
@@ -218,7 +226,7 @@
 }
 
 .chat{
-	font-size: 20px;
+	font-size: 15px;
 	max-width: 300px;
 	border-radius: 10px;
 	border: 1px solid #000000;
@@ -230,7 +238,7 @@
 }
 
 .chatDate{
-	font-size: 15px;
+	font-size: 10px;
 }
 
 .chatting-input{

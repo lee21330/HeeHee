@@ -56,7 +56,7 @@ $(function(){
 			</c:forEach>
 			</ul>
 			
-			<!-- <li class="chatting-item">
+			<%-- <li class="chatting-item">
 				<div class="item-header">
 					<img class="receiver-image"
 						src="${path}/resources/images/pompompurin.png">
@@ -123,13 +123,13 @@ $(function(){
 							싶습니다. 폼폼푸린 구매하고 싶습니다.</span> <span class="send-time">5월 28일</span>
 					</div>
 				</div>
-			</li> -->
+			</li> --%>
 			
         <!-- 오른쪽 채팅방 채팅 메세지 내역 -->
 		<div class="chatting-content">
 		    <!-- 채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명) -->
-			<div class="content-header">
-			<%-- <p class="receiver-nickname">이두리</p>
+		<!-- 	<div class="content-header">
+			    <p class="receiver-nickname">이두리</p>
 				<div class="selling-info">
 					<img class="selling-image"
 						src="${path}/resources/images/pompompurin.png">
@@ -137,14 +137,13 @@ $(function(){
 						<p class="selling-price">50000원</p>
 						<p class="selling-name">폼폼푸린 아이스크림</p>
 					</div>
-					<!-- roomId 판매자/구매자별로 버튼 내용 다르게 하기 -->
-					<button class="pay">결제하기</button>
-				</div> --%>
-			</div>
+					<button class="payEdit">결제하기</button>
+				</div>
+			</div> -->
 			<!-- 채팅 메시지 내역 -->
 			<div class="content-body">
-			 <%-- 
-				<div class="message-list">
+			 
+				<%--  <div class="message-list">
 				    <!-- 내 메세지 -->
 					<div class="my-chat">
 						<!-- 나중에 읽음/안읽음 처리 해주기 -->

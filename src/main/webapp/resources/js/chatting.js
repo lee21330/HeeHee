@@ -1,6 +1,8 @@
 let selectRoomId; // 선택한 채팅방 번호
 let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
+var stompClient = null;	//stomp 소켓 클라이언트 전역 설정
+var socket = new SockJS('/heehee/ws'); // 소켓 커넥트
 
 // 문서 로딩 완료 후 수행할 기능
 document.addEventListener("DOMContentLoaded", ()=>{
@@ -60,19 +62,18 @@ function roomListAddEvent(){
    }
 }
 
-//roomDetail.chatProductDTO.productImg
+//roomDetail.roomProductDTO.productImg
         
 //$.each(var message :roomDetail.chatMessageDTO) {
 //        	message.msgId}
 
 function selectChattingFn(){
-    fetch("/heehee/chatting/${selectRoomId}")
+    fetch("/heehee/chatting/`${selectRoomId}`")
     .then(response=>response.json())
     .then(roomDetail => {
     
         //채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명)
-        const contentHeader=document.querySelector("content-header");
-        
+        const contentHeader = document.querySelector(".content-header");
         contentHeader.innerHTML = "";
         
         const receiverNickname = document.createElement("p");
@@ -80,21 +81,119 @@ function selectChattingFn(){
         receiverNickname.innerText = selectReceiverName;
         
         const sellingInfo = document.createElement("div");
-        receiverNickname.classList.add("selling-info");
+        sellingInfo.classList.add("selling-info");
         
         const sellingImage = document.createElement("img");
         sellingImage.classList.add("selling-image");
         
-        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${roomDetail.chatProductDTO.productImg}`;
-        listProfile.setAttribute("src", imgUrl);
+        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${roomDetail.roomProductDTO.productImg}`;
+        sellingImage.setAttribute("src", imgUrl);
         
         const priceName = document.createElement("div");
-        priceName.classList.add("sprice-name");
+        priceName.classList.add("price-name");
         
         const sellingPrice = document.createElement("p");
+        sellingPrice.classList.add("selling-price");
+        sellingPrice.innerText = roomDetail.roomProductDTO.productPrice;
+        
+        const sellingName = document.createElement("p");
+        sellingName.classList.add("selling-name");
+        sellingName.innerText = roomDetail.roomProductDTO.productName;
+        
+        priceName.append(sellingPrice, sellingName);
+        
+        // 버튼 생성 및 판매자/구매자별로 내용 다르게 설정
+        const payButton = document.createElement("button");
+        payButton.classList.add("payEdit");
+        
+        const status = roomDetail.roomProductDTO.status;
+        
+        if (status == '구매자') {
+            payButton.innerText = "결제하기";
+            payButton.addEventListener("click", () => {
+                // 구매자 버튼 클릭 이벤트 처리
+                pay(roomDetail.roomMessageDTO[0].sender);
+            });
+        } else if(status == '판매자'){
+            payButton.innerText = "가격 수정하기";
+            payButton.addEventListener("click", () => {
+                // 판매자 버튼 클릭 이벤트 처리
+                editPrice(roomDetail.roomMessageDTO[0].sender);
+            });
+        }
+        
+        sellingInfo.append(sellingImage, priceName, payButton);
+        
+        contentHeader.append(receiverNickname, sellingInfo);
+        
+        contentBody = document.querySelector(".content-body");
+        contentBody.innerHTML = "";
+        
+        if(roomDetail.roomMessageDTO.length>0){
+            const messageList = document.createElement("div");
+            messageList.classList.add("message-list");
+            
+            for(const message of roomDetail.roomMessageDTO){
+                if(message.sender == loginMemberNo){
+                    const myChat = document.createElement("div");
+                    myChat.classList.add("my-chat");
+                    
+                    const chatDate = document.createElement("span");
+                    chatDate.classList.add("chatDate");
+                    chatDate.innerText = message.sendTime + ' 읽음';
+                    
+                    const chat = document.createElement("p");
+                    chat.classList.add("chat");
+                    chat.innerText = message.content;
+                    
+                    myChat.append(chatDate, chat);
+                    
+                    messageList.append(myChat);
+                }
+                else if(message.sender != loginMemberNo){
+                    const targetChat = document.createElement("div");
+                    targetChat.classList.add("target-chat");
+                    
+                    const chat = document.createElement("p");
+                    chat.classList.add("chat");
+                    chat.innerText = message.content;
+                    
+                    const chatDate = document.createElement("span");
+                    chatDate.classList.add("chatDate");
+                    
+                    let read = '안 읽음';
+                    
+                    if(message.readCheck == 'Y'){
+                        read = '읽음';
+                    }
+                    
+                    chatDate.innerText = message.sendTime + ' ' + read;
+                    
+                    targetChat.append(chat, chatDate);
+                    
+                    messageList.append(targetChat);
+                }
+            }
+            contentBody.append(messageList);
+        }
+        
     })
     .catch(err => console.log(err));
 }
+
+// 채팅룸 커넥트
+function connect(chatRoomId) {
+	stompClient = Stomp.over(socket);
+	stompClient.connect({}, function (frame) {
+	    console.log('Connected: ' + frame);
+	    stompClient.subscribe('/topic/chatroom/' + chatRoomId, function (response) {
+	    	console.log(response);
+	        showResponse(JSON.parse(response.body));
+	    });
+	});
+}
+
+
 
 //채팅방 목록 1.5초마다 불러오기
 function fetchChatRoomList() {
@@ -195,9 +294,6 @@ function updateChatRoomList(data) {
                 unreadCount.classList.add("unread-count");
                 unreadCount.innerText = room.unreadcount;
                 nameCount.append(unreadCount);
-            
-           // 현재 채팅방을 보고 있는 경우
-           // 비동기로 해당 채팅방 메시지를 읽음으로 표시
            }
 
             li.append(itemHeader, itemBody);

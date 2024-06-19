@@ -13,7 +13,7 @@
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
              WHERE r.room_id = r2.room_id 
              AND r2.seller = 'b'),
-            r.buyer, r.seller), '알 수 없음') receiverid,
+            r.buyer, r.seller), null) receiverid,
 		(select count(*) from chat_message m
 		where m.room_id=r.room_id
 		and m.read_check='N'
@@ -27,7 +27,7 @@
                      (SELECT hh_user.nick_name 
                       FROM hh_user 
                       WHERE hh_user.id = r.seller)),
-                '알 수 없음') receivernickname,
+                null) receivernickname,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
                       WHERE r.room_id = r2.room_id 
                       AND r2.seller = 'b'),
@@ -37,7 +37,7 @@
                      (SELECT hh_user.profile_img 
                       FROM hh_user 
                       WHERE hh_user.id = r.seller)),
-                '알 수 없음') receiverimg,
+                null) receiverimg,
 		(select max(msg_id) as max_message_no
 		from chat_message m
 		where r.room_id = m.room_id) as maxmessageno
@@ -52,28 +52,29 @@
                  where r.sell_seq=i.table_pk and i.img_cate_seq=2 and rownum=1),
                  (SELECT img_name from img_files i 
                   where r.auc_seq=i.table_pk and i.img_cate_seq=3 and rownum=1)),
-            'no image') AS productImg,
+            null) AS productImg,
  	  COALESCE(NVL((SELECT product_price from sell_product s
                  where r.sell_seq=s.product_seq),
-                 (SELECT end_price from auc_product a
-                  where r.auc_seq=a.product_seq)),
+                 (SELECT max(bid_price) from auction_history a
+                  where r.auc_seq=a.auc_prod_seq)),
              0) AS productPrice,
   	  COALESCE(NVL((select prod_name from product_type t
                  where t.product_seq=r.auc_seq),
                 (select prod_name from product_type t
                  where t.product_seq=r.sell_seq)),
-            'no name') AS productName,
+            null) AS productName,
   	  COALESCE(NVL2((SELECT seller from chat_room r2 where r2.room_id=r.room_id and r2.seller=#{loginUserId}),
               '판매자', '구매자'),
-             'no user') AS status
+             null) AS status
 	from chat_room r
 	where r.room_id=#{chatRoomId}
 </select>
 
 <select id="getRoomMessage" parameterType="int" resultType="com.shinhan.heehee.dto.response.RoomMessageDTO">
-    select msg_id msgId, content, to_char(send_time,'HH24:MI') as sendTime, read_check as readCheck, sender, receiver
-	from chat_message m
-	where m.room_id=#{chatRoomId}
+    select msg_id msgId, content, to_char(send_time,'HH24:MI') as sendTime, read_check as readCheck, sender
+    from chat_message m
+    where m.room_id=1
+    order by msgId;
 </select>
 
 <update id="updateReadCheck">
