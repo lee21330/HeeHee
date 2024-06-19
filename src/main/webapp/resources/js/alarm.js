@@ -30,20 +30,21 @@ function alarmList() {
 					// 알림 리스트 반복문
 					$.each(responseData, function(index, item) {
 						
-						if (item.cateNum == 1) { // 채팅
-							// $("#urlLocation").attr("href", "/heehee/chatting")
-							
+						if (item.cateNum == 1) {
+							// 채팅
 							output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
 							output += "<li>" + item.alContent + "</li>";
 							output += "</ul>";
 							
-						} else if (item.cateNum == 2) { // 판매
-						
-							// $("#urlLocation").prop("href", "/heehee/saledetail/${sale.productSeq}")
-						
-							output += "<ul onclick='urlClick(\"/heehee/saledetail/item.reqSeq\")'>";
+						} else if (item.cateNum == 2) {
+							// 판매
+							
+							// output += "<ul onclick='urlClick(\"/heehee/saledetail/$(item.reqSeq)\")'>";
+							
+							// 경로 수정중
+							output += "<ul onclick='urlClick(\"/heehee/saledetail/\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
 							output += "<li>" + item.alContent + "</li>";
@@ -55,6 +56,7 @@ function alarmList() {
 					output += "</div>";
 					
 					$("#here").html(output);
+					
 				// }
 			},
 			error : function(data) {
