@@ -15,8 +15,8 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    border: 2px solid black;
-    margin-top: 10px;
+    position: fixed;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 4px 0px;
 }
 
 #sideMenuContainer ul {

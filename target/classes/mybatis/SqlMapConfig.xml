@@ -8,9 +8,8 @@
   <setting name="jdbcTypeForNull" value="NULL"/>
 </settings>
    <typeAliases>
-   <typeAlias type="com.shinhan.heehee.dto.requset.AdminBanHistoryDTO" alias="banvo"/>
-   <typeAlias type="com.shinhan.heehee.dto.requset.AdminFaqBoardDTO" alias="faqvo"/>
-   <typeAlias type="com.shinhan.heehee.dto.requset.AdminQnaBoardDTO" alias="qnavo"/>
-   <typeAlias type="com.shinhan.heehee.dto.requset.AdminQnaOptionDTO" alias="qnaoptionvo"/>
+   <typeAlias type="com.shinhan.heehee.dto.request.AdminUserDTO" alias="userVO"/>
+   <typeAlias type="com.shinhan.heehee.dto.request.AdminUserBanDTO" alias="userBanVO"/>
+   <typeAlias type="com.shinhan.heehee.dto.request.AdminProductDTO" alias="adminProductVO"/>
    </typeAliases>
 </configuration>

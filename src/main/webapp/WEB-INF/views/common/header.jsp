@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>header</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" href="${path}/resources/css/header.css">
+<link rel="stylesheet" href="${path}/resources/css/admin/header.css">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/loginModal.jsp"%>

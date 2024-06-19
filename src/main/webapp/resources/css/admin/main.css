@@ -28,16 +28,19 @@ body {
 }
 
 #mainMenuContainer {
-	width: 1010px;
+	width: 1030px;
 	padding: 30px;
-	margin-top: 10px;
-	margin-left: 20px;
-	border: 2px solid blue;
+	margin-left: 250px;
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 4px 0px;
 }
 
 .mainTitle {
 	color: rgb(73,73,233);
 	font-size: 30px;
+}
+
+.searchTitle {
+	margin-top: 15px;
 }
 
 .searchTitle, .detailTitle {
@@ -141,7 +144,7 @@ table {
 
 table tbody {
 	display: block;
-	max-height: 780px;
+	max-height: 600px;
 	overflow-y: scroll;
 	width: 100%;
 }
@@ -239,6 +242,14 @@ table tbody tr td {
 	justify-content: flex-start;
 	position: relative;
 	border-bottom: 3px solid rgb(233, 233, 233);
+	margin:20px 0px 5px 0px;
+}
+
+#mainTitleContainerTop {
+	display: flex;
+	justify-content: flex-start;
+	position: relative;
+	border-bottom: 3px solid rgb(233, 233, 233);
 	margin:0px 0px 5px 0px;
 }
 
@@ -251,45 +262,38 @@ table tbody tr td {
 	border-bottom: 1px solid gray;
 	margin-bottom: 30px;
 }
-
-	/* 회원번호 */
+	/* 회원명 */
 .userTable table thead tr th:nth-child(1),
 .userTable table tbody tr td:nth-child(1) {
-	width: 7%;
-	text-align: center;
-}
-	/* 회원명 */
-.userTable table thead tr th:nth-child(2),
-.userTable table tbody tr td:nth-child(2) {
 	width: 6%;
 	text-align: center;
 	
 }
 	/* 아이디 */
-.userTable table thead tr th:nth-child(3),
-.userTable table tbody tr td:nth-child(3) {
+.userTable table thead tr th:nth-child(2),
+.userTable table tbody tr td:nth-child(2) {
 	width: 13%;
 	text-align: center;
 }
 	/* 이메일 */
-.userTable table thead tr th:nth-child(4),
-.userTable table tbody tr td:nth-child(4) {
+.userTable table thead tr th:nth-child(3),
+.userTable table tbody tr td:nth-child(3) {
 	width: 20%;
 }
 	/* 전화번호 */
-.userTable table thead tr th:nth-child(5),
-.userTable table tbody tr td:nth-child(5) {
+.userTable table thead tr th:nth-child(4),
+.userTable table tbody tr td:nth-child(4) {
 	width: 13%;
 	text-align: center;
 }
 	/* 주소 */
-.userTable table thead tr th:nth-child(6),
-.userTable table tbody tr td:nth-child(6) {
-	width: 31%;
+.userTable table thead tr th:nth-child(5),
+.userTable table tbody tr td:nth-child(5) {
+	width: 38%;
 }
 	/* 가입입 */
-.userTable table thead tr th:nth-child(7),
-.userTable table tbody tr td:nth-child(7) {
+.userTable table thead tr th:nth-child(6),
+.userTable table tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
 }
@@ -309,37 +313,31 @@ table tbody tr td {
 	width: 4%;
 	text-align: center;
 }
-	/* 회원번호 */
+	/* 회원명 */
 .userBanTable table thead tr th:nth-child(3),
 .userBanTable table tbody tr td:nth-child(3) {
-	width: 7%;
-	text-align: center;
-}
-	/* 회원명 */
-.userBanTable table thead tr th:nth-child(4),
-.userBanTable table tbody tr td:nth-child(4) {
 	width: 6%;
 	text-align: center;
 }
 	/* 아이디 */
-.userBanTable table thead tr th:nth-child(5),
-.userBanTable table tbody tr td:nth-child(5) {
+.userBanTable table thead tr th:nth-child(4),
+.userBanTable table tbody tr td:nth-child(4) {
 	width: 13%;
 }
 	/* 정지내용 */
-.userBanTable table thead tr th:nth-child(6),
-.userBanTable table tbody tr td:nth-child(6) {
-	width: 46%;
+.userBanTable table thead tr th:nth-child(5),
+.userBanTable table tbody tr td:nth-child(5) {
+	width: 53%;
 }
 	/* 시작일 */
-.userBanTable table thead tr th:nth-child(7),
-.userBanTable table tbody tr td:nth-child(7) {
+.userBanTable table thead tr th:nth-child(6),
+.userBanTable table tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
 }
 	/* 종료일 */
-.userBanTable table thead tr th:nth-child(8),
-.userBanTable table tbody tr td:nth-child(8) {
+.userBanTable table thead tr th:nth-child(7),
+.userBanTable table tbody tr td:nth-child(7) {
 	width: 10%;
 	text-align: center;
 }

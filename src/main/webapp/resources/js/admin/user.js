@@ -12,43 +12,60 @@ $(document).ready(function() {
     // 초기화 버튼 클릭 시
     $('#resetButton').click(function() {
         $('#searchInput').val('');
+        $('#startDate').val('');
+        $('#endDate').val('');
+        $('#input[name="dateSelect"]').prop('checked', false);
         loadTable();
     });
 
     // 테이블 데이터를 Ajax로 가져오기
     function loadTable() {
         var category = $('#searchCategory').val();
+        var categoryDate = $('#dateCategory').val();
         var keyword = $('#searchInput').val();
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
-
+        
+        //Ajax 동작 확인용
+        console.log("Sending AJAX request with data:", { 
+            'category': category, 
+           	'categoryDate': categoryDate,
+            'keyword': keyword, 
+            'startDate': startDate, 
+            'endDate': endDate 
+        });
+		
         $.ajax({
-            url: '/your-server-endpoint',
+            url: "/heehee/admin/searchUsers",
             method: 'GET',
             data: { 
             	'category': category, 
+            	'categoryDate': categoryDate,
             	'keyword': keyword, 
             	'startDate': startDate, 
             	'endDate': endDate 
             	},
             success: function(data) {
+				//Ajax 동작 확인용
+				console.log("Received date:", data);
+				
                 var tableBody = $('#tableBody');
                 tableBody.empty();
 
                 data.forEach(function(item) {
                     var row = `<tr>
-                        <td>${item.memberNumber}</td>
-                        <td>${item.memberName}</td>
-                        <td>${item.userID}</td>
+                        <td>${item.name}</td>
+                        <td>${item.id}</td>
                         <td>${item.email}</td>
-                        <td>${item.phoneNumber}</td>
+                        <td>${item.phone_num}</td>
                         <td>${item.address}</td>
-                        <td>${item.joinDate}</td>
+                        <td>${new Date(item.create_date).toLocaleDateString()}</td>
                     </tr>`;
                     tableBody.append(row);
                 });
             },
             error: function(xhr, status, error) {
+				console.log('AJAX request failed:', status, error);
                 alert('데이터를 가져오는 중 오류가 발생했습니다.');
             }
         });
@@ -70,14 +87,16 @@ $(document).ready(function() {
             startDate = firstDayLastMonth.toISOString().split('T')[0];
             endDate = lastDayLastMonth.toISOString().split('T')[0];
         } else if (this.id === 'oneMonth') {
-            startDate = new Date(today);
+			startDate = new Date(today.setMonth(today.getMonth() - 1)).toISOString().split('T')[0];
+            /*startDate = new Date(today);
             startDate.setDate(today.getDate() - 30);
-            startDate = startDate.toISOString().split('T')[0];
+            startDate = startDate.toISOString().split('T')[0];*/
             endDate = new Date().toISOString().split('T')[0];
         } else if (this.id === 'threeMonth') {
-            startDate = new Date(today);
+			startDate = new Date(today.setMonth(today.getMonth() - 3)).toISOString().split('T')[0];
+            /*startDate = new Date(today);
             startDate.setDate(today.getDate() - 90);
-            startDate = startDate.toISOString().split('T')[0];
+            startDate = startDate.toISOString().split('T')[0];*/
             endDate = new Date().toISOString().split('T')[0];
         }
         
@@ -86,3 +105,4 @@ $(document).ready(function() {
         loadTable();
     });
  });
+ 

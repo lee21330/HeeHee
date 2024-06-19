@@ -2,14 +2,63 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- mapper의 namespace와 DAO의 네임스페이스가 일치해야 한다. (다만, DAO에는 경로때문에 뒤에 . 이 붙어있음. -->
-<mapper namespace="com.shinhan.heehee.dao">
+<mapper namespace="com.shinhan.heehee.admin">
 <!--id는 DAO에서 namespace + "여기" 들어가는 것과 일치해야 한다. -->
 <!-- resultType은 SqlMapConfig의 typeAlia 중 alias에 작성해놓은 명칭과 일치하도록 쓴다. -->
-	<select id="searchTest" resultType="com.shinhan.heehee.dto.requset.AdminBanHistoryDTO">
-		SELECT * FROM BAN_HISTORY
-
+	<select id="wholeUserSearch" resultType="userVO">
+		SELECT NAME, ID, EMAIL, PHONE_NUM, ADDRESS, CREATE_DATE 
+		FROM HH_USER
+		WHERE 1=1
+        <if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+            <choose>
+                <when test="category == 'memberName'">
+                    AND NAME LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'userID'">
+                    AND ID LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'email'">
+                    AND EMAIL LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        <if test="startDate != null and !startDate.isEmpty()">
+            AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="endDate != null and !endDate.isEmpty()">
+            AND CREATE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+        </if>
 	</select>
 	
+	<select id="userBanSearch" resultType="userBanVO">
+		SELECT hh.NAME, hh.ID, bh.BAN_CONTENT, bh.BAN_STR , bh.BAN_END
+		FROM HH_USER hh
+		LEFT JOIN BAN_HISTORY bh ON hh.ID = bh.ID
+		WHERE 1=1
+        <if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+            <choose>
+                <when test="category == 'memberName'">
+                    AND NAME LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'userID'">
+                    AND ID LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'email'">
+                    AND EMAIL LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        <if test="startDate != null and !startDate.isEmpty()">
+            AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="endDate != null and !endDate.isEmpty()">
+            AND CREATE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+        </if>
+	</select>
 	
+	<select id="searchProductDetail" resultType="adminProductVO">
+		
 	
+	</select>
+
 </mapper>

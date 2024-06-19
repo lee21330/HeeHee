@@ -13,9 +13,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AdminBanHistoryDTO {
-	public String id;
-	public String ban_content;
-	public Date ban_str;
-	public Date ban_end;
+public class AdminUserDTO {
+	private String name;
+	private String id;
+	private String email;
+	private String phone_num;
+	private String address;
+	private Date create_date;
 }

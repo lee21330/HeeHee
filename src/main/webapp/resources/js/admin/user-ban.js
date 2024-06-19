@@ -18,15 +18,17 @@ $(document).ready(function() {
     // 테이블 데이터를 Ajax로 가져오기
     function loadTable() {
         var category = $('#searchCategory').val();
+        var categoryDate = $('#dateCategory').val();
         var keyword = $('#searchInput').val();
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
 
         $.ajax({
-            url: '/your-server-endpoint',
+            url: '/heehee/admin/userBan',
             method: 'GET',
             data: { 
             	'category': category, 
+            	'categoryDate': categoryDate,
             	'keyword': keyword, 
             	'startDate': startDate, 
             	'endDate': endDate 
@@ -39,12 +41,11 @@ $(document).ready(function() {
                     var row = `<tr>
                         <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
 						<td>${item.status}</td>
-						<td>${item.memberNumber}</td>
-						<td>${item.memberName}</td>
-						<td>${item.userID}</td>
-						<td>${item.banReason}</td>
-						<td>${item.startDate}</td>
-						<td>${item.endDate}</td>
+						<td>${item.name}</td>
+						<td>${item.id}</td>
+						<td>${item.ban_content}</td>
+						<td>${item.ban_str}</td>
+						<td>${item.ban_end}</td>
                     </tr>`;
                     tableBody.append(row);
                 });

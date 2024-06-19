@@ -13,13 +13,12 @@
 <body>
 <%@ include file="../common/admin/header.jsp" %>
 	<div id="bodyContainer">
-	
 	<%@ include file="../common/admin/sideMenu.jsp" %>
 
 	<div id="mainMenuContainer">
 	
 		<div id="totalOrderCol">
-			<div id="mainTitleContainer"><p class="mainTitle">전체 주문통계</p></div>
+			<div id="mainTitleContainerTop"><p class="mainTitle">전체 주문통계</p></div>
 			<div id="allTable">
 			<table>
 				<thead>
