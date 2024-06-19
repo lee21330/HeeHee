@@ -135,7 +135,7 @@
                             <input type="text" class="input_box" placeholder="사용하실 전화번호를 입력하세요">
                         </div>
                         <div class="modal_bank">
-                            <select name="" id="">
+                            <select>
                                 <option>은행</option>
                                 <option>신한은행</option>
                             </select>
