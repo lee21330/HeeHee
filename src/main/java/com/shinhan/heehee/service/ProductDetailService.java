@@ -29,6 +29,11 @@ public class ProductDetailService {
 	 * public SellProDTO userIntroduce(Integer prodSeq) { return
 	 * productDetailDao.userIntroduce(prodSeq); }
 	 */
+	
+	/*
+	 * public SellProDTO userIntroduce(Integer prodSeq) { return
+	 * productDetailDao.userIntroduce(prodSeq); }
+	 */
 
 	public List<ProdDetailRecoDTO> prodReco() {
 		return productDetailDao.prodReco();
