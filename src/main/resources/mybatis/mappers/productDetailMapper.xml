@@ -31,13 +31,24 @@
 	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
 		SELECT IMG.IMG_NAME
 		FROM IMG_FILES IMG, SELL_PRODUCT SELL
-		WHERE IMG.TABLE_PK = #{PROD_SEQ}
+		WHERE IMG.TABLE_PK = SELL.PRODUCT_SEQ
+        AND IMG.IMG_CATE_SEQ = 2
+        AND IMG.TABLE_PK = #{PROD_SEQ}
 	</select>
 	
-	<insert id="viewLog" parameterType="com.shinhan.heehee.dto.response.SellProDTO">
+	<!-- <insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.response.ViewLogDTO">
 		INSERT INTO VIEW_LOG
 		VALUES (#{PROD_SEQ}, #{ID}, SYSDATE)
 	</insert>
+	
+	<select id="selectViewLog" parameterType="com.shinhan.heehee.dto.response.InsertViewLogDTO">
+		SELECT *
+		FROM (SELECT PRODUCT_SEQ, ID
+		FROM VIEW_LOG
+		WHERE ID = #{id}
+		GROUP BY PRODUCT_SEQ, ID)
+		WHERE ROWNUM <![CDATA[<]]> 3
+	</select> -->
 	
 	<select id="prodrecoDetail" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT IMG.IMG_NAME
@@ -48,7 +59,7 @@
 		ORDER BY DBMS_RANDOM.RANDOM
 	</select>
 	
-	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.SellProDTO">
+	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
 		    SELL.INTRODUCE, SELL.PRODUCT_PRICE
 		FROM SELL_PRODUCT SELL
@@ -59,14 +70,14 @@
 		ORDER BY IMG_SEQ
 	</select>
 	
-	<select id="prodreco" resultType="com.shinhan.heehee.dto.response.SellProDTO">
+	<select id="prodreco" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
             SELL.PRODUCT_PRICE, SELL.CREATE_DATE,
             CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 3600 THEN ROUND((SYSDATE - CREATE_DATE)*24*60) || '분전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 86400 THEN ROUND((SYSDATE - CREATE_DATE)*24) || '시간전'
             ELSE TRUNC(SYSDATE - CREATE_DATE) || '일전'
-       END AGO_TIME
+        END AGO_TIME
         FROM SELL_PRODUCT SELL
         INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
         WHERE IMG.IMG_CATE_SEQ = 2
@@ -75,7 +86,7 @@
         ORDER BY DBMS_RANDOM.RANDOM
 	</select>
 	
-	<select id="recent" resultType="com.shinhan.heehee.dto.response.SellProDTO">
+	<select id="recently" resultType="com.shinhan.heehee.dto.response.MainProdRecentlyDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
             SELL.PRODUCT_PRICE, SELL.CREATE_DATE,
             CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'

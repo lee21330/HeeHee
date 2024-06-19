@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ㅎㅇ</title>
+<title>판매 제품 상세페이지</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <%-- slick slider --%>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -33,7 +33,7 @@
 				</div>
 				<div class="product-details">
 					<div class="title-container">
-						<p id="product_category">${info.category} > ${info.detailCategory} > ${info.prodName}</p>
+						<p id="product_category">${info.category} > ${info.detailCategory} (${info.prodName})</p>
 						<img id="url_copy" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/linkcopy.png" alt="Copy URL" style="cursor: pointer">
 					</div>
 
@@ -80,7 +80,8 @@
 					<p class="info_title">판매자 정보</p>
 					<hr>
 					<div id="seller_score">
-						<img id="sellerimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}">
+						<img id="sellerimg" onclick="location.href='${path}/sellerProfile/${info.id}'" style="cursor: pointer"
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}">
 						<div>
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
@@ -118,6 +119,7 @@
 	            stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
 	        }
 	    });
+		
 	
 	</script>
 </body>

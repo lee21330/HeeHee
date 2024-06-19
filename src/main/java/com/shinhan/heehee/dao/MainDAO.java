@@ -7,16 +7,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.response.MainProdRankDTO;
+import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
+import com.shinhan.heehee.dto.response.MainProdRecoDTO;
 import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Repository
 public class MainDAO {
-	/*
-	 * @Autowired SqlSession sqlSession;
-	 * 
-	 * String namespace = "com.shinhan.test.";
-	 */
-	
 	@Autowired
 	SqlSession sqlSession;
 	
@@ -35,16 +32,16 @@ public class MainDAO {
 		return sqlSession.selectOne(namespace + "userIntroduce", prodSeq);
 	}
 	
-	public List<SellProDTO> rankProdList() {
+	public List<MainProdRankDTO> rankProdList() {
 		return sqlSession.selectList(prodDetailNamespace + "prodRank");
 	}
 
-	public List<SellProDTO> recommandList() {
+	public List<MainProdRecoDTO> recommandList() {
 		return sqlSession.selectList(prodDetailNamespace + "prodreco");
 	}
 
-	public List<SellProDTO> recentprodList() {
-		return sqlSession.selectList(prodDetailNamespace + "recent");
+	public List<MainProdRecentlyDTO> recentprodList() {
+		return sqlSession.selectList(prodDetailNamespace + "recently");
 	}
 	
 }
