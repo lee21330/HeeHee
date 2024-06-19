@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shinhan.productDetail">
+	<select id="productInfo" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
+	    SELECT 
+		    SELL.*, 
+		    CATE.*, 
+		    TYPE.PROD_NAME,
+		    JJIM_CNT.COUNT AS JJIM_CNT,
+		    USER_INFO.PROFILE_IMG,
+		    USER_INFO.NICK_NAME,
+		    USER_INFO.USER_RATING AS USER_RATING,
+		    USER_INFO.USER_INTRODUCE,
+		    (SELECT COUNT(*) FROM VIEW_LOG WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS VIEW_CNT,
+		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT
+		FROM 
+		    SELL_PRODUCT SELL
+		INNER JOIN 
+		    PRODUCT_TYPE TYPE ON SELL.SELECT_SEQ = TYPE.PRODUCT_SEQ
+		INNER JOIN 
+		    PRODUCT_CATEGORY CATE ON TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
+		LEFT JOIN 
+		    (SELECT PRODUCT_SEQ, COUNT(*) AS COUNT FROM JJIM GROUP BY PRODUCT_SEQ) JJIM_CNT ON SELL.PRODUCT_SEQ = JJIM_CNT.PRODUCT_SEQ
+		LEFT JOIN 
+		    (SELECT ID, PROFILE_IMG, NICK_NAME, USER_RATING, USER_INTRODUCE FROM HH_USER) USER_INFO ON SELL.ID = USER_INFO.ID
+		WHERE 
+		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
+	</select>
+	
+	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
+		SELECT IMG.IMG_NAME
+		FROM IMG_FILES IMG, SELL_PRODUCT SELL
+		WHERE IMG.TABLE_PK = SELL.PRODUCT_SEQ
+        AND IMG.IMG_CATE_SEQ = 2
+        AND IMG.TABLE_PK = #{PROD_SEQ}
+	</select>
+	
+	<!-- <insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.response.ViewLogDTO">
+		INSERT INTO VIEW_LOG
+		VALUES (#{PROD_SEQ}, #{ID}, SYSDATE)
+	</insert>
+	
+	<select id="selectViewLog" parameterType="com.shinhan.heehee.dto.response.InsertViewLogDTO">
+		SELECT *
+		FROM (SELECT PRODUCT_SEQ, ID
+		FROM VIEW_LOG
+		WHERE ID = #{id}
+		GROUP BY PRODUCT_SEQ, ID)
+		WHERE ROWNUM <![CDATA[<]]> 3
+	</select> -->
+	
+	<select id="prodrecoDetail" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
+		SELECT IMG.IMG_NAME
+		FROM IMG_FILES IMG
+		JOIN SELL_PRODUCT SELL ON IMG.TABLE_PK = SELL.PRODUCT_SEQ
+		WHERE IMG.IMG_CATE_SEQ = 2
+		AND ROWNUM <![CDATA[<]]> 6
+		ORDER BY DBMS_RANDOM.RANDOM
+	</select>
+	
+	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
+		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
+		    SELL.INTRODUCE, SELL.PRODUCT_PRICE
+		FROM SELL_PRODUCT SELL
+		INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
+		WHERE IMG.IMG_CATE_SEQ = 2
+        AND ROWNUM <![CDATA[<]]> 13
+		GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.INTRODUCE, SELL.PRODUCT_PRICE
+		ORDER BY IMG_SEQ
+	</select>
+	
+	<select id="prodreco" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
+		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
+            SELL.PRODUCT_PRICE, SELL.CREATE_DATE,
+            CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
+            WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 3600 THEN ROUND((SYSDATE - CREATE_DATE)*24*60) || '분전'
+            WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 86400 THEN ROUND((SYSDATE - CREATE_DATE)*24) || '시간전'
+            ELSE TRUNC(SYSDATE - CREATE_DATE) || '일전'
+        END AGO_TIME
+        FROM SELL_PRODUCT SELL
+        INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
+        WHERE IMG.IMG_CATE_SEQ = 2
+        AND ROWNUM <![CDATA[<]]> 35
+        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE
+        ORDER BY DBMS_RANDOM.RANDOM
+	</select>
+	
+	<select id="recently" resultType="com.shinhan.heehee.dto.response.MainProdRecentlyDTO">
+		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
+            SELL.PRODUCT_PRICE, SELL.CREATE_DATE,
+            CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
+            WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 3600 THEN ROUND((SYSDATE - CREATE_DATE)*24*60) || '분전'
+            WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 86400 THEN ROUND((SYSDATE - CREATE_DATE)*24) || '시간전'
+            ELSE TRUNC(SYSDATE - CREATE_DATE) || '일전'
+        END AGO_TIME
+        FROM SELL_PRODUCT SELL
+        INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
+        WHERE IMG.IMG_CATE_SEQ = 2
+        AND ROWNUM <![CDATA[<]]> 35
+        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE
+        ORDER BY (SYSDATE - CREATE_DATE)
+	</select>
+	
+	<select id="sellerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProfileDTO">
+		SELECT *
+  		FROM HH_USER
+		WHERE HH_USER.ID = #{id}
+	</select>
+	
+	<select id="sellerprod" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProdDTO">
+	   SELECT *
+	   FROM SELL_PRODUCT SELL, IMG_FILES IMG
+	   WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
+	   AND SELL.ID = #{id}
+	   AND IMG_CATE_SEQ = 2
+	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ) 
+	                    FROM IMG_FILES
+	                    WHERE IMG_CATE_SEQ = 2
+	                    GROUP BY TABLE_PK)
+	   <!-- AND ROWNUM <![CDATA[<]]> 6 -->
+	   ORDER BY DBMS_RANDOM.RANDOM
+	</select>
+	
+</mapper>

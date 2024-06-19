@@ -15,6 +15,21 @@
 	margin: 0 auto;
 }
 
+
+.slick-prev,
+.slick-next:hover {
+	background-color: gray !important;
+}
+
+.slick-prev:before, .slick-next:before {
+	line-height: 1.2 !important;  /* 라이브러리때문에 써야함 */
+}
+
+.slick-arrow {
+	border-radius: 25px;
+	background-color: lightgray !important;
+}
+
 body {
 	width: 100%;
 	margin: 0 auto;
@@ -22,12 +37,6 @@ body {
     white-space: nowrap;
 }
 
-/* Header and navigation styles */
-/* header {
-    background: #333;
-    color: #fff;
-    padding: 10px 20px;
-} */
 
 nav {
     display: flex;
@@ -67,7 +76,13 @@ nav {
     object-fit: contain;
 }
 
-#product_img {
+.product_slider {
+	width: 350px;
+	height: 325px;
+	
+}
+
+.product_img {
     width: 350px;
     height: 325px;
 }
@@ -76,8 +91,8 @@ nav {
     display: flex;
     flex-direction: column; /* 텍스트를 세로로 정렬합니다 */
     justify-content: center;
-	width: 700px;
-	margin-left: 30px;
+	width: 850px;
+	margin-left: 70px;
 }
 
 .product-details p,
@@ -110,12 +125,14 @@ nav {
 }
 
 #plusArea {
-	margin: 0 auto;
-	gap: 15px;
+	position: fixed;
+    right: 7%;
+    margin: 0 auto;
+    gap: 15px;
     display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    justify-content: center; /* 중앙 정렬 */
-    align-items: center; /* 수직 방향으로 중앙 정렬 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #recentArea {
@@ -170,7 +187,7 @@ nav {
 	width: 100%;
 	display: flex;
 	margin-bottom: 10px;
-	margin-top: 30px;
+	margin-top: 70px;
 }
 
 hr{
@@ -265,13 +282,14 @@ hr{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 85px;
+    gap: 60px;
     margin-top: 10px;
     
 }
 
 .reco {
     width: 200px;
+    height: 200px;
     object-fit: contain;
     padding: 25px 25px 25px 25px;
     border: 1px solid #acacac;
@@ -286,6 +304,7 @@ hr{
 /* Main content styles */
 main {
     padding: 20px;
+    margin-top: 40px;
 }
 
 
@@ -302,35 +321,4 @@ footer {
     left: 0;
     right: 0;
     width: 100%;
-}
-
-/* Responsive styles */
-@media screen and (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background: #333;
-        position: absolute;
-        top: 60px;
-        left: 0;
-    }
-   
-
-    .nav-links li {
-        margin: 10px 0;
-    }
-
-    .nav-links a {
-        font-size: 20px;
-        padding: 10px;
-        text-align: center;
-        width: 100%;
-        display: block;
-    }
-
-}
-
-.nav-active {
-    display: flex;
 }

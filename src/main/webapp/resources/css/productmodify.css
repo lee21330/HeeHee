@@ -1,0 +1,301 @@
+@charset "UTF-8";
+
+/* Reset default browser styles */
+* {
+	
+    margin: 0;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+.productDetail {
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+}
+
+body {
+	width: 100%;
+	margin: 0 auto;
+    line-height: 2;
+    white-space: nowrap;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between; /* 텍스트와 링크를 양쪽 끝으로 정렬 */
+    align-items: center;
+    width: 100%;
+    color: black;
+}
+
+.price-check-link {
+    margin-left: 20px;
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.product-container {
+	width: 100%;
+	height: auto;
+	
+    display: flex;
+    align-items: flex-start; /* 이미지와 텍스트를 상단에 맞춥니다 */
+    gap: 20px; /* 이미지와 텍스트 사이의 간격을 설정합니다 */
+    color: black;
+}
+
+#url_copy {
+    width: 50px;
+    height: 25px;
+    object-fit: contain;
+}
+
+#product_img {
+    width: 350px;
+    height: 325px;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column; /* 텍스트를 세로로 정렬합니다 */
+    justify-content: center;
+	width: 850px;
+	margin-left: 30px;
+}
+
+.product-details p,
+.product-details ul {
+    margin: 5px 0; /* 텍스트 요소 사이의 간격을 설정합니다 */
+}
+
+#gochat {
+	margin-top: 15px;
+	width: 200px;
+	height: 45px;
+	background: #4949e9;
+	color: white;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+}
+
+#gobuy {
+	margin-top: 15px;
+	width: 200px;
+	height: 45px;
+	background: #dcf343;
+	color: #4949e9;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+}
+
+#plusArea {
+	position: fixed;
+    right: 7%;
+    margin: 0 auto;
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#recentArea {
+	gap: 15px;
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center; /* 수직 방향으로 중앙 정렬 */
+    border: 1px solid #acacac;
+}
+
+#gotop {
+	margin-top: 18%;
+}
+
+.recentimg {
+	width: 75px;
+	height: 50px;
+	object-fit: contain;
+	display: block;
+	margin-top: 7%;
+}
+
+#product_category {
+	font-size: 15px;
+}
+
+#product_name {
+	font-size: 28px;
+}
+
+#product_price {
+	font-size: 24px;
+}
+
+#product_etc {
+	font-size: 13px;
+}
+
+#product_state {
+	font-size: 15px;
+}
+
+.button-container {
+    display: flex; /* 버튼들을 수평으로 정렬 */
+    gap: 5%; /* 버튼 사이의 간격 */
+    width: 100%;
+    justify-content: left;
+}
+
+.info-container {
+	width: 100%;
+	display: flex;
+	margin-bottom: 10px;
+	margin-top: 30px;
+}
+
+hr{
+	margin: 0 auto 15px auto;
+	color: #acacac;
+	width: 80%;
+}
+
+.info_title{
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 22px;
+	color: #4949e9;
+}
+
+#info {
+	margin-left: 10%;
+	margin-bottom: 10px;
+	text-align: left;
+	width: 80%;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+.product-info-container {
+	width: 60%;
+	text-align: left;
+	border: 1px solid;
+	border-radius: 10px;
+	border-color: #acacac;
+}
+
+.seller-info-container {
+	margin-left: 40px;
+	width: 40%;
+	text-align: left;
+	border: 1px solid;
+	border-radius: 10px;
+	border-color: #acacac;
+}
+
+#seller_info {
+	margin-left: 10%;
+	align-items: left;
+	width: 80%;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+#seller_score {
+	margin-right: 10%;
+	margin-left: 10%;
+	line-height: 80px;
+	display: flex;
+	justify-content: space-between;
+}
+
+#sellerimg {
+	width: 70px;
+	height: 65px;
+}
+
+.star {
+	width: 30px;
+	height: 28px;
+	margin-right: 5px;
+}
+
+.seller {
+	margin-top: 7px;
+	margin-bottom: 10px;
+}
+
+.seller_comm {
+	margin-top: 7px;
+	margin-bottom: 10px;
+	overflow: hidden;
+	/* text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break:break-all */
+}
+
+#recommand_title {
+	text-align: center;
+	margin-top: 25px;
+	font-size: 22px;
+	color: #4949e9;
+}
+
+#recommand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    margin-top: 10px;
+    
+}
+
+.reco {
+    width: 200px;
+    object-fit: contain;
+    padding: 25px 25px 25px 25px;
+    border: 1px solid #acacac;
+    border-radius: 10px;
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+/* Main content styles */
+main {
+    padding: 20px;
+}
+
+
+p {
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: white;
+    color: #acacac;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
