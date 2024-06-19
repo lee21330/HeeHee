@@ -11,6 +11,7 @@ import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
 
+
 @Service
 public class MyPageService {
 
@@ -28,6 +29,5 @@ public class MyPageService {
 	public List<JjimDTO> jjimList(String userId) {
 		return mypageDao.jjimList(userId);
 	}
-
 
 }

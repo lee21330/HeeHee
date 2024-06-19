@@ -74,12 +74,17 @@
 				<c:forEach var="sale" items="${sInfo}">
 					<div class="product"
 						onclick="location.href='${path}/saledetail/${sale.productSeq}'">
-						<img class="product_img"
-							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}">
+						<div class="product_slider">
+						
+								<img class="product_img"
+									src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}">
+				
+						</div>
 						<p>${sale.articleTitle}</p>
 						<p>${sale.productPrice}</p>
 					</div>
 				</c:forEach>
+
 			</div>
 			<!-- 구매내역 -->
 			<div id="purchaselist" class="list">
@@ -102,13 +107,15 @@
 					<div class="checkbox"> <input type="checkbox" name="checkBno" value=""> <input
 							type="submit" value="삭제" class="btn">
 					</div> -->
-					<c:forEach var="jjim" items="${jInfo}">
-						<div class="product" onclick="location.href='${path}/productdetail/${jjim.productSeq}'">
-							<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${jjim.imgName}">
-							<p>${jjim.articleTitle}</p>
-							<p>${jjim.productPrice}</p>
-						</div>
-					</c:forEach>
+				<c:forEach var="jjim" items="${jInfo}">
+					<div class="product"
+						onclick="location.href='${path}/productdetail/${jjim.productSeq}'">
+						<img class="product_img"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${jjim.imgName}">
+						<p>${jjim.articleTitle}</p>
+						<p>${jjim.productPrice}</p>
+					</div>
+				</c:forEach>
 
 				<!-- </form> -->
 			</div>

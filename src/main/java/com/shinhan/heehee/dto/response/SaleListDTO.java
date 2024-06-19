@@ -17,4 +17,5 @@ public class SaleListDTO {
 	private String deal;
 	private String id;
 	private String imgName;
+	private int tablePk;
 }

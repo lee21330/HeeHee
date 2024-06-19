@@ -3,16 +3,15 @@
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.myPage">
 	<select id="saleList" parameterType="string" resultType="salevo">
-		SELECT
-		sp.ARTICLE_TITLE, sp.PRODUCT_PRICE, sp.PRODUCT_SEQ,
-		img.IMG_NAME
-		FROM
-		SELL_PRODUCT sp, IMG_FILES img
-		WHERE img.TABLE_PK =
-		sp.PRODUCT_SEQ
-		AND
-		img.IMG_CATE_SEQ = 2
-		AND sp.ID = #{USER_ID}
+		SELECT *
+		FROM SELL_PRODUCT SELL, IMG_FILES IMG
+		WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
+		AND SELL.ID =  #{USER_ID}
+		AND IMG_CATE_SEQ = 2
+		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
+		FROM IMG_FILES
+		WHERE IMG_CATE_SEQ = 2
+		GROUP BY TABLE_PK)
 	</select>
 	<select id="purchaseList" parameterType="string"
 		resultType="purchasevo">

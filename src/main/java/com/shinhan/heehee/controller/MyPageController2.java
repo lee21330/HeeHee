@@ -10,10 +10,6 @@ public class MyPageController2 {
     public String editProfile() {
         return "/mypage/editProfile";
     }
-    @GetMapping("/faqBoard")
-    public String faqBoard() {
-        return "/mypage/faqBoard";
-    }
     @GetMapping("/jjimList")
     public String jjimList() {
         return "/mypage/jjimList";
@@ -29,10 +25,6 @@ public class MyPageController2 {
     @GetMapping("/purchaseList")
     public String purchaseList() {
         return "/mypage/purchaseList";
-    }
-    @GetMapping("/qnaBoard")
-    public String qnaBoard() {
-        return "/mypage/qnaBoard";
     }
     @GetMapping("/saledetail")
     public String saledetail() {
