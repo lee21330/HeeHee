@@ -22,9 +22,9 @@ function alarmList() {
 				console.log(responseData);
 				
 				// 알림별로 경로 다르게 걸어줘야 함
-				var output = "<a>";
+				var output = "<div>";
 				
-				// 리스트 비어있는지 확인 후 html 다르게 찍어주기 (전체라서 굳이?)
+				// 리스트 비어있는지 확인 후 html 다르게 찍어주기
 				// if (responseData.length != 0) {
 				
 					// 알림 리스트 반복문
@@ -43,7 +43,6 @@ function alarmList() {
 						
 							// $("#urlLocation").prop("href", "/heehee/saledetail/${sale.productSeq}")
 						
-							// 수정중
 							output += "<ul onclick='urlClick(\"/heehee/saledetail/item.reqSeq\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
@@ -53,7 +52,7 @@ function alarmList() {
 						
 					});
 					
-					output += "</a>";
+					output += "</div>";
 					
 					$("#here").html(output);
 				// }
