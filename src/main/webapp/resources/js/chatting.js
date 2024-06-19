@@ -1,8 +1,6 @@
 let selectRoomId; // 선택한 채팅방 번호
 let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
-var stompClient = null;	//stomp 소켓 클라이언트 전역 설정
-var socket = new SockJS('/heehee/ws'); // 소켓 커넥트
 
 // 문서 로딩 완료 후 수행할 기능
 document.addEventListener("DOMContentLoaded", ()=>{
@@ -62,23 +60,21 @@ function roomListAddEvent(){
    }
 }
 
-//roomDetail.roomProductDTO.productImg
-        
-//$.each(var message :roomDetail.chatMessageDTO) {
-//        	message.msgId}
-
 function selectChattingFn(){
-    fetch("/heehee/chatting/`${selectRoomId}`")
+    fetch(`/heehee/chatting/${selectRoomId}`)
     .then(response=>response.json())
     .then(roomDetail => {
     
+        const chattingContent = document.querySelector(".chatting-content");
+        chattingContent.innerHTML="";
+    
         //채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명)
-        const contentHeader = document.querySelector(".content-header");
-        contentHeader.innerHTML = "";
+        const contentHeader = document.createElement("div");
+        contentHeader.classList.add("content-header");
         
         const receiverNickname = document.createElement("p");
         receiverNickname.classList.add("receiver-nickname");
-        receiverNickname.innerText = selectReceiverName;
+        receiverNickname.innerHTML = selectReceiverName;
         
         const sellingInfo = document.createElement("div");
         sellingInfo.classList.add("selling-info");
@@ -94,11 +90,11 @@ function selectChattingFn(){
         
         const sellingPrice = document.createElement("p");
         sellingPrice.classList.add("selling-price");
-        sellingPrice.innerText = roomDetail.roomProductDTO.productPrice;
+        sellingPrice.innerText = roomDetail.roomProductDTO.productPrice + '원';
         
         const sellingName = document.createElement("p");
         sellingName.classList.add("selling-name");
-        sellingName.innerText = roomDetail.roomProductDTO.productName;
+        sellingName.innerHTML = roomDetail.roomProductDTO.productName;
         
         priceName.append(sellingPrice, sellingName);
         
@@ -126,73 +122,94 @@ function selectChattingFn(){
         
         contentHeader.append(receiverNickname, sellingInfo);
         
-        contentBody = document.querySelector(".content-body");
-        contentBody.innerHTML = "";
+        const contentBody = document.createElement("div");
+        contentBody.classList.add("content-body");
+        
+        const messageList = document.createElement("div");
+        messageList.classList.add("message-list");
         
         if(roomDetail.roomMessageDTO.length>0){
-            const messageList = document.createElement("div");
-            messageList.classList.add("message-list");
             
             for(const message of roomDetail.roomMessageDTO){
                 if(message.sender == loginMemberNo){
+                    if(message.content.indexOf('[img_asdfzv]')==-1){
                     const myChat = document.createElement("div");
                     myChat.classList.add("my-chat");
                     
                     const chatDate = document.createElement("span");
                     chatDate.classList.add("chatDate");
-                    chatDate.innerText = message.sendTime + ' 읽음';
+                    chatDate.innerHTML = message.sendTime + ' 읽음';
                     
                     const chat = document.createElement("p");
                     chat.classList.add("chat");
-                    chat.innerText = message.content;
+                    chat.innerHTML = message.content;
                     
                     myChat.append(chatDate, chat);
                     
                     messageList.append(myChat);
-                }
-                else if(message.sender != loginMemberNo){
-                    const targetChat = document.createElement("div");
-                    targetChat.classList.add("target-chat");
-                    
-                    const chat = document.createElement("p");
-                    chat.classList.add("chat");
-                    chat.innerText = message.content;
-                    
-                    const chatDate = document.createElement("span");
-                    chatDate.classList.add("chatDate");
-                    
-                    let read = '안 읽음';
-                    
-                    if(message.readCheck == 'Y'){
-                        read = '읽음';
                     }
                     
-                    chatDate.innerText = message.sendTime + ' ' + read;
+                    //사진 띄워주기 https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/chat/~~
+                   
+                }
+                else if(message.sender != loginMemberNo){
+                    if(message.content.indexOf('[img_asdfzv]')==-1){
+                        const targetChat = document.createElement("div");
+                        targetChat.classList.add("target-chat");
                     
-                    targetChat.append(chat, chatDate);
+                        const chat = document.createElement("p");
+                        chat.classList.add("chat");
+                        chat.innerHTML = message.content;
                     
-                    messageList.append(targetChat);
+                        const chatDate = document.createElement("span");
+                        chatDate.classList.add("chatDate");
+                    
+                        let read = '안 읽음';
+                    
+                        if(message.readCheck == 'Y'){
+                            read = '읽음';
+                        }
+                    
+                        chatDate.innerHTML = message.sendTime + ' ' + read;
+                    
+                        targetChat.append(chat, chatDate);
+                    
+                        messageList.append(targetChat);
+                    }
                 }
             }
             contentBody.append(messageList);
         }
         
+        const chattingInput = document.createElement("div");
+        chattingInput.classList.add("chatting-input");
+        
+        const inputPhoto = document.createElement("img");
+        inputPhoto.classList.add("input-photo");
+        
+        const imgUrl1 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/camera.png";
+        inputPhoto.setAttribute("src", imgUrl1);
+        
+        const inputDiv = document.createElement("div");
+        
+        const inputElement = document.createElement('input');
+        inputElement.className = 'input-area';
+        inputElement.type = 'text';
+        
+        inputDiv.append(inputElement);
+        
+        const inputSend = document.createElement("img");
+        inputSend.classList.add("input-send");
+        
+        const imgUrl2 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/send.png";
+        inputSend.setAttribute("src", imgUrl2);
+        
+        chattingInput.append(inputPhoto, inputDiv, inputSend);
+        
+        chattingContent.append(contentHeader, contentBody, chattingInput);
     })
     .catch(err => console.log(err));
 }
-
-// 채팅룸 커넥트
-function connect(chatRoomId) {
-	stompClient = Stomp.over(socket);
-	stompClient.connect({}, function (frame) {
-	    console.log('Connected: ' + frame);
-	    stompClient.subscribe('/topic/chatroom/' + chatRoomId, function (response) {
-	    	console.log(response);
-	        showResponse(JSON.parse(response.body));
-	    });
-	});
-}
-
 
 
 //채팅방 목록 1.5초마다 불러오기
