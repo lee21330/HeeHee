@@ -61,10 +61,18 @@ $(document).ready(function() {
 });
 
 
-function isImageFile(file) {
-	// 파일명에서 확장자를 가져옴
-	var ext = file.name.split(".").pop().toLowerCase(); 
-	return ($.inArray(ext, ["jpg", "jpeg", "gif", "png"]) === -1) ? false : true;
+function isImageFile(file, imgElement, fileInput) {
+    var ext = file.name.split(".").pop().toLowerCase();
+    if ($.inArray(ext, ["jpg", "jpeg", "gif", "png"]) === -1) {
+        // 이미지 파일이 아닐 경우 alert를 띄우고 src를 지정된 이미지로 변경
+        alert("이미지 파일만 선택 가능합니다.");
+        imgElement.src = "/heehee/resources/images/picture.png";
+        // 파일 입력 요소의 값을 초기화
+        fileInput.value = "";
+        return false;
+    } else {
+        return true;
+    }
 }
 
 $(function() {

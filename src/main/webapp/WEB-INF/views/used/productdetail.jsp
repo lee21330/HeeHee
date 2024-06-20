@@ -55,11 +55,30 @@
 						<li>거래 방식: ${info.deal}</li>
 						<li>배송비: ${info.DCharge}원</li>
 					</ul>
-					<div class="button-container">
-						<button onclick="location.href='#'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
-						<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">즉시 구매</button>
-					</div>
-
+					<c:if test="${userId == info.id && info.deal == '직거래'}">
+						<div class="button-container">
+							<button onclick="location.href='${path}/productmodify/${info.id}'" id="gochat" style="cursor: pointer">보류하기</button>
+							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">수정하기</button>
+						</div>
+					</c:if>
+					<c:if test="${userId == info.id && info.deal == '택배'}">
+						<div class="button-container">
+							<button onclick="location.href='${path}/productmodify/${info.id}'" id="gochat" style="cursor: pointer">보류하기</button>
+							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">수정하기</button>
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.deal == '직거래'}">
+						<div class="button-container">
+							<button onclick="location.href='${path}/chatting/${info.id}'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
+							<button onclick="location.href='#'" id="gobuy" disabled="disabled" style="color: white; background-color: lightgray;">즉시구매</button>
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.deal == '택배'}">
+						<div class="button-container">
+							<button onclick="location.href='${path}/chatting/${info.id}'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
+							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">즉시구매</button>
+						</div>
+					</c:if>
 				</div>
 				<div id="plusArea">
 					<p>최근 본 상품</p>
@@ -100,7 +119,8 @@
 			<p id="recommand_title">제품 추천</p>
 			<div id="recommand">
 				<c:forEach var="prodReco" items="${prodRecoList}">
-					<img class="reco" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${prodReco.imgName}">
+					<img class="reco" onclick="location.href='${path}/productdetail/${prodReco.productSeq}'" style="cursor: pointer"
+					src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${prodReco.imgName}">
 				</c:forEach>
 			</div>
 		</main>
