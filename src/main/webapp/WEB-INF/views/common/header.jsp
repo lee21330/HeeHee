@@ -35,7 +35,7 @@
 			</div>
 			<div class="header_container">
 				<div class="logo">
-					<a href="">
+					<a href="${path}/main">
 						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo.png" alt="로고 이미지">
 					</a>
 				</div>
@@ -58,13 +58,13 @@
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="">
+						<a href="${path}/productregi">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
 							<span>물품등록</span>
 						</a>
 					</div>
 					<div class="menu_div">
-						<a href="">
+						<a href="/heehee/chatting">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_chat.png" alt="채팅 아이콘">
 							<span>채팅</span>
 						</a>
@@ -89,10 +89,7 @@
 							--%>
 
 							<%-- 알림 있는 경우 --%>
-							<%-- ajax에서 a태그를 같이 생성해주고 경로를 처리? --%>
-							<div class="alarm_list">
-								<a id="here" href=""></a>
-							</div>
+							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
 				</div>

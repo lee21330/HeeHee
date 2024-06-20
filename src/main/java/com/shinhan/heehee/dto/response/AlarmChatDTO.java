@@ -12,7 +12,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlarmChatDTO {
-	String sender;
 	String alContent;
-	String sendTime;
+	String alDate;
+	int cateNum;
+	String sender;
+	int reqSeq;
 }
