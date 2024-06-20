@@ -7,44 +7,49 @@
         <body>
             <script>
                 $(function () {
-                    $("#enter_invoice").on("click", show);
+                    $("#btn-account").on("click", show);
                     $(".mModal_close").on("click", hide);
+                    $(".btn_cancel").on("click", hide);
                     function show() {
-                        $(".mModal").addClass("show");
+                        $("#aModal").addClass("show");
                         $("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
                     }
                     function hide() {
-                        $(".mModal").removeClass("show");
-                        $(".Modal_delivery input").val("");
-                        $(".Modal_delivery select").val("택배사 선택");
+                        $("#aModal").removeClass("show");
+                        $(".Modal_bank input").val("");
+                        $(".Modal_bank select").val("은행");
                         $("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
                     }
                 });
             </script>
 
-            <div class="mModal">
+            <div class="mModal" id="aModal">
                 <div class="mModal_body">
                     <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
                         alt="로그인 창 닫기 아이콘" class="mModal_close">
                     <form class="modal_form">
-                    <p id="dMdal_p">송장 입력하기</p>
-                        <div class="input" id="input_d">                       
-                            <div class="Modal_delivery">                      	
+
+                        <p class="modal_info">현재 계좌: </p>
+                        <p>${sellerInfo.bank}</p>
+                        <p>${sellerInfo.accountNum}</p>
+
+                        <div class="input">
+                            <div class="Modal_bank">
                                 <select>
-                                    <option>택배사 선택</option>
-                                    <option>CJ대한통운</option>
-                                    <option>우체국택배</option>
-                                    <option>배송하기좋은날 (SHIPNERGY)</option>
+                                    <option>은행</option>
+                                    <option>신한은행</option>
+                                    <option>우리은행</option>
                                 </select>
                             </div>
 
-                            <div class="Modal_delivery">
-                                <input type="text" placeholder="운송장 번호 -없이 입력">
+                            <div class="Modal_bank">
+                                <input type="text" placeholder="계좌번호를 입력하세요">
                             </div>
                         </div>
 
-                        <div class="btn_modal" id="d_btn">
-                            <button type="submit" class="btn_submit" id="btn_delivery">저장</button>
+                        <div class="btn_modal">
+                            <button type="submit" class="btn_submit">충전하기</button>
+                            <button class="btn_cancel">취소하기</button>
                         </div>
                     </form>
                 </div>

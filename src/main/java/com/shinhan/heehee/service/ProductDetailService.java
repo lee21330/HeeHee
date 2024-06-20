@@ -9,7 +9,6 @@ import com.shinhan.heehee.dao.ProductDetailDAO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
-import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Service
 public class ProductDetailService {

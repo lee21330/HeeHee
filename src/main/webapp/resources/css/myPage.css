@@ -12,7 +12,8 @@
 	display: flex;
 	margin: 10px 0px 0px;
 	padding: 0px 0px 0px 0px;
-	border: 1px solid #C1C1C1;
+	border-bottom: 1px solid #C1C1C1;
+	border-top: 1px solid #C1C1C1;
 }
 
 .menu li {
@@ -21,30 +22,26 @@
 	line-height: 50px;
 	list-style: none;
 	text-align: center;
+	cursor: pointer;
 }
 
-.menu li a {
-	display: block;
-	color: black;
-	text-decoration: none;
-}
-
-.menu li a:hover {
+.menu li:not(.select):hover {
 	background-color: #ABC3FF;
 	cursor: pointer;
 }
 
-.selected {
+.select {
 	background-color: #4949E9;
 	color: white;
 }
 
-/* ---------------salelist--------------- */
-.checkbox{
+/* ---------------조회--------------- */
+.checkbox {
 	height: 21px;
 	padding: 0px 40px 0px 40px;
 	margin: 16px 0px;
 }
+
 .btn {
 	width: 95px;
 	height: 25px;
@@ -52,28 +49,49 @@
 	color: #787878;
 	border: 1px solid #EAEAEA;
 }
+
 .sub_menu {
-	display: flex;
+	border-bottom: 1px solid #C1C1C1;
+}
+
+.sub_menu ul {
+	display: inline-block;
 }
 
 .sub_menu li {
-	width: 100px;
+	float: left;
 	list-style: none;
 	text-align: center;
-	border: 1px solid pink;
+	width: 100px;
+	color: #9CA3AF;
+	cursor: pointer;
 }
-.list{
-	
-	height: 320px;
-	padding: 0px 40px 0px 40px;
-/* 	border: 1px solid blue; */
+
+.select_sub {
+	color: black !important;
+	font-size: 17px;
+}
+
+.message {
+	display: block;
+	width: 100%;
+	text-align: center;
+	width: 100%;
+}
+
+.list {
+	width: 100%;
 	display: flex;
-	justify-content: space-around;
+	flex-wrap: wrap;
+	gap: 20px;
+	padding: 0px 0px 0px 0px;
+	margin: 10px 0px;
 }
+
 .product {
 	width: 200px;
-	height: 270px;
-	display: inline-block;
+	height: 100%;
+	margin: 0px 20px 0px 20px;
 	/* border: 1px solid green; */
 }
 
@@ -82,11 +100,89 @@
 	height: 200px;
 	object-fit: cover;
 	border-radius: 15%;
-	box-shadow: 0 10px 10px -5px lightgray;
+	box-shadow: 0 5px 10px -5px lightgray;
 }
+
+.product img:active {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+	border-radius: 15%;
+	box-shadow: 0 5px 5px -5px lightgray;
+}
+
 .product p {
 	width: 100%;
-	height: 50px;
+	/* height: 50px; */
 	margin: 5px 0px;
 	object-fit: cover;
+}
+
+#s_statusVal {
+	width: 30%;
+	font-size: 12px;
+	background-color: #ABC3FF;
+	text-align: center;
+}
+/* 상세필터 */
+#btn_search {
+	height: 21px;
+	margin: 16px 0px;
+	float: right;
+}
+
+#search {
+	height: 100%;
+	display: none;
+	border: 1px solid gray;
+}
+
+#search.show {
+	display: block;
+}
+
+.radioContainer {
+	width: 30%;
+	height: 30px;
+	margin-bottom: 15px;
+	cursor: pointer;
+}
+
+input[type="radio"] {
+	display: none;
+}
+
+.type {
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.radioLabel {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.radioContainer input[type="radio"]:checked+label {
+	background-color: #ABC3FF;
+}
+#date_input{
+	display: none;
+}
+#btn_submit {
+	cursor: pointer;
+	width: 80px;
+	height: 25px;
+	background: #4949e9;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	margin: 0px 5px 0px 5px;
+	font-size: 15px;
+	float: right;
 }
