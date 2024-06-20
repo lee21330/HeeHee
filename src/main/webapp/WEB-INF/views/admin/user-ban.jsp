@@ -20,7 +20,6 @@
 		<div id="midContainer">
 		<p class="searchContext">검색어</p>
 		<select id="searchCategory">
-			<option value="memberNumber">회원번호</option>
 			<option value="memberName">회원명</option>
 			<option value="userID">아이디</option>
 		</select>

@@ -54,16 +54,6 @@
 				</thead>
 				<tbody id="tableBody">
 					<!-- Ajax로 동적 업데이트 -->
-					<tr>
-						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-						<td>ajax</td>
-					</tr>
 				</tbody>
 			</table>
 		</div>

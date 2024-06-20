@@ -21,7 +21,7 @@ $(document).ready(function() {
         var keyword = $('#searchInput').val();
 
         $.ajax({
-            url: '/your-server-endpoint',
+            url: '/heehee/admin/searchCategoryInfo',
             method: 'GET',
             data: { 'category': category, 'keyword': keyword },
             success: function(data) {
@@ -31,11 +31,11 @@ $(document).ready(function() {
                 data.forEach(function(item) {
                     var row = `<tr>
                         <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>${item.regNumber}</td>
+                        <td>${item.product_cate_seq}</td>
                         <td>${item.category}</td>
-                        <td>${item.subCategory}</td>
-                        <td>${item.userID}</td>
-                        <td>${item.postDate}</td>
+                        <td>${item.detail_category}</td>
+                        <td>${item.id}</td>
+                        <td>${item.create_date}</td>
                     </tr>`;
                     tableBody.append(row);
                 });
@@ -91,7 +91,6 @@ $(document).ready(function() {
        if ($('#tableBody').children('.newRow').length > 0) {
                 $('.newRow').remove();
             } else {
-			console.log("tani?");
             var newRow = `
                 <tr class="newRow">
                     <td colspan="6">

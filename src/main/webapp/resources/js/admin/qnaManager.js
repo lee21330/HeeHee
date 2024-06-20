@@ -21,7 +21,7 @@ $(document).ready(function() {
         var keyword = $('#searchInput').val();
 
         $.ajax({
-            url: '/your-server-endpoint',
+            url: '/heehee/admin/searchQnaAll',
             method: 'GET',
             data: { 'category': category, 'keyword': keyword },
             success: function(data) {
@@ -31,13 +31,11 @@ $(document).ready(function() {
                 data.forEach(function(item) {
                     var row = `<tr>
                         <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>${item.regNumber}</td>
-                        <td>${item.category}</td>
-                        <td>${item.subCategory}</td>
-                        <td>${item.sellerID}</td>
-                        <td class="qnaContent">${item.title}</td>
-                        <td>${item.postDate}</td>
-                        <td>${item.status}</td>
+                        <td>${item.seq_faq_bno}</td>
+                        <td>${item.qna_option}</td>
+                        <td>${item.qna_title}</td>
+                        <td>${item.id}</td>
+                        <td>${new Date(item.qna_time).toLocaleDateString()}</td>
                     </tr>`;
                     tableBody.append(row);
                 });

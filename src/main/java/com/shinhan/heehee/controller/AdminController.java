@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shinhan.heehee.dto.request.AdminAuctionDTO;
+import com.shinhan.heehee.dto.request.AdminCategoryDTO;
 import com.shinhan.heehee.dto.request.AdminProductDTO;
 import com.shinhan.heehee.dto.request.AdminUserBanDTO;
 import com.shinhan.heehee.dto.request.AdminUserDTO;
@@ -28,14 +30,12 @@ public class AdminController {
 		return "/admin/main";
 	}
 	
-	//기본 페이지 로딩
 	@GetMapping("/user")
 	public String admin_user(Model model) {
-		List<AdminUserDTO> users = adminService.searchAllUser(null, null, null, null,null);
-		model.addAttribute("users", users);
 		return "/admin/user";
 	}
 	
+	//회원정보 관리 - 회원정보 관리 - 조회기능
     // AJAX 요청을 처리하여 JSON 데이터 반환
     @GetMapping(value = "/searchUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -49,9 +49,14 @@ public class AdminController {
     	List<AdminUserDTO> filterSearch = adminService.searchAllUser(category, categoryDate, keyword, startDate, endDate);
     	System.out.println(filterSearch.size());
         return filterSearch;
-        		//adminService.searchAllUser(category, keyword, startDate, endDate)
     }
     
+    @GetMapping("/ban")
+    public String admin_userVan() {
+    	return "/admin/user-ban";
+    }
+    
+    //회원정보 관리 - 이용상태 관리 - 전체 조회
     // AJAX 요청을 처리하여 JSON 데이터 반환
     @GetMapping(value = "/userBan", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -67,16 +72,13 @@ public class AdminController {
         return filterSearch;
     }
 	
-	@GetMapping("/ban")
-	public String admin_userVan() {
-		return "/admin/user-ban";
-	}
 	
 	@GetMapping("/product")
 	public String admin_product() {
 		return "/admin/product";
 	}
 	
+	//상품관리 - 일반상품 상세조회 - 조회기능
     // AJAX 요청을 처리하여 JSON 데이터 반환
     @GetMapping(value = "/searchProductDetail", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -94,9 +96,36 @@ public class AdminController {
 		return "/admin/auction";
 	}
 	
+	//상품관리 - 경매상품 상세조회 - 조회기능
+	// AJAX 요청을 처리하여 JSON 데이터 반환
+	@GetMapping(value = "/searchAuctionDetail", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<AdminAuctionDTO> searchAuctionDetail(
+			@RequestParam(required = false) String category,
+			@RequestParam(required = false) String keyword) {
+		System.out.println("Received search request with params: " + category + ", " + keyword);
+		List<AdminAuctionDTO> filterSearch = adminService.searchAuctionDetail(category, keyword);
+		System.out.println(filterSearch.size());
+		return filterSearch;
+	}
+	
+	
 	@GetMapping("/category")
 	public String admin_category() {
 		return "/admin/category";
+	}
+	
+	//상품관리 - 카테고리 관리 - 조회기능
+	// AJAX 요청을 처리하여 JSON 데이터 반환
+	@GetMapping(value = "/searchCategoryInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<AdminCategoryDTO> searchCategoryInfo(
+		@RequestParam(required = false) String category,
+		@RequestParam(required = false) String keyword) {
+		System.out.println("Received search request with params: " + category + ", " + keyword);
+		List<AdminCategoryDTO> filterSearch = adminService.searchCategoryInfo(category, keyword);
+		System.out.println(filterSearch.size());
+		return filterSearch;
 	}
 	
 	@GetMapping("/qnaManager")

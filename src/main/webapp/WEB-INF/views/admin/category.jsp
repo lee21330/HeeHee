@@ -51,30 +51,6 @@
 				</thead>
 				<tbody id="tableBody">
 					<!-- Ajax로 동적 업데이트 -->
-					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="1"></td>
-                        <td>00001</td>
-                        <td>상의</td>
-                        <td>아우터</td>
-                        <td>cutehs97</td>
-                        <td>2024-05-31</td>
-                    </tr>
-					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="2"></td>
-                        <td>00002</td>
-                        <td>하의</td>
-                        <td>아우터</td>
-                        <td>cutehs97</td>
-                        <td>2024-05-31</td>
-                    </tr>
-					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="3"></td>
-                        <td>00003</td>
-                        <td>신발</td>
-                        <td>아우터</td>
-                        <td>cutehs97</td>
-                        <td>2024-05-31</td>
-                    </tr>
 				</tbody>
 			</table>
 		</div>

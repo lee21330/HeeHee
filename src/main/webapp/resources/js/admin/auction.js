@@ -21,9 +21,11 @@ $(document).ready(function() {
         var keyword = $('#searchInput').val();
 
         $.ajax({
-            url: '/your-server-endpoint',
+            url: '/heehee/admin/searchAuctionDetail',
             method: 'GET',
-            data: { 'category': category, 'keyword': keyword },
+            data: { 'category': category, 
+            		'keyword': keyword 
+            		 },
             success: function(data) {
                 var tableBody = $('#tableBody');
                 tableBody.empty();
@@ -31,13 +33,13 @@ $(document).ready(function() {
                 data.forEach(function(item) {
                     var row = `<tr>
                         <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>${item.regNumber}</td>
+                        <td>${item.product_seq}</td>
                         <td>${item.category}</td>
-                        <td>${item.subCategory}</td>
-                        <td>${item.sellerID}</td>
-                        <td>${item.title}</td>
-                        <td>${item.postDate}</td>
-                        <td>${item.status}</td>
+                        <td>${item.detail_category}</td>
+                        <td>${item.seller_id}</td>
+                        <td>${item.auction_title}</td>
+                        <td>${new Date(item.exp_time).toLocaleDateString()}</td>
+                        <td>${item.auc_status}</td>
                     </tr>`;
                     tableBody.append(row);
                 });

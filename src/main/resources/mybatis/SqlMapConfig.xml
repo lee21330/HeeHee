@@ -11,5 +11,7 @@
    <typeAlias type="com.shinhan.heehee.dto.request.AdminUserDTO" alias="userVO"/>
    <typeAlias type="com.shinhan.heehee.dto.request.AdminUserBanDTO" alias="userBanVO"/>
    <typeAlias type="com.shinhan.heehee.dto.request.AdminProductDTO" alias="adminProductVO"/>
+   <typeAlias type="com.shinhan.heehee.dto.request.AdminAuctionDTO" alias="adminAuctionVO"/>
+   <typeAlias type="com.shinhan.heehee.dto.request.AdminCategoryDTO" alias="adminCategoryVO"/>
    </typeAliases>
 </configuration>

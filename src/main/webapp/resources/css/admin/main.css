@@ -379,7 +379,7 @@ table tbody tr td {
 	/* 제목 */
 .productInfoTable table thead tr th:nth-child(6),
 .productInfoTable table tbody tr td:nth-child(6) {
-	width: 45%;
+	width: 41%;
 }
 	/* 게시일 */
 .productInfoTable table thead tr th:nth-child(7),
@@ -390,7 +390,7 @@ table tbody tr td {
 	/* 상태 */
 .productInfoTable table thead tr th:nth-child(8),
 .productInfoTable table tbody tr td:nth-child(8) {
-	width: 4%;
+	width: 8%;
 	text-align: center;
 }
 

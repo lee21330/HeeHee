@@ -38,7 +38,7 @@ $(document).ready(function() {
                         <td>${item.detail_category}</td>
                         <td>${item.id}</td>
                         <td>${item.article_title}</td>
-                        <td>${item.create_date}</td>
+                        <td>${new Date(item.create_date).toLocaleDateString()}</td>
                         <td>${item.pro_status}</td>
                     </tr>`;
                     tableBody.append(row);
