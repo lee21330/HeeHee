@@ -39,9 +39,9 @@
 	<!-- <insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.response.ViewLogDTO">
 		INSERT INTO VIEW_LOG
 		VALUES (#{PROD_SEQ}, #{ID}, SYSDATE)
-	</insert>
+	</insert> -->
 	
-	<select id="selectViewLog" parameterType="com.shinhan.heehee.dto.response.InsertViewLogDTO">
+	<!-- <select id="selectViewLog" parameterType="com.shinhan.heehee.dto.response.InsertViewLogDTO">
 		SELECT *
 		FROM (SELECT PRODUCT_SEQ, ID
 		FROM VIEW_LOG
@@ -51,12 +51,14 @@
 	</select> -->
 	
 	<select id="prodrecoDetail" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
-		SELECT IMG.IMG_NAME
+		SELECT *
+		FROM (SELECT IMG.IMG_NAME, SELL.PRODUCT_SEQ
 		FROM IMG_FILES IMG
 		JOIN SELL_PRODUCT SELL ON IMG.TABLE_PK = SELL.PRODUCT_SEQ
 		WHERE IMG.IMG_CATE_SEQ = 2
-		AND ROWNUM <![CDATA[<]]> 6
-		ORDER BY DBMS_RANDOM.RANDOM
+		AND CREATE_DATE >= SYSDATE - 30
+		ORDER BY DBMS_RANDOM.RANDOM)
+		WHERE ROWNUM <![CDATA[<]]> 6
 	</select>
 	
 	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
@@ -120,6 +122,15 @@
 	                    GROUP BY TABLE_PK)
 	   <!-- AND ROWNUM <![CDATA[<]]> 6 -->
 	   ORDER BY DBMS_RANDOM.RANDOM
+	</select>
+	
+	<select id="productModify" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
+		SELECT SELL.PRODUCT_SEQ, MIN(IMG.IMG_NAME) AS IMG_NAME,
+       SELL.INTRODUCE, SELL.PRODUCT_PRICE
+		FROM SELL_PRODUCT SELL
+		INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
+		WHERE IMG.IMG_CATE_SEQ = 2
+		GROUP BY SELL.PRODUCT_SEQ, SELL.INTRODUCE, SELL.PRODUCT_PRICE
 	</select>
 	
 </mapper>

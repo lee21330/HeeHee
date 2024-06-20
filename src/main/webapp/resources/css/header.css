@@ -332,7 +332,7 @@ body {
 }
 
 .category_list li {
-    padding: 10px 0;
+    padding: 5px 0;
     list-style: none;
     color: black;
 }
@@ -368,7 +368,7 @@ body {
 .content_list li {
     color: black;
     list-style: none;
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .content_list a {
