@@ -1,25 +1,22 @@
-
 package com.shinhan.heehee.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.response.AuctionProdDTO;
+
 @Repository
-public class TestDAO {
+public class AuctionDAO {
+
 	@Autowired
 	SqlSession sqlSession;
 	
-	String namespace = "com.shinhan.test.";
+	String namespace = "com.shinhan.auction.";
 	
-	public int test() {
-		return sqlSession.selectOne(namespace + "returnNum");
-	}
-	
-	public List<Map<String,Object>> mapTest() {
-		return sqlSession.selectList(namespace + "mapTest");
+	public List<AuctionProdDTO> aucProdList() {
+		return sqlSession.selectList(namespace + "aucProdList");
 	}
 }

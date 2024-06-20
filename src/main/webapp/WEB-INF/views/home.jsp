@@ -48,6 +48,10 @@
 		<footer>
 			<h1>footer area</h1>
 		</footer>
+		<c:forEach var="item" items="${arr}">
+			<p>${item.PW}</p>
+			<p>${item.CREATE_DATE}</p>
+		</c:forEach>
 	</div>
 </body>
 </html>
