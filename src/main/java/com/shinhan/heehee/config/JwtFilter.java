@@ -42,10 +42,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
 			throws ServletException, IOException {
-<<<<<<< HEAD
-		logger.info("동희 바보~");
-		String authorizationHeader = httpServletRequest.getHeader("Authorization");
-=======
 		String authorizationHeader = null;
 		final Cookie[] cookies = httpServletRequest.getCookies();
 		
@@ -56,7 +52,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         }
->>>>>>> branch 'feat/hyunsang' of https://github.com/Sh03Team05/HeeHee.git
 		String token = null;
 		String userName = null;
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
