@@ -29,9 +29,7 @@
 	background-color: #ABC3FF;
 	cursor: pointer;
 }
-.sub_menu p{
-	cursor: pointer;
-}
+
 .select {
 	background-color: #4949E9;
 	color: white;
@@ -63,9 +61,10 @@
 .sub_menu p {
 	display: inline-block;
 	width: 100px;
-	justify-content: center;
 	text-align: center;
 	color: #9CA3AF;
+	cursor: pointer;
+	border: 1px solid pink;
 }
 
 .message {
