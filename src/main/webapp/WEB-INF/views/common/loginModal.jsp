@@ -12,8 +12,6 @@
 		$("#loginBtn").on("click", openLogin);
 		$("#loginClose").on("click", closeLogin);
 		$("#signupBtn").on("click", openSignup);
-		var cookieXhr = new XMLHttpRequest();
-		cookieXhr.withCredentials = true;
 	});
 
 	function openLogin() {
@@ -110,6 +108,9 @@
 		    method: 'GET',
 		    success: function (data) {
 		    	$(".login_menu").html(data);
+		    	$("#loginBtn").on("click", openLogin);
+				$("#loginClose").on("click", closeLogin);
+				$("#signupBtn").on("click", openSignup);
 		    },error: function (data, status, err) {
 		    	console.log(err);
 		    }

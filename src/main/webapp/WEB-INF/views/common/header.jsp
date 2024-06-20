@@ -14,6 +14,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
+<script src="/heehee/resources/js/common.js"></script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 </head>
 <body>
@@ -34,11 +35,11 @@
 				</div>
 				<div class="product_container">
 					<div>
-						<a class="a_color" href="">중고물품</a>
+						<a class="a_color" href="/heehee/main">중고물품</a>
 					</div>
 					<div class="div_line"></div>
 					<div>
-						<a class="a_color" href="">경매물품</a>
+						<a class="a_color" href="/heehee/auc">경매물품</a>
 					</div>
 				</div>
 				<div class="search_container">
@@ -154,5 +155,8 @@
 			</div>
 		</div>
 	</header>
+	<div id="tost_message">
+		
+	</div>
 </body>
 </html>

@@ -46,7 +46,10 @@
 	    , AUC_STATUS
 	    , AUCTION_SEQ
 	    , SELLER_ID
-		FROM AUC_PRODUCT AUC
+        , IMG.IMG_NAME
+		FROM AUC_PRODUCT AUC ,IMG_FILES IMG
 		WHERE PRODUCT_SEQ = #{aucSeq}
+        AND AUC.PRODUCT_SEQ = IMG.TABLE_PK
+        AND IMG.IMG_CATE_SEQ = 3
 	</select>
 </mapper>

@@ -37,6 +37,12 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler{
         // JWT 토큰을 Response Header에 설정
         response.addHeader("Authorization", token);
         CookieUtil.addCookie("Authorization", token, response);
+        
+        Cookie sessionCookie = new Cookie("JSESSIONID", null);
+        
+        sessionCookie.setMaxAge(0);
+        sessionCookie.setPath("/");
+        response.addCookie(sessionCookie);
 
         // JSON 형태로 응답을 반환합니다.
         response.setContentType("application/json");

@@ -22,4 +22,5 @@ public class AuctionProdInfoDTO {
 	private String aucStatus;
 	private int auctionSeq;
 	private String sellerId;
+	private String imgName;
 }

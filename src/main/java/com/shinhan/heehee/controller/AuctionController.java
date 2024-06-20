@@ -1,5 +1,6 @@
 package com.shinhan.heehee.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -35,7 +36,7 @@ public class AuctionController {
 	private final ReentrantLock bidLock = new ReentrantLock();
 
 	@GetMapping("/detail/{aucSeq}")
-	public String detail(@PathVariable("aucSeq") int aucSeq, Model model) {
+	public String detail(@PathVariable("aucSeq") int aucSeq, Model model, Principal principal) {
 		model.addAttribute("aucProdInfo", auctionService.aucProdInfo(aucSeq));
 		return "/auction/detail";
 	}

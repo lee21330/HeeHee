@@ -90,7 +90,7 @@
 		    $(".h_" + seq).html(HH);
 		    $(".m_" + seq).html(MM);
 		    $(".s_" + seq).html(SS);
-		 }
+	}
 </script>
 
 </head>
