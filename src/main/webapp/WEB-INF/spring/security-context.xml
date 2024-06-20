@@ -9,22 +9,27 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- auto-config="false" : 로그인 폼을 직접 만들어서 사용 -->
-	<security:http auto-config="false" create-session="never">
+	<security:http auto-config="false" create-session="never" entry-point-ref="customAuthenticationEntryPoint">
 		<security:csrf disabled="true"></security:csrf>
 		<!-- CSRF 보호 비활성화 API 로그인 설정 --> 
 		<security:form-login login-processing-url="/user/login-processing" username-parameter="userId" password-parameter="userPw"
 			
 			authentication-success-handler-ref="authenticationSuccessHandler" 
 			authentication-failure-handler-ref="authenticationFailureHandler"></security:form-login> 
-		
+		<!-- RoleAdmin 실패 시 커스텀 핸들러 -->
+		<security:access-denied-handler ref="customAccessDeniedHandler"/>
+		<security:logout logout-url="/user/logout" invalidate-session="true" 
+    		delete-cookies="JSESSIONID" success-handler-ref="jwtLogoutSuccessHandler" />
 		<!-- API 로그아웃 설정
 		<security:logout logout-url="/logout" invalidate-session="true" 
 			delete-cookies="JSESSIONID" success-handler-ref="jwtLogoutSuccessHandler"></security:logout>
  -->	 
 		<!-- JwtTokenFilter를 추가하여 토큰 유효성 검사 수행 -->
-		<security:intercept-url pattern="/*" access="permitAll"/>
+		<security:intercept-url pattern="/auc" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/auc/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/user/**" access="permitAll"/>
 		<security:custom-filter before="FORM_LOGIN_FILTER" ref="jwtFilter"></security:custom-filter>
+		
 	</security:http>
 
 	<!-- Spring Security의 사용자 인증을 수행 -->
@@ -33,7 +38,10 @@
 			<security:password-encoder ref="passwordEncoder"></security:password-encoder>
 		</security:authentication-provider>
 	</security:authentication-manager>
-
+	
+	<bean id="jwtLogoutSuccessHandler" class="com.shinhan.heehee.config.JwtLogoutSuccessHandler"/>
+	
+	
 	<bean id="customUserDetailsService"
 		class="com.shinhan.security.CustomUserDetailsService">
 		</bean>
@@ -53,6 +61,9 @@
 	<bean id="authenticationFailureHandler" 
 		class="com.shinhan.heehee.config.AuthenticationFailure"></bean>
 		
+	<bean id="customAuthenticationEntryPoint" class="com.shinhan.heehee.config.CustomAuthenticationEntryPoint"/>
+	
+	<bean id="customAccessDeniedHandler" class="com.shinhan.heehee.config.CustomAccessDeniedHandler"/>
 	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="/WEB-INF/spring/appServlet/oracleDB.properties"/>

@@ -3,10 +3,17 @@
 <link rel="stylesheet" href="${path}/resources/css/loginModal.css">
 
 <script>
+	$(window).on('unload', function() {
+	    var cookieName = 'Authorization';
+	    document.cookie = encodeURIComponent(cookieName) + "=deleted; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+	});
+	
 	$(function() {
 		$("#loginBtn").on("click", openLogin);
 		$("#loginClose").on("click", closeLogin);
 		$("#signupBtn").on("click", openSignup);
+		var cookieXhr = new XMLHttpRequest();
+		cookieXhr.withCredentials = true;
 	});
 
 	function openLogin() {
@@ -61,6 +68,53 @@
 			$(".modal_body").css("height", "auto");
 		}
 	}
+	
+	function login() {
+		var userId = $("#logId").val();
+		var userPw = $("#logPw").val();
+		
+		$.ajax({
+		    url: '/heehee/user/login-processing',
+		    method: 'POST',
+		    data : {"userId" : userId, "userPw": userPw},
+		    success: function (data, status, xhr) {
+		    	console.log(xhr.getResponseHeader('Authorization'))// 헤더에 있는 토큰을 받아와서
+		    	localStorage.setItem('accessToken', xhr.getResponseHeader('Authorization')) // 로컬스토리지
+		    	closeLogin();
+		    	loginCheck();
+		    },
+		    error: function (data, status, err) {
+		    	console.log(err);
+		    }
+		});
+	}
+	
+	function logout() {
+		$.ajax({
+		    url: '/heehee/user/logout',
+		    method: 'GET',
+		    success: function (data, status, xhr) {
+		    	console.log(data);
+		    	console.log(status);
+		    	console.log(xhr);
+		    	loginCheck();
+		    },error: function (data, status, err) {
+		    	console.log(err);
+		    }
+		});
+	}
+	
+	function loginCheck() {
+		$.ajax({
+		    url: '/heehee/user/loginCheck',
+		    method: 'GET',
+		    success: function (data) {
+		    	$(".login_menu").html(data);
+		    },error: function (data, status, err) {
+		    	console.log(err);
+		    }
+		});
+	}
 </script>
 </head>
 <body>
@@ -88,7 +142,7 @@
                         <div>|</div>
                         <div>비밀번호 찾기</div>
                     </div>
-                    <div class="modal_btn save" id="log_btn" onclick="">로그인</div>
+                    <div class="modal_btn save" id="log_btn" onclick="login()">로그인</div>
                     <div class="modal_btn kakao_save" id="log_btn">카카오 로그인</div>
                     <div id="signup_btn" class="signup" onclick="join('signup')">회원가입</div>
                 </div>
