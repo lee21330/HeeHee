@@ -12,11 +12,25 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-
 	<div id="headerArea">
 		<!-- headerInclude 해줘야 해요 -->
 		<jsp:include page="../common/header.jsp"></jsp:include>
 	</div>
+	
+	<%-- modal --%>
+	<div class="chattingModal">
+	    <div class="modal-content">
+	        <div class="current-price">기존 가격 : 50000원</div>
+	        <div class="current-input">
+	  	  	    <input type="number" class="new-price" placeholder="수정할 가격을 입력해주세요. (원)">
+	        </div>
+	        <div class="chModalBtn">
+	            <button class="submit-price">수정하기</button>
+	            <button class="cancel-edit">취소하기</button>
+	        </div>
+	    </div>
+	</div>
+	
 	<div class="chatting-area">
 		<!-- 왼쪽 채팅방 목록 영역 -->
 		<ul class="chatting-list">
@@ -39,7 +53,8 @@
 					</div>
 
 					<div class="message-container">
-						<span class="recent-message">${room.lastcontent}</span> <span class="send-time">${room.sendtime}</span>
+						<span class="recent-message">${room.lastcontent}</span>
+						<span class="send-time">${room.sendtime}</span>
 					</div>
 				</div>
 			</li>
@@ -158,7 +173,7 @@
 			</div> 
 		</div>
 	</div>
-
+	
 	<!--------------------------------------- sockjs를 이용한 WebSocket 구현을 위해 라이브러리 추가 ---------------------------------------------->
 	<!-- https://github.com/sockjs/sockjs-client -->
 	<!-- <script

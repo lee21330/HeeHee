@@ -9,7 +9,7 @@
 		from chat_message m
 		where m.room_id=r.room_id) as lastcontent,
 		to_char((select max(send_time) from chat_message m where m.room_id=r.room_id),
-		'MM.DD') sendtime,
+		'MM/DD') sendtime,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
              WHERE r.room_id = r2.room_id 
              AND r2.seller = 'b'),
