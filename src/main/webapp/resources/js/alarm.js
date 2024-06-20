@@ -40,11 +40,9 @@ function alarmList() {
 							output += "</ul>";
 							
 						} else if (item.cateNum == 2) {
-							// 판매
-							
 							// output += "<ul onclick='urlClick(\"/heehee/saledetail/$(item.reqSeq)\")'>";
 							
-							// 상품 번호 같이 넘겨줘야 함 (두리 컨트롤러 풀 받고 확인 필)
+							// 판매 (상품 번호 같이 넘겨줘야 함)
 							output += "<ul onclick='urlClick(\"/heehee/saledetail/\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
@@ -60,7 +58,7 @@ function alarmList() {
 							output += "</ul>";
 						
 						} else if (item.cateNum == 5) {
-							// 상품 번호 같이 넘겨줘야 함 (두리 컨트롤러 풀 받고 확인 필)
+							// 배송 (상품 번호 같이 넘겨줘야 함)
 							output += "<ul onclick='urlClick(\"/heehee/purchasedetail\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
