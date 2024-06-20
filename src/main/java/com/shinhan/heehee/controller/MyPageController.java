@@ -1,14 +1,21 @@
 package com.shinhan.heehee.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shinhan.heehee.dto.response.SaleListDTO;
 import com.shinhan.heehee.service.MyPageService;
 
 @Controller
+
+
 public class MyPageController {
 
 	@Autowired
@@ -22,7 +29,11 @@ public class MyPageController {
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
 		return "/mypage/myPage";
 	}
-
+	
+	@ResponseBody
+	public List<SaleListDTO> searchSaleStatus(@PathVariable("user_id") String userId, @RequestParam("status") int status) {
+	    return mypageservice.sellPro(status, userId);
+	}
 	@GetMapping("/qnaBoard")
 	public String qnaBoard() {
 		return "/mypage/qnaBoard";
@@ -47,9 +58,6 @@ public class MyPageController {
 	public String jjimList(@PathVariable("productSeq") int proSeq, Model model) {
 		return "/mypage/jjimList";
 	}
-
-	
-	
 	
 	
 	@GetMapping("/profile")

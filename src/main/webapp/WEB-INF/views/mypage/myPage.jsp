@@ -29,7 +29,8 @@
 				<div class="profile">
 					<div class="profileName">
 						<h2>${sellerInfo.nickName}</h2>
-						<button onclick="location.href='${path}/profile'" class="btn">개인정보 변경</button>
+						<button onclick="location.href='${path}/profile'" class="btn">개인정보
+							변경</button>
 					</div>
 					<div class="intro">
 						<textarea class="self-intro">${sellerInfo.userIntroduce}</textarea>
@@ -39,11 +40,16 @@
 				<div class="rating">
 					<p>평점</p>
 					<div class="ratingImg">
-						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
-						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
-						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
-						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
-						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
+						<img class="star"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+						<img class="star"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+						<img class="star"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+						<img class="star"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
+						<img class="star"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 					</div>
 				</div>
 				<div class="account">
@@ -76,65 +82,57 @@
 				<li>구매내역</li>
 				<li>찜</li>
 			</ul>
-			<div class="sub_menu">
-				<p class="select_sub">전체</p>
-				<p>판매중</p>
-				<p>예약중</p>
-				<p>거래완료</p>
 
+			<!-- pro_status로 조회 -->
+			<div class="sub_menu">
+				<ul>
+					<li id="btn_all" class="select_sub"
+						onclick="changeStatus('${sellerInfo.id}', 'all')">전체</li>
+					<li id="btn_sell" onclick="changeStatus('${sellerInfo.id}', '판매중')">판매중</li>
+					<li id="btn_reserve"
+						onclick="changeStatus('${sellerInfo.id}', '예약중')">예약중</li>
+					<li id="btn_complete"
+						onclick="changeStatus('${sellerInfo.id}', '거래완료')">거래완료</li>
+				</ul>
 				<!-- 상세필터  -->
 				<button id="btn_search">상세 필터</button>
-				<div id="search">
-					<img
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
-						alt="로그인 창 닫기 아이콘" class="mModal_close">
-					<p>조회기간</p>
-					<div class="type">
-						<div class="radioContainer">
-							<input type="radio" id="day" name="typeSelect"> <label
-								for="day" class="radioLabel">1일</label>
-						</div>
-						<div class="radioContainer">
-							<input type="radio" id="week" name="typeSelect"> <label
-								for="week" class="radioLabel">1주일</label>
-						</div>
-						<div class="radioContainer">
-							<input type="radio" id="month" name="typeSelect"> <label
-								for="month" class="radioLabel">1개월</label>
-						</div>
-						<div class="radioContainer">
-							<input type="radio" id="halfYear" name="typeSelect"> <label
-								for="halfYear" class="radioLabel">6개월</label>
-						</div>
-						<div class="radioContainer">
-							<input type="radio" id="year" name="typeSelect"> <label
-								for="year" class="radioLabel">1년</label>
-						</div>
-						<div class="radioContainer">
-							<input type="date">직접입력
-						</div>
+			</div>
+			<div id="search">
+				<img
+					src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
+					alt="로그인 창 닫기 아이콘" class="mModal_close">
+				<p>조회기간</p>
+				<div class="type">
+					<div class="radioContainer">
+						<input type="radio" id="day" name="typeSelect"> <label
+							for="day" class="radioLabel">1일</label>
 					</div>
-					<button class="btn_submit">조회</button>
+					<div class="radioContainer">
+						<input type="radio" id="week" name="typeSelect"> <label
+							for="week" class="radioLabel">1주일</label>
+					</div>
+					<div class="radioContainer">
+						<input type="radio" id="month" name="typeSelect"> <label
+							for="month" class="radioLabel">1개월</label>
+					</div>
+					<div class="radioContainer">
+						<input type="radio" id="halfYear" name="typeSelect"> <label
+							for="halfYear" class="radioLabel">6개월</label>
+					</div>
+					<div class="radioContainer">
+						<input type="radio" id="year" name="typeSelect"> <label
+							for="year" class="radioLabel">1년</label>
+					</div>
 				</div>
+				<button id="btn_submit">조회</button>
 			</div>
 
 			<!-- 판매내역 -->
 			<div id="salelist" class="list">
-				<p class="message">최근 판매 내역이 없습니다.</p>
+				<!-- Ajax로 동적 업데이트 -->
 
-				<c:forEach var="sale" items="${sInfo}">
-					<div class="product"
-						onclick="location.href='${path}/${sale.proStatus == '판매중' ? 'productdetail' : 'saledetail'}/${sale.productSeq}'">
-						<div class="product_slider">
-							<img class="product_img"
-								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}">
-						</div>
-						<p>${sale.articleTitle}</p>
-						<p>${sale.productPrice}</p>
-						<p id="s_statusVal">${sale.proStatus}</p>
-					</div>
-				</c:forEach>
 			</div>
+
 			<!-- 구매내역 -->
 			<div id="purchaselist" class="list">
 				<p class="message">최근 구매 내역이 없습니다.</p>
@@ -171,19 +169,30 @@
 			</div>
 		</div>
 	</section>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var userRating = ${sellerInfo.userRating};
-    var stars = document.querySelectorAll('.rating .star');
+	<script>
+		document
+				.addEventListener(
+						'DOMContentLoaded',
+						function() {
+							var userRating = $
+							{
+								sellerInfo.userRating
+							}
+							;
+							var stars = document
+									.querySelectorAll('.rating .star');
 
-    for (var i = 0; i < userRating; i++) {
-        stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
-    }
-    
-    const userPointElement = document.getElementById('userPoint');
-	const userPoint = parseInt(userPointElement.innerText, 10);
-	userPointElement.innerText = userPoint.toLocaleString();
-});
-</script>
+							for (var i = 0; i < userRating; i++) {
+								stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
+							}
+
+							const userPointElement = document
+									.getElementById('userPoint');
+							const userPoint = parseInt(
+									userPointElement.innerText, 10);
+							userPointElement.innerText = userPoint
+									.toLocaleString();
+						});
+	</script>
 </body>
 </html>

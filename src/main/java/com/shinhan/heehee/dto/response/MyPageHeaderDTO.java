@@ -14,6 +14,7 @@ import lombok.ToString;
 public class MyPageHeaderDTO {
 
 	private String profileImg;
+	private String id;
 	private String nickName;
 	private String userIntroduce;
 	private int userRating;

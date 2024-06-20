@@ -11,14 +11,12 @@ import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
-
-
 @Service
 public class MyPageService {
 
 	@Autowired
 	MyPageDAO mypageDao;
-	
+
 	public List<SaleListDTO> saleList(String userId) {
 		return mypageDao.saleList(userId);
 	}
@@ -33,6 +31,10 @@ public class MyPageService {
 
 	public MyPageHeaderDTO sellerInfo(String userId) {
 		return mypageDao.sellerInfo(userId);
+	}
+
+	public List<SaleListDTO> sellPro(int status, String userId) {
+		return mypageDao.sellPro(status, userId);
 	}
 
 }

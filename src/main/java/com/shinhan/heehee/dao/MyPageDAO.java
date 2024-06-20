@@ -1,6 +1,8 @@
 package com.shinhan.heehee.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,13 @@ public class MyPageDAO {
 
 	public MyPageHeaderDTO sellerInfo(String userId) {
 		return sqlSession.selectOne(namespace + "sellerInfo", userId);
+	}
+
+	public List<SaleListDTO> sellPro(int status, String userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("status", status);
+		params.put("userId", userId);
+		return sqlSession.selectList(namespace + "sellerInfo",params);
 	}
 
 }
