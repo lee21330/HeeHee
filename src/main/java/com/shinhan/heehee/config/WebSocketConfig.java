@@ -20,4 +20,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").withSockJS();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> branch 'feat/hyunsang' of https://github.com/Sh03Team05/HeeHee.git
