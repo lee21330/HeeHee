@@ -40,17 +40,6 @@
       		  AND AL_CHECK = 'N' 
       		  AND A.ID = 'a' 
       		  AND D.D_STATUS = '발송완료' 
-    </select>
-	<select id="alarmList" resultType="com.shinhan.heehee.dto.response.AlarmChatDTO">
-		SELECT NULL sender,
-		MAX(A.AL_CONTENT) alContent,
-		MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate,
-		MAX(NF.CATE_NUM) cateNum,
-		MAX(A.AL_REQ_SEQ) reqSeq
-		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
-		JOIN DEAL_HISTORY D ON (A.ID = D.BUYER_ID)
-		WHERE A.CATE_NUM = 2
-		AND A.ID = 'dhfl123'
 		UNION ALL
 		SELECT CM.SENDER sender, 
 			   MAX(A.AL_CONTENT) alContent, 
