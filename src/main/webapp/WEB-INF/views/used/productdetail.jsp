@@ -74,7 +74,7 @@
 						</div>
 					</c:if>
 					<c:if test="${userId != info.id && info.deal == '택배'}">
-						<div class="button-container">
+						<div class="button-container"> 
 							<button onclick="location.href='${path}/chatting/${info.id}'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
 							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">즉시구매</button>
 						</div>

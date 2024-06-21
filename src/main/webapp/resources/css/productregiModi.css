@@ -46,6 +46,10 @@
 	display: none;
 }
 
+#d_charge {
+	width: 77px;
+}
+
 #preview {
 	width: 250px;
 	height: 225px;

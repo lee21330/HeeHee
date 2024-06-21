@@ -115,6 +115,10 @@
 		<input type="text" class="input_name" placeholder="가격을 입력해주세요.">
 	</div>
 	<div class="regi_item">
+		<p id="d_charge">배송비</p>
+		<input type="text" class="input_name" placeholder="배송비를 입력해주세요.">
+	</div>
+	<div class="regi_item">
 		<p>거래 유형</p>
 		<div class="state_radio">
 		    <input type="radio" id="package" name="deal_type" checked="checked">

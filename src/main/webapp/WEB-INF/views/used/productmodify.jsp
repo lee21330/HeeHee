@@ -37,30 +37,9 @@
 							<div class="category_content1">
 								<nav>
 									<ul class="category_list1">
-										<li>여성의류</li>
-										<li>남성의류</li>
-										<li>신발</li>
-										<li>가방/지갑</li>
-										<li>시계</li>
-										<li>쥬얼리</li>
-										<li>패션 액세서리</li>
-										<li>디지털</li>
-										<li>가전제품</li>
-										<li>스포츠/레저</li>
-										<li>차량/오토바이</li>
-										<li>스타굿즈</li>
-										<li>키덜트</li>
-										<li>예술/희귀/수집품</li>
-										<li>음반/악기</li>
-										<li>도서/티켓/문구</li>
-										<li>뷰티/미용</li>
-										<li>가구/인테리어</li>
-										<li>생활/주방용품</li>
-										<li>공구/산업용품</li>
-										<li>식품</li>
-										<li>유아동/출산</li>
-										<li>반려동물용품</li>
-										<li>기타</li>
+										<%-- <c:forEach var="bigCate" items="${bigCateList}">
+											<li>${bigCate.}</li>
+										</c:forEach> --%>
 									</ul>
 								</nav>
 							</div>
@@ -113,6 +92,10 @@
 	<div class="regi_item">
 		<p>상품 가격</p>
 		<input type="text" class="input_name" placeholder="가격을 입력해주세요.">
+	</div>
+	<div class="regi_item">
+		<p id="d_charge">배송비</p>
+		<input type="text" class="input_name" placeholder="배송비를 입력해주세요.">
 	</div>
 	<div class="regi_item">
 		<p>거래 유형</p>
