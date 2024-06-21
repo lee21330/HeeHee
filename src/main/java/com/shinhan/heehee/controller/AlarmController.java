@@ -21,15 +21,24 @@ public class AlarmController {
 	
 	// DB 조회 후 소켓 연결
 	
-	// 미확인 알림 전체 조회
+	// 알림 전체 조회
 	@ResponseBody
 	@GetMapping("/alarmAll")
 	public List<AlarmChatDTO> alarmList() {
-		
 		List<AlarmChatDTO> alarmList = alarmService.alarmList();
-		System.out.println("알림 리스트 확인 : " + alarmList);
+		System.out.println("알림 전체 조회 : " + alarmList);
 		
 		return alarmList;
+	}
+	
+	// 미확인 알림 조회
+	@ResponseBody
+	@GetMapping("/alarmUnck")
+	public List<AlarmChatDTO> alarmUnck() {
+		List<AlarmChatDTO> alarmUnck = alarmService.alarmUnck();
+		System.out.println("미확인 알림 조회 : " + alarmUnck);
+		
+		return alarmUnck;
 	}
 	
 }

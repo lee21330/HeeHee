@@ -3,56 +3,135 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.alarm">
-	<!-- 미확인 알림 전체 조회 -->
-		<select id="alarmList" resultType="alarmChatDTO">
+	<!-- 알림 전체 조회  -->
+	<select id="alarmList" resultType="alarmChatDTO">
 		SELECT NVL(NULL, '📢 From. 희희낙찰') sender, 
-			   MAX(A.AL_CONTENT) alContent, 
-			   MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
-			   MAX(NF.CATE_NUM) cateNum, 
-			   MAX(A.AL_REQ_SEQ) reqSeq 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq
 		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
-					 JOIN QNA_BOARD Q ON (A.ID = Q.ID) 
+							   JOIN QNA_BOARD Q ON (A.ID = Q.ID) 
 		WHERE A.CATE_NUM = 4 -- 문의 
-			  AND AL_CHECK = 'N' 
-			  AND A.ID = 'b' 
+					AND A.ID = 'b' 
 		UNION ALL 
 		SELECT NVL(NULL, '📢 From. 희희낙찰') sender, 
-			   MAX(A.AL_CONTENT) alContent, 
-			   MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
-			   MAX(NF.CATE_NUM) cateNum, 
-			   MAX(A.AL_REQ_SEQ) reqSeq 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq 
 		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
-					 JOIN DEAL_HISTORY D ON (A.ID = D.BUYER_ID) 
+							   JOIN DEAL_HISTORY D ON (A.ID = D.BUYER_ID) 
 		WHERE A.CATE_NUM = 2 -- 판매 
-			  AND AL_CHECK = 'N' 
-			  AND A.ID = 'dhfl123' 
+					AND A.ID = 'dhfl123' 
 		UNION ALL 
 		SELECT MAX(S.ARTICLE_TITLE) sender, 
-       		   MAX(A.AL_CONTENT) alContent, 
-       		   MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
-       		   MAX(NF.CATE_NUM) cateNum, 
-       		   MAX(A.AL_REQ_SEQ) reqSeq 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq 
 		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
-             		 JOIN DEAL_HISTORY DH ON (A.ID = DH.BUYER_ID) 
-             		 JOIN DELIVERY D ON (DH.S_SEQ = D.S_SEQ) 
-             		 JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = SELL_SEQ) 
+							   JOIN DEAL_HISTORY DH ON (A.ID = DH.BUYER_ID) 
+							   JOIN DELIVERY D ON (DH.S_SEQ = D.S_SEQ) 
+							   JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = SELL_SEQ) 
 		WHERE A.CATE_NUM = 5 -- 배송 
-      		  AND AL_CHECK = 'N' 
-      		  AND A.ID = 'a' 
-      		  AND D.D_STATUS = '발송완료' 
-		UNION ALL
-		SELECT CM.SENDER sender, 
-			   MAX(A.AL_CONTENT) alContent, 
-			   MAX(TO_CHAR(CM.SEND_TIME, 'YYYY-MM-DD / HH24:MI')) alDate, 
-			   MAX(NF.CATE_NUM) cateNum, 
-			   MAX(A.AL_REQ_SEQ) reqSeq 
+					AND A.ID = 'a' 
+					AND D.D_STATUS = '발송완료' 
+		UNION ALL 
+		SELECT MAX(AP.AUCTION_TITLE) sender, 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq 
 		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
-					 JOIN CHAT_MESSAGE CM ON (A.ID = CM.RECEIVER) 
+							   JOIN AUC_PRODUCT AP ON (A.AL_REQ_SEQ = AP.PRODUCT_SEQ) 
+		WHERE A.CATE_NUM = 3 -- 경매 
+					AND A.ID = 'b' 
+		UNION ALL 
+		SELECT CM.SENDER sender, 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(CM.SEND_TIME, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq 
+		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+							   JOIN CHAT_MESSAGE CM ON (A.ID = CM.RECEIVER) 
 		WHERE A.CATE_NUM = 1 -- 채팅 
-			  AND AL_CHECK = 'N' 
-			  AND CM.READ_CHECK = 'N' 
-			  AND A.ID = 'b' 
-		GROUP BY CM.SENDER
+					AND A.ID = 'b' 
+		GROUP BY CM.SENDER 
+		ORDER BY alDate DESC
+	</select>
+	
+	<!-- 미확인 알림 조회 -->
+	<select id="alarmUnck" resultType="alarmChatDTO">
+		SELECT NVL(NULL, '📢 From. 희희낙찰') sender, 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq, 
+       				MAX(A.AL_NUM) alNum, 
+       				MAX(A.AL_CHECK) alCheck 
+		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+							   JOIN QNA_BOARD Q ON (A.ID = Q.ID) 
+		WHERE A.CATE_NUM = 4 -- 문의 
+					AND AL_CHECK = 'N' 
+					AND A.ID = 'b' 
+		UNION ALL 
+		SELECT NVL(NULL, '📢 From. 희희낙찰') sender, 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq, 
+       				MAX(A.AL_NUM) alNum, 
+       				MAX(A.AL_CHECK) alCheck 
+		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+							   JOIN DEAL_HISTORY D ON (A.ID = D.BUYER_ID) 
+		WHERE A.CATE_NUM = 2 -- 판매 
+					AND AL_CHECK = 'N' 
+					AND A.ID = 'dhfl123' 
+		UNION ALL 
+		SELECT MAX(S.ARTICLE_TITLE) sender, 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq, 
+       				MAX(A.AL_NUM) alNum, 
+       				MAX(A.AL_CHECK) alCheck 
+		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+							   JOIN DEAL_HISTORY DH ON (A.ID = DH.BUYER_ID) 
+							   JOIN DELIVERY D ON (DH.S_SEQ = D.S_SEQ) 
+							   JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = SELL_SEQ) 
+		WHERE A.CATE_NUM = 5 -- 배송 
+					AND AL_CHECK = 'N' 
+					AND A.ID = 'a' 
+					AND D.D_STATUS = '발송완료' 
+		UNION ALL 
+		SELECT MAX(AP.AUCTION_TITLE) sender, 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq, 
+       				MAX(A.AL_NUM) alNum, 
+       				MAX(A.AL_CHECK) alCheck 
+		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+							   JOIN AUC_PRODUCT AP ON (A.AL_REQ_SEQ = AP.PRODUCT_SEQ)	
+		WHERE A.CATE_NUM = 3 -- 경매 
+					AND AL_CHECK = 'N' 
+					AND A.ID = 'b' 
+		UNION ALL 
+		SELECT CM.SENDER sender, 
+					MAX(A.AL_CONTENT) alContent, 
+					MAX(TO_CHAR(CM.SEND_TIME, 'YYYY-MM-DD / HH24:MI')) alDate, 
+					MAX(NF.CATE_NUM) cateNum, 
+					MAX(A.AL_REQ_SEQ) reqSeq, 
+       				MAX(A.AL_NUM) alNum, 
+       				MAX(A.AL_CHECK) alCheck 
+		FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+							   JOIN CHAT_MESSAGE CM ON (A.ID = CM.RECEIVER)	
+		WHERE A.CATE_NUM = 1 -- 채팅 
+					AND AL_CHECK = 'N' 
+					AND CM.READ_CHECK = 'N' 
+					AND A.ID = 'b' 
+		GROUP BY CM.SENDER 
 		ORDER BY alDate DESC
 	</select>
 </mapper>

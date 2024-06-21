@@ -200,7 +200,7 @@ body {
 }
 
 .alarm_container.none {
-    height: 150px;
+    height: 100px;
 }
 
 .alarm_container p {
