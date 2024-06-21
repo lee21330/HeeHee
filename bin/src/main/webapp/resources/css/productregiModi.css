@@ -1,0 +1,258 @@
+@charset "UTF-8";
+
+.productRegistrate p {
+	color: black;
+	margin: 0;
+    padding: 0%;
+}
+
+/* Body styles */
+.productRegistrate {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+}
+
+#test {
+	width: 50%;
+	height: auto;
+	margin: 0 auto;
+	line-height: 2;
+	white-space: nowrap;
+}
+
+#regi_title {
+	text-align: center;
+	margin-top: 30px;
+	font-size: 30px;
+	color: #4949e9;
+}
+
+#regi_info {
+    display: flex;
+    gap: 60px;
+    margin-top: 10px;
+    
+}
+
+.regi_img {
+	align-items: center;
+}
+
+#input_file {
+	display: none;
+}
+
+#preview {
+	width: 250px;
+	height: 225px;
+	object-fit: contain;
+	padding: 25px 25px 25px 25px;
+    border: 1px solid #acacac;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.inner{
+	width: 1280px;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+}
+
+#cate {
+	margin-top: 50px;
+}
+
+.selected {
+    color: #ABC3FF !important;
+    /* background-color: #ABC3FF !important; */
+}
+
+/* 카테고리 시작 */
+.nav_container1 {
+    width: 70px;
+    height: 20px;
+    position: relative;
+    float: left;
+    margin: 20px 0 0 90px;
+    box-sizing: border-box;
+}
+
+.nav_inner1 {
+    width: 400px;
+    height: auto;
+    position: relative;
+    top: -20px;
+    left: -30px;
+    margin-top: -10px;
+}
+
+/* 카테고리 대분류 */
+.nav_title1 {
+    width: 50%;
+    /* display: flex;
+    flex-direction: column; */
+    background: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin-left: 165px;
+}
+
+.category_name1 p {
+    text-align: center;
+    color: black;
+}
+
+.category_name1 {
+    border-bottom: 1px solid lightgray;
+}
+
+.category_list1 {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 0px;
+    overflow: auto;
+    
+}
+
+/* 카테고리 스크롤바 */
+.category_list1::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+}
+
+.category_list1::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.category_list1::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.category_list1 li {
+    padding: 5px 0;
+    /* list-style: none; */
+    color: black;
+}
+
+.category_list1 a {
+    width: 100%;
+    color: black;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+
+/* 카테고리 소분류 */
+.nav_content1 {
+    width: 50%;
+    height: auto;
+    /* display: flex;
+    flex-direction: column; */
+    background: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    position: absolute;
+    top: 0px;
+    left: 201px;
+    margin-left: 165px;
+}
+
+.content_list1 {
+    width: 100%;
+    height: 400px;
+    text-align: center;
+    padding: 0px;
+    list-style-type: none;
+}
+
+.content_list1 li {
+    color: black;
+    /* list-style: none; */
+    padding: 5px 0;
+}
+
+.content_list1 a {
+    text-decoration: none;
+}
+
+.content_list1 a:hover {
+    color: rgb(63, 81, 161);
+    text-decoration: underline;
+    margin-right: -10px;
+    -webkit-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+
+.category_content1 {
+	list-style-type: none;
+}
+
+.regi_item {
+	display: flex;
+    gap: 60px;
+    margin-top: 30px;
+}
+
+.input_name {
+	border: 1px solid #acacac;
+	border-radius: 10px;
+	width: 100%;
+	padding-left: 5px;
+}
+
+.state_radio {
+	display: flex;
+}
+
+.radio_order {
+    margin-left: 40px;
+    margin-right: 5px;
+}
+
+#new, #package {
+	margin-right: 5px;
+}
+
+.state_radio label {
+    cursor: pointer;
+}
+
+#sub_button {
+	margin-top: 25px;
+	display: flex;
+	justify-content: center;
+}
+
+input[type="submit"] {
+	color: white;
+	background-color: #4949e9;
+	width: 100px;
+	height: 45px;
+	cursor: pointer;
+	border: none;
+	font-size: 15px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: white;
+    color: #acacac;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}

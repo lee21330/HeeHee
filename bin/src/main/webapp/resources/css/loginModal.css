@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'SEBANG_Gothic_Bold';
+    /* white-space: nowrap; */
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    display: none;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal_body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 350px;
+    height: 450px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+    transform: translateX(-50%) translateY(-60%);
+}
+
+.m_body {
+    height: 80%;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.close_btn {
+    color: rgb(139, 139, 139);
+    font-weight: 900;
+    cursor: pointer;
+    width: 20px;
+    float: right;
+    margin-top: -10px;
+}
+
+.modal_label {
+    width: 95%;
+    position: relative;
+    margin: 10px 0 10px 0;
+}
+
+.input_box {
+    width: 100%;
+    height: 40px;
+    border: none;
+    padding-left: 10px;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.log_find {
+    width: 100%;
+    height: 30px;
+    margin-top:15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: rgb(189, 189, 189);
+}
+
+.log_find div {
+    margin: 0 5px 0 5px;
+}
+
+.modal_btn {
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bolder;
+    padding: 3px;
+    margin-top: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup {
+    width: 100%;
+    height: 30px;
+    margin-top:15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: rgb(63, 81, 161);
+}
+
+.cancle {
+    background-color: white;
+    color: black;
+}
+
+.save {
+    background-color: rgb(63, 81, 161);
+    color: white;
+}
+
+.kakao_save {
+    background-color: rgb(254,229,0);
+    color: rgb(24,22,0);
+}
+
+.selDiv {
+    width: 240px;
+    height: 70px;
+    margin: 5px auto;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.selDiv div {
+    width: 170px;
+    height: 70px;
+    display: inline-block;
+}
+
+.selDiv img {
+    width: 100%;
+    height: 100%;
+}
+
+/* 본인인증, 회원가입 모달 */
+.selectedArea {
+    display: none;
+}
+
+.selectedArea.show {
+    display: block;
+}
+
+/* 본인인증 */
+.modal_pass {
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    margin-bottom: -5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pass_input {
+    width: 100px;
+    height: 40px;
+    float: left;
+    margin-right: 10px;
+    padding-left: 10px;
+    border: none;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
+}
+
+.pass_btn {
+    width: 70px;
+    height: 35px;
+
+    color: white;
+    border: 1px solid rgb(63, 81, 161);
+    background-color: rgb(63, 81, 161);
+    border-radius: 5px;
+    padding: 5px;
+
+    border: 1px solid green;
+}
+
+/* 회원가입 */
+.dup_btn {
+    color: white;
+    border: 1px solid rgb(63, 81, 161);
+    background-color: rgb(63, 81, 161);
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 8px;
+    right: -5px;
+}
+
+.modal_bank {
+    width: 70px;
+    height: 40px;
+    float: left;
+    margin: 0 9px 25px 0;
+}
+
+.modal_bank select {
+    color: rgb(63, 81, 161);
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgb(189, 189, 189);
+}
+
+.modal_bank input {
+    width: 191px;
+    height: 40px;
+    float: left;
+    padding-left: 10px;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
+    box-sizing: border-box;
+}
