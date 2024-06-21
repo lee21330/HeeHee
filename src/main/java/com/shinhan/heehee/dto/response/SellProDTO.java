@@ -1,5 +1,7 @@
 package com.shinhan.heehee.dto.response;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +24,5 @@ public class SellProDTO {
 	private int dCharge;
 	private int selectSeq;
 	private String id;
+	private Date createDate;
 }

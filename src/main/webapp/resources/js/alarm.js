@@ -22,29 +22,44 @@ function alarmList() {
 				console.log(responseData);
 				
 				// 알림별로 경로 다르게 걸어줘야 함
-				var output = "<a>";
+				var output = "<div>";
 				
-				// 리스트 비어있는지 확인 후 html 다르게 찍어주기 (전체라서 굳이?)
+				// 미확인 알림 있는지 확인 후 알림 없는 경우랑 html 다르게 찍어주기 (추가 예정)
+				// 알림 종류 조건 걸어야 함, 전체 알림 (알림 전체 리스트 존재 여부만 확인) / 미확인 알림 (AL_CHECK = 'N')
 				// if (responseData.length != 0) {
 				
-					// 알림 리스트 반복문
+					// 미확인 알림 리스트 반복문
 					$.each(responseData, function(index, item) {
 						
-						if (item.cateNum == 1) { // 채팅
-							// $("#urlLocation").attr("href", "/heehee/chatting")
-							
+						if (item.cateNum == 1) {
+							// 채팅
 							output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
 							output += "<li>" + item.alContent + "</li>";
 							output += "</ul>";
 							
-						} else if (item.cateNum == 2) { // 판매
+						} else if (item.cateNum == 2) {
+							// output += "<ul onclick='urlClick(\"/heehee/saledetail/$(item.reqSeq)\")'>";
+							
+							// 판매 (상품 번호 같이 넘겨줘야 함)
+							output += "<ul onclick='urlClick(\"/heehee/saledetail/\")'>";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
+							
+						} else if (item.cateNum == 4) {
+							// 문의 (페이지 경로 수정해야 함)
+							output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
 						
-							// $("#urlLocation").prop("href", "/heehee/saledetail/${sale.productSeq}")
-						
-							// 수정중
-							output += "<ul onclick='urlClick(\"/heehee/saledetail/item.reqSeq\")'>";
+						} else if (item.cateNum == 5) {
+							// 배송 (상품 번호 같이 넘겨줘야 함)
+							output += "<ul onclick='urlClick(\"/heehee/purchasedetail\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
 							output += "<li>" + item.alContent + "</li>";
@@ -53,9 +68,10 @@ function alarmList() {
 						
 					});
 					
-					output += "</a>";
+					output += "</div>";
 					
 					$("#here").html(output);
+					
 				// }
 			},
 			error : function(data) {

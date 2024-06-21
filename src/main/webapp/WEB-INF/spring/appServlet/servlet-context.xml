@@ -21,7 +21,7 @@
 	xmlns:접두사 => 접두사:tag이름 접두사:속성이름
 	 -->
 	
-	<aop:aspectj-autoproxy/>
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.shinhan.heehee.service.TestService;
 
+import lombok.Setter;
+
 @Controller
 public class HomeController {
 	

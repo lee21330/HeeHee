@@ -1,30 +1,27 @@
 package com.shinhan.heehee.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.codebuild.model.Build;
-import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.AuctionService;
+import com.shinhan.heehee.service.MainService;
 
 @Controller
 public class MainController {
 	
 	@Autowired
-	AuctionService auctionService;
+	MainService mainservice;
 	
 	@Autowired
-	private AWSS3Service s3Service;
+	AuctionService auctionService;
 	
 	@GetMapping("/main")
-	public String main() {
+	public String main(Model model) {
+		model.addAttribute("rankProdList", mainservice.rankProdList());
+		model.addAttribute("recommandList", mainservice.recommandList());
+		model.addAttribute("recentprodList", mainservice.recentprodList());
 		return "/main/main";
 	}
 	

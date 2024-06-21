@@ -52,7 +52,7 @@
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="">
+						<a href="${path}/productregi">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
 							<span>물품등록</span>
 						</a>

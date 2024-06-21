@@ -11,10 +11,13 @@
 
 .rankProdDiv {
 	width: 170px;
-    height: 300px;
     padding: 10px;
     margin: 7px 23px 7px 0;
     display: inline-block;
+}
+
+.rankProdTitle {
+	height: 40px;
 }
 
 .rankProdDiv:nth-child(6n) {
@@ -46,7 +49,8 @@
 
 #recommandListArea {
 	position: relative;
-	height: 290px;
+	/* height: 290px; */
+	text-align: center;
 }
 
 .prevBtn {
@@ -70,7 +74,8 @@
 .recommandProdDiv {
 	display: inline-block;
 	width: 170px;
-	margin-right: 10px
+	margin: 7px 23px 7px 0;
+	padding: 10px;
 }
 
 .recommandProdDiv:last-child {
@@ -86,7 +91,7 @@
 #prodRecommandArea {
 	margin-top: 60px;
 	position: relative;
-	height: 370px;
+	/* height: 370px; */
 }
 
 .swiper-pagination {
@@ -98,6 +103,7 @@
 }
 
 .recommandTitle {
+	height: 40px;
 	font-size: 15px;
 }
 
@@ -131,18 +137,20 @@
 #prodNowRegArea {
 	margin-top: 60px;
 	position: relative;
-	height: 370px;
+	/* height: 370px; */
 }
 
 #nowRegListArea {
 	position: relative;
-    height: 290px;
+    /* height: 290px; */
+    text-align: center;
 }
 
 .nowRegProdDiv {
 	display: inline-block;
 	width: 170px;
-	margin-right: 10px
+	margin: 7px 23px 7px 0;
+	padding: 10px;
 }
 
 .nowRegProdDiv:last-child {
@@ -156,6 +164,7 @@
 }
 
 .nowRegProdTitle {
+	height: 40px;
 	font-size: 15px;
 }
 
