@@ -4,7 +4,6 @@
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.alarm">
 	<!-- 미확인 알림 전체 조회 -->
-<<<<<<< HEAD
 		<select id="alarmList" resultType="alarmChatDTO">
 		SELECT NVL(NULL, '📢 From. 희희낙찰') sender, 
 			   MAX(A.AL_CONTENT) alContent, 
@@ -41,7 +40,7 @@
       		  AND AL_CHECK = 'N' 
       		  AND A.ID = 'a' 
       		  AND D.D_STATUS = '발송완료' 
-=======
+    </select>
 	<select id="alarmList" resultType="com.shinhan.heehee.dto.response.AlarmChatDTO">
 		SELECT NULL sender,
 		MAX(A.AL_CONTENT) alContent,
@@ -52,7 +51,6 @@
 		JOIN DEAL_HISTORY D ON (A.ID = D.BUYER_ID)
 		WHERE A.CATE_NUM = 2
 		AND A.ID = 'dhfl123'
->>>>>>> branch 'feat/hyunsang' of https://github.com/Sh03Team05/HeeHee.git
 		UNION ALL
 		SELECT CM.SENDER sender, 
 			   MAX(A.AL_CONTENT) alContent, 

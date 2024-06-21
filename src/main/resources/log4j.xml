@@ -51,7 +51,6 @@
 	 <logger name="jdbc.audit" >
 	 	<level value="off"></level>
 	 </logger>
-<<<<<<< HEAD
 	
 	<logger name="jdbc.connection" >
 	 	<level value="info"></level>
@@ -60,25 +59,12 @@
 	<logger name="jdbc.sqltiming" >
 	 	<level value="info"></level>
 	 </logger>
-=======
-	 
+
 	 <logger name="jdbc.connection" >
 	 	<level value="info"></level>
 	 </logger>
 	 
-	 <logger name="jdbc.sqltiming" >
-	 	<level value="info"></level>
-	 </logger>
-	 
-	 <logger name="com.shinhan.auction">
-        <level value="info" />
-    </logger>
-	 
-	 <logger name="org.apache.ibatis">
-        <level value="info" />
-    </logger>
-	 
->>>>>>> branch 'feat/hyunsang' of https://github.com/Sh03Team05/HeeHee.git
+
 	<!-- Root Logger -->
 	<root>
 		<priority value="info" />

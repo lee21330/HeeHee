@@ -3,7 +3,6 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-<<<<<<< HEAD
 	<settings>
 		<setting name="logImpl" value="LOG4J" />
 		<setting name="jdbcTypeForNull" value="NULL" />
@@ -33,16 +32,7 @@
 	   <typeAlias type="com.shinhan.heehee.dto.request.AdminProductDTO" alias="adminProductVO"/>
 	   <typeAlias type="com.shinhan.heehee.dto.request.AdminAuctionDTO" alias="adminAuctionVO"/>
 	   <typeAlias type="com.shinhan.heehee.dto.request.AdminCategoryDTO" alias="adminCategoryVO"/>
+	   <typeAlias type="java.util.Map" alias="map"/>
+  		<typeAlias type="java.util.HashMap" alias="hashMap"/>
 	</typeAliases>
-=======
-<settings>
-  <setting name="logImpl" value="LOG4J"/>
-  <setting name="jdbcTypeForNull" value="NULL"/>
-  <setting name="mapUnderscoreToCamelCase" value="true"/>
-</settings>
-   <typeAliases>
-   	<typeAlias type="java.util.Map" alias="map"/>
-   	<typeAlias type="java.util.HashMap" alias="hashMap"/>
-   </typeAliases>
->>>>>>> branch 'feat/hyunsang' of https://github.com/Sh03Team05/HeeHee.git
 </configuration>
