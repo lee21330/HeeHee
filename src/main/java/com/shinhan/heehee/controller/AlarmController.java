@@ -23,7 +23,7 @@ public class AlarmController {
 	
 	// 미확인 알림 전체 조회
 	@ResponseBody
-	@GetMapping(value = "/alarmAll", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping("/alarmAll")
 	public List<AlarmChatDTO> alarmList() {
 		
 		List<AlarmChatDTO> alarmList = alarmService.alarmList();

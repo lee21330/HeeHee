@@ -30,8 +30,8 @@
                     <form class="modal_form">
 
                         <p class="modal_info">현재 계좌: </p>
-                        <p>우리은행</p>
-                        <p>123-456-789000</p>
+                        <p>${sellerInfo.bank}</p>
+                        <p>${sellerInfo.accountNum}</p>
 
                         <div class="input">
                             <div class="Modal_bank">

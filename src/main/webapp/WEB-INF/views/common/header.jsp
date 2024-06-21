@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
@@ -13,6 +14,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
+<script src="/heehee/resources/js/common.js"></script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 </head>
 <body>
@@ -22,15 +24,7 @@
 		<div class="container">
 			<div class="login_container">
 				<div class="login_menu">
-					<%-- 로그인 전 --%>
-					<div id="loginBtn">로그인</div>
-					<div class="div_line"></div>
-					<div id="signupBtn" class="login_text" onclick="join('signup')">회원가입</div>
-
-					<%-- 로그인 후 --%>
-					<%-- <div>로그아웃</div>
-                        <div class="div_line"></div>
-                        <div class="login_text">마이페이지</div> --%>
+					<%@ include file="/WEB-INF/views/common/loginCheck.jsp"%>
 				</div>
 			</div>
 			<div class="header_container">
@@ -41,11 +35,11 @@
 				</div>
 				<div class="product_container">
 					<div>
-						<a class="a_color" href="">중고물품</a>
+						<a class="a_color" href="/heehee/main">중고물품</a>
 					</div>
 					<div class="div_line"></div>
 					<div>
-						<a class="a_color" href="">경매물품</a>
+						<a class="a_color" href="/heehee/auc">경매물품</a>
 					</div>
 				</div>
 				<div class="search_container">
@@ -58,7 +52,7 @@
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="">
+						<a href="${path}/productregi">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
 							<span>물품등록</span>
 						</a>
@@ -161,5 +155,8 @@
 			</div>
 		</div>
 	</header>
+	<div id="tost_message">
+		
+	</div>
 </body>
 </html>
