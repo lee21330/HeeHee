@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+#main_container {
+	width: 1280px;
+	margin: 0 auto;
+}
+
+#auctionListArea {
+	display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    max-width: 1280px; /* 한 줄에 들어갈 카드 수를 조정할 수 있는 최대 너비 설정 */
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+}
+
+.timer {
+    color: #fff;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.timer.blue {
+    color: #008cff;
+}
+
+.timer.red {
+    color: #ff0000;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.price {
+    background-color: #f8f8f8;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.price br {
+    content: "";
+    display: block;
+    margin: 5px 0;
+}
