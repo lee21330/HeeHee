@@ -16,6 +16,7 @@ public class ProductDetailController {
 	
 	@GetMapping("/productdetail/{prod_seq}")
 	public String home(@PathVariable("prod_seq") Integer prodSeq, Model model) {
+		model.addAttribute("userId","dhfl123");
 		model.addAttribute("info", productservice.prodInfo(prodSeq));
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
 		model.addAttribute("prodRecoList",productservice.prodReco());

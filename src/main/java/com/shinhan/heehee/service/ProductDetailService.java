@@ -9,7 +9,6 @@ import com.shinhan.heehee.dao.ProductDetailDAO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
-import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Service
 public class ProductDetailService {
@@ -24,11 +23,6 @@ public class ProductDetailService {
 	public List<ProdDetailImgDTO> prodImg(Integer prodSeq) {
 		return productDetailDao.productImg(prodSeq);
 	}
-	
-	/*
-	 * public SellProDTO userIntroduce(Integer prodSeq) { return
-	 * productDetailDao.userIntroduce(prodSeq); }
-	 */
 	
 	/*
 	 * public SellProDTO userIntroduce(Integer prodSeq) { return
