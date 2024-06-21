@@ -12,5 +12,5 @@ import lombok.Setter;
 public class ProdDetailRecoDTO {
 	private String imgName;
 	private int tablePk;
-	private int prodSeq;
+	private int productSeq;
 }
