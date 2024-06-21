@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,56 +37,73 @@ import com.shinhan.heehee.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
-    @Qualifier("authenticationManager")
-    private AuthenticationManager authenticationManager;
-	
+	@Qualifier("authenticationManager")
+	private AuthenticationManager authenticationManager;
+
 	@Autowired
 	AuthenticationSuccess success;
-	
+
 	@Autowired
 	AuthenticationFailure failure;
-	
+
 	@PostMapping("/signup")
 	@ResponseBody
 	public ResponseEntity<?> singUp(UserDTO userDto, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html;charset=UTF-8");
-        if(!userDto.getPassword().equals(null)) {
-            // BCryptPasswordEncoder 생성
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-            userDto.setPassword(encodedPassword);
-        }
-        return userService.signup(userDto);
+		if (!userDto.getPassword().equals(null)) {
+			// BCryptPasswordEncoder 생성
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+			userDto.setPassword(encodedPassword);
+		}
+		return userService.signup(userDto);
 	}
-	
-	@PostMapping("/login")
-	public void login(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes) throws IOException, ServletException {
-		String userId = request.getParameter("userId");
-        String userPw = request.getParameter("userPw");
-        
-        UserDTO user = userService.login(userId, userPw);
-        
-        if(user == null) throw new UserNotFoundException();
-        
-        try {
-            // 사용자 인증을 위한 UsernamePasswordAuthenticationToken 객체 생성
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, userPw);
-            // AuthenticationManager를 사용하여 인증 수행
-            Authentication authentication = authenticationManager.authenticate(token);
-            // 인증 성공 후 SecurityContext에 인증 객체 설정
-            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            success.onAuthenticationSuccess(request, response, authentication);
-            
-        } catch (Exception e) {
-        	failure.onAuthenticationFailure(request, response, null);
-            redirectAttributes.addAttribute("error", true);
-        }
-    }
+	@PostMapping("/login-processing")
+	public void login(HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes)
+			throws IOException, ServletException {
+		String userId = request.getParameter("userId");
+		String userPw = request.getParameter("userPw");
+
+		UserDTO user = userService.login(userId, userPw);
+
+		if (user == null)
+			throw new UserNotFoundException();
+
+		try {
+			// 사용자 인증을 위한 UsernamePasswordAuthenticationToken 객체 생성
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, userPw);
+			// AuthenticationManager를 사용하여 인증 수행
+			Authentication authentication = authenticationManager.authenticate(token);
+			// 인증 성공 후 SecurityContext에 인증 객체 설정
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			success.onAuthenticationSuccess(request, response, authentication);
+
+		} catch (Exception e) {
+			System.err.println(e);
+			failure.onAuthenticationFailure(request, response, null);
+			redirectAttributes.addAttribute("error", true);
+		}
 	}
 	
+	/*
+	 * @GetMapping("/logout") public ResponseEntity<?> logout(HttpServletResponse
+	 * response) { Cookie tokenCookie = new Cookie("Authorization", null);
+	 * 
+	 * tokenCookie.setMaxAge(0); tokenCookie.setPath("/");
+	 * response.addCookie(tokenCookie);
+	 * 
+	 * return ResponseEntity.ok("로그아웃에 성공했습니다."); }
+	 */
+	
+	@GetMapping("/loginCheck")
+	public String logCheck() {
+		return "/common/loginCheck";
+	}
+}

@@ -12,6 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomDetailDTO {
-	RoomProductDTO chatProductDTO;
-	List<RoomMessageDTO> chatMessageDTO;
+	RoomProductDTO roomProductDTO;
+	List<RoomMessageDTO> roomMessageDTO;
 }
