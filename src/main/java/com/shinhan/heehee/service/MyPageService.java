@@ -17,9 +17,6 @@ public class MyPageService {
 	@Autowired
 	MyPageDAO mypageDao;
 
-	public List<SaleListDTO> saleList(String userId) {
-		return mypageDao.saleList(userId);
-	}
 
 	public List<PurchaseListDTO> purchaseList(String userId) {
 		return mypageDao.purchaseList(userId);
@@ -33,8 +30,12 @@ public class MyPageService {
 		return mypageDao.sellerInfo(userId);
 	}
 
-	public List<SaleListDTO> sellPro(int status, String userId) {
-		return mypageDao.sellPro(status, userId);
+	public List<SaleListDTO> saleList(String status, String userId) {
+		return mypageDao.saleList(status, userId);
+	}
+
+	public int userIntroduce(String intro) {
+		return mypageDao.userIntroduce(intro);
 	}
 
 }

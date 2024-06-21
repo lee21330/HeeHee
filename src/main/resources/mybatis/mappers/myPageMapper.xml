@@ -2,33 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.myPage">
-	<select id="saleList" parameterType="string" resultType="salevo">
+	<select id="saleList" parameterType="map" resultType="salevo">
 		SELECT *
 		FROM SELL_PRODUCT SELL, IMG_FILES IMG
 		WHERE SELL.PRODUCT_SEQ =
 		IMG.TABLE_PK
-		AND SELL.ID = #{USER_ID}
+		AND SELL.ID = #{userId}
 		AND IMG_CATE_SEQ = 2
-		AND
-		IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
+
+		<if test="status!='all'">
+			AND SELL.PRO_STATUS = #{status}
+		</if>
+		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
 		FROM IMG_FILES
-		WHERE IMG_CATE_SEQ =
+		WHERE
+		IMG_CATE_SEQ =
 		2
 		GROUP BY TABLE_PK)
 	</select>
-	<select id="sellPro" parameterType="map" resultType="salevo">
-		SELECT *
-		FROM SELL_PRODUCT SELL, IMG_FILES IMG
-		WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
-		AND SELL.ID = #{USER_ID}
-		AND IMG_CATE_SEQ = 2
-		  AND SELL.PRO_STATUS = #{STATUS}
-		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
-		FROM IMG_FILES
-		WHERE IMG_CATE_SEQ =
-		2
-		GROUP BY TABLE_PK)
-	</select>	
 	<select id="purchaseList" parameterType="string"
 		resultType="purchasevo">
 		SELECT *
@@ -66,5 +57,12 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
+
+	<update id="userIntroduce" parameterType="String">
+		UPDATE HH_USER
+		SET USER_INTRODUCE = #{introduce}
+		WHERE ID = #{userId};
+	</update>
+
 
 </mapper>

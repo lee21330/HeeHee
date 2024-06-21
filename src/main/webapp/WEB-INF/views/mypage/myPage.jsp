@@ -86,13 +86,11 @@
 			<!-- pro_status로 조회 -->
 			<div class="sub_menu">
 				<ul>
-					<li id="btn_all" class="select_sub"
+					<li id="all" class="select_sub"
 						onclick="changeStatus('${sellerInfo.id}', 'all')">전체</li>
-					<li id="btn_sell" onclick="changeStatus('${sellerInfo.id}', '판매중')">판매중</li>
-					<li id="btn_reserve"
-						onclick="changeStatus('${sellerInfo.id}', '예약중')">예약중</li>
-					<li id="btn_complete"
-						onclick="changeStatus('${sellerInfo.id}', '거래완료')">거래완료</li>
+					<li id="sell" onclick="changeStatus('${sellerInfo.id}','판매중')">판매중</li>
+					<li id="reserve" onclick="changeStatus('${sellerInfo.id}','예약중')">예약중</li>
+					<li id="complete" onclick="changeStatus('${sellerInfo.id}','거래완료')">거래완료</li>
 				</ul>
 				<!-- 상세필터  -->
 				<button id="btn_search">상세 필터</button>
@@ -170,28 +168,17 @@
 		</div>
 	</section>
 	<script>
-		document
-				.addEventListener(
-						'DOMContentLoaded',
-						function() {
-							var userRating = $
-							{
-								sellerInfo.userRating
-							}
-							;
-							var stars = document
-									.querySelectorAll('.rating .star');
+		document.addEventListener('DOMContentLoaded',function() {
+							var userRating = ${sellerInfo.userRating};
+							var stars = document.querySelectorAll('.rating .star');
 
 							for (var i = 0; i < userRating; i++) {
 								stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
 							}
 
-							const userPointElement = document
-									.getElementById('userPoint');
-							const userPoint = parseInt(
-									userPointElement.innerText, 10);
-							userPointElement.innerText = userPoint
-									.toLocaleString();
+							const userPointElement = document.getElementById('userPoint');
+							const userPoint = parseInt(userPointElement.innerText, 10);
+							userPointElement.innerText = userPoint.toLocaleString();
 						});
 	</script>
 </body>

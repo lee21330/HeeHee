@@ -20,9 +20,6 @@ public class MyPageDAO {
 	SqlSession sqlSession;
 	
 	String namespace = "com.shinhan.myPage.";
-	public List<SaleListDTO> saleList(String userId) {
-		return sqlSession.selectList(namespace + "saleList", userId);
-	}
 
 	public List<PurchaseListDTO> purchaseList(String userId) {
 		return sqlSession.selectList(namespace + "purchaseList", userId);
@@ -36,11 +33,15 @@ public class MyPageDAO {
 		return sqlSession.selectOne(namespace + "sellerInfo", userId);
 	}
 
-	public List<SaleListDTO> sellPro(int status, String userId) {
+	public List<SaleListDTO> saleList(String status, String userId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("status", status);
 		params.put("userId", userId);
-		return sqlSession.selectList(namespace + "sellerInfo",params);
+		return sqlSession.selectList(namespace + "saleList",params);
+	}
+
+	public int userIntroduce(String intro) {
+		return sqlSession.selectOne(namespace + "userIntroduce", intro);
 	}
 
 }
