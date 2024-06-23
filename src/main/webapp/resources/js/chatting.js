@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
    // send.addEventListener("click", sendMessage);
 });
 
+
 // 채팅방 목록에서 채팅방 선택 시 추가되는 이벤트
 function roomListAddEvent(){
   
@@ -25,8 +26,6 @@ function roomListAddEvent(){
    
    for(let item of chattingItemList){
       item.addEventListener("click", e => {
-       
-         
         
          // 전역변수에 채팅방 번호, 상대 id, 상대 닉네임 저장
          selectRoomId = item.getAttribute("room-id");
@@ -60,6 +59,7 @@ function roomListAddEvent(){
    }
 }
 
+// 비동기로 메시지 목록을 조회하는 함수
 function selectChattingFn(){
     fetch(`/heehee/chatting/${selectRoomId}`)
     .then(response=>response.json())
@@ -82,7 +82,7 @@ function selectChattingFn(){
         const sellingImage = document.createElement("img");
         sellingImage.classList.add("selling-image");
         
-        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${roomDetail.roomProductDTO.productImg}`;
+        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}`;
         sellingImage.setAttribute("src", imgUrl);
         
         const priceName = document.createElement("div");
@@ -98,27 +98,38 @@ function selectChattingFn(){
         
         priceName.append(sellingPrice, sellingName);
         
-        // 버튼 생성 및 판매자/구매자별로 내용 다르게 설정
-        const payButton = document.createElement("button");
-        payButton.classList.add("payEdit");
+        sellingInfo.append(sellingImage, priceName);
         
+        // 버튼 생성 및 판매자/구매자별로 내용 다르게 설정
         const status = roomDetail.roomProductDTO.status;
         
         if (status == '구매자') {
+            const payButton = document.createElement("button");
+            payButton.classList.add("payEdit");
+        
             payButton.innerText = "결제하기";
+            
+            sellingInfo.append(payButton);
+            
             payButton.addEventListener("click", () => {
                 // 구매자 버튼 클릭 이벤트 처리
                 pay(roomDetail.roomMessageDTO[0].sender);
             });
         } else if(status == '판매자'){
-            payButton.innerText = "가격 수정하기";
-            payButton.addEventListener("click", () => {
-                // 판매자 버튼 클릭 이벤트 처리
-                editPrice(roomDetail.roomMessageDTO[0].sender);
-            });
-        }
-        
-        sellingInfo.append(sellingImage, priceName, payButton);
+            if(roomDetail.roomProductDTO.productType=='sell'){
+                const payButton = document.createElement("button");
+                payButton.classList.add("payEdit");
+            
+                payButton.innerText = "가격 수정하기";
+                
+                sellingInfo.append(payButton);
+            
+                payButton.addEventListener("click", () => {
+                    // 판매자 버튼 클릭 이벤트 처리
+                    editPrice(roomDetail.roomProductDTO.productPrice, roomDetail.roomProductDTO.productSeq);
+                });
+            } 
+        } 
         
         contentHeader.append(receiverNickname, sellingInfo);
         
@@ -207,10 +218,139 @@ function selectChattingFn(){
         chattingInput.append(inputPhoto, inputDiv, inputSend);
         
         chattingContent.append(contentHeader, contentBody, chattingInput);
+        
+        contentBody.scrollTop = contentBody.scrollHeight; //스크롤 최하단으로 이동
     })
     .catch(err => console.log(err));
 }
 
+//모달 관련
+const chattingModal = document.querySelector(".chattingModal");
+
+//결제하기 함수
+function pay(sender){
+    chattingModal.style.display='block';
+    chattingModal.innerHTML="";
+    
+    //결제에 성공한 경우
+    //const modalContent2 = document.createElement("div");
+    //modalContent2.classList.add("modal-content2");
+    
+    //const Info2 = document.createElement("div");
+    //Info2.innerText='결제에 성공하였습니다!';
+    
+    //modalContent2.append(Info2);
+    
+    //chattingModal.append(modalContent2);
+    
+    //결제에 실패한 경우
+    const modalContent = document.createElement("div");
+    modalContent.classList.add("modal-content");
+    
+    const Info = document.createElement("div");
+    Info.classList.add("info");
+    Info.innerText='포인트가 부족합니다.';
+    
+    const currentAccount = document.createElement("div");
+    currentAccount.classList.add("current-account");
+    //계좌번호 추가할것
+    currentAccount.innerText='현재 계좌 : ';
+    
+    const currentInput3 = document.createElement("div");
+    currentInput3.classList.add("current-input3");
+    
+    const ciElement3 = document.createElement('input');
+    ciElement3.className = 'add-point';
+    ciElement3.type = 'number';
+    ciElement3.placeholder = '충전할 금액을 입력해주세요. (원)';
+    
+    currentInput3.append(ciElement3);
+    
+    const chModalBtn3 = document.createElement("div");
+    chModalBtn3.classList.add("chModalBtn3");
+    
+    const submitPrice = document.createElement("button");
+    submitPrice.classList.add("submit-price");
+    submitPrice.innerText='충전하기';
+    
+    submitPrice.addEventListener('click', ()=>{
+        chattingModal.style.display='none';
+        });
+    
+    const cancel = document.createElement("button");
+    cancel.classList.add("cancel");
+    cancel.innerText='취소하기';
+    
+    cancel.addEventListener('click', ()=>{
+        chattingModal.style.display='none';
+    });
+    
+    chModalBtn3.append(submitPrice, cancel);
+    
+    modalContent.append(Info, currentAccount, currentInput3, chModalBtn3);
+    
+    chattingModal.append(modalContent);
+}
+
+//가격 수정하기 함수
+function editPrice(productPrice, productSeq){
+    chattingModal.style.display='block';
+    chattingModal.innerHTML="";
+    
+    const modalContent = document.createElement("div");
+    modalContent.classList.add("modal-content");
+    
+    const currentPrice = document.createElement("div");
+    currentPrice.classList.add("current-price");
+    currentPrice.innerText='기존 가격 : ' + productPrice + '원';
+    
+    const currentInput = document.createElement("div");
+    currentInput.classList.add("current-input");
+    
+    const ciElement = document.createElement('input');
+    ciElement.className = 'new-price';
+    ciElement.type = 'number';
+    ciElement.placeholder = '수정할 가격을 입력해주세요. (원)';
+    
+    currentInput.append(ciElement);
+    
+    const chModalBtn = document.createElement("div");
+    chModalBtn.classList.add("chModalBtn");
+    
+    const submitPrice = document.createElement("button");
+    submitPrice.classList.add("submit-price");
+    submitPrice.innerText='수정하기';
+    
+    submitPrice.addEventListener('click', ()=>{
+        chattingModal.style.display='none';
+        const newPrice=document.querySelector('.new-price').value;
+        document.querySelector(".selling-price").innerText = newPrice + '원';
+        // console.log(newPrice, productSeq);
+        fetch("/heehee/chatting/price",{
+             method : "PUT",
+             headers : {"Content-Type": "application/json"},
+             body : JSON.stringify({"newPrice" : newPrice, "productSeq" : productSeq})
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        });
+        
+    
+    const cancel = document.createElement("button");
+    cancel.classList.add("cancel");
+    cancel.innerText='취소하기';
+    
+    cancel.addEventListener('click', ()=>{
+        chattingModal.style.display='none';
+    });
+    
+    chModalBtn.append(submitPrice, cancel);
+    
+    modalContent.append(currentPrice, currentInput, chModalBtn);
+    
+    chattingModal.append(modalContent);
+}
 
 //채팅방 목록 1.5초마다 불러오기
 function fetchChatRoomList() {
@@ -283,10 +423,6 @@ function updateChatRoomList(data) {
             const receiverNickname = document.createElement("p");
             receiverNickname.classList.add("receiver-nickname");
             receiverNickname.innerText = room.receivernickname;
-
-            //const unreadCount = document.createElement("p");
-            //unreadCount.classList.add("unread-count");
-            //unreadCount.innerText = room.unreadcount;
 
             nameCount.append(receiverNickname);
 

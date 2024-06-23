@@ -35,6 +35,10 @@ public class ChattingDAO {
 	public int updateReadCheck(Map<String, Object> map) {
 		return sqlSession.update(namespace + "updateReadCheck", map);
 	}
+	
+	public int updatePrice(Map<String, Object> map) {
+		return sqlSession.update(namespace + "updatePrice", map);
+	}
 
 	public int insertMessage(MessageDTO messageDTO) {
 		return sqlSession.insert(namespace + "insertMessage", messageDTO);

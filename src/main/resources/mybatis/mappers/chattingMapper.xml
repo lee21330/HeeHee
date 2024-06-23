@@ -48,6 +48,15 @@
 	
 <select id="getRoomProduct" parameterType="hashMap" resultType="com.shinhan.heehee.dto.response.RoomProductDTO">
    select
+      COALESCE(NVL((SELECT product_seq from sell_product s
+                             where r.sell_seq=s.product_seq)
+                            ,(SELECT product_seq from auc_product a
+                            where r.auc_seq=a.product_seq))
+                      ,null) AS productSeq,
+     COALESCE(NVL2((SELECT product_seq from sell_product s
+                             where r.sell_seq=s.product_seq)
+                             ,'sell', 'auction')
+                     , null) AS productType,
    	  COALESCE(NVL((SELECT img_name from img_files i
                  where r.sell_seq=i.table_pk and i.img_cate_seq=2 and rownum=1),
                  (SELECT img_name from img_files i 
@@ -80,6 +89,12 @@
 	where room_id=#{chatRoomId} and sender!=#{loginUserId}
 </update>
 
+<update id="updatePrice">
+	update sell_product
+	set product_price=#{newPrice}
+	where sell_product.product_seq=#{productSeq}
+</update>
+
 <!-- 이미지 없이 텍스트만 보낸 경우 -->
 <insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.MessageDTO">
 	<selectKey keyProperty="msgId" order="BEFORE" resultType="int">
@@ -103,5 +118,5 @@
      </selectKey>
      insert into img_files values(#{imgId}, #{content}, #{msgId}, 1, #{sender})
 </insert>
-	
+
 </mapper>

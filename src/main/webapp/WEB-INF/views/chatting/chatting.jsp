@@ -18,17 +18,41 @@
 	</div>
 	
 	<%-- modal --%>
+	<!--가격 수정하기 모달  -->
 	<div class="chattingModal">
-	    <div class="modal-content">
+	  <%--  <div class="modal-content">
 	        <div class="current-price">기존 가격 : 50000원</div>
 	        <div class="current-input">
 	  	  	    <input type="number" class="new-price" placeholder="수정할 가격을 입력해주세요. (원)">
 	        </div>
 	        <div class="chModalBtn">
 	            <button class="submit-price">수정하기</button>
-	            <button class="cancel-edit">취소하기</button>
+	            <button class="cancel">취소하기</button>
 	        </div>
 	    </div>
+	</div>
+	
+	<!-- 결제하기 모달(성공) -->
+	<div class="chattingModal">
+	    <div class="modal-content2">
+	        <div>결제에 성공하였습니다!</div>
+	    </div>
+	</div>
+	
+	<!-- 결제하기 모달(충전) -->
+	<div class="chattingModal">
+	    <div class="modal-content">
+	        <div class="info">포인트가 부족합니다.</div>
+	        <div class="current-account">현재 계좌 : 123 - 456 - 789000 </div>
+	        <div class="current-input3">
+	  	  	    <input type="number" class="add-point" placeholder="충전할 금액을 입력해주세요. (원)">
+	        </div>
+	        <div class="chModalBtn3">
+	            <button class="submit-price">충전하기</button>
+	            <button class="cancel">취소하기</button>
+	        </div>
+	    </div>
+	</div> --%>
 	</div>
 	
 	<div class="chatting-area">

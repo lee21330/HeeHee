@@ -76,6 +76,16 @@ public class ChattingController {
 	public int updateReadCheck(@RequestBody Map<String, Object> map) {
 		return cService.updateReadCheck(map);
 	}
+	
+	// 선택한 채팅방 -> 가격 수정 모달 -> 수정하기 눌렀을때 가격 수정
+	// 업데이트 성공 시 1 반환
+	// 추후 로그인 유저 정보 수정하기
+	@PutMapping("/chatting/price")
+	@ResponseBody
+	public int updatePrice(@RequestBody Map<String, Object> map) {
+		//System.out.println("ReceivedMap:" + map);
+		return cService.updatePrice(map);
+	}
 
 	// 메시지(+이미지) insert
 	// 추후 로그인 유저 정보 수정하기

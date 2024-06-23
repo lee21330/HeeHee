@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomProductDTO {
+	private int productSeq;
+	private String productType;
 	private String productImg;
 	private int productPrice;
 	private String productName;

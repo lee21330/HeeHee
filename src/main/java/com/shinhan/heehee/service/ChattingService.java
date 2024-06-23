@@ -35,6 +35,10 @@ public class ChattingService {
 	public int updateReadCheck(Map<String, Object> map) {
 		return cDao.updateReadCheck(map);
 	}
+	
+	public int updatePrice(Map<String, Object> map) {
+		return cDao.updatePrice(map);
+	}
 
 	public int insertMessage(MessageDTO messageDTO) {
 		return cDao.insertMessage(messageDTO);
