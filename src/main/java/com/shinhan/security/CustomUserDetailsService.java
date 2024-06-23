@@ -32,7 +32,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private UserDTO addAuthorities(UserDTO userDto) {
         userDto.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userDto.getRole())));
-
         return userDto;
     }
 }
