@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomDetailDTO {
-	RoomProductDTO roomProductDTO;
-	RoomUserDTO roomUserDTO;
-	List<RoomMessageDTO> roomMessageDTO;
+public class RoomUserDTO {
+	private String accountNum;
+	private String bank;
+	private int userPoint;
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shinhan.heehee.dto.request.MessageDTO;
+import com.shinhan.heehee.dto.request.ChatMessageDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 import com.shinhan.heehee.dto.response.RoomMessageDTO;
@@ -39,7 +40,7 @@ public class ChattingController {
 
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
-
+	
 	// 채팅 페이지
 	@GetMapping("/chatting")
 	public String chatting(Model model) {
@@ -57,7 +58,7 @@ public class ChattingController {
 		return cService.getRoomList("b"); // 로그인 유저 Id 전달
 	}
 
-	// 채팅방 목록에서 채팅방 클릭 시 해당 채팅방의 판매 물품 정보, 메시지 목록 조회
+	// 채팅방 목록에서 채팅방 클릭 시 해당 채팅방의 판매 물품 정보, 유저 계좌 및 포인트 정보, 메시지 목록 조회
 	// 추후 로그인 유저 정보 수정하기
 	@GetMapping(value = "/chatting/{id}", produces = "application/json; charset=UTF-8")
 	@ResponseBody
@@ -76,13 +77,32 @@ public class ChattingController {
 	public int updateReadCheck(@RequestBody Map<String, Object> map) {
 		return cService.updateReadCheck(map);
 	}
-
+	
+	// 선택한 채팅방 -> 가격 수정 모달 -> 수정하기 눌렀을때 가격 수정
+	// 업데이트 성공 시 1 반환
+	// 추후 로그인 유저 정보 수정하기
+	@PutMapping("/chatting/price")
+	@ResponseBody
+	public int updatePrice(@RequestBody Map<String, Object> map) {
+		//System.out.println("ReceivedMap:" + map);
+		return cService.updatePrice(map);
+	}
+	
+	// 선택한 채팅방 -> 포인트 충전 모달 -> 충전하기 눌렀을때 포인트 수정
+    // 업데이트 성공 시 1 반환
+	// 추후 로그인 유저 정보 수정하기
+	@PutMapping("/chatting/point")
+	@ResponseBody
+	public int updatePoint(@RequestBody Map<String, Object> map) {
+		return cService.updatePoint(map);
+	}
+	
 	// 메시지(+이미지) insert
 	// 추후 로그인 유저 정보 수정하기
 	// (1) 메시지 전송
 	@PostMapping("/chatting/message")
 	@ResponseBody
-	public String insertMessage(@RequestBody MessageDTO messageDTO) throws IOException {
+	public String insertMessage(@RequestBody ChatMessageDTO messageDTO) throws IOException {
 		System.out.println(messageDTO);
 		cService.insertMessage(messageDTO);
 		return "test";
@@ -91,7 +111,7 @@ public class ChattingController {
 	// (2) 사진 전송
 	@PostMapping("/chatting/Image")
 	@ResponseBody
-	public String insertImage(@RequestPart(required = false) MessageDTO messageDTO,
+	public String insertImage(@RequestPart(required = false) ChatMessageDTO messageDTO,
 			@RequestPart(required = false) MultipartFile img) throws IOException {
 		if(img!=null && !img.isEmpty()) {
 			cService.insertMsgImg(messageDTO, img);
@@ -103,9 +123,13 @@ public class ChattingController {
 	}
 
 	// 소켓: 메시지(+이미지) insert
-	@MessageMapping("/message/{roomId}")
-	public void sendMessage(@DestinationVariable("roomId") int roomId, RoomMessageDTO message) {
+	// @SendTo 대신 converAndSend 사용
+	@MessageMapping("/{roomId}")
+	public void sendMessage(@DestinationVariable("roomId") int roomId, ChatMessageDTO message) {
 		// 메세지 Insert 로직 구현 필요
+		// 우선 텍스트만
+		cService.insertMessage(message);
+		
 		messagingTemplate.convertAndSend("/topic/chatroom/" + roomId, message);
 	}
 }
