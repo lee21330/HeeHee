@@ -74,13 +74,6 @@
 								<div id="alarmAll" class="alarm_type add">전체 알림</div>
 								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
-
-							<%-- 알림 없는 경우 --%>
-							<div id="none">
-								<%-- <p>최근 알림이 없습니다.</p> --%>
-							</div>
-
-							<%-- 알림 있는 경우 --%>
 							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
