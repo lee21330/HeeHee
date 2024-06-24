@@ -12,8 +12,6 @@ import com.shinhan.heehee.dto.response.UserDTO;
 
 @Repository("userDao")
 public class UserDAO {
-
-	Logger logger = LoggerFactory.getLogger(UserDAO.class);
 	
 	@Autowired
 	SqlSession sqlSession;

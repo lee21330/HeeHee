@@ -3,11 +3,13 @@ package com.shinhan.heehee.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-public class CustomClientRegistrationRepository implements ClientRegistrationRepository{
+@Configuration
+public class CustomClientRegistrationRepository implements ClientRegistrationRepository {
 	
 	private final Map<String, ClientRegistration> registrations = new HashMap<>();
 
@@ -31,7 +33,7 @@ public class CustomClientRegistrationRepository implements ClientRegistrationRep
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .userNameAttributeName("sub")
                 .clientName("HeeHee")
-                .redirectUriTemplate("heehee/login/oauth2/code/google")
+                .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .build();
 	}

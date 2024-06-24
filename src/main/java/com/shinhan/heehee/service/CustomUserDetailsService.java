@@ -1,4 +1,4 @@
-package com.shinhan.security;
+package com.shinhan.heehee.service;
 
 import lombok.RequiredArgsConstructor;
 
@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.exception.UserNotFoundException;
-import com.shinhan.security.UserDAO;
 
 import java.util.Arrays;
 import java.util.Optional;

@@ -10,8 +10,9 @@
 
 	<!-- auto-config="false" : 로그인 폼을 직접 만들어서 사용 -->
 	<security:http auto-config="false" create-session="stateless" entry-point-ref="customAuthenticationEntryPoint">
-		<security:csrf disabled="true"></security:csrf>
+		
 		<!-- CSRF 보호 비활성화 API 로그인 설정 --> 
+		<security:csrf disabled="true"></security:csrf>
 		<security:form-login login-processing-url="/user/login-processing"
 			username-parameter="userId" password-parameter="userPw"
 			authentication-success-handler-ref="authenticationSuccessHandler" 
@@ -25,7 +26,8 @@
 		<security:intercept-url pattern="/auc" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/auc/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/user/**" access="permitAll"/>
-		<security:custom-filter before="FORM_LOGIN_FILTER" ref="jwtFilter"></security:custom-filter>
+		<security:custom-filter before="FORM_LOGIN_FILTER" ref="jwtFilter"/>
+		<security:custom-filter before="OAUTH2_LOGIN_FILTER" ref="customOAuth2LoginAuthenticationFilter"/>
 	</security:http>
 
 	<!-- Spring Security의 사용자 인증을 수행 -->
@@ -34,14 +36,29 @@
 			<security:password-encoder ref="passwordEncoder"></security:password-encoder>
 		</security:authentication-provider>
 	</security:authentication-manager>
+
+	<bean id="clientRegistrationRepository" class="com.shinhan.heehee.config.CustomClientRegistrationRepository"/>
+	<bean id="authorizedClientService" class="com.shinhan.heehee.config.CustomOAuth2AuthorizedClientService"/>
+	
+	<bean id="authorizedClientRepository" class="com.shinhan.heehee.config.CustomOAuth2AuthorizedClientRepository">
+		<constructor-arg ref="authorizedClientService"/>
+	</bean>
+	
+	<bean id="customOAuth2LoginAuthenticationFilter" class="com.shinhan.heehee.config.CustomOAuth2LoginAuthenticationFilter">
+        <constructor-arg ref="clientRegistrationRepository"/>
+        <constructor-arg ref="authorizedClientRepository"/>
+        <constructor-arg ref="authenticationManager"/>
+    	<constructor-arg ref="authenticationSuccessHandler"/>
+    	<constructor-arg ref="authenticationFailureHandler"/>
+    </bean>
 	
 	<bean id="jwtLogoutSuccessHandler" class="com.shinhan.heehee.config.JwtLogoutSuccessHandler"/>
     
 	<bean id="customUserDetailsService"
-		class="com.shinhan.security.CustomUserDetailsService">
-		</bean>
+		class="com.shinhan.security.CustomUserDetailsService"/>
+		
 	<bean id="passwordEncoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
 	<bean id="jwtFilter" class="com.shinhan.heehee.config.JwtFilter">
 		<constructor-arg ref="jwtUtil"></constructor-arg>
@@ -55,7 +72,7 @@
 		<constructor-arg ref="jwtUtil"></constructor-arg>
 	</bean>
 	<bean id="authenticationFailureHandler" 
-		class="com.shinhan.heehee.config.AuthenticationFailure"></bean>
+		class="com.shinhan.heehee.config.AuthenticationFailure"/>
 		
 	<bean id="customAuthenticationEntryPoint" class="com.shinhan.heehee.config.CustomAuthenticationEntryPoint"/>
 	
@@ -76,9 +93,9 @@
 	<bean id="dataSource"  class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg ref="dataSourceOriginal" />
 		<property name="logFormatter" >
-		<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-		<property name="loggingType" value="MULTI_LINE"></property>
-		<property name="sqlPrefix" value="[ SQL문장 ] "></property>
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+			<property name="loggingType" value="MULTI_LINE"></property>
+			<property name="sqlPrefix" value="[ SQL문장 ] "></property>
 		</bean>
 		</property>
 	</bean>
@@ -97,4 +114,5 @@
 	</bean>
 	
 	<context:component-scan base-package="com.shinhan.security" />
+
 </beans>
