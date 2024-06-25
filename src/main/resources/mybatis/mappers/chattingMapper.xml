@@ -12,15 +12,15 @@
 		'MM/DD') sendtime,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
              WHERE r.room_id = r2.room_id 
-             AND r2.seller = 'b'),
+             AND r2.seller = #{userId}),
             r.buyer, r.seller), null) receiverid,
 		(select count(*) from chat_message m
 		where m.room_id=r.room_id
 		and m.read_check='N'
-		and m.sender!='b') unreadcount,
+		and m.sender!=#{userId}) unreadcount,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
                       WHERE r.room_id = r2.room_id 
-                      AND r2.seller = 'b'),
+                      AND r2.seller = #{userId}),
                      (SELECT hh_user.nick_name 
                       FROM hh_user 
                       WHERE hh_user.id = r.buyer),
@@ -30,7 +30,7 @@
                 null) receivernickname,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
                       WHERE r.room_id = r2.room_id 
-                      AND r2.seller = 'b'),
+                      AND r2.seller = #{userId}),
                      (SELECT hh_user.profile_img 
                       FROM hh_user 
                       WHERE hh_user.id = r.buyer),
@@ -42,7 +42,7 @@
 		from chat_message m
 		where r.room_id = m.room_id) as maxmessageno
 		from chat_room r
-		where seller='b' or buyer='b'
+		where seller=#{userId} or buyer=#{userId}
 		order by maxmessageno desc nulls last
 	</select>
 	
@@ -120,7 +120,7 @@
      <selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
-     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, 'N')
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, #{sendTime}, 'N')
 </insert>
 
 <!-- 이미지를 보낸 경우 (2)이미지 저장 / content: 폴더/이미지이름 -->

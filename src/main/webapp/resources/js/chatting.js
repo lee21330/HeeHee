@@ -1,12 +1,14 @@
 let selectRoomId; // 선택한 채팅방 번호
 let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
-
 var stompClient = null; //stomp 소켓 클라이언트 전역 설정
-var socket = new SockJS('/heehee/ws'); // 소켓 커넥트
+
+
 
 // 문서 로딩 완료 후 수행할 기능
 document.addEventListener("DOMContentLoaded", ()=>{
+   
+   	
    
    // 채팅방 목록에 클릭 이벤트 추가
    roomListAddEvent(); 
@@ -17,21 +19,106 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		fetchChatRoomList();
 	}, 1500);
 	
-   // 보내기 버튼에 이벤트 추가
-   // send.addEventListener("click", sendMessage);
+	
+	
 });
-
 
 // 채팅룸 커넥트
 function connect(chatRoomId) {
+	disconnect();
+	var socket = new SockJS('/heehee/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/chatroom/' + chatRoomId, function (chatMessage) {
-            console.log(response);
-            showResponse(JSON.parse(chatMessage.body));
+            console.log(chatMessage);
+            showMessage(JSON.parse(chatMessage.body));
         });
     });
+}
+
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    console.log("Disconnected");
+}
+
+// 채팅 보여주기
+function showMessage(chatMessage){
+    const messageList = document.querySelector(".message-list");
+    
+    const contentBody = document.querySelector(".content-body");
+    
+    if(chatMessage.sender == loginMemberNo){
+        if(chatMessage.content.indexOf('[img_asdfzv]')==-1){
+            const myChat = document.createElement("div");
+            myChat.classList.add("my-chat");
+            
+            const chatDate = document.createElement("span");
+            chatDate.classList.add("chatDate");
+            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
+                    
+            const chat = document.createElement("p");
+            chat.classList.add("chat");
+            chat.innerHTML = chatMessage.content;
+                    
+            myChat.append(chatDate, chat);
+            messageList.append(myChat);
+            contentBody.append(messageList);
+    
+            contentBody.scrollTop = contentBody.scrollHeight;
+        }
+    }
+    else if(chatMessage.sender != loginMemberNo){
+         if(chatMessage.content.indexOf('[img_asdfzv]')==-1){
+            const targetChat = document.createElement("div");
+            targetChat.classList.add("target-chat");
+                    
+            const chat = document.createElement("p");
+            chat.classList.add("chat");
+            chat.innerHTML = message.content;
+                    
+            const chatDate = document.createElement("span");
+            chatDate.classList.add("chatDate");
+                    
+            let read = '안 읽음';
+                    
+            if(message.readCheck == 'Y'){
+                read = '읽음';
+            }
+                    
+            chatDate.innerHTML = message.sendTime + ' ' + read;
+                    
+            targetChat.append(chat, chatDate);
+                    
+            messageList.append(targetChat);
+            
+            contentBody.append(messageList);
+    
+            contentBody.scrollTop = contentBody.scrollHeight;
+          }
+     }
+    
+}
+
+// 채팅 보내기
+function sendMessage(inputValue){
+    if(inputValue!=""){
+        const offset = new Date().getTimezoneOffset() * 60000;
+        const today = new Date(Date.now() - offset);
+        const sendTime = today.toISOString();
+        
+        stompClient.send("/app/chat", {},
+                          JSON.stringify({
+                              'roomId': selectRoomId,
+                              'sender': loginMemberNo,
+	                          'receiver': selectReceiverId, 
+	                          'content': inputValue,
+	                          'sendTime': sendTime
+                          })
+                     );
+    }
 }
 
 
@@ -48,6 +135,8 @@ function roomListAddEvent(){
          selectReceiverId = item.getAttribute("receiver-id");
 
          selectReceiverName = item.children[1].children[0].children[0].innerText;
+
+         
 
          const unreadCountElem = item.querySelector(".unread-count");
             if (unreadCountElem) {
@@ -72,6 +161,7 @@ function roomListAddEvent(){
             .then(result => console.log(result))
             .catch(err => console.log(err));
       });
+      
    }
 }
 
@@ -175,7 +265,9 @@ function selectChattingFn(){
                     
                     messageList.append(myChat);
                     }
-                    
+                    else{
+                        
+                    }
                     //사진 띄워주기 https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/chat/~~
                    
                 }
@@ -229,6 +321,8 @@ function selectChattingFn(){
         inputSend.classList.add("input-send");
         
         inputSend.addEventListener('click', ()=>{
+            sendMessage(inputElement.value);
+            //console.log(inputElement.value);
             inputElement.value='';
         });
         
@@ -242,6 +336,8 @@ function selectChattingFn(){
         contentBody.scrollTop = contentBody.scrollHeight; //스크롤 최하단으로 이동
     })
     .catch(err => console.log(err));
+    
+    connect(selectRoomId);
 }
 
 //모달 관련
@@ -254,6 +350,10 @@ function pay(accountNum, bank, userPoint, productPrice){
     
     //결제에 성공한 경우
     if(userPoint>=productPrice){
+        const button = document.querySelector(".payEdit");
+        //console.log(payButton);
+        button.disabled = true;
+        
         const modalContent2 = document.createElement("div");
         modalContent2.classList.add("modal-content2");
     
@@ -263,6 +363,10 @@ function pay(accountNum, bank, userPoint, productPrice){
         modalContent2.append(Info2);
     
         chattingModal.append(modalContent2);
+        
+        setTimeout(()=>{
+            chattingModal.style.display='none';
+        }, 3000);
     }
     //결제에 실패한 경우
     else if(userPoint<productPrice){

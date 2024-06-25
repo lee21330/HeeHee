@@ -184,6 +184,10 @@
 						<p class="chat">아직 안 팔렸어요.</p>
 						<span class="chatDate">14:59 읽음</span>
 					</div>
+					
+					<!-- 이미지 메세지 -->
+					<div class="">
+					
 				</div> --%>
 				
 			</div>
@@ -200,11 +204,11 @@
 	
 	<!--------------------------------------- sockjs를 이용한 WebSocket 구현을 위해 라이브러리 추가 ---------------------------------------------->
 	<!-- https://github.com/sockjs/sockjs-client -->
-	 <script
-		src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> 
+	 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> 
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	<script>
 		// 로그인한 회원 번호 => 추후 수정
-		loginMemberNo = "b";
+		loginMemberNo = "${userId}";
 	</script>
 	<script type="text/javascript" src="/heehee/resources/js/chatting.js"></script>
 </body>
