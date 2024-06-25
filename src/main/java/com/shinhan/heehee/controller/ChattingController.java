@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,7 @@ import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.ChattingService;
 
 @Controller
+@RequestMapping("/chatting")
 public class ChattingController {
 
 	@Autowired
@@ -45,7 +47,7 @@ public class ChattingController {
 	String userId = "";
 	
 	// 채팅 페이지
-	@GetMapping("/chatting")
+	@GetMapping
 	public String chatting(Model model, Principal principal) {
 		if(principal != null) userId = principal.getName();
 		// model에 담을 것: 유저별 채팅방 목록
@@ -55,7 +57,7 @@ public class ChattingController {
 	}
 
 	// 채팅방 목록 조회
-	@GetMapping(value = "/chatting/roomList", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/roomList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ChatRoomDTO> getRoomList(Principal principal) {
 		if(principal != null) userId = principal.getName();
@@ -63,7 +65,7 @@ public class ChattingController {
 	}
 
 	// 채팅방 목록에서 채팅방 클릭 시 해당 채팅방의 판매 물품 정보, 유저 계좌 및 포인트 정보, 메시지 목록 조회
-	@GetMapping(value = "/chatting/{id}", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public RoomDetailDTO getRoomDetail(@PathVariable("id") int chatRoomId, Principal principal) {
 		if(principal != null) userId = principal.getName();
@@ -75,7 +77,7 @@ public class ChattingController {
 
 	// 선택한 채팅방에서 상대 메세지 읽음 체크
 	// 업데이트 성공 시 1 반환
-	@PutMapping("/chatting/read")
+	@PutMapping("/read")
 	@ResponseBody
 	public int updateReadCheck(@RequestBody Map<String, Object> map) {
 		return cService.updateReadCheck(map);
@@ -83,7 +85,7 @@ public class ChattingController {
 	
 	// 선택한 채팅방 -> 가격 수정 모달 -> 수정하기 눌렀을때 가격 수정
 	// 업데이트 성공 시 1 반환
-	@PutMapping("/chatting/price")
+	@PutMapping("/price")
 	@ResponseBody
 	public int updatePrice(@RequestBody Map<String, Object> map) {
 		return cService.updatePrice(map);
@@ -91,7 +93,7 @@ public class ChattingController {
 	
 	// 선택한 채팅방 -> 포인트 충전 모달 -> 충전하기 눌렀을때 포인트 수정
     // 업데이트 성공 시 1 반환
-	@PutMapping("/chatting/point")
+	@PutMapping("/point")
 	@ResponseBody
 	public int updatePoint(@RequestBody Map<String, Object> map) {
 		return cService.updatePoint(map);
@@ -99,7 +101,7 @@ public class ChattingController {
 	
 	// 메시지(+이미지) insert
 	// (1) 메시지 전송
-	@PostMapping("/chatting/message")
+	@PostMapping("/message")
 	@ResponseBody
 	public String insertMessage(@RequestBody ChatMessageDTO messageDTO) throws IOException {
 		System.out.println(messageDTO);
@@ -108,7 +110,7 @@ public class ChattingController {
 	}
 
 	// (2) 사진 전송
-	@PostMapping("/chatting/Image")
+	@PostMapping("/Image")
 	@ResponseBody
 	public String insertImage(@RequestPart(required = false) ChatMessageDTO messageDTO,
 			@RequestPart(required = false) MultipartFile img) throws IOException {

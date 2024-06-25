@@ -186,9 +186,15 @@
 					</div>
 					
 					<!-- 이미지 메세지 -->
-					<div class="">
-					
-				</div> --%>
+					<div class="my-chat-image">
+                           <span class="chatDate">14:58 읽음</span>
+                             <img class="chat-image" src="path/to/your/image.png" alt="image">
+                     </div>
+                     <div class="target-chat-image">
+                       <img class="chat-image" src="path/to/your/image.png" alt="image">
+                        <span class="chatDate">14:59 읽음</span>
+                          </div>
+                      --%>
 				
 			</div>
 			 <div class="chatting-input">
