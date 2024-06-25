@@ -16,7 +16,6 @@
 	});
 	
 	function googleLogin() {
-		console.log("테스트");
 		location.href="/heehee/oauth2/authorize/google";
 	}
 

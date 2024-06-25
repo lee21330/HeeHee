@@ -107,13 +107,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(jwtLogoutSuccessHandler())
                 .and()
             .oauth2Login()
+            
             .authorizationEndpoint()
             	.baseUri("/oauth2/authorize")
             	.and()
             .redirectionEndpoint()
                 .baseUri("/login/oauth2/code/*")
                 .and()
+            .defaultSuccessUrl("")
             .clientRegistrationRepository(clientRegistrationRepository())
+            
             .and()
             .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }

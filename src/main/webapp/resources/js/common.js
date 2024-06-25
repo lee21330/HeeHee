@@ -8,5 +8,5 @@ function showTost(txt) {
 		tostMessage.removeClass("active");
 	}, 1000);
 	
-	throw new Error("stopExecution");
+	// throw new Error("stopExecution");
 }
