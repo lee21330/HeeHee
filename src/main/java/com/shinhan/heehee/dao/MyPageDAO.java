@@ -8,9 +8,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.response.EditProfileDTO;
+import com.shinhan.heehee.dto.response.FaQDTO;
+import com.shinhan.heehee.dto.response.InsertQnADTO;
+import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
+import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
 @Repository
@@ -40,8 +45,39 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "saleList",params);
 	}
 
-	public int userIntroduce(String intro) {
-		return sqlSession.selectOne(namespace + "userIntroduce", intro);
+	public int userIntroduce(String intro, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("introduce", intro);
+        params.put("userId", userId);
+        return sqlSession.update(namespace + "userIntroduce", params);
+    }
+
+	public int editProfile(EditProfileDTO profile) {
+		return sqlSession.selectOne(namespace + "editProfile", profile);
+	}
+
+	public List<QnADTO> qnaOption() {
+		return sqlSession.selectList(namespace + "qnaOption");
+	}
+
+	public List<FaQDTO> faqOption(int option) {
+		return sqlSession.selectList(namespace + "faqOption", option);
+	}
+
+	public List<FaQDTO> myQna(String userId) {
+		return sqlSession.selectList(namespace + "myQna", userId);
+	}
+
+	public int insertQna(InsertQnADTO qna) {
+		return sqlSession.insert(namespace + "insertQna", qna);
+	}
+
+	public int insertQnaImg(InsertQnAImgDTO qnaImg) {
+		return sqlSession.insert(namespace + "insertQnaImg", qnaImg);
+	}
+
+	public String profile(String userId) {
+		return sqlSession.selectOne(namespace + "profile", userId);
 	}
 
 }

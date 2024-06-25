@@ -57,12 +57,46 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
-
-	<update id="userIntroduce" parameterType="String">
+	<select id="profile" parameterType="String"
+		resultType="profilevo">
+		SELECT *
+		FROM HH_USER
+		WHERE HH_USER.ID = #{USER_ID}
+	</select>
+	<update id="userIntroduce" parameterType="map">
 		UPDATE HH_USER
-		SET USER_INTRODUCE = #{introduce}
-		WHERE ID = #{userId};
+		SET
+		USER_INTRODUCE = #{introduce}
+		WHERE ID = #{userId}
 	</update>
 
 
+	<select id="qnaOption" resultType="qnavo">
+		SELECT * FROM QNA_OPTION
+	</select>
+	<select id="faqOption" parameterType="int" resultType="faqvo">
+		SELECT *
+		FROM QNA_OPTION qo ,FAQ_BOARD fb
+		WHERE qo.SEQ_QNA_OPTION =
+		fb.OPTION_SEQ
+		<if test="option!=0">
+			AND OPTION_SEQ = #{option}
+		</if>
+	</select>
+	<select id="myQna" parameterType="String" resultType="qnavo">
+		SELECT *
+		FROM QNA_OPTION qo ,QNA_BOARD qb
+		WHERE qo.SEQ_QNA_OPTION =
+		qb.SEQ_QNA_OPTION
+		AND qb.ID = #{USER_ID}
+		ORDER BY qb.SEQ_QNA_BNO
+	</select>
+	<insert id="insertQna" parameterType="insertQnavo">
+		INSERT INTO QNA_BOARD
+		VALUES (SEQ_QNA_BNO.nextval, #{ID}, #{QNA_TITLE}, #{QNA_CONTENT},
+		#{QNA_FILE}, null, SYSDATE, #{SEQ_QNA_OPTION})
+	</insert>
+ 	<insert id="insertQnaImg" parameterType="insertQnaImgvo">
+		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{ID})
+	</insert> 
 </mapper>

@@ -15,21 +15,19 @@
 .item{
 	margin: 16px 0px;
 	display: flex;
-	align-items: center;
 	gap: 15px;
 	/* border: 1px solid pink; */
-	
-	
 }
 .photo{
-	width: 150px;
-	height: 150px;
+	width: 210px;
+	height: 210px;
 	border-radius: 7px;
 }
 .file{
 	display: none;
 }
 .btn_photo{
+	margin-top: 185px;
 	width: 80px;
 }
 

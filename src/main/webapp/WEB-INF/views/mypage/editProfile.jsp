@@ -19,43 +19,43 @@
                 <form action="${path}/editProfile" method="post">
                     <hr>
                     <div class="align">
-                        
                         <div class="item">
                             <p>프로필 사진</p>
-                            <img class="photo" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/f2be618999b263e057b10ca8a28c2d46.jpeg">
-                            <input type="file" class="file">
+                            <img class="photo" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${profile.profileImg}">
+                            <input type="file" class="file" name="profileImg">
                             <input type="button" value="사진 변경" class="btn_photo">
                             
                         </div>
                         <div class="item">
                             <p>아이디</p>
-                            <input type="text" value="dhfl123" readonly="readonly" class="readonly"> 
+                            <input type="text" readonly="readonly" class="readonly" placeholder="${profile.id}" name="id"> 
                         </div>
                         <div class="item">
                             <p>이름</p>
-                            <input type="text" value="손동희" readonly="readonly" class="readonly">
+                            <input type="text" readonly="readonly" class="readonly" placeholder="${profile.name}" name="name">
                         </div>
                         <div class="item">
                             <p>비밀번호</p>
-                            <input type="text" value="qwer1234">
+                            <input type="text" placeholder="${profile.pw}" name="pw">
                         </div>
                         <div class="item">
                             <p>이메일</p>
-                            <input type="text" value="heendoonge@gmail.com"> <input type="button" value="중복체크" class="btn">
+                            <input type="text" placeholder="${profile.email}" name="email"> <input type="button" value="중복체크" class="btn">
                         </div>
                         <div class="item">
                             <p>전화번호</p>
-                            <input type="text" value="010-1234-1234">
+                            <input type="text" placeholder="${profile.phoneNum}" name="phoneNum">
                         </div>
                         <div class="item">
                             <p>닉네임</p>
-                            <input type="text" value="흰둥이"> <input type="button" value="중복체크" class="btn">
+                            <input type="text" placeholder="${profile.nickName}" name="nickName"> <input type="button" value="중복체크" class="btn">
                         </div>
                         <div class="item">
                             <p>주소</p>
                             <div class="address">
-                            	<input type="text" value="우편번호를 검색하세요">
-                            	<input type="text" value="서울시 마포구 연남동">
+                            	
+                            	<input type="text" placeholder="${profile.address}" name="address">
+                            	<input type="text" value="101동 101호">
                             </div>
                         </div>
                     </div>

@@ -2,30 +2,35 @@
 
 .main_container {
 	width: 1280px;
+	display: flex;
+	justify-content: space-around;
 	margin: 0 auto;
 }
 
-.qnaboard {
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	margin: 30px 0px;
+.left {
+	width: 45%;
 }
-h1{
-	border-bottom: 2px solid #979797; 
+
+#note p {
+	font-size: 13px;
+}
+
+h1 {
+	border-bottom: 2px solid #979797;
 	margin: 0px 0px 0px 0px;
 	padding: 16px 0px;
 }
-.qna {
-	width: 45%;
 
+#qna_title {
+	width: 450px;
+	height: 30px;
+	margin-bottom: 15px;
 }
 
 .qna_item {
 	display: flex;
 	gap: 60px;
 	margin: 10px 0px;
-
 }
 
 .radioContainer {
@@ -35,6 +40,7 @@ h1{
 	margin-bottom: 15px;
 	cursor: pointer;
 }
+
 input[type="radio"] {
 	display: none;
 }
@@ -48,28 +54,33 @@ input[type="radio"] {
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
 }
-.radioLabel{
+
+.radioLabel {
 	width: 100%;
 	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.radioContainer input[type="radio"]:checked +label {
+
+.radioContainer input[type="radio"]:checked+label {
 	background-color: #ABC3FF;
 }
-.qna p {
+
+#qna p {
 	height: 100%;
 	margin-top: 0;
 	display: inline-block;
 }
-#qna_type{
+
+#qna_type {
 	display: none;
 }
+
 textarea {
 	width: 450px;
 	height: 200px;
-	padding: 0px 0px 0px 0px;
+	padding: 10px 0px 0px 10px;
 	margin: 0px 0px 15px;
 }
 
@@ -81,43 +92,7 @@ textarea {
 	width: 80px;
 	height: 80px;
 	border-radius: 5px;
-}
-
-.faq {
-	width: 50%;
-	margin: 0px;
-}
-
-.faq a {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-.faq a:hover {
-	color: #4949e9;
-}
-
-.faq div {
-	height: 50px;
-	border-bottom: 1px solid gray;
-	list-style: none;
-	display: flex;
-	align-items: center;
-}
-
-.faq_header:hover {
-	background-color: #DCF343;
-	cursor: pointer;
-}
-.faq_content{
-	display: none;
-	background-color: #EFEFEF;
-	height: 80px !important;
-	padding: 0px 10px;
-}
-#img_q {
-	width: 30px;
-	height: 30px;
+	margin-bottom: 15px;
 }
 
 .btn {
@@ -145,4 +120,78 @@ textarea {
 	color: #4949e9;
 	background-color: white;
 	margin: 0px 5px 0px 5px;
+}
+
+.right {
+	width: 45%;
+}
+
+#faq {
+	margin: 0px;
+	height: 50%;
+}
+
+#faq a {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#faq a:hover {
+	color: #4949e9;
+}
+
+.header {
+	height: 50px;
+	width: 100%;
+	border-bottom: 1px solid gray;
+	display: flex;
+	align-items: center;
+}
+
+.header:hover {
+	background-color: #DCF343;
+	cursor: pointer;
+}
+
+.header.select {
+	background-color: #DCF343;
+}
+
+#img_q {
+	width: 30px;
+	height: 30px;
+}
+
+.qnaTitle {
+	width: 80%;
+}
+
+.content {
+	display: none;
+	border-bottom: 1px solid gray;
+	background-color: #EFEFEF;
+	padding: 10px 10px;
+}
+
+.ansStatus {
+	width: 70px;
+	height: 25px;
+	display: flex;
+	background-color: #4949e9;
+	color: white;
+	align-items: center;
+	justify-content: center;
+}
+
+.qnaContent {
+	height: 50%;
+}
+
+.qnaFile {
+	width: 200px;
+}
+
+.qnaAns {
+	height: 50%;
 }

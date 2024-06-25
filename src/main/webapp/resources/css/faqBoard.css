@@ -91,6 +91,11 @@ tr {
 	background-color: #EFEFEF;
 	height: 80px;
 }
+.message {
+	display: block;
+	text-align: center;
+	width: 100%;
+}
 
 .btn {
 	display: flex;
