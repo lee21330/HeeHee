@@ -195,6 +195,11 @@
 	cursor: pointer;
 }
 
+.payEdit:disabled{
+	background-color:#858585;
+	cursor: not-allowed;
+}
+
 .content-body{
 	height:67%;
 	flex-direction: column;
