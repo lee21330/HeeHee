@@ -3,12 +3,8 @@ let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
 var stompClient = null; //stomp 소켓 클라이언트 전역 설정
 
-
-
 // 문서 로딩 완료 후 수행할 기능
 document.addEventListener("DOMContentLoaded", ()=>{
-   
-   	
    
    // 채팅방 목록에 클릭 이벤트 추가
    roomListAddEvent(); 
@@ -18,8 +14,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	setInterval(function() {
 		fetchChatRoomList();
 	}, 1500);
-	
-	
 	
 });
 
@@ -136,8 +130,6 @@ function roomListAddEvent(){
 
          selectReceiverName = item.children[1].children[0].children[0].innerText;
 
-         
-
          const unreadCountElem = item.querySelector(".unread-count");
             if (unreadCountElem) {
                 unreadCountElem.remove();
@@ -170,7 +162,7 @@ function selectChattingFn(){
     fetch(`/heehee/chatting/${selectRoomId}`)
     .then(response=>response.json())
     .then(roomDetail => {
-    
+        
         const chattingContent = document.querySelector(".chatting-content");
         chattingContent.innerHTML="";
     
@@ -196,7 +188,9 @@ function selectChattingFn(){
         
         const sellingPrice = document.createElement("p");
         sellingPrice.classList.add("selling-price");
-        sellingPrice.innerText = roomDetail.roomProductDTO.productPrice + '원';
+        const formatPrice = roomDetail.roomProductDTO.productPrice.toLocaleString('ko-KR')
+        //console.log(formatPrice);
+        sellingPrice.innerText = formatPrice + '원';
         
         const sellingName = document.createElement("p");
         sellingName.classList.add("selling-name");
@@ -209,9 +203,11 @@ function selectChattingFn(){
         // 버튼 생성 및 판매자/구매자별로 내용 다르게 설정
         const status = roomDetail.roomProductDTO.status;
         
+        
+        //추후 결제 비활성화 조건 체크
         if (status == '구매자') {
             const payButton = document.createElement("button");
-            payButton.classList.add("payEdit");
+            payButton.classList.add("pay");
         
             payButton.innerText = "결제하기";
             
@@ -221,19 +217,35 @@ function selectChattingFn(){
                 // 구매자 버튼 클릭 이벤트 처리
                 pay(roomDetail.roomUserDTO.accountNum, roomDetail.roomUserDTO.bank, roomDetail.roomUserDTO.userPoint, roomDetail.roomProductDTO.productPrice);
             });
+            
+        //추후 약속잡기 비활성화 조건 체크
         } else if(status == '판매자'){
             if(roomDetail.roomProductDTO.productType=='sell'){
                 const payButton = document.createElement("button");
-                payButton.classList.add("payEdit");
+                payButton.classList.add("edit");
             
                 payButton.innerText = "가격 수정하기";
                 
-                sellingInfo.append(payButton);
+                //sellingInfo.append(payButton);
             
                 payButton.addEventListener("click", () => {
                     // 판매자 버튼 클릭 이벤트 처리
                     editPrice(roomDetail.roomProductDTO.productPrice, roomDetail.roomProductDTO.productSeq);
                 });
+                
+                //약속잡기 버튼
+                const rsvButton = document.createElement("button");
+                rsvButton.classList.add("reserve");
+            
+                rsvButton.innerText = "약속 잡기";
+                
+                // 약속잡기 버튼 클릭 이벤트 처리
+                rsvButton.addEventListener("click", () => {
+                    reserve(roomDetail.roomProductDTO.productSeq);
+                });
+                
+                sellingInfo.append(rsvButton, payButton);
+                
             } 
         } 
         
@@ -265,10 +277,29 @@ function selectChattingFn(){
                     
                     messageList.append(myChat);
                     }
-                    else{
+                    //사진 띄워주기
+                    else if(message.content.indexOf('[img_asdfzv]')!=-1){
+                        const myChat = document.createElement("div");
+                        myChat.classList.add("my-chat");
+                    
+                        const chatDate = document.createElement("span");
+                        chatDate.classList.add("chatDate");
+                        chatDate.innerHTML = message.sendTime + ' 읽음';
+                    
+                        const chatImage = document.createElement("img");
+                        chatImage.classList.add("chat-image");
                         
+                        const imgContent = message.content.replace("[img_asdfzv] ", "");
+                        
+                        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${imgContent}`;
+                        
+                        chatImage.setAttribute("src", imgUrl);
+                        chatImage.setAttribute("alt", "image");
+                    
+                        myChat.append(chatDate, chatImage);
+                    
+                        messageList.append(myChat);
                     }
-                    //사진 띄워주기 https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/chat/~~
                    
                 }
                 else if(message.sender != loginMemberNo){
@@ -295,10 +326,44 @@ function selectChattingFn(){
                     
                         messageList.append(targetChat);
                     }
+                    
+                    else if(message.content.indexOf('[img_asdfzv]')!=-1){
+                        const targetChat = document.createElement("div");
+                        targetChat.classList.add("target-chat");
+                        
+                        const chatImage = document.createElement("img");
+                        chatImage.classList.add("chat-image");
+                        
+                        const imgContent = message.content.replace("[img_asdfzv] ", "");
+                        
+                        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${imgContent}`;
+                        
+                        chatImage.setAttribute("src", imgUrl);
+                        chatImage.setAttribute("alt", "image");
+                    
+                        const chatDate = document.createElement("span");
+                        chatDate.classList.add("chatDate");
+                        
+                        let read = '안 읽음';
+                    
+                        if(message.readCheck == 'Y'){
+                            read = '읽음';
+                        }
+                    
+                        chatDate.innerHTML = message.sendTime + ' ' + read;
+                    
+                        targetChat.append(chatImage, chatDate);
+                    
+                        messageList.append(targetChat);
+                    }
                 }
             }
             contentBody.append(messageList);
         }
+        
+       // else if(roomDetail.roomMessageDTO.length == 0){
+          
+       // }
         
         const chattingInput = document.createElement("div");
         chattingInput.classList.add("chatting-input");
@@ -494,6 +559,43 @@ function editPrice(productPrice, productSeq){
     chattingModal.append(modalContent);
 }
 
+// 약속잡기 함수
+function reserve(productSeq){
+    fetch("/heehee/chatting/reserve",{
+             method : "POST",
+             headers : {"Content-Type": "application/json"},
+             body : JSON.stringify({
+             "buyerId" : selectReceiverId,
+             "productSeq" : productSeq
+             })
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        
+     //비활성화 왜 안되는고야...
+     const button = document.querySelector(".reserve");
+     button.disabled = true;
+     
+     chattingModal.style.display='block';
+     chattingModal.innerHTML="";
+        
+     const modalContent2 = document.createElement("div");
+     modalContent2.classList.add("modal-content2");
+    
+     const Info2 = document.createElement("div");
+     Info2.innerText='약속 잡기에 성공하였습니다!';
+    
+     modalContent2.append(Info2);
+    
+     chattingModal.append(modalContent2);
+        
+     setTimeout(()=>{
+         chattingModal.style.display='none';
+     }, 3000);
+     
+}
+
 //채팅방 목록 1.5초마다 불러오기
 function fetchChatRoomList() {
     fetch("/heehee/chatting/roomList")
@@ -523,7 +625,10 @@ function updateChatRoomList(data) {
         // 이미 있는 채팅방이면 unreadCount, sendTime, lastContent만 업데이트
         if (existingChatRoom) {
             const content = existingChatRoom.querySelector(".recent-message").innerHTML;
-            const unreadCount = existingChatRoom.querySelector(".unread-count").innerText;
+             let unreadCount = 0;
+             if(existingChatRoom.querySelector(".unread-count")){
+                 unreadCount = existingChatRoom.querySelector(".unread-count").value;
+             }
             
             //안 읽은 메시지가 있고 메시지가 새로 와서 업데이트해야하는 경우
             if(unreadCount>0 && content!=room.lastcontent){

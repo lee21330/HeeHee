@@ -59,4 +59,9 @@ public class ChattingService {
 		messageDTO.setContent("chat/" + imgName);
 		cDao.insertChatImg(messageDTO);
 	}
+
+	public void reserve(Map<String, Object> map) {
+		cDao.updateProStatus(map);
+		cDao.insertDeal(map);
+	}
 }

@@ -84,8 +84,9 @@
 </select>
 
 <select id="getRoomUser" parameterType="String" resultType="com.shinhan.heehee.dto.response.RoomUserDTO">
-    select ACCOUNT_NUM, BANK, USER_POINT
-    from hh_user
+    select u.ACCOUNT_NUM, u.USER_POINT,
+    (select bank from bank_kind b where b.bank_seq=u.bank_seq) bank
+    from hh_user u
     where id=#{loginUserId}
 </select>
 
@@ -106,6 +107,19 @@
 	set user_point=#{newPoint}
 	where id=#{loginUserId}
 </update>
+
+<update id="updateProStatus">
+	update sell_product
+	set pro_status='예약중'
+	where product_seq=#{productSeq}
+</update>
+
+<insert id="insertDeal">
+	<selectKey keyProperty="dealSeq" order="BEFORE" resultType="int">
+         SELECT deal_seq.NEXTVAL FROM DUAL
+     </selectKey>
+     insert into deal_history values(#{dealSeq}, #{buyerId}, null, null, null, #{productSeq}, null)
+</insert>
 
 <!-- 이미지 없이 텍스트만 보낸 경우 -->
 <insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.ChatMessageDTO">

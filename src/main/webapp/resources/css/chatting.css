@@ -182,7 +182,7 @@
 	flex-shrink: 0;
 }
 
-.payEdit{
+.pay{
 	font-family: 'SEBANG_Gothic_Bold';
 	background-color:#ABC3FF;
 	color:#FFFFFF;
@@ -193,6 +193,35 @@
 	height: 50%;
 	font-size: 15px;
 	cursor: pointer;
+	width:100px;
+}
+
+.edit{
+	font-family: 'SEBANG_Gothic_Bold';
+	background-color:#ABC3FF;
+	color:#FFFFFF;
+	border:none;
+	margin-left:10px;
+	margin-right:30px;
+	margin-top:auto;
+	height: 50%;
+	font-size: 15px;
+	cursor: pointer;
+	width:100px;
+}
+
+.reserve{
+	font-family: 'SEBANG_Gothic_Bold';
+	background-color:#ABC3FF;
+	color:#FFFFFF;
+	border:none;
+	margin-left:auto;
+	margin-right:10px;
+	margin-top:auto;
+	height: 50%;
+	font-size: 15px;
+	cursor: pointer;
+	width:100px;
 }
 
 .payEdit:disabled{
@@ -234,7 +263,7 @@
 
 .chat{
 	font-size: 15px;
-	max-width: 300px;
+	max-width: 200px;
 	border-radius: 10px;
 	border: 1px solid #000000;
 	padding: 10px;
@@ -242,6 +271,17 @@
     white-space: pre-wrap;
     display: inline-block;
     margin: 5px;
+}
+
+.chat-image{
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
+	border: 1px solid #000000;
+	display: inline-block;
+    margin: 5px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
 }
 
 .chatDate{
