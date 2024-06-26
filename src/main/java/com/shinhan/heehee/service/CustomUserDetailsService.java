@@ -15,6 +15,7 @@ import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.exception.UserNotFoundException;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     	UserDTO result = userDao.findUserByUsername(userId);
     	if(result != null) result = addAuthorities(result);
     	return result;
+    }
+    
+    public Map<String,Object> findNickName(String userName) {
+    	return userDao.findNickName(userName);
     }
 
     private UserDTO addAuthorities(UserDTO userDto) {

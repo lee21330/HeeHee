@@ -114,7 +114,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .redirectionEndpoint()
                 .baseUri("/login/oauth2/code/*")
                 .and()
-            .defaultSuccessUrl("")
             .clientRegistrationRepository(clientRegistrationRepository())
             
             .and()

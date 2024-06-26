@@ -1,5 +1,8 @@
 package com.shinhan.heehee.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +20,8 @@ public class ImageController {
 	
 	@PostMapping("/upload")
 	@ResponseBody
-	public String upload(MultipartFile multipartFile) throws java.io.IOException{
+	public ArrayList<String> upload(List<MultipartFile> multipartFiles) throws java.io.IOException{
 		String filePath ="images/auction/";
-		return s3Service.uploadObject(multipartFile, filePath + multipartFile.getOriginalFilename());
+		return s3Service.uploadObject(multipartFiles, filePath);
 	} 
 }

@@ -1,5 +1,6 @@
 package com.shinhan.heehee.dao;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.ibatis.session.SqlSession;
@@ -28,5 +29,9 @@ public class UserDAO {
 	
 	public int signup(UserDTO userDto) {
 		return sqlSession.insert(namespace + "signup", userDto);
+	}
+	
+	public Map<String,Object> findNickName(String userName) {
+		return sqlSession.selectOne(namespace + "findNickName", userName);
 	}
 }

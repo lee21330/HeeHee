@@ -40,7 +40,7 @@ public class ChattingService {
 		return cDao.insertMessage(messageDTO);
 	}
 
-	public void insertMsgImg(MessageDTO messageDTO, MultipartFile img) {
+	public void insertMsgImg(MessageDTO messageDTO, List<MultipartFile> img) {
 		String imgName=img.getOriginalFilename();
 		messageDTO.setContent("[img_asdfzv] " + imgName);
 		cDao.insertChatMsg(messageDTO);

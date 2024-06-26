@@ -15,6 +15,12 @@
         WHERE ID = #{userId}
     </select>
     
+    <select id="findNickName" parameterType="string" resultType="map">
+        SELECT NVL(NICK_NAME, '손님') AS nickName
+        FROM HH_USER
+        WHERE ID = #{userId}
+    </select>
+    
     <insert id="signup" parameterType="com.shinhan.heehee.dto.response.UserDTO">
         INSERT INTO HH_USER (ID, PW, NAME, EMAIL, PHONE_NUM, ROLE)
         VALUES ( #{username}, #{password}, #{realName}, #{email}, #{phone_num}, 'ROLE_USER' )

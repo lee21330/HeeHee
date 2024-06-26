@@ -26,9 +26,6 @@ import org.springframework.util.StringUtils;
 
 public class OAuth2AuthorizationResponseUtils {
 
-	private OAuth2AuthorizationResponseUtils() {
-	}
-
 	public static MultiValueMap<String, String> toMultiMap(Map<String, String[]> map) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>(map.size());
 		map.forEach((key, values) -> {
