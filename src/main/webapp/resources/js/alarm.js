@@ -184,7 +184,9 @@ function alarmUnck() {
 
                         } else if (item.alDate != null && item.cateNum == 3 && item.alCheck == "N") {
                             // 경매
-                            output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'>";
+                            
+                            output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + "alNum=" + item.alNum + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>"
                             output += "<li>" + item.alContent + "</li>";
@@ -193,8 +195,9 @@ function alarmUnck() {
                         } else if (item.alDate != null && item.cateNum == 4 && item.alCheck == "N") {
                             // 문의
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
 
-                            output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
+                            output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + "alNum=" + item.alNum + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -212,6 +215,7 @@ function alarmUnck() {
                 }
                 output += "</div>";
                 $("#here").html(output);
+                $("ul").on("click", alarmRead);
             }
         },
         error : function(data) {
@@ -225,9 +229,12 @@ function urlClick(url) {
 	location.href = url;
 }
 
-function alCheck() {
+function alarmRead() {
 	// location.href = '/heehee/alarm/alarmCheck' + alNum
-	alert("경로 확인 테스트");
+	// var li = event.target.parentElement;
+	
+	var alNum = $(this).attr("alNum");
+	alert(alNum);
 }
 
 // 확인한 알림은 색상 변경해야 함 (방문했던 링크는 색상 변경되도록)
