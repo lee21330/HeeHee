@@ -49,7 +49,7 @@ function alarmClick(e) {
 // 전체 알림 보기 (로그인 유저 값 변경 필)
 function alarmAll() {
     $.ajax({
-        url : "/heehee/alarm/alarmAll/" + "b",
+        url : "/heehee/alarm/alarmAll",
 		type : "GET",
 		success : function(responseData) {
             console.log(responseData);
@@ -58,7 +58,7 @@ function alarmAll() {
 			$(".alarm_container").removeClass("none");
 
             // 알림별로 경로 다르게 걸어줘야 함
-            var output = "<div>";
+            var output = "<div class='alarmClick'>";
 
             // 알림 리스트 있는지 체크하고 html 다르게 찍어주기
             if (responseData.length === 0 || responseData[0].alDate == null) {
@@ -135,7 +135,7 @@ function alarmAll() {
 // 미확인 알림 보기 (로그인 유저 값 변경 필)
 function alarmUnck() {
     $.ajax({
-        url : "/heehee/alarm/alarmUnck/" + "b",
+        url : "/heehee/alarm/alarmUnck",
 		type : "GET",
 		success : function(responseData) {
             console.log(responseData);
@@ -240,7 +240,7 @@ function alarmRead() {
 		type : "POST",
 		success : function(responseData) {
 			if (responseData == "1") {
-				console.log("확인 성공");
+				console.log("알림 확인");
 				
 			} else {
 				console.log("이미 확인");
