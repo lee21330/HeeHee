@@ -56,7 +56,9 @@ public class JwtUtil {
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = extractUsername(token);
-		if (isTokenExpired(token)) throw new JwtTokenExpiredException("만료된 토큰 입니다.");
+		if (isTokenExpired(token)) {
+			throw new JwtTokenExpiredException("만료된 토큰 입니다.");
+		}
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 

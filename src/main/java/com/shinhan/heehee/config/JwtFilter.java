@@ -68,6 +68,12 @@ public class JwtFilter extends OncePerRequestFilter {
 						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 				httpServletRequest.setAttribute("userNickName", customUserDetailsService.findNickName(userName).get("nickName"));
+			} else {
+				Cookie tokenCookie = new Cookie("Authorization", null);
+
+				tokenCookie.setMaxAge(0);
+				tokenCookie.setPath("/");
+				httpServletResponse.addCookie(tokenCookie);
 			}
 		}
 		filterChain.doFilter(httpServletRequest, httpServletResponse);

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
 public class AuthenticationFailure implements AuthenticationFailureHandler {
 
 	@Override

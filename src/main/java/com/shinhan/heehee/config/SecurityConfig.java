@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = "com.shinhan.heehee")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -72,10 +71,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationSuccess authenticationSuccessHandler() {
         return new AuthenticationSuccess(jwtUtil);
     }
+    
 
     @Bean
     public AuthenticationFailure authenticationFailureHandler() {
         return new AuthenticationFailure();
+    }
+    
+    @Bean
+    public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+    	return new OAuth2AuthenticationSuccessHandler();
+    }
+    
+    @Bean
+    public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
+    	return new OAuth2AuthenticationFailureHandler();
     }
 
     @Override
@@ -107,15 +117,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(jwtLogoutSuccessHandler())
                 .and()
             .oauth2Login()
-            
             .authorizationEndpoint()
             	.baseUri("/oauth2/authorize")
             	.and()
             .redirectionEndpoint()
                 .baseUri("/login/oauth2/code/*")
                 .and()
+            .successHandler(oAuth2AuthenticationSuccessHandler())
+            .failureHandler(oAuth2AuthenticationFailureHandler())
             .clientRegistrationRepository(clientRegistrationRepository())
-            
             .and()
             .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }

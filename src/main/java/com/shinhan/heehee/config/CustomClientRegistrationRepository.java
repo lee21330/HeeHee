@@ -31,6 +31,7 @@ public class CustomClientRegistrationRepository implements ClientRegistrationRep
 				.authorizationUri("https://accounts.google.com/o/oauth2/auth")
                 .tokenUri("https://oauth2.googleapis.com/token")
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
                 .userNameAttributeName("sub")
                 .clientName("HeeHee")
                 .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
