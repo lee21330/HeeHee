@@ -3,6 +3,7 @@ package com.shinhan.heehee.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.UserDAO;
@@ -15,8 +16,12 @@ public class UserService {
 	@Autowired
 	UserDAO userDao;
 	
-	@Autowired
-	BCryptPasswordEncoder passEncoder;
+	private final PasswordEncoder passEncoder;
+
+    @Autowired
+    public UserService(PasswordEncoder passEncoder) {
+        this.passEncoder = passEncoder;
+    }
 	
 	public ResponseEntity<?> signup(UserDTO userDto) {
 
