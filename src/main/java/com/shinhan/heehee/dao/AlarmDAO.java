@@ -26,5 +26,12 @@ public class AlarmDAO {
 	public List<AlarmChatDTO> alarmUnck(String userId) {
 		return sqlSession.selectList(namespace + "alarmUnck", userId);
 	}
+
+	// 알림 확인
+	public int alarmUpdate(int alNum) {
+		// int result = sqlSession.update(namespace + "alarmUpdate", alNum);
+		
+		return sqlSession.update(namespace + "alarmUpdate", alNum);
+	}
 	
 }

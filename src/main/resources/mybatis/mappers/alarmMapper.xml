@@ -159,4 +159,12 @@
 				  GROUP BY SENDER, ALCONTENT, ALDATE, CATENUM, REQSEQ, ALNUM, ALCHECK 
 				  ORDER BY alDate DESC NULLS LAST, alCheck NULLS LAST
 	</select>
+	
+	<!-- 알림 확인  -->
+	<update id="alarmUpdate" parameterType="int">
+		UPDATE ALARM 
+		SET AL_CHECK = 'Y' 
+		WHERE AL_NUM = #{alNum} 
+					AND AL_CHECK = 'N'
+	</update>
 </mapper>

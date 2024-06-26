@@ -49,11 +49,17 @@ public class AlarmController {
 	
 	// 알림 확인 시 N => Y 업데이트
 	// 마지막 알림이 조회되므로 전부 다 변경하지 않으면 N인 값이 계속 조회됨
-	@PostMapping("/alarmCheck")
-	public String alarmCheck() {
-		System.out.println("업데이트 url 경로 테스트");
+	@ResponseBody
+	@PostMapping("/alarmUpdate/{alNum}")
+	public int alarmUpdate(@PathVariable("alNum") int alNum) {
+		System.out.println(">>>>>>>>>> 업데이트 url 경로 테스트 >>>>>>>>>> " + alNum);
 		
-		return "/common/header";
+		// 상태값 N인 경우
+		int result = alarmService.alarmUpdate(alNum);
+		
+		// 상태값이 이미 Y인 경우
+		
+		return result;
 	}
 	
 }

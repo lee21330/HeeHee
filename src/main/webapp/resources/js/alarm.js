@@ -35,13 +35,11 @@ function alarmClick(e) {
 	if (e.target.id == "alarmAll") {
 		$("#alarmAll").addClass("add");
 		$("#alarmUnck").removeClass("add");
-		// $(".alarm_container").removeClass("none"); // 높이 변경 확인용
 		e.stopPropagation(); // 부모 요소는 실행되지 않고 자식 요소만 실행
                 
 	} else {
 		$("#alarmUnck").addClass("add");
 		$("#alarmAll").removeClass("add");
-		// $(".alarm_container").addClass("none"); // 높이 변경 확인용
 		e.stopPropagation(); // 부모 요소는 실행되지 않고 자식 요소만 실행
 	}
 }
@@ -72,14 +70,15 @@ function alarmAll() {
                 // $("#here").html(output);
 
 			} else {
-				// console.log(check);
-                    
 				// 알림 전체 리스트 반복문
 				$.each(responseData, function(index, item) {
 
 					if (item.alDate != null && item.cateNum == 1) {
 						// 채팅
-						output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/chatting\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+						
+						output += "<ul onclick='urlClick(\"/heehee/chatting\")'" + " alNum=" + item.alNum + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -95,7 +94,8 @@ function alarmAll() {
 	
 					} else if (item.alDate != null && item.cateNum == 3) {
 						// 경매
-						output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'>";
+						output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>"
 						output += "<li>" + item.alContent + "</li>";
@@ -104,8 +104,9 @@ function alarmAll() {
 					} else if (item.alDate != null && item.cateNum == 4) {
 						// 문의
 						// output += "<ul onclick='urlClick(\"/heehee/qnaBoard\")'>";
-	
-						output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
+                        // output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
+
+                        output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -121,6 +122,7 @@ function alarmAll() {
 					}
 					output += "</div>";
 					$("#here").html(output);
+					$("ul").on("click", alarmRead);
 				});
             }
 		},
@@ -168,7 +170,9 @@ function alarmUnck() {
 
                         if (item.alDate != null && item.cateNum == 1 && item.alCheck == "N") {
                             // 채팅
-                            output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+                            
+                            output += "<ul onclick='urlClick(\"/heehee/chatting\")'" + " alNum=" + item.alNum + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -186,7 +190,7 @@ function alarmUnck() {
                             // 경매
                             // output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'>";
                             
-                            output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + "alNum=" + item.alNum + ">";
+                            output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>"
                             output += "<li>" + item.alContent + "</li>";
@@ -197,7 +201,7 @@ function alarmUnck() {
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\")'>";
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
 
-                            output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + "alNum=" + item.alNum + ">";
+                            output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -224,17 +228,33 @@ function alarmUnck() {
     });
 }
 
-// 알림 별 페이지 이동
-function urlClick(url) {
-	location.href = url;
-}
-
+// 알림 확인
 function alarmRead() {
-	// location.href = '/heehee/alarm/alarmCheck' + alNum
 	// var li = event.target.parentElement;
 	
 	var alNum = $(this).attr("alNum");
-	alert(alNum);
+	console.log(alNum);
+	
+	$.ajax({
+		url : "/heehee/alarm/alarmUpdate/" + alNum,
+		type : "POST",
+		success : function(responseData) {
+			if (responseData == "1") {
+				console.log("확인 성공");
+				
+			} else {
+				console.log("이미 확인");
+			}
+		},
+		error : function(data) {
+			alert("알림 확인 오류 입니다");
+		}
+	});
+}
+
+// 알림 별 페이지 이동
+function urlClick(url) {
+	location.href = url;
 }
 
 // 확인한 알림은 색상 변경해야 함 (방문했던 링크는 색상 변경되도록)

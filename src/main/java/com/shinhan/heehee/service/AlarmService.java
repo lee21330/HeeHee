@@ -24,5 +24,10 @@ public class AlarmService {
 	public List<AlarmChatDTO> alarmUnck(String userId) {
 		return alarmDAO.alarmUnck(userId);
 	}
+
+	// 알림 확인
+	public int alarmUpdate(int alNum) {
+		return alarmDAO.alarmUpdate(alNum);
+	}
 	
 }
