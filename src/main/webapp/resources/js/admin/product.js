@@ -32,7 +32,7 @@ $(document).ready(function() {
 
                 data.forEach(function(item) {
                     var row = `<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.product_seq}"></td>
                         <td>${item.product_seq}</td>
                         <td>${item.category}</td>
                         <td>${item.detail_category}</td>
@@ -69,8 +69,9 @@ $(document).ready(function() {
 						        <p class="productUpdate">판매상태<br>수정</p>
 						    </div>
 						    <select id="editStatus${id}">
-						        <option value="Y" ${row.find('td').eq(7).text() === 'Y' ? 'selected' : ''}>Y</option>
-						        <option value="N" ${row.find('td').eq(7).text() === 'N' ? 'selected' : ''}>N</option>
+						        <option value="판매중" ${row.find('td').eq(7).text() === '판매중' ? 'selected' : ''}>판매중</option>
+						        <option value="예약중" ${row.find('td').eq(7).text() === '예약중' ? 'selected' : ''}>예약중</option>
+						        <option value="거래완료" ${row.find('td').eq(7).text() === '거래완료' ? 'selected' : ''}>거래완료</option>
 						    </select>
 						    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(5).text()}">
 						    <button class="saveEditButton" data-id="${id}">수정 등록</button>
@@ -93,7 +94,7 @@ $(document).ready(function() {
 
         $.ajax({
             url: '/your-server-endpoint/' + id,
-            method: 'PUT',
+            method: 'POST',
             data: { 'newStatus': newStatus, 'newValue': newValue },
             success: function() {
                 loadTable();
@@ -111,11 +112,13 @@ $(document).ready(function() {
         if (selected.length > 0) {
             if (confirm('선택된 항목을 삭제하시겠습니까?')) {
                 selected.each(function() {
-                    var id = $(this).data('id');
+                    var product_seq = $(this).attr('data-id');
 
                     $.ajax({
-                        url: '/your-server-endpoint/' + id,
-                        method: 'DELETE',
+                        url: '/heehee/admin/deleteProduct',
+                        method: 'POST',
+                        data:{'product_seq': product_seq 
+                        		},
                         success: function() {
                             loadTable();
                         },

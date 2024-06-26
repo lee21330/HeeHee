@@ -21,21 +21,22 @@ $(document).ready(function() {
         var keyword = $('#searchInput').val();
 
         $.ajax({
-            url: '/your-server-endpoint',
+            url: '/heehee/admin/searchFaqAll',
             method: 'GET',
-            data: { 'category': category, 'keyword': keyword },
+            data: { 'category': category, 
+            		'keyword': keyword },
             success: function(data) {
                 var tableBody = $('#tableBody');
                 tableBody.empty();
 
                 data.forEach(function(item) {
                     var row = `<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>${item.regNumber}</td>
-                        <td>${item.category}</td>
-                        <td>${item.subCategory}</td>
-                        <td>${item.userID}</td>
-                        <td>${item.postDate}</td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.seq_faq_bno}"></td>
+                        <td>${item.seq_faq_bno}</td>
+                        <td>${item.qna_option}</td>
+                        <td>${item.faq_content}</td>
+                        <td>${item.id}</td>
+                        <td>${new Date(item.faq_time).toLocaleDateString()}</td>
                     </tr>`;
                     tableBody.append(row);
                 });
@@ -45,39 +46,92 @@ $(document).ready(function() {
             }
         });
     }
-
-    // 수정 버튼 클릭 시
-    $('#editButton').click(function() {
-
+    
+    //열람/수정 버튼 클릭 시
+     $('#editButton').click(function() {
+		
         var selected = getSelectedRow();
         
         if (selected.length === 1) {
             var row = selected.closest('tr');
-            var id = selected.data('id');
-
-            // 수정할 내용 입력란을 추가
-            if (row.next().hasClass('editRow')) {
-                row.next().remove();
-            } else {
-                var editRow = `
-                    <tr class="editRow">
-                        <td colspan="6">
-                            <div class="updateContainer">
-                                <p class="productUpdate">FAQ내용<br>수정</p>
-                            </div>
-                            <input type="text" id="editCategory${id}" class="doubleInputSmall" placeholder="카테고리 입력" value="${row.find('td').eq(2).text()}">
-                            <input type="text" id="editSubCategory${id}" class="doubleInputBigger" placeholder="세부 카테고리 입력" value="${row.find('td').eq(3).text()}">
-                            <button class="saveEditButton" data-id="${id}">수정 등록</button>
-                        </td>
-                    </tr>`;
-                row.after(editRow);
-            }
-        } else if (selected.length === 0) {
-        	alert('수정할 항목을 선택해주세요');
+            var id = selected.attr('data-id');
+			
+			//숫자가 아닌 id를 거르기
+			if(isNaN(id)) {
+				alert('Invaild id: ' + id);
+				return;
+			}
+			
+			//수정할 내용 입력란을 추가
+			if(row.next().hasClass('qnaContentRow')) {
+				row.next().next().remove();
+				row.next().remove();
+			} else {
+				$.ajax({
+					url: '/heehee/admin/getFaqContent',
+					method: 'GET',
+					data: {'id': id
+							},
+					success: function(contentData){
+		                var editRow = `
+		                    <tr class="editRow">
+								<td colspan="6">
+								    <div class="updateContainer">
+								        <p class="productUpdate">FAQ내용<br>열람/수정</p>
+								    </div>
+								    <select id="editCategory${id}" class="doubleInputSmall" placeholder="수정할 유형 입력"></select>
+		                            <input type="text" id="editInput${id}" class="doubleInputBigger" placeholder="수정하실 내용을 입력하세요.">
+		                            <button class="saveEditButton" data-id="${id}">수정 등록</button>
+								</td>
+		                    </tr>`;
+						
+		                var qnaContentRow = `
+							<tr class="qnaContentRow">
+		                        <td colspan="6">
+		                            <div class="qnaContainer">
+		                                    <p class="productUpdate">FAQ 내용</p>
+		                                    <br>
+		                                <div class="qnaContentText">
+		                                	<p>${contentData.faq_ans}</p>
+		                                </div>
+		                            </div>
+		                        </td>
+		                    </tr>`;
+			                row.after(editRow);
+			                row.after(qnaContentRow);
+			                
+							//수정 시 카테고리 셀렉트로 선택
+							$.ajax({
+								url: '/heehee/admin/getQnaOptions',
+								method: 'GET',
+								success: function(getOptions){
+									var selectElement = $(`#editCategory${id}`);
+									getOptions.forEach(function(getOption){
+										var option = `<option value="${getOption.seq_qna_option}">${getOption.qna_option}</option>`;
+										selectElement.append(option);
+									});
+								},
+								error: function(xhr, status, error){
+									alert('유형 데이터를 가져오는 중 오류가 발생했습니다.');
+								}
+							});
+					},
+		            error: function(xhr, status, error){
+						alert('문의 내용을 가져오는 중 오류가 발생했습니다.');
+					}
+				});
+			}
+        } else if (selected.length === 0) { 
+        	alert('열람할 항목을 선택해주세요');
         } else {
-            alert('수정할 항목을 하나만 선택해주세요');
+            alert('열람할 항목을 하나만 선택해주세요');
         }
     });
+    
+   
+    
+    
+    
     
     // 신규 등록 버튼 클릭 시
     $('#addButton').click(function() {
@@ -109,13 +163,13 @@ $(document).ready(function() {
 
     // 저장 버튼 클릭 시 (수정 등록)
     $(document).on('click', '.saveEditButton', function() {
-        var id = $(this).data('id');
+        var id = $(this).attr('data-id');
         var newCategory = $(`#editCategory${id}`).val();
         var newSubCategory = $(`#editSubCategory${id}`).val();
 
         $.ajax({
-            url: '/your-server-endpoint/' + id,
-            method: 'PUT',
+            url: '/your-server-endpoint/',
+            method: 'POST',
             data: { 'category': newCategory, 'subCategory': newSubCategory },
             success: function() {
                 loadTable();
@@ -152,11 +206,13 @@ $(document).ready(function() {
         if (selected.length > 0) {
             if (confirm('선택된 항목을 삭제하시겠습니까?')) {
                 selected.each(function() {
-                    var id = $(this).data('id');
+                    var seq_faq_bno = $(this).attr('data-id');
 
                     $.ajax({
-                        url: '/your-server-endpoint/' + id,
-                        method: 'DELETE',
+                        url: '/heehee/admin/deleteFaq',
+                        method: 'POST',
+                        data:{'seq_faq_bno': seq_faq_bno 
+                        		},
                         success: function() {
                             loadTable();
                         },

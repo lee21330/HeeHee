@@ -30,12 +30,10 @@ $(document).ready(function() {
 
                 data.forEach(function(item) {
                     var row = `<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.product_cate_seq}"></td>
                         <td>${item.product_cate_seq}</td>
                         <td>${item.category}</td>
                         <td>${item.detail_category}</td>
-                        <td>${item.id}</td>
-                        <td>${item.create_date}</td>
                     </tr>`;
                     tableBody.append(row);
                 });
@@ -151,11 +149,13 @@ $(document).ready(function() {
         if (selected.length > 0) {
             if (confirm('선택된 항목을 삭제하시겠습니까?')) {
                 selected.each(function() {
-                    var id = $(this).data('id');
+                    var product_cate_seq = $(this).attr('data-id');
 
                     $.ajax({
-                        url: '/your-server-endpoint/' + id,
-                        method: 'DELETE',
+                        url: '/heehee/admin/deleteCategory',
+                        method: 'POST',
+                        data:{'product_cate_seq': product_cate_seq
+                        		 },
                         success: function() {
                             loadTable();
                         },

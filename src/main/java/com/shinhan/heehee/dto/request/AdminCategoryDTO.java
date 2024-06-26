@@ -1,7 +1,5 @@
 package com.shinhan.heehee.dto.request;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +22,8 @@ public class AdminCategoryDTO {
 	//세부 카테고리 - PRODUCT_CATEGORY
 	private String detail_category;
 	
-	//작성자ID
-	private String id;
-	
-	//작성일 - 테이블 미생성으로 결정 필요
-	private Date create_date;
-	
+	//삭제용 - 파라미터 1개 생성자 추가
+	public AdminCategoryDTO(int product_cate_seq) {
+		this.product_cate_seq = product_cate_seq;
+	}
 }

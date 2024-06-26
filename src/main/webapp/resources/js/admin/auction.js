@@ -32,7 +32,7 @@ $(document).ready(function() {
 
                 data.forEach(function(item) {
                     var row = `<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.product_seq}"></td>
                         <td>${item.product_seq}</td>
                         <td>${item.category}</td>
                         <td>${item.detail_category}</td>
@@ -111,11 +111,13 @@ $(document).ready(function() {
         if (selected.length > 0) {
             if (confirm('선택된 항목을 삭제하시겠습니까?')) {
                 selected.each(function() {
-                    var id = $(this).data('id');
+                    var product_seq = $(this).attr('data-id');
 
                     $.ajax({
-                        url: '/your-server-endpoint/' + id,
-                        method: 'DELETE',
+                        url: '/heehee/admin/deleteAuction',
+                        method: 'POST',
+                        data:{'product_seq': product_seq 
+                        		},
                         success: function() {
                             loadTable();
                         },

@@ -35,4 +35,9 @@ public class AdminAuctionDTO {
 	//경매상태 - AUC_PRODUCT
 	private String auc_status;
 	
+	//삭제 - 파라미터 1개 
+	public AdminAuctionDTO (int product_seq) {
+		this.product_seq = product_seq;
+	}
+	
 }
