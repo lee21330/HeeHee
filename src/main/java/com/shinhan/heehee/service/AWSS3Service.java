@@ -1,6 +1,8 @@
 package com.shinhan.heehee.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +20,20 @@ public class AWSS3Service {
 	
 	private String bucketName = "sh-heehee-bucket";
 	
-	public String uploadObject(MultipartFile multipartFile, String storedFileName) throws IOException {
+	public ArrayList<String> uploadObject(List<MultipartFile> multipartFiles, String filePath) throws IOException {
 		
-		ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(multipartFile.getSize());
-        metadata.setContentType(multipartFile.getContentType());
-        metadata.setContentDisposition("inline");
-        
-		s3Client.putObject(new PutObjectRequest(bucketName, storedFileName, multipartFile.getInputStream(), metadata));
-		return s3Client.getUrl(bucketName, storedFileName).toString();
+		ArrayList<String> saveUrls = new ArrayList<String>();
+		
+		for(MultipartFile file: multipartFiles) {
+			ObjectMetadata metadata = new ObjectMetadata();
+	        metadata.setContentLength(file.getSize());
+	        metadata.setContentType(file.getContentType());
+	        metadata.setContentDisposition("inline");
+	        s3Client.putObject(new PutObjectRequest(bucketName, filePath + file.getOriginalFilename(), file.getInputStream(), metadata));
+	        saveUrls.add(s3Client.getUrl(bucketName, filePath + file.getOriginalFilename()).toString());
+		}
+		
+		return saveUrls;
 	}
 
 }

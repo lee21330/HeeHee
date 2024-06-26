@@ -3,7 +3,6 @@ package com.shinhan.heehee.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.UserDAO;
@@ -15,13 +14,9 @@ public class UserService {
 
 	@Autowired
 	UserDAO userDao;
-	
-	private final PasswordEncoder passEncoder;
 
-    @Autowired
-    public UserService(PasswordEncoder passEncoder) {
-        this.passEncoder = passEncoder;
-    }
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
 	public ResponseEntity<?> signup(UserDTO userDto) {
 
@@ -34,7 +29,7 @@ public class UserService {
 	
 	public UserDTO login(String userId, String userPw) {
 		UserDTO user = userDao.findUserByUsername(userId);
-		if(!passEncoder.matches(userPw, user.getPassword())) return null;
+		if(!passwordEncoder.matches(userPw, user.getPassword())) return null;
 		return user;
 	}
 }

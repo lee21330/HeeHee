@@ -33,7 +33,7 @@ function alarmList() {
 						
 						if (item.cateNum == 1) {
 							// 채팅
-							output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+							output += "<ul onclick='urlClick(\"/heehee/chatting/" + item.reqSeq + "\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
 							output += "<li>" + item.alContent + "</li>";
@@ -51,7 +51,7 @@ function alarmList() {
 							
 						} else if (item.cateNum == 4) {
 							// 문의 (페이지 경로 수정해야 함)
-							output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+							output += "<ul onclick='urlClick(\"/heehee/chatting/" + item.reqSeq + "\")'>";
 							output += "<li class='alarm_date'>" + item.alDate + "</li>";
 							output += "<li>" + item.sender + "</li>";
 							output += "<li>" + item.alContent + "</li>";

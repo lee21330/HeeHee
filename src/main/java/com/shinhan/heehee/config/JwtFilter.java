@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.shinhan.heehee.service.CustomUserDetailsService;
 import com.shinhan.heehee.util.JwtUtil;
-import com.shinhan.security.CustomUserDetailsService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -60,12 +60,14 @@ public class JwtFilter extends OncePerRequestFilter {
 		}
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
+			
 			if (jwtUtil.validateToken(token, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 				usernamePasswordAuthenticationToken
 						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				httpServletRequest.setAttribute("userNickName", customUserDetailsService.findNickName(userName).get("nickName"));
 			}
 		}
 		filterChain.doFilter(httpServletRequest, httpServletResponse);

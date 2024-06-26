@@ -16,8 +16,7 @@
 	});
 	
 	function googleLogin() {
-		console.log("테스트");
-		location.href="/heehee/login/oauth2/google?registrationId=google&client_id=965074068088-1a323p3et6ropa92pdccrvs41u7opq1m.apps.googleusercontent.com&redirect_uri=http://localhost:9090/heehee/login/oauth2/code/google&state= &response_type=code&scope=openid%20profile%20email";
+		location.href="/heehee/oauth2/authorize/google";
 	}
 
 	function openLogin() {
