@@ -110,11 +110,11 @@ function sendMessage(inputValue){
 	                          'receiver': selectReceiverId, 
 	                          'content': inputValue,
 	                          'sendTime': sendTime
+	                         // 'imgs': 
                           })
                      );
     }
 }
-
 
 // 채팅방 목록에서 채팅방 선택 시 추가되는 이벤트
 function roomListAddEvent(){
@@ -135,7 +135,7 @@ function roomListAddEvent(){
                 unreadCountElem.remove();
             }
 
-         // 모든 채팅방에서 select 클래스를 제거
+         // 모든 채팅방에서 selecㅉt 클래스를 제거
          for(let it of chattingItemList) it.classList.remove("select")
    
          // 현재 클릭한 채팅방에 select 클래스 추가
@@ -370,6 +370,16 @@ function selectChattingFn(){
         
         const inputPhoto = document.createElement("img");
         inputPhoto.classList.add("input-photo");
+        
+        const imageInput = document.createElement("input");
+        imageInput.classList.add("image-input");
+        imageInput.type = "file";
+        imageInput.multiple = true;
+        imageInput.style.display = "none";
+        
+        inputPhoto.addEventListener('click', () => {
+            imageInput.click();
+        });
         
         const imgUrl1 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/camera.png";
         inputPhoto.setAttribute("src", imgUrl1);

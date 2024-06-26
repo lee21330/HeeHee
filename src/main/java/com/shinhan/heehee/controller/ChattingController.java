@@ -103,16 +103,16 @@ public class ChattingController {
 	
 	// 메시지(+이미지) insert
 	// (1) 메시지 전송
-	@PostMapping("/message")
+	/*@PostMapping("/message")
 	@ResponseBody
 	public String insertMessage(@RequestBody ChatMessageDTO messageDTO) throws IOException {
 		System.out.println(messageDTO);
 		cService.insertMessage(messageDTO);
 		return "test";
-	}
+	}*/
 
 	// (2) 사진 전송
-	@PostMapping("/image")
+	/*@PostMapping("/image")
 	@ResponseBody
 	public void insertImage(@RequestPart(required = false) ChatMessageDTO messageDTO,
 			@RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
@@ -126,17 +126,31 @@ public class ChattingController {
 				}
 			}
 		}
+	}*/
+	
+	@PostMapping("/message")
+	@ResponseBody
+	public void insertMessage(@RequestPart(required = false) ChatMessageDTO messageDTO,
+			@RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
+		if(imgs!=null && !imgs.isEmpty()) {
+			messageDTO.setImgs(imgs);
+			cService.insertMsgImg(messageDTO);
+		} else {
+			cService.insertMessage(messageDTO);
+		}
+		
 	}
-	
-	
 
 	// 소켓: 메시지(+이미지) insert
 	// @SendTo 대신 converAndSend 사용
 	@MessageMapping("/chat")
-	public void sendMessage(ChatMessageDTO message) {
+	public void sendMessage(ChatMessageDTO message) throws IOException {
 		// 메세지 Insert 로직 구현 필요
-		// 우선 텍스트만
-		cService.insertMessage(message);
+		if(message.getImgs()!=null && !message.getImgs().isEmpty()) {
+			cService.insertMsgImg(message);
+		} else {
+			cService.insertMessage(message);
+		}
 		
 		messagingTemplate.convertAndSend("/topic/chatroom/"+ message.getRoomId(), message);
 	}

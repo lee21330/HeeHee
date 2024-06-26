@@ -207,6 +207,7 @@
 			
 			<div class="chatting-input">
 				<%--	<img class="input-photo" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/camera.png">
+				<input type="file" class="image-input" multiple style="display: none;">
 				<div>
 					<input class="input-area" type="text">
 				</div>
