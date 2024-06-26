@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,8 +42,16 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
 			throws ServletException, IOException {
-		logger.info("동희 바보~");
-		String authorizationHeader = httpServletRequest.getHeader("Authorization");
+		String authorizationHeader = null;
+		final Cookie[] cookies = httpServletRequest.getCookies();
+		
+		if (cookies != null && authorizationHeader == null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {
+                	authorizationHeader = cookie.getValue().replaceAll("%20", " ");
+                }
+            }
+        }
 		String token = null;
 		String userName = null;
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

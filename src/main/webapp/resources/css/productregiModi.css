@@ -1,5 +1,22 @@
 @charset "UTF-8";
 
+
+
+
+body {
+	
+	padding-top: 200px;
+	
+}
+
+main {
+	
+}
+
+form{
+	 width: 100%; 
+}
+
 .productRegistrate p {
 	color: black;
 	margin: 0;
@@ -35,30 +52,77 @@
     display: flex;
     gap: 60px;
     margin-top: 10px;
-    
+    margin-left: auto;  /* 왼쪽 마진 자동 */
+    margin-right: auto; /* 오른쪽 마진 자동 */
+    justify-content: center; /* 내부 요소들을 중앙에 배치 */
+}
+
+#prod_img {
+	margin-top: 10px;
 }
 
 .regi_img {
 	align-items: center;
 }
 
-#input_file {
-	display: none;
-}
 
-#d_charge {
+.setmargin {
 	width: 77px;
 }
 
-#preview {
-	width: 250px;
-	height: 225px;
-	object-fit: contain;
-	padding: 25px 25px 25px 25px;
-    border: 1px solid #acacac;
-    border-radius: 10px;
+#package {
+	
+}
+
+#direct {
+	
+}
+
+.img_container {
+    margin-bottom: 10px;
+    height: 169px;
+    position: relative;
+    display: inline-block;
+}
+
+.img_container img {
+        width: 125px;
+        height: 125px;
+        object-fit: contain;
+        margin: 10px;
+        border: 1px solid #acacac;
+        border-radius: 10px;
+    }
+    
+.remove_img {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(255, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+        line-height: 18px;
+        text-align: center;
+    }
+
+.preview {
+	width: 75px;
+	text-align: center;
+	color: white;
+	font-size: 15px;
+	background-color: #4949E9;
+	border: none;
     box-sizing: border-box;
-    margin-top: 5px;
+    margin-top: 10px;
+}
+
+.input_file {
+	display: none;
 }
 
 .inner{
@@ -98,7 +162,7 @@
 
 /* 카테고리 대분류 */
 .nav_title1 {
-    width: 50%;
+    width: 60%;
     /* display: flex;
     flex-direction: column; */
     background: white;
@@ -144,6 +208,22 @@
     border-radius: 10px;
 }
 
+.content_list1::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+}
+
+.content_list1::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.content_list1::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
 .category_list1 li {
     padding: 5px 0;
     /* list-style: none; */
@@ -161,7 +241,7 @@
 
 /* 카테고리 소분류 */
 .nav_content1 {
-    width: 50%;
+    width: 60%;
     height: auto;
     /* display: flex;
     flex-direction: column; */
@@ -171,7 +251,7 @@
     position: absolute;
     top: 0px;
     left: 201px;
-    margin-left: 165px;
+    margin-left: 205px;
 }
 
 .content_list1 {
@@ -180,6 +260,7 @@
     text-align: center;
     padding: 0px;
     list-style-type: none;
+    overflow: auto;
 }
 
 .content_list1 li {
@@ -210,6 +291,10 @@
     margin-top: 30px;
 }
 
+#introduce_box {
+	height: 80px;
+}
+
 .input_name {
 	border: 1px solid #acacac;
 	border-radius: 10px;
@@ -217,8 +302,25 @@
 	padding-left: 5px;
 }
 
+.input_name1 {
+	border: 1px solid #acacac;
+	border-radius: 10px;
+	width: 100%;
+	padding-left: 5px;
+}
+
+.input_name:focus { /* 마우스 커서가 가있을때 효과설정 */
+        border: 2px solid black;
+        outline: none;
+    }
+
 .state_radio {
 	display: flex;
+}
+
+.state_radio1 {
+	display: flex;
+	margin-left: -35px;
 }
 
 .radio_order {
@@ -226,12 +328,9 @@
     margin-right: 5px;
 }
 
+
 #new, #package {
 	margin-right: 5px;
-}
-
-.state_radio label {
-    cursor: pointer;
 }
 
 #sub_button {

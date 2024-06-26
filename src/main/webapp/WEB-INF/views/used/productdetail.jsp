@@ -126,9 +126,6 @@
 		</main>
 	</div>
 	
-	<footer>
-		<p>&copy; 2024 희희낙찰. All rights reserved.</p>
-	</footer>
 	
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {

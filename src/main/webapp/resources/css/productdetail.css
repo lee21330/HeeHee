@@ -1,16 +1,10 @@
 @charset "UTF-8";
 
-/* Reset default browser styles */
+body {
+	padding-top: 200px;
+}
 
-/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
-/* * {
-	
-    margin: 0;
-    padding: 0%;
-    box-sizing: border-box;
-} */
 
-/* Body styles */
 .productDetail {
 	width: 1280px;
 	height: auto;

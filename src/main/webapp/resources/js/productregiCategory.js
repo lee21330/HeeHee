@@ -1,9 +1,30 @@
 $(document).ready(function() {
+
     $('.content_list1 p').click(function(event) {
         event.preventDefault();
         $('.content_list1 p').removeClass('selected');
         $(this).addClass('selected');
     });
+
+    $('.radio_order').on('click', function() {
+        var valueCheck = $('input[name="deal_type"]:checked').attr('id');
+        if (valueCheck === 'package') {
+            $('#d_charge').attr('disabled', false);
+            // $('#d_charge').focus();
+        } else {
+        	$('#d_charge').val('');
+            $('#d_charge').attr('disabled', true);
+        }
+    });
+    
+    
+
+    if ($('#package').is(':checked')) {
+        $('#d_charge').attr('disabled', false);
+    } else {
+        $('#d_charge').attr('disabled', true);
+    }
+    
 });
 
 $(function () {

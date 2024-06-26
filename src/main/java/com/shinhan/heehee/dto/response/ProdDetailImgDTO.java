@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProdDetailImgDTO {
+	private int imgSeq;
 	private String imgName;
 	private int tablePk;
 	private int productSeq;

@@ -12,10 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SaleListDTO {
 	private int productSeq;
+	private String proStatus;
 	private String articleTitle;
 	private int productPrice;
 	private String deal;
 	private String id;
 	private String imgName;
-	private int tablePk;
 }
