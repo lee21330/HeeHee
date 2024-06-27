@@ -59,4 +59,12 @@ public class ChattingDAO {
 		sqlSession.insert(namespace + "insertChatImg", messageDTO);
 	}
 
+	public void updateProStatus(Map<String, Object> map) {
+		sqlSession.update(namespace + "updateProStatus", map);
+	}
+
+	public void insertDeal(Map<String, Object> map) {
+		sqlSession.insert(namespace + "insertDeal", map);
+	}
+
 }

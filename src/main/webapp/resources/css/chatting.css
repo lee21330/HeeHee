@@ -182,7 +182,7 @@
 	flex-shrink: 0;
 }
 
-.payEdit{
+.pay{
 	font-family: 'SEBANG_Gothic_Bold';
 	background-color:#ABC3FF;
 	color:#FFFFFF;
@@ -193,6 +193,40 @@
 	height: 50%;
 	font-size: 15px;
 	cursor: pointer;
+	width:100px;
+}
+
+.edit{
+	font-family: 'SEBANG_Gothic_Bold';
+	background-color:#ABC3FF;
+	color:#FFFFFF;
+	border:none;
+	margin-left:10px;
+	margin-right:30px;
+	margin-top:auto;
+	height: 50%;
+	font-size: 15px;
+	cursor: pointer;
+	width:100px;
+}
+
+.reserve{
+	font-family: 'SEBANG_Gothic_Bold';
+	background-color:#ABC3FF;
+	color:#FFFFFF;
+	border:none;
+	margin-left:auto;
+	margin-right:10px;
+	margin-top:auto;
+	height: 50%;
+	font-size: 15px;
+	cursor: pointer;
+	width:100px;
+}
+
+.reserve:disabled{
+	background-color:#858585;
+	cursor: not-allowed;
 }
 
 .payEdit:disabled{
@@ -234,7 +268,7 @@
 
 .chat{
 	font-size: 15px;
-	max-width: 300px;
+	max-width: 200px;
 	border-radius: 10px;
 	border: 1px solid #000000;
 	padding: 10px;
@@ -242,6 +276,17 @@
     white-space: pre-wrap;
     display: inline-block;
     margin: 5px;
+}
+
+.chat-image{
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
+	border: 1px solid #000000;
+	display: inline-block;
+    margin: 5px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
 }
 
 .chatDate{
@@ -372,9 +417,10 @@
 	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
     transform: translateX(-50%) translateY(-60%);
 	font-size: 30px;
-	padding: 60px;
+	padding: 40px 80px 40px 40px;
 	text-align: center; 
 	line-height: 100px; 
+	white-space: nowrap;
 }
 
 .current-input {

@@ -1,16 +1,16 @@
 package com.shinhan.heehee.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.ChattingDAO;
+import com.shinhan.heehee.dto.request.ChatImageDTO;
 import com.shinhan.heehee.dto.request.ChatMessageDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
@@ -21,6 +21,9 @@ public class ChattingService {
 	
 	@Autowired
 	private ChattingDAO cDao;
+	
+	@Autowired
+	private AWSS3Service s3Service;
 	
 	@Transactional(readOnly = true)
 	public List<ChatRoomDTO> getRoomList(String userId){
@@ -48,15 +51,26 @@ public class ChattingService {
 		return cDao.insertMessage(messageDTO);
 	}
 
-	public void insertMsgImg(ChatMessageDTO messageDTO, MultipartFile img) {
-		String imgName=img.getOriginalFilename();
-		messageDTO.setContent("[img_asdfzv] " + imgName);
-		cDao.insertChatMsg(messageDTO);
+	public void insertMsgImg(ChatMessageDTO messageDTO) throws IOException {
+		//String filePath = "images/chat/";
+		List<String> imgs = messageDTO.getImgs();
 		
-		int msgId=messageDTO.getMsgId();
-		
-		messageDTO.setMsgId(msgId);
-		messageDTO.setContent("chat/" + imgName);
-		cDao.insertChatImg(messageDTO);
+		for(String img : imgs) {
+            messageDTO.setContent("[img_asdfzv] " + img);
+    		cDao.insertChatMsg(messageDTO);
+    		
+    		int msgId=messageDTO.getMsgId();
+    		
+    		messageDTO.setMsgId(msgId);
+    		messageDTO.setContent(img);
+    		cDao.insertChatImg(messageDTO);
+        }
+	}
+	
+	
+
+	public void reserve(Map<String, Object> map) {
+		cDao.updateProStatus(map);
+		cDao.insertDeal(map);
 	}
 }

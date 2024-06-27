@@ -1,14 +1,12 @@
 let selectRoomId; // 선택한 채팅방 번호
 let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
-var stompClient = null; //stomp 소켓 클라이언트 전역 설정
+var stompClient = null; // stomp 소켓 클라이언트 전역 설정
 
-
+let selectedFiles = []; // 첨부한 이미지 파일 목록
 
 // 문서 로딩 완료 후 수행할 기능
 document.addEventListener("DOMContentLoaded", ()=>{
-   
-   	
    
    // 채팅방 목록에 클릭 이벤트 추가
    roomListAddEvent(); 
@@ -18,8 +16,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	setInterval(function() {
 		fetchChatRoomList();
 	}, 1500);
-	
-	
 	
 });
 
@@ -51,7 +47,7 @@ function showMessage(chatMessage){
     const contentBody = document.querySelector(".content-body");
     
     if(chatMessage.sender == loginMemberNo){
-        if(chatMessage.content.indexOf('[img_asdfzv]')==-1){
+        if(chatMessage.imgs.length == 0){
             const myChat = document.createElement("div");
             myChat.classList.add("my-chat");
             
@@ -68,6 +64,11 @@ function showMessage(chatMessage){
             contentBody.append(messageList);
     
             contentBody.scrollTop = contentBody.scrollHeight;
+        }
+        else{
+            chatMessage.imgs.forEach(img => {
+                
+            });
         }
     }
     else if(chatMessage.sender != loginMemberNo){
@@ -104,23 +105,52 @@ function showMessage(chatMessage){
 
 // 채팅 보내기
 function sendMessage(inputValue){
-    if(inputValue!=""){
+    if(inputValue!="" || selectedFiles.length > 0){
         const offset = new Date().getTimezoneOffset() * 60000;
         const today = new Date(Date.now() - offset);
-        const sendTime = today.toISOString();
+        const sendTime = today.toISOString().replace('T', ' ').replace('Z', '').substring(0,19);
         
-        stompClient.send("/app/chat", {},
-                          JSON.stringify({
-                              'roomId': selectRoomId,
-                              'sender': loginMemberNo,
-	                          'receiver': selectReceiverId, 
-	                          'content': inputValue,
-	                          'sendTime': sendTime
-                          })
-                     );
-    }
-}
+        if (selectedFiles.length > 0) {
+            const formData = new FormData();
 
+            selectedFiles.forEach(file => {
+                formData.append('imgs', file);
+            });
+            
+            fetch("/heehee/chatting/upload/image", {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const message = {
+                    'roomId': selectRoomId,
+                    'sender': loginMemberNo,
+                    'receiver': selectReceiverId,
+                    'content': inputValue,
+                    'sendTime': sendTime,
+                    'imgs': data
+                };
+                stompClient.send("/app/chat", {}, JSON.stringify(message));
+                selectedFiles = [];  // 이미지 전송 후 파일 초기화
+                imageInput.value = "";  // 파일 입력 초기화
+            })
+            .catch(err => console.log(err));
+        } else {
+            const message = {
+                'roomId': selectRoomId,
+                'sender': loginMemberNo,
+                'receiver': selectReceiverId,
+                'content': inputValue,
+                'sendTime': sendTime,
+                'imgs': []
+            };
+        
+        stompClient.send("/app/chat", {}, JSON.stringify(message));
+    }
+  }
+}
 
 // 채팅방 목록에서 채팅방 선택 시 추가되는 이벤트
 function roomListAddEvent(){
@@ -136,14 +166,12 @@ function roomListAddEvent(){
 
          selectReceiverName = item.children[1].children[0].children[0].innerText;
 
-         
-
          const unreadCountElem = item.querySelector(".unread-count");
             if (unreadCountElem) {
                 unreadCountElem.remove();
             }
 
-         // 모든 채팅방에서 select 클래스를 제거
+         // 모든 채팅방에서 selecㅉt 클래스를 제거
          for(let it of chattingItemList) it.classList.remove("select")
    
          // 현재 클릭한 채팅방에 select 클래스 추가
@@ -170,7 +198,7 @@ function selectChattingFn(){
     fetch(`/heehee/chatting/${selectRoomId}`)
     .then(response=>response.json())
     .then(roomDetail => {
-    
+        
         const chattingContent = document.querySelector(".chatting-content");
         chattingContent.innerHTML="";
     
@@ -196,7 +224,9 @@ function selectChattingFn(){
         
         const sellingPrice = document.createElement("p");
         sellingPrice.classList.add("selling-price");
-        sellingPrice.innerText = roomDetail.roomProductDTO.productPrice + '원';
+        const formatPrice = roomDetail.roomProductDTO.productPrice.toLocaleString('ko-KR')
+        //console.log(formatPrice);
+        sellingPrice.innerText = formatPrice + '원';
         
         const sellingName = document.createElement("p");
         sellingName.classList.add("selling-name");
@@ -209,9 +239,11 @@ function selectChattingFn(){
         // 버튼 생성 및 판매자/구매자별로 내용 다르게 설정
         const status = roomDetail.roomProductDTO.status;
         
+        
+        //추후 결제 비활성화 조건 체크
         if (status == '구매자') {
             const payButton = document.createElement("button");
-            payButton.classList.add("payEdit");
+            payButton.classList.add("pay");
         
             payButton.innerText = "결제하기";
             
@@ -221,19 +253,35 @@ function selectChattingFn(){
                 // 구매자 버튼 클릭 이벤트 처리
                 pay(roomDetail.roomUserDTO.accountNum, roomDetail.roomUserDTO.bank, roomDetail.roomUserDTO.userPoint, roomDetail.roomProductDTO.productPrice);
             });
+            
+        //추후 약속잡기 비활성화 조건 체크
         } else if(status == '판매자'){
             if(roomDetail.roomProductDTO.productType=='sell'){
                 const payButton = document.createElement("button");
-                payButton.classList.add("payEdit");
+                payButton.classList.add("edit");
             
                 payButton.innerText = "가격 수정하기";
                 
-                sellingInfo.append(payButton);
+                //sellingInfo.append(payButton);
             
                 payButton.addEventListener("click", () => {
                     // 판매자 버튼 클릭 이벤트 처리
                     editPrice(roomDetail.roomProductDTO.productPrice, roomDetail.roomProductDTO.productSeq);
                 });
+                
+                //약속잡기 버튼
+                const rsvButton = document.createElement("button");
+                rsvButton.classList.add("reserve");
+            
+                rsvButton.innerText = "약속 잡기";
+                
+                // 약속잡기 버튼 클릭 이벤트 처리
+                rsvButton.addEventListener("click", () => {
+                    reserve(roomDetail.roomProductDTO.productSeq);
+                });
+                
+                sellingInfo.append(rsvButton, payButton);
+                
             } 
         } 
         
@@ -265,10 +313,29 @@ function selectChattingFn(){
                     
                     messageList.append(myChat);
                     }
-                    else{
+                    //사진 띄워주기
+                    else if(message.content.indexOf('[img_asdfzv]')!=-1){
+                        const myChat = document.createElement("div");
+                        myChat.classList.add("my-chat");
+                    
+                        const chatDate = document.createElement("span");
+                        chatDate.classList.add("chatDate");
+                        chatDate.innerHTML = message.sendTime + ' 읽음';
+                    
+                        const chatImage = document.createElement("img");
+                        chatImage.classList.add("chat-image");
                         
+                        const imgContent = message.content.replace("[img_asdfzv] ", "");
+                        
+                        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${imgContent}`;
+                        
+                        chatImage.setAttribute("src", imgUrl);
+                        chatImage.setAttribute("alt", "image");
+                    
+                        myChat.append(chatDate, chatImage);
+                    
+                        messageList.append(myChat);
                     }
-                    //사진 띄워주기 https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/chat/~~
                    
                 }
                 else if(message.sender != loginMemberNo){
@@ -295,16 +362,65 @@ function selectChattingFn(){
                     
                         messageList.append(targetChat);
                     }
+                    
+                    else if(message.content.indexOf('[img_asdfzv]')!=-1){
+                        const targetChat = document.createElement("div");
+                        targetChat.classList.add("target-chat");
+                        
+                        const chatImage = document.createElement("img");
+                        chatImage.classList.add("chat-image");
+                        
+                        const imgContent = message.content.replace("[img_asdfzv] ", "");
+                        
+                        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${imgContent}`;
+                        
+                        chatImage.setAttribute("src", imgUrl);
+                        chatImage.setAttribute("alt", "image");
+                    
+                        const chatDate = document.createElement("span");
+                        chatDate.classList.add("chatDate");
+                        
+                        let read = '안 읽음';
+                    
+                        if(message.readCheck == 'Y'){
+                            read = '읽음';
+                        }
+                    
+                        chatDate.innerHTML = message.sendTime + ' ' + read;
+                    
+                        targetChat.append(chatImage, chatDate);
+                    
+                        messageList.append(targetChat);
+                    }
                 }
             }
             contentBody.append(messageList);
         }
+        
+       // else if(roomDetail.roomMessageDTO.length == 0){
+          
+       // }
         
         const chattingInput = document.createElement("div");
         chattingInput.classList.add("chatting-input");
         
         const inputPhoto = document.createElement("img");
         inputPhoto.classList.add("input-photo");
+        
+        const imageInput = document.createElement("input");
+        imageInput.classList.add("image-input");
+        imageInput.type = "file";
+        imageInput.multiple = true;
+        imageInput.style.display = "none";
+        
+        inputPhoto.addEventListener('click', () => {
+            imageInput.click();
+        });
+        
+        imageInput.addEventListener('change', (event) => {
+            selectedFiles = Array.from(event.target.files);
+            sendMessage();
+        });
         
         const imgUrl1 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/camera.png";
         inputPhoto.setAttribute("src", imgUrl1);
@@ -406,14 +522,16 @@ function pay(accountNum, bank, userPoint, productPrice){
             const newPoint=Number(userPoint) + Number(addPoint);
             //console.log(newPoint);
             
-            fetch("/heehee/chatting/point",{
-             method : "PUT",
-             headers : {"Content-Type": "application/json"},
-             body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
-            })
-            .then(resp => resp.text())
-            .then(result => console.log(result))
-            .catch(err => console.log(err));
+            payment(addPoint);
+            
+            //fetch("/heehee/chatting/point",{
+            // method : "PUT",
+            // headers : {"Content-Type": "application/json"},
+            // body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
+            //})
+           // .then(resp => resp.text())
+           // .then(result => console.log(result))
+           // .catch(err => console.log(err));
             
             });
     
@@ -432,6 +550,34 @@ function pay(accountNum, bank, userPoint, productPrice){
     
         chattingModal.append(modalContent);
     }
+}
+
+//결제창 띄우는 함수
+//버튼 클릭하면 실행
+function payment(addPoint) {
+    IMP.init('imp41857573');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
+    IMP.request_pay({// param
+        pg: "html5_inicis", //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
+        pay_method: "card", //지불 방법
+        merchant_uid: 'merchant_'+new Date().getTime(), //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
+        name: "포인트", //결제창에 노출될 상품명
+        amount: addPoint, //금액
+        buyer : loginMemberNo
+    }, function (rsp) { // callback
+        if (rsp.success) {
+            alert("완료 -> imp_uid : "+rsp.imp_uid+" / merchant_uid(orderKey) : " +rsp.merchant_uid);
+            fetch("/heehee/chatting/point",{
+                method : "PUT",
+                headers : {"Content-Type": "application/json"},
+                body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        } else {
+            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
+        }
+    });
 }
 
 //가격 수정하기 함수
@@ -494,6 +640,43 @@ function editPrice(productPrice, productSeq){
     chattingModal.append(modalContent);
 }
 
+// 약속잡기 함수
+function reserve(productSeq){
+    fetch("/heehee/chatting/reserve",{
+             method : "POST",
+             headers : {"Content-Type": "application/json"},
+             body : JSON.stringify({
+             "buyerId" : selectReceiverId,
+             "productSeq" : productSeq
+             })
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        
+     //비활성화 왜 안되는고야...
+     const button = document.querySelector(".reserve");
+     button.disabled = true;
+     
+     chattingModal.style.display='block';
+     chattingModal.innerHTML="";
+        
+     const modalContent2 = document.createElement("div");
+     modalContent2.classList.add("modal-content2");
+    
+     const Info2 = document.createElement("div");
+     Info2.innerText='약속 잡기에 성공하였습니다!';
+    
+     modalContent2.append(Info2);
+    
+     chattingModal.append(modalContent2);
+        
+     setTimeout(()=>{
+         chattingModal.style.display='none';
+     }, 3000);
+     
+}
+
 //채팅방 목록 1.5초마다 불러오기
 function fetchChatRoomList() {
     fetch("/heehee/chatting/roomList")
@@ -523,7 +706,10 @@ function updateChatRoomList(data) {
         // 이미 있는 채팅방이면 unreadCount, sendTime, lastContent만 업데이트
         if (existingChatRoom) {
             const content = existingChatRoom.querySelector(".recent-message").innerHTML;
-            const unreadCount = existingChatRoom.querySelector(".unread-count").innerText;
+             let unreadCount = 0;
+             if(existingChatRoom.querySelector(".unread-count")){
+                 unreadCount = existingChatRoom.querySelector(".unread-count").value;
+             }
             
             //안 읽은 메시지가 있고 메시지가 새로 와서 업데이트해야하는 경우
             if(unreadCount>0 && content!=room.lastcontent){
