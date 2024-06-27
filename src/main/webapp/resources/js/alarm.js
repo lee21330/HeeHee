@@ -74,8 +74,9 @@ function alarmAll() {
 						// 채팅
 						// output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
 						// output += "<ul onclick='urlClick(\"/heehee/chatting\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+						// output += "<ul onclick='urlClick(\"/heehee/chatting\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						
-						output += "<ul onclick='urlClick(\"/heehee/chatting\")'" + " alNum=" + item.alNum + ">";
+						output += "<ul onclick='urlClick(\"/heehee/chatting\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -84,8 +85,9 @@ function alarmAll() {
 					} else if (item.alDate != null && item.cateNum == 2) {
 						// 판매
 						// output += "<ul onclick='urlClick(\"/heehee/saledetail/" + item.reqSeq + "\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 						
-						output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+						output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -116,8 +118,9 @@ function alarmAll() {
 					} else if (item.alDate != null && item.cateNum == 5) {
 						// 배송
 						// output += "<ul onclick='urlClick(\"/heehee/purchasedetail/" + item.reqSeq + "\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 						
-						output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+                        output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -177,8 +180,10 @@ function alarmUnck() {
                         if (item.alDate != null && item.cateNum == 1 && item.alCheck == "N") {
                             // 채팅
                             // output += "<ul onclick='urlClick(\"/heehee/chatting\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/chatting\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+                            // output += "<ul onclick='urlClick(\"/heehee/chatting\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             
-                            output += "<ul onclick='urlClick(\"/heehee/chatting\")'" + " alNum=" + item.alNum + ">";
+                            output += "<ul onclick='urlClick(\"/heehee/chatting\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -187,8 +192,9 @@ function alarmUnck() {
                         } else if (item.alDate != null && item.cateNum == 2 && item.alCheck == "N") {
                             // 판매
                             // output += "<ul onclick='urlClick(\"/heehee/saledetail/" + item.reqSeq + "\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
                             
-                            output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+                            output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -197,8 +203,9 @@ function alarmUnck() {
                         } else if (item.alDate != null && item.cateNum == 3 && item.alCheck == "N") {
                             // 경매
                             // output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
                             
-                            output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+                            output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>"
                             output += "<li>" + item.alContent + "</li>";
@@ -208,8 +215,9 @@ function alarmUnck() {
                             // 문의
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\")'>";
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 
-                            output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+							output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -218,8 +226,9 @@ function alarmUnck() {
                         } else if (item.alDate != null && item.cateNum == 5 && item.alCheck == "N") {
                             // 배송
                             // output += "<ul onclick='urlClick(\"/heehee/purchasedetail/" + item.reqSeq + "\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
                             
-                            output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+                            output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -272,7 +281,7 @@ function urlClick(url) {
 	location.href = url;
 }
 
-// 확인한 알림은 색상 변경
+// 확인한 알림 색상 변경
 function alarmVisited() {
  	var beforeCheck = $("#allAlarm").children("ul");
 
