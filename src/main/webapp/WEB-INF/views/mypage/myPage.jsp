@@ -93,6 +93,7 @@
 					<li id="sell" onclick="changeStatus('판매중')">판매중</li>
 					<li id="reserve" onclick="changeStatus('예약중')">예약중</li>
 					<li id="complete" onclick="changeStatus('거래완료')">거래완료</li>
+					<li id="complete" onclick="changeStatus('판매중지')">판매중지</li>
 				</ul>
 				<!-- 상세필터  -->
 				<button id="btn_search">상세 필터</button>

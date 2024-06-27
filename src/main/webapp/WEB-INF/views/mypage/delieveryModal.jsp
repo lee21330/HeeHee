@@ -28,25 +28,25 @@
 			<img
 				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
 				alt="로그인 창 닫기 아이콘" class="mModal_close">
-			<form class="modal_form">
+			<form class="modal_form" action="${path}/mypage/saledetail/${saleDetail.productSeq}/insertDelivery" method="post">
 				<p id="dMdal_p">송장 입력하기</p>
 				<div class="input" id="input_d">
 					<div class="Modal_delivery">
-						<select>
+						<select name="dCompanySeq">
 							<option>택배사 선택</option>
 							<c:forEach var="dc" items="${dcOption}">
-								<option>${dc.DCompany}</option>
+								<option value="${dc.DCompanySeq}">${dc.DCompany}</option>
 							</c:forEach>
 						</select>
 					</div>
 
 					<div class="Modal_delivery">
-						<input type="text" placeholder="운송장 번호 -없이 입력">
+						<input type="number" placeholder="운송장 번호 -없이 입력" name="dNumber">
 					</div>
 				</div>
-
+				<input type="number" name="sSeq" value = "${saleDetail.SSeq}">
 				<div class="btn_modal" id="d_btn">
-					<button type="submit" class="btn_submit" id="btn_delivery">입력</button>
+					<button class="btn_submit" id="btn_delivery" >입력</button>
 				</div>
 			</form>
 		</div>

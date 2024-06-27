@@ -51,7 +51,7 @@ function changeStatus(status) {
 			} else {
 
 				data.forEach(function(sale) {
-					var detailUrl = sale.proStatus === '판매중' ? `/heehee/productdetail/${sale.productSeq}` : `/heehee/mypage/saledetail/${sale.productSeq}`;
+					var detailUrl = sale.proStatus === '판매중' ? `/heehee/sell/productdetail/${sale.productSeq}` : `/heehee/mypage/saledetail/${sale.productSeq}`;
 					output += `							
                             <div class="product" onclick="location.href='${detailUrl}'">
                                 <div class="product_slider">
@@ -88,7 +88,7 @@ function showPurchaseList() {
 
 				data.forEach(function(purchase) {
 					output += `
-                            <div class="product" onclick="location.href='/heehee/purchasedetail/${purchase.productSeq}'">
+                            <div class="product" onclick="location.href='/heehee/mypage/purchasedetail/${purchase.productSeq}'">
 								<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${purchase.imgName}">
 								<p>${purchase.articleTitle}</p>
 								<p>${purchase.productPrice}</p>
@@ -122,7 +122,7 @@ function showJjimList() {
 					output += `
 					<input type="checkbox" name="checkBno" value=""> 
                             <div class="product"
-							onclick="location.href='/heehee/productdetail/${jjim.productSeq}'">
+							onclick="location.href='/heehee/sell/productdetail/${jjim.productSeq}'">
 							<img class="product_img"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${jjim.imgName}">
 							<p>${jjim.articleTitle}</p>

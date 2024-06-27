@@ -1,12 +1,10 @@
 package com.shinhan.heehee.controller;
 
 import java.security.Principal;
+import java.sql.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
+import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
@@ -51,7 +49,6 @@ public class MyPageController {
 		return mypageservice.saleList(status, userId);
 	}
 
-	
 	// 마이페이지_구매내역 조회
 	@PostMapping("/main/purchaselist")
 	@ResponseBody
@@ -75,6 +72,34 @@ public class MyPageController {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		model.addAttribute("dcOption", mypageservice.dcOption());
 		return "/mypage/saleDetail";
+	}
+
+	// 마이페이지 - 판매 상품 상세페이지_송장입력 모달
+	@PostMapping("/saledetail/{productSeq}/insertDelivery")
+	public String insertDelivery(InsertDeliveryDTO delivery, RedirectAttributes redirectAttr) {
+		int result = mypageservice.insertDelivery(delivery);
+		String message;
+		if (result > 0) {
+			message = "insert success";
+		} else {
+			message = "insert fail";
+		}
+		redirectAttr.addFlashAttribute("result", message);
+		return "redirect:/mypage/saledetail/{productSeq}";
+	}
+
+	// 마이페이지 - 판매 상품 상세페이지_update deal_history(거래완료 버튼)
+	@PostMapping("/saledetail/{productSeq}/updateSCheck")
+	public String updateSCheck(@RequestParam("proSeq") int proSeq, RedirectAttributes redirectAttr) {
+		int result = mypageservice.updateSCheck(proSeq);
+		String message;
+		if (result > 0) {
+			message = "insert success";
+		} else {
+			message = "insert fail";
+		}
+		redirectAttr.addFlashAttribute("result", message);
+		return "redirect:/mypage/saledetail/{productSeq}";
 	}
 
 	// 마이페이지 - 구매 상품 상세페이지
@@ -106,7 +131,7 @@ public class MyPageController {
 		model.addAttribute("profile", mypageservice.profile(userId));
 		return "/mypage/editProfile";
 	}
-	
+
 //	// 마이페이지_프로필 수정
 //	@PostMapping("/profile/updateProfile")
 //	public String editProfile(EditProfileDTO profile, Principal principal, HttpServletResponse response, RedirectAttributes redirectAttr) {
@@ -132,8 +157,8 @@ public class MyPageController {
 //	redirectAttr.addFlashAttribute("result", message);
 //		return "redirect:/mypage";
 //	}
-	
-	//마이페이지-프로필 수정 페이지_프로필 사진 수정 /editProfile/updateProfileImg
+
+	// 마이페이지-프로필 수정 페이지_프로필 사진 수정 /editProfile/updateProfileImg
 
 	// 마이페이지-QnA
 	@GetMapping("/qnaBoard")
@@ -142,27 +167,30 @@ public class MyPageController {
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
 
-		 // 나의 QNA 가져오기
-	    List<QnADTO> myQnaList = mypageservice.myQna(userId);
-	    
-	    // 각 QNA에 대해 이미지 정보 가져오기
-	    for (QnADTO qna : myQnaList) {
-	        List<QnAImgDTO> imgList = mypageservice.myQnaImg(userId, qna.getSeqQnaBno());
-	        qna.setImgList(imgList);
-	    }
-	    
-	    // 모델에 추가
-	    model.addAttribute("myQna", myQnaList);
+		// 나의 QNA 가져오기
+		List<QnADTO> myQnaList = mypageservice.myQna(userId);
+
+		// 각 QNA에 대해 이미지 정보 가져오기
+		for (QnADTO qna : myQnaList) {
+			List<QnAImgDTO> imgList = mypageservice.myQnaImg(userId, qna.getSeqQnaBno());
+			qna.setImgList(imgList);
+		}
+
+		// 모델에 추가
+		model.addAttribute("myQna", myQnaList);
 		return "/mypage/qnaBoard";
 	}
-	
+
 	// 마이페이지-QnA-나의 문의 삭제하기
 	@GetMapping("/qnaBoard/deleteQna")
-	public String deleteQna(Integer seqQnaBno,RedirectAttributes redirectAttr) {
-		System.out.println(seqQnaBno);
+	public String deleteQna(Integer seqQnaBno, Principal principal, RedirectAttributes redirectAttr) {
+		String userId = principal.getName();
 		int result = mypageservice.deleteQna(seqQnaBno);
-		//이미지가 있으면 이미지 삭제
-		mypageservice.deleteQnaImg(seqQnaBno);
+		List<QnAImgDTO> imgList = mypageservice.myQnaImg(userId, seqQnaBno);
+		// 이미지가 있으면 이미지 삭제
+		if (imgList != null && !imgList.isEmpty()) {
+			mypageservice.deleteQnaImg(seqQnaBno);
+		}
 		String message;
 		if (result > 0) {
 			message = "delete success";
@@ -175,10 +203,11 @@ public class MyPageController {
 
 	// 마이페이지_QnA 1:1문의하기
 	@PostMapping("/qnaBoard/insertQna")
-	public String insertQna(InsertQnADTO qna,InsertQnAImgDTO qnaImg, Principal principal, RedirectAttributes redirectAttr) {
+	public String insertQna(InsertQnADTO qna, InsertQnAImgDTO qnaImg, Principal principal,
+			RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
 		qna.setID(userId);
-		//이미지 업로드 3장으로 제한
+		// 이미지 업로드 3장으로 제한
 		qnaImg.setImgName("qna_test.jpg");
 		qnaImg.setTablePk(qna.getSeqQnaBno());
 		qnaImg.setID(userId);
@@ -187,7 +216,7 @@ public class MyPageController {
 		System.out.println(qnaImg);
 		int result = mypageservice.insertQna(qna);
 		int imageResult = mypageservice.insertQnaImg(qnaImg);
-		
+
 		String message;
 		if (result > 0) {
 			message = "update success";
@@ -215,11 +244,13 @@ public class MyPageController {
 		return mypageservice.faqOption(option);
 	}
 
+	// 포인트 내역
 	@GetMapping("/pointlist")
-	public String pointlist() {
+	public String pointlist(Principal principal, Model model) {
+		String userId = principal.getName();
+//		model.addAttribute("point", mypageservice.searchPoint(userId));
 		return "/mypage/pointList";
 	}
-
 
 	// 회원 탈퇴
 	@PostMapping("/userWithdrawal")

@@ -22,7 +22,8 @@
 			<!-- 왼쪽 영역 -->
 			<div class="left">
 				<p>내 프로필</p>
-				<form action="${path}/mypage/editProfile/updateProfileImg" method="post">
+				<form action="${path}/mypage/editProfile/updateProfileImg"
+					method="post">
 					<div id="profileImg">
 						<img class="photo"
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${profile.profileImg}">
@@ -31,10 +32,11 @@
 
 						<input type="file" class="file" name="profileImg"
 							onchange="readURL(this);">
-							
+
 					</div>
 					<p id="nickName">${profile.nickName}</p>
-				<!-- 	<button id="btn_photo">저장</button> -->
+					<p>${profile.email}</p>
+					<!-- 	<button id="btn_photo">저장</button> -->
 				</form>
 			</div>
 
@@ -43,18 +45,13 @@
 
 				<div class="right-box">
 					<p>아이디</p>
-				<p>${profile.id}</p>
-				<p>이름</p>
-				<p>${profile.name}</p>
+					<p>${profile.id}</p>
+					<p>이름</p>
+					<p>${profile.name}</p>
 				</div>
 				<div class="right-box">
 					<form action="${path}/mypage/editProfile/updateProfile"
 						method="post">
-						<div class="item">
-							<p>이메일</p>
-							<input type="text" placeholder="${profile.email}" name="email">
-							<input type="button" value="중복체크" class="btn">
-						</div>
 						<div class="item">
 							<p>전화번호</p>
 							<input type="text" placeholder="${profile.phoneNum}"

@@ -9,6 +9,7 @@ import com.shinhan.heehee.dao.MyPageDAO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
+import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
@@ -94,5 +95,15 @@ public class MyPageService {
 	public List<DeliveryCompanyDTO> dcOption() {
 		return mypageDao.dcOption();
 	}
+
+	public int insertDelivery(InsertDeliveryDTO delivery) {
+		return mypageDao.insertDelivery(delivery);
+	}
+
+	public int updateSCheck(int proSeq) {
+		return mypageDao.updateSCheck(proSeq);
+	}
+
+
 
 }

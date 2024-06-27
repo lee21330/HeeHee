@@ -14,30 +14,49 @@
 <body>
 	<script src="/heehee/resources/js/saleDetail.js"></script>
 	<div class="purchaseDetail">
-		<p id="title">${saleDetail.proStatus}</p>
+		<p id="proStatus">${saleDetail.proStatus}</p>
 
-		<div id="img_name">
+		<div id="product">
 			<img id="img"
 				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${saleDetail.imgName}">
-			<div>
+
+			<!-- 카테고리, 거래확정일자, 글제목, 시세조회 -->
+			<div class="title-container">
+				<p id="product_category">${saleDetail.category}>
+					${saleDetail.detailCategory} (${saleDetail.prodName})</p>
+				<img id="url_copy"
+					src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/linkcopy.png"
+					alt="Copy URL" style="cursor: pointer">
+				<!-- </div>
+				<div class="title-container"> -->
 				<p id="date">${saleDetail.psDate}</p>
-				<p id="prod_name">${saleDetail.articleTitle}</p>
+				<p id="articleTitle">${saleDetail.articleTitle}</p>
+				<p id="deal">${saleDetail.deal}</p>
+
 				<%@ include file="/WEB-INF/views/mypage/delieveryModal.jsp"%>
 				<button id="enter_invoice">송장 입력하기</button>
-
+				<div id="delivery">
+					<!-- Ajax로 동적 업데이트 -->
+					<p>${saleDetail.DCompany}</p>
+					<p id="dNumber">${saleDetail.DNumber}</p>
+				</div>
 			</div>
 		</div>
 
 		<p id="progress">진행상황</p>
-		<button id="complete" onclick="graphFunc()">거래완료</button>
+		<button id="complete" onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
+		<p id="sCheck">${saleDetail.SCheck}</p>
 		<progress id="graph" value="0" max="100"></progress>
 
-		<div id="progress_ing">
-			<p>결제대기</p>
+		<div id="deliveryText" class="progress_ing">
 			<p>결제완료</p>
 			<p>발송완료</p>
-			<p>배송 중</p>
+			<p>배송중</p>
 			<p>배송완료</p>
+			<p>거래완료</p>
+		</div>
+		<div id="directText" class="progress_ing">
+			<p>예약중</p>
 			<p>거래완료</p>
 		</div>
 
@@ -67,5 +86,6 @@
 		</div>
 
 	</div>
+
 </body>
 </html>

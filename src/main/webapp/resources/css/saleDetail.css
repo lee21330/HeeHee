@@ -6,12 +6,12 @@
 	margin: 0 auto;
 }
 
-#title {
+#proStatus {
 	font-size: 30px;
 	font-weight: bold;
 }
 
-#img_name {
+#product {
     display: flex;
 }
 
@@ -22,15 +22,29 @@
 	object-fit: contain;
 	box-shadow: 2px 3px 5px 0px #acacac;
 	border-radius: 10px;
+	display: inline-block;
 }
+.title-container {
+   display: inline-block;
+  /*   justify-content: space-between; 텍스트와 링크를 양쪽 끝으로 정렬
+    align-items: center;
+    width: 100%;
+    color: black; */
+    border: 1px solid green;
+} 
 
+#url_copy {
+    width: 50px;
+    height: 25px;
+    object-fit: contain;
+}
 #date {
 	color: #acacac;
 	font-size: 22px;
 	margin-left: 30px;
 }
 
-#prod_name {
+#articleTitle {
 	font-size: 28px;
 	margin-left: 30px;
 	color: #4949e9;
@@ -45,6 +59,7 @@
 	width: 110px;
 	height: 45px;
 	border: none;
+	display: none;
 }
 
 #prod_intro {
@@ -70,14 +85,13 @@
 	border: none;
 }
 
-/* 진행도만큼 #dcf343 색깔로 채우기 */
 #graph {
 	margin-top: 20px;
 	width: 100%;
 	
 }
 
-#progress_ing {
+.progress_ing {
 	display: flex;
 	justify-content: space-between
 }

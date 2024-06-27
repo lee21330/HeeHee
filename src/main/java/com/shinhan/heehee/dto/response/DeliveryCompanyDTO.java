@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeliveryCompanyDTO {
-
+	private int dCompanySeq;
 	private String dCompany;
 
 }

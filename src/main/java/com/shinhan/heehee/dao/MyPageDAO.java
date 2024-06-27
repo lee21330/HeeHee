@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
+import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
@@ -104,6 +105,14 @@ public class MyPageDAO {
 
 	public List<DeliveryCompanyDTO> dcOption() {
 		return sqlSession.selectList(namespace + "dcOption");
+	}
+
+	public int insertDelivery(InsertDeliveryDTO delivery) {
+		return sqlSession.insert(namespace + "insertDelivery", delivery);
+	}
+
+	public int updateSCheck(int proSeq) {
+		return sqlSession.update(namespace + "updateSCheck", proSeq);
 	}
 
 }

@@ -21,6 +21,7 @@
 		<typeAlias type="com.shinhan.heehee.dto.response.InsertQnADTO" alias="insertQnavo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.InsertQnAImgDTO" alias="insertQnaImgvo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.FaQDTO" alias="faqvo" />
+		<typeAlias type="com.shinhan.heehee.dto.response.InsertDeliveryDTO" alias="deliveryvo" />
 		
 		
 		<typeAlias type="com.shinhan.heehee.dto.response.AlarmDTO" alias="alarmDTO" />
