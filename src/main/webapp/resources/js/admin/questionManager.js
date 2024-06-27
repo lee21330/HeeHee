@@ -119,7 +119,8 @@ $(document).ready(function() {
             method: 'POST',
             data: { 'seq_qna_option': seq_qna_option, 
             		'qna_option': qna_option,
-            		'qna_option_content': qna_option_content 
+            		'qna_option_content': qna_option_content, 
+            		'id': id
             		},
             success: function() {
                 loadTable();
@@ -134,12 +135,13 @@ $(document).ready(function() {
     $(document).on('click', '.saveNewButton', function() {
         var qna_option = $('#newCategory').val();
         var qna_option_content = $('#newCategoryContent').val();
-
+		
         $.ajax({
             url: '/heehee/admin/insertQnaOption',
             method: 'POST',
             data: { 'qna_option': qna_option, 
-            		'qna_option_content': qna_option_content 
+            		'qna_option_content': qna_option_content,
+            		'id': id
             		},
             success: function() {
                 loadTable();

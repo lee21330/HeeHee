@@ -53,7 +53,7 @@ $(document).ready(function() {
     // 수정 버튼 클릭 시
     $('#editButton').click(function() {
         var selected = getSelectedRow();
-
+        
         if (selected.length === 1) {
             var row = selected.closest('tr');
             var id = selected.data('id');
@@ -77,8 +77,6 @@ $(document).ready(function() {
 							    </div>
 							    <select id="editStatus${id}">
 							        <option value="판매중" ${row.find('td').eq(7).text() === '판매중' ? 'selected' : ''}>판매중</option>
-							        <option value="예약중" ${row.find('td').eq(7).text() === '예약중' ? 'selected' : ''}>예약중</option>
-							        <option value="거래완료" ${row.find('td').eq(7).text() === '거래완료' ? 'selected' : ''}>거래완료</option>
 							        <option value="판매중지" ${row.find('td').eq(7).text() === '판매중지' ? 'selected' : ''}>판매중지</option>
 							    </select>
 							    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(5).text()}" placeholder="판매중지 사유를 입력해주세요">
@@ -116,22 +114,30 @@ $(document).ready(function() {
         var product_seq = $(this).attr('data-id');
         var pro_status = $(`#editStatus${product_seq}`).val();
         var product_ban_reason = $(`#editInput${product_seq}`).val();
-
-        $.ajax({
-            url: '/heehee/admin/updateProductStatus',
-            method: 'POST',
-            data: { 'product_seq': product_seq, 
-            		'pro_status': pro_status, 
-            		'product_ban_reason': product_ban_reason
-            		},
-            success: function() {
-                loadTable();
-            },
-            error: function() {
-                alert('등록 중 오류가 발생했습니다.');
-            }
-        });
-    });
+        var curr_pro_status = getSelectedRow().closest('tr').find('td').eq(7).text();
+        
+        console.log('상태값 반영 테스트 : ' + curr_pro_status);
+        
+        if(curr_pro_status == '예약중' || curr_pro_status == '거래완료'){
+			alert('거래상태를 변경할 수 없습니다.');
+			} else {
+		        $.ajax({
+		            url: '/heehee/admin/updateProductStatus',
+		            method: 'POST',
+		            data: { 'product_seq': product_seq, 
+		            		'pro_status': pro_status, 
+		            		'product_ban_reason': product_ban_reason
+		            		},
+		            success: function() {
+		                loadTable();
+		            },
+		            error: function() {
+		                alert('등록 중 오류가 발생했습니다.');
+		            }
+		        });
+			}
+		});
+		
 
     // 삭제 버튼 클릭 시
     $('#deleteButton').click(function() {

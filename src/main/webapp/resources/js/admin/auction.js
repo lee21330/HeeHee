@@ -77,8 +77,6 @@ $(document).ready(function() {
 							    </div>
 							    <select id="editStatus${id}">
 							        <option value="입찰" ${row.find('td').eq(7).text() === '입찰' ? 'selected' : ''}>입찰</option>
-							        <option value="낙찰" ${row.find('td').eq(7).text() === '낙찰' ? 'selected' : ''}>낙찰</option>
-							        <option value="거래완료" ${row.find('td').eq(7).text() === '거래완료' ? 'selected' : ''}>거래완료</option>
 							        <option value="판매중지" ${row.find('td').eq(7).text() === '판매중지' ? 'selected' : ''}>판매중지</option>
 							    </select>
 							    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(5).text()}" placeholder="판매중지 사유를 입력해주세요">
@@ -116,21 +114,28 @@ $(document).ready(function() {
         var product_seq = $(this).attr('data-id');
         var auc_status = $(`#editStatus${product_seq}`).val();
         var auc_ban_reason = $(`#editInput${product_seq}`).val();
+        var curr_auc_status = getSelectedRow().closest('tr').find('td').eq(7).text();
 
-        $.ajax({
-            url: '/heehee/admin/updateAucStatus',
-            method: 'POST',
-            data: { 'product_seq': product_seq, 
-            		'auc_status': auc_status, 
-            		'auc_ban_reason':auc_ban_reason  
-            		},
-            success: function() {
-                loadTable();
-            },
-            error: function() {
-                alert('등록 중 오류가 발생했습니다.');
-            }
-        });
+		console.log('경매상태 반환 테스트 : ' + curr_auc_status);
+		
+		if(curr_auc_status == '낙찰' || curr_auc_status == '거래완료'){
+			alert('거래상태를 변경할 수 없습니다.');
+		} else {
+	        $.ajax({
+	            url: '/heehee/admin/updateAucStatus',
+	            method: 'POST',
+	            data: { 'product_seq': product_seq, 
+	            		'auc_status': auc_status, 
+	            		'auc_ban_reason':auc_ban_reason  
+	            		},
+	            success: function() {
+	                loadTable();
+	            },
+	            error: function() {
+	                alert('등록 중 오류가 발생했습니다.');
+	            }
+	        });
+		}
     });
 
     // 삭제 버튼 클릭 시
