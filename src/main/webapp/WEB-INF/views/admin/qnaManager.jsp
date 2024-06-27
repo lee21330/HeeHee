@@ -21,7 +21,7 @@
 				<div class="containerHeadBlock">
 					<p class="searchContext">검색어</p>
 				</div>
-			<select>
+			<select id="searchCategory">
 				<option value="number">번호</option>
 				<option value="qnaCategory">유형</option>
 				<option value="qnaTitle">제목</option>

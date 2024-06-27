@@ -25,7 +25,6 @@
 					<option value="number">번호</option>
 					<option value="qnaCategory">유형</option>
 					<option value="qnaTitle">제목</option>
-					<option value="userID">작성자ID</option>
 				</select>
 				<input type="text" id="searchInput" placeholder="입력란 (제목 혹은 내용 입력)">
 				<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>

@@ -56,8 +56,6 @@ public class AdminController {
 	}
 	
 	//회원정보 관리 - 회원정보 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능)
-    // AJAX 요청을 처리하여 JSON 데이터 반환
-    //@GetMapping(value = "/searchUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("/searchAllUser")
     @ResponseBody
     public List<AdminUserDTO> searchAllUser(
@@ -78,8 +76,6 @@ public class AdminController {
     }
     
     //회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능, 수정사항 : 시작일,종료일이 null 이거나 현재 날짜가 시작일과 종료일 사이에 포함되지 않는 회원은 조회되지 않도록 수정 예정)
-    // AJAX 요청을 처리하여 JSON 데이터 반환
-    //@GetMapping(value = "/userBan", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("/userBanSearch")
     @ResponseBody
     public List<AdminUserBanDTO> userBanSearch(
@@ -110,8 +106,6 @@ public class AdminController {
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능)
-    // AJAX 요청을 처리하여 JSON 데이터 반환
-    //@GetMapping(value = "/searchProductDetail", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("/searchProductDetail")
     @ResponseBody
     public List<AdminProductDTO> searchProductDetail(
@@ -128,8 +122,31 @@ public class AdminController {
 		return "/admin/auction";
 	}
 	
-	//상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
+	//상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
+	@GetMapping("/getProductBanReason")
+	@ResponseBody
+	public AdminProductDTO getProductBanReason (Integer product_seq) {
+		System.out.println("Received search request with params: " + product_seq);
+		AdminProductDTO detailSearch = adminService.getProductBanReason(product_seq);
+		return detailSearch;
+	}
 	
+	//상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
+	@PostMapping("/updateProductStatus")
+	@ResponseBody
+	public ResponseEntity<String> updateProductStatus (
+			Integer product_seq,
+			String pro_status,
+			String product_ban_reason ){
+		System.out.println("Controller" + product_seq);
+		try {
+			adminService.updateProductStatus(product_seq, pro_status, product_ban_reason);
+			return ResponseEntity.ok("수정 등록에 성공하였습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정 등록 중 오류가 발생했습니다.");
+		}
+	}
 	
 	//상품 관리 - 일반상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteProduct")
@@ -148,8 +165,6 @@ public class AdminController {
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능)
-	// AJAX 요청을 처리하여 JSON 데이터 반환
-	//@GetMapping(value = "/searchAuctionDetail", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/searchAuctionDetail")
 	@ResponseBody
 	public List<AdminAuctionDTO> searchAuctionDetail(
@@ -161,7 +176,31 @@ public class AdminController {
 		return filterSearch;
 	}
 	
+	//상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
+	@GetMapping("/getAucBanReason")
+	@ResponseBody
+	public AdminAuctionDTO getAucBanReason (Integer product_seq) {
+		System.out.println("Received search request with params: " + product_seq);
+		AdminAuctionDTO detailSearch = adminService.getAucBanReason(product_seq);
+		return detailSearch;
+	}
+	
 	//상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
+	@PostMapping("/updateAucStatus")
+	@ResponseBody
+	public ResponseEntity<String> updateAucStatus(
+			Integer product_seq,
+			String auc_status,
+			String auc_ban_reason ){
+		System.out.println("Controller" + product_seq);
+		try {
+			adminService.updateAucStatus(product_seq, auc_status, auc_ban_reason);
+			return ResponseEntity.ok("수정 등록에 성공하였습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정 등록 중 오류가 발생했습니다.");
+		}
+	}
 	
 	
 	//상품 관리 - 경매상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
@@ -187,8 +226,6 @@ public class AdminController {
 	}
 	
 	//상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음
-	// AJAX 요청을 처리하여 JSON 데이터 반환
-	//@GetMapping(value = "/searchCategoryInfo", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/searchCategoryInfo")
 	@ResponseBody
 	public List<AdminCategoryDTO> searchCategoryInfo(
@@ -201,10 +238,38 @@ public class AdminController {
 	}
 	
 	//상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
-	
+	@PostMapping("/insertCategory")
+	@ResponseBody
+	public ResponseEntity<String> insertCategory(
+			String category,
+			String detail_category ){
+		System.out.println("Controller" + category);
+		try {
+			adminService.insertCategory(category, detail_category);
+			return ResponseEntity.ok("신규 등록이 성공적으로 완료되었습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("신규 등록 진행에 실패하였습니다.");
+		}
+	}
 	
 	//상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
-	
+	@PostMapping("/updateCategory")
+	@ResponseBody
+	public ResponseEntity<String> updateCategory(
+			Integer product_cate_seq,
+			String category,
+			String detail_category ){
+		System.out.println("Controller" + product_cate_seq);
+		try {
+			adminService.updateCategory(product_cate_seq, category, detail_category);
+			return ResponseEntity.ok("수정사항이 성공적으로 업데이트되었습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정사항 업데이트 중 오류가 발생했습니다.");
+		}
+		
+	}
 	
 	//상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteCategory")
@@ -232,7 +297,6 @@ public class AdminController {
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 조회 기능 (기능 : 키워드로 필터검색 가능)
-	// AJAX 요청을 처리하여 JSON 데이터 반환
 	//@GetMapping(value = "/searchQnaAll", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/searchQnaAll")
 	@ResponseBody
@@ -246,7 +310,6 @@ public class AdminController {
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
-	// AJAX 요청을 처리하여 JSON 데이터 반환
 	@GetMapping("/getQnaContent")
 	@ResponseBody
 	public ResponseEntity<?> getQnaContent(
@@ -300,7 +363,6 @@ public class AdminController {
 		}
 		
 	}
-	
 			
 	@GetMapping("/faqManager")
 	public String admin_faqManager() {
@@ -308,7 +370,6 @@ public class AdminController {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 조회 기능 (기능 : 키워드로 필터검색 가능)
-	// AJAX 요청을 처리하여 JSON 데이터 반환
 	@GetMapping("/searchFaqAll")
 	@ResponseBody
 	public List<AdminFaqManagerDTO> searchFaqAll(
@@ -324,7 +385,6 @@ public class AdminController {
 	
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
-	// AJAX 요청을 처리하여 JSON 데이터 반환
 	@GetMapping("/getFaqContent")
 	@ResponseBody
 	public ResponseEntity<?> getFaqContent(
@@ -345,13 +405,24 @@ public class AdminController {
 			}
 		}
 	
-	@GetMapping("/questionManager")
-	public String admin_questionManager() {
-		return "/admin/questionManager";
-	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 선택된 항목에 대한 세부내용 작성 및 Update 가능)
-	
+	@PostMapping("/updateFaq")
+	@ResponseBody
+	public ResponseEntity<String> updateFaq (
+			Integer seq_faq_bno,
+			Integer seq_qna_option,
+			String faq_content,
+			String faq_ans ) {
+		System.out.println("Controller" + seq_faq_bno);
+		try {
+			adminService.updateFaq(seq_faq_bno, seq_qna_option, faq_content, faq_ans);
+			return ResponseEntity.ok("업데이트에 성공하였습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 중 오류가 발생했습니다.");
+		}
+	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌)
 	@GetMapping("/getQnaOptions")
@@ -376,8 +447,12 @@ public class AdminController {
 		}
 	}
 	
+	@GetMapping("/questionManager")
+	public String admin_questionManager() {
+		return "/admin/questionManager";
+	}
+	
 	//고객 지원 - 문의 유형 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능)
-	// AJAX 요청을 처리하여 JSON 데이터 반환
 	@GetMapping("/searchQuestionCategory")
 	@ResponseBody
 	public List<adminQuestionManagerDTO> searchQuestionCategory(
@@ -405,9 +480,6 @@ public class AdminController {
 		}
 	}
 	
-	
-	
-	
 	//고객 지원 - 문의 유형 관리 - 수정 기능 (기능 : 수기 입력받은 유형과 내용을 Update 함)
 	@PostMapping("/updateQnaOption")
 	@ResponseBody
@@ -424,7 +496,6 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("문의 유형 수정 중 오류가 발생했습니다.");
 		}
 	}
-	
 	
 	//고객 지원 - 문의 유형 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteQnaOption")

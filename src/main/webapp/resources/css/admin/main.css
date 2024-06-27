@@ -398,7 +398,7 @@ table tbody tr td {
 
 /* category.jsp */
 .categoryTable table {
-	width: 50%;
+	width: 70%;
 }
 	/* 선택 */
 .categoryTable table thead tr th:nth-child(1),
@@ -424,13 +424,13 @@ table tbody tr td {
 
 	/* 카테고리 수정, 신규등록 Input */
 .categoryInputSmall {
-	width: 100px;
+	width: 150px;
 	margin-left: 5px;
 	align-items: center;
 	
 }
 .categoryInputBigger {
-	width: 200px;
+	width: 350px;
     margin-right: 5px;
     align-items: center;
 }
@@ -475,10 +475,6 @@ table tbody tr td {
 
 .qnaContent:before {
 	cursor: pointer;
-}
-
-.qnaContent:after {
-	 
 }
 
 .qnaContentText {

@@ -80,8 +80,17 @@ public class AdminDAO {
 		return sqlSession.selectList(namespace + "searchProductDetail", params);
 	}
 	
-	//상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
+	//상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
+	public AdminProductDTO getProductBanReason (int product_seq) {
+		AdminProductDTO dto = new AdminProductDTO(product_seq);
+		return sqlSession.selectOne(namespace + "getProductBanReason", dto);
+	}
 	
+	//상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
+	public void updateProductStatus (int product_seq, String pro_status, String product_ban_reason) {
+		AdminProductDTO dto = new AdminProductDTO(product_seq, pro_status, product_ban_reason);
+		sqlSession.update("updateProductStatus", dto);
+	}
 	
 	//상품 관리 - 일반상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	public void deleteProduct (int product_seq) {
@@ -97,16 +106,23 @@ public class AdminDAO {
 		return sqlSession.selectList(namespace + "searchAuctionDetail", params);
 	}
 	
+	//상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
+	public AdminAuctionDTO getAucBanReason (int product_seq){
+		AdminAuctionDTO dto = new AdminAuctionDTO(product_seq);
+		return sqlSession.selectOne(namespace + "getAucBanReason", dto);
+	}
 	
 	//상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
-	
+	public void updateAucStatus (int product_seq, String auc_status, String auc_ban_reason) {
+		AdminAuctionDTO dto = new AdminAuctionDTO(product_seq, auc_status, auc_ban_reason);
+		sqlSession.update("updateAucStatus", dto);
+	}
 	
 	//상품 관리 - 경매상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	public void deleteAuction (int product_seq) {
 		AdminAuctionDTO dto = new AdminAuctionDTO(product_seq);
 		sqlSession.delete("deleteAuction", dto);
 	}
-	
 	
 	//상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음
 	public List<AdminCategoryDTO> searchCategoryInfo(String category, String keyword) {
@@ -117,10 +133,16 @@ public class AdminDAO {
 	}
 	
 	//상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
-	
+	public void insertCategory(String category, String detail_category) {
+		AdminCategoryDTO dto = new AdminCategoryDTO(category, detail_category);
+		sqlSession.insert("insertCategory", dto);
+	}
 	
 	//상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
-	
+	public void updateCategory (int product_cate_seq, String category, String detail_category) {
+		AdminCategoryDTO dto = new AdminCategoryDTO(product_cate_seq, category, detail_category);
+		sqlSession.update("updateCategory", dto);
+	}
 	
 	//상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	public void deleteCategory (int product_cate_seq) {
@@ -175,7 +197,10 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 선택된 항목에 대한 세부내용 작성 및 Update 가능)
-	
+	public void updateFaq (int seq_faq_bno, int seq_qna_option, String faq_content, String faq_and) {
+		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seq_faq_bno, seq_qna_option, faq_content, faq_and);
+		sqlSession.update("updateFaq", dto);
+	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌)
 	public List<adminQuestionManagerDTO> getQnaOptions(){

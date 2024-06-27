@@ -52,6 +52,11 @@ $(document).ready(function() {
 		
         var selected = getSelectedRow();
         
+        //신규등록 창 있으면 닫기
+        if($('.newRow').length > 0){
+			$('.newRow').remove();
+		}
+        
         if (selected.length === 1) {
             var row = selected.closest('tr');
             var id = selected.attr('data-id');
@@ -80,7 +85,9 @@ $(document).ready(function() {
 								        <p class="productUpdate">FAQ내용<br>열람/수정</p>
 								    </div>
 								    <select id="editCategory${id}" class="doubleInputSmall" placeholder="수정할 유형 입력"></select>
-		                            <input type="text" id="editInput${id}" class="doubleInputBigger" placeholder="수정하실 내용을 입력하세요.">
+		                            <input type="text" id="editTitleInput${id}" class="doubleInputBigger" placeholder="수정하실 제목을 입력하세요.">
+		                            <br>
+		                            <input type="text" id="editContentInput${id}" class="doubleInputBigger" placeholder="수정하실 내용을 입력하세요.">
 		                            <button class="saveEditButton" data-id="${id}">수정 등록</button>
 								</td>
 		                    </tr>`;
@@ -128,17 +135,13 @@ $(document).ready(function() {
         }
     });
     
-   
-    
-    
-    
-    
     // 신규 등록 버튼 클릭 시
     $('#addButton').click(function() {
     	var id = 'new'; //임시ID
         // 기존의 수정 행을 제거
         if($('.editRow').length > 0){
         	$('.editRow').remove();
+        	$('.qnaContentRow').remove();
         }
 
         // 신규 등록할 내용 입력란을 추가
@@ -163,14 +166,19 @@ $(document).ready(function() {
 
     // 저장 버튼 클릭 시 (수정 등록)
     $(document).on('click', '.saveEditButton', function() {
-        var id = $(this).attr('data-id');
-        var newCategory = $(`#editCategory${id}`).val();
-        var newSubCategory = $(`#editSubCategory${id}`).val();
+        var seq_faq_bno = $(this).attr('data-id');
+        var seq_qna_option = $(`#editCategory${seq_faq_bno}`).val();
+        var faq_content = $(`#editTitleInput${seq_faq_bno}`).val();
+        var faq_ans = $(`#editContentInput${seq_faq_bno}`).val();
 
         $.ajax({
-            url: '/your-server-endpoint/',
+            url: '/heehee/admin/updateFaq',
             method: 'POST',
-            data: { 'category': newCategory, 'subCategory': newSubCategory },
+            data: { 'seq_faq_bno': seq_faq_bno, 
+            		'seq_qna_option': seq_qna_option, 
+            		'faq_content': faq_content, 
+            		'faq_ans': faq_ans 
+            		},
             success: function() {
                 loadTable();
             },

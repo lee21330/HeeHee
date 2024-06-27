@@ -33,9 +33,19 @@ public class AdminFaqManagerDTO {
 	//작성일 - FAQ_BOARD
 	private Date faq_time;
 	
+	//수정용 임시 변수 - QNA_OPTION
+	private int seq_qna_option;
+	
 	//삭제용 - 파라미터 1개 생성자 추가
 	public AdminFaqManagerDTO(int seq_faq_bno) {
 		this.seq_faq_bno = seq_faq_bno;
 	}
 	
+	//수정용 - 파라미터 4개 생성자 추가
+	public AdminFaqManagerDTO(int seq_faq_bno, int seq_qna_option, String faq_content, String faq_ans) {
+		this.seq_faq_bno = seq_faq_bno;
+		this.seq_qna_option = seq_qna_option;
+		this.faq_content = faq_content;
+		this.faq_ans = faq_ans;
+	}
 }

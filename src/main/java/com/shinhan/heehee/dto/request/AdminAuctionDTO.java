@@ -35,9 +35,19 @@ public class AdminAuctionDTO {
 	//경매상태 - AUC_PRODUCT
 	private String auc_status;
 	
+	//정지사유 - AUC_PRODUCT
+	private String auc_ban_reason;
+	
 	//삭제 - 파라미터 1개 
 	public AdminAuctionDTO (int product_seq) {
 		this.product_seq = product_seq;
+	}
+	
+	//수정용 - 파라미터 3개 생성자 추가
+	public AdminAuctionDTO (int product_seq, String auc_status, String auc_ban_reason) {
+		this.product_seq = product_seq;
+		this.auc_status = auc_status;
+		this.auc_ban_reason = auc_ban_reason;
 	}
 	
 }

@@ -87,10 +87,16 @@ $(document).ready(function() {
 							<tr class="qnaContentRow">
 		                        <td colspan="6">
 		                            <div class="qnaContainer">
+		                                <div class="qnaContentText">
 		                                    <p class="productUpdate">문의내용</p>
 		                                    <br>
-		                                <div class="qnaContentText">
 		                                	<p>${contentData.qna_content}</p>
+		                                </div>
+		                                	<br>
+		                                <div class="qnaAnsText">
+		                                	<p class="productUpdate">답변내용</p>
+		                                	<br>
+		                                	<p>${contentData.qna_ans}</p>
 		                                </div>
 		                            </div>
 		                        </td>

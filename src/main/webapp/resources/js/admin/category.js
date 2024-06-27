@@ -64,7 +64,7 @@ $(document).ready(function() {
                                 <p class="productUpdate">카테고리<br>수정</p>
                             </div>
                             <input type="text" id="editCategory${id}" class="categoryInputSmall" placeholder="카테고리 입력" value="${row.find('td').eq(2).text()}">
-                            <input type="text" id="editSubCategory${id}" class="categoryInputBigger" placeholder="세부 카테고리 입력" value="${row.find('td').eq(3).text()}">
+                            <input type="text" id="editDetailCategory${id}" class="categoryInputBigger" placeholder="세부 카테고리 입력" value="${row.find('td').eq(3).text()}">
                             <button class="saveEditButton" data-id="${id}">수정 등록</button>
                         </td>
                     </tr>`;
@@ -96,7 +96,7 @@ $(document).ready(function() {
                             <p class="productUpdate">카테고리<br>신규 등록</p>
                         </div>
                         <input type="text" id="newCategory" class="categoryInputSmall" placeholder="카테고리 입력">
-                        <input type="text" id="newSubCategory" class="categoryInputBigger" placeholder="세부 카테고리 입력">
+                        <input type="text" id="newDetailCategory" class="categoryInputBigger" placeholder="세부 카테고리 입력">
                         <button class="saveNewButton" data-id="${id}">신규 등록</button>
                     </td>
                 </tr>`;
@@ -106,14 +106,17 @@ $(document).ready(function() {
 
     // 저장 버튼 클릭 시 (수정 등록)
     $(document).on('click', '.saveEditButton', function() {
-        var id = $(this).data('id');
-        var newCategory = $(`#editCategory${id}`).val();
-        var newSubCategory = $(`#editSubCategory${id}`).val();
+        var product_cate_seq = $(this).attr('data-id');
+        var category = $(`#editCategory${product_cate_seq}`).val();
+        var detail_category = $(`#editDetailCategory${product_cate_seq}`).val();
 
         $.ajax({
-            url: '/your-server-endpoint/' + id,
-            method: 'PUT',
-            data: { 'category': newCategory, 'subCategory': newSubCategory },
+            url: '/heehee/admin/updateCategory',
+            method: 'POST',
+            data: { 'product_cate_seq': product_cate_seq, 
+            		'category': category, 
+            		'detail_category':detail_category 
+            		},
             success: function() {
                 loadTable();
             },
@@ -125,14 +128,15 @@ $(document).ready(function() {
 
     // 저장 버튼 클릭 시 (신규 등록)
     $(document).on('click', '.saveNewButton', function() {
-        var newCategory = $('#newCategory').val();
-        var newSubCategory = $('#newSubCategory').val();
-        var userID = '현재 로그인된 아이디'; //실제로는 서버에서 로그인된 아이디를 가져와야 함
+        var category = $('#newCategory').val();
+        var detail_category = $('#newDetailCategory').val();
 
         $.ajax({
-            url: '/your-server-endpoint',
+            url: '/heehee/admin/insertCategory',
             method: 'POST',
-            data: { 'category': newCategory, 'subCategory': newSubCategory, 'userID': userID },
+            data: { 'category': category, 
+            		'detail_category': detail_category 
+            		},
             success: function() {
                 loadTable();
             },

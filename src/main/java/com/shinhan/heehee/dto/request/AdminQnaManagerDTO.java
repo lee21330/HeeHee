@@ -33,6 +33,9 @@ public class AdminQnaManagerDTO {
 	//작성일 - QNA_BOARD
 	private Date qna_time;
 	
+	//답변내용 열람용
+	private String qna_ans;
+	
 	//자바스크립트 변수 : 1:1 답변내용
 	private String newValue;
 	

@@ -59,25 +59,50 @@ $(document).ready(function() {
             var id = selected.data('id');
 
             // 수정할 내용 입력란을 추가
-            if (row.next().hasClass('editRow')) {
+            if (row.next().hasClass('banReason')) {
+                row.next().next().remove();
                 row.next().remove();
             } else {
-                var editRow = `
-                    <tr class="editRow">
-						<td colspan="8">
-						    <div class="updateContainer">
-						        <p class="productUpdate">판매상태<br>수정</p>
-						    </div>
-						    <select id="editStatus${id}">
-						        <option value="판매중" ${row.find('td').eq(7).text() === '판매중' ? 'selected' : ''}>판매중</option>
-						        <option value="예약중" ${row.find('td').eq(7).text() === '예약중' ? 'selected' : ''}>예약중</option>
-						        <option value="거래완료" ${row.find('td').eq(7).text() === '거래완료' ? 'selected' : ''}>거래완료</option>
-						    </select>
-						    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(5).text()}">
-						    <button class="saveEditButton" data-id="${id}">수정 등록</button>
-						</td>
-                    </tr>`;
-                row.after(editRow);
+				$.ajax({
+					url:'/heehee/admin/getProductBanReason',
+					method:'GET',
+					data:{ 'product_seq': id 
+							},
+					success: function(contentData)	{
+	                var editRow = `
+	                    <tr class="editRow">
+							<td colspan="8">
+							    <div class="updateContainer">
+							        <p class="productUpdate">판매상태<br>수정</p>
+							    </div>
+							    <select id="editStatus${id}">
+							        <option value="판매중" ${row.find('td').eq(7).text() === '판매중' ? 'selected' : ''}>판매중</option>
+							        <option value="예약중" ${row.find('td').eq(7).text() === '예약중' ? 'selected' : ''}>예약중</option>
+							        <option value="거래완료" ${row.find('td').eq(7).text() === '거래완료' ? 'selected' : ''}>거래완료</option>
+							        <option value="판매중지" ${row.find('td').eq(7).text() === '판매중지' ? 'selected' : ''}>판매중지</option>
+							    </select>
+							    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(5).text()}" placeholder="판매중지 사유를 입력해주세요">
+							    <button class="saveEditButton" data-id="${id}">수정 등록</button>
+							</td>
+	                    </tr>`;
+	                    
+					var banReason = `
+						<tr class="banReason">
+							<td colspan="6">
+		                    	<div class="productBanReason">
+									<p class="productUpdate">판매중지 사유</p>
+									<p>${contentData.product_ban_reason}</p>
+								</div>
+							</td>
+						</tr>
+	                    `;
+	                row.after(editRow);
+	                row.after(banReason);
+					},
+					error: function(xhr, status, error){
+						alert('정지사유를 가져오는 중 오류가 발생했습니다.');
+					}
+				});
             }
         } else if (selected.length === 0) { 
         	alert('수정할 항목을 선택해주세요');
@@ -88,14 +113,17 @@ $(document).ready(function() {
 
     // 저장 버튼 클릭 시
     $(document).on('click', '.saveEditButton', function() {
-        var id = $(this).data('id');
-        var newStatus = $(`#editStatus${id}`).val();
-        var newValue = $(`#editInput${id}`).val();
+        var product_seq = $(this).attr('data-id');
+        var pro_status = $(`#editStatus${product_seq}`).val();
+        var product_ban_reason = $(`#editInput${product_seq}`).val();
 
         $.ajax({
-            url: '/your-server-endpoint/' + id,
+            url: '/heehee/admin/updateProductStatus',
             method: 'POST',
-            data: { 'newStatus': newStatus, 'newValue': newValue },
+            data: { 'product_seq': product_seq, 
+            		'pro_status': pro_status, 
+            		'product_ban_reason': product_ban_reason
+            		},
             success: function() {
                 loadTable();
             },
