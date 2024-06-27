@@ -383,10 +383,10 @@ body {
     transition: .5s ease-in-out;
 }
 
-/* 확인한 알림 색상 변경 */
-.alarmClick :visited {
-    color: gray;
+.visited {
+	color: gray;
 }
+
 
 /*토스트 메시지*/
 #tost_message {

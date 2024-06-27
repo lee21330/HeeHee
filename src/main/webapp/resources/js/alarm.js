@@ -46,7 +46,7 @@ function alarmClick(e) {
 
 // jsp에서 알림 리스트 전체 불러와서 hidden, 버튼 클릭할때 보여주는 방법 있음
 
-// 전체 알림 보기 (로그인 유저 값 변경 필)
+// 전체 알림 보기
 function alarmAll() {
     $.ajax({
         url : "/heehee/alarm/alarmAll",
@@ -58,16 +58,13 @@ function alarmAll() {
 			$(".alarm_container").removeClass("none");
 
             // 알림별로 경로 다르게 걸어줘야 함
-            var output = "<div class='alarmClick'>";
+            var output = "<div id='allAlarm' class='alarmClick'>";
 
             // 알림 리스트 있는지 체크하고 html 다르게 찍어주기
             if (responseData.length === 0 || responseData[0].alDate == null) {
                 $(".alarm_container").addClass("none");
 
                 output += "<p>" + "☑️ 최근 알림이 없습니다" + "</p>";
-                
-                // output += "</div>";
-                // $("#here").html(output);
 
 			} else {
 				// 알림 전체 리스트 반복문
@@ -86,7 +83,9 @@ function alarmAll() {
 	
 					} else if (item.alDate != null && item.cateNum == 2) {
 						// 판매
-						output += "<ul onclick='urlClick(\"/heehee/saledetail/" + item.reqSeq + "\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/saledetail/" + item.reqSeq + "\")'>";
+						
+						output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -95,7 +94,9 @@ function alarmAll() {
 					} else if (item.alDate != null && item.cateNum == 3) {
 						// 경매
 						// output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'>";
-						output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+						// output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+						
+						output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>"
 						output += "<li>" + item.alContent + "</li>";
@@ -103,10 +104,10 @@ function alarmAll() {
 	
 					} else if (item.alDate != null && item.cateNum == 4) {
 						// 문의
-						// output += "<ul onclick='urlClick(\"/heehee/qnaBoard\")'>";
                         // output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
-
-                        output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+                        // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+                        
+                        output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -114,17 +115,24 @@ function alarmAll() {
 	
 					} else if (item.alDate != null && item.cateNum == 5) {
 						// 배송
-						output += "<ul onclick='urlClick(\"/heehee/purchasedetail/" + item.reqSeq + "\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/purchasedetail/" + item.reqSeq + "\")'>";
+						
+						output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
 						output += "</ul>";
 					}
-					output += "</div>";
-					$("#here").html(output);
-					$("ul").on("click", alarmRead);
 				});
             }
+            output += "</div>";
+			$("#here").html(output);
+			
+			// 알림 확인
+			$("ul").on("click", alarmRead);
+			
+            // 확인한 알림 색상 변경
+			alarmVisited();
 		},
         error : function(data) {
             alert("알림 조회 오류 입니다");
@@ -132,7 +140,7 @@ function alarmAll() {
     });
 }
 
-// 미확인 알림 보기 (로그인 유저 값 변경 필)
+// 미확인 알림 보기
 function alarmUnck() {
     $.ajax({
         url : "/heehee/alarm/alarmUnck",
@@ -144,15 +152,13 @@ function alarmUnck() {
             $(".alarm_container").removeClass("none");
 
             // 알림별로 경로 다르게 걸어줘야 함
-            var output = "<div>";
+            var output = "<div id='allAlarm' class='alarmClick'>";
 
             // 알림 리스트 있는지 체크하고 html 다르게 찍어주기
             if (responseData.length === 0 || responseData[0].alDate == null) {
                 $(".alarm_container").addClass("none");
 
                 output += "<p>" + "☑️ 최근 알림이 없습니다" + "</p>";
-                output += "</div>";
-                $("#here").html(output);
 
             } else {
             	// 알림 확인 시 상태값 N => Y, null 되므로 모두 확인하면 html 다르게 찍어주기 위해 모든 요소로 확인
@@ -180,7 +186,9 @@ function alarmUnck() {
 
                         } else if (item.alDate != null && item.cateNum == 2 && item.alCheck == "N") {
                             // 판매
-                            output += "<ul onclick='urlClick(\"/heehee/saledetail/" + item.reqSeq + "\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/saledetail/" + item.reqSeq + "\")'>";
+                            
+                            output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -209,7 +217,9 @@ function alarmUnck() {
 
                         } else if (item.alDate != null && item.cateNum == 5 && item.alCheck == "N") {
                             // 배송
-                            output += "<ul onclick='urlClick(\"/heehee/purchasedetail/" + item.reqSeq + "\")'>";
+                            // output += "<ul onclick='urlClick(\"/heehee/purchasedetail/" + item.reqSeq + "\")'>";
+                            
+                            output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -217,10 +227,15 @@ function alarmUnck() {
                         }
                     });
                 }
-                output += "</div>";
-                $("#here").html(output);
-                $("ul").on("click", alarmRead);
             }
+			output += "</div>";
+			$("#here").html(output);
+                
+			// 알림 확인
+			$("ul").on("click", alarmRead);
+			
+			// 확인한 알림 색상 변경
+			alarmVisited();
         },
         error : function(data) {
             alert("알림 조회 오류 입니다");
@@ -257,4 +272,16 @@ function urlClick(url) {
 	location.href = url;
 }
 
-// 확인한 알림은 색상 변경해야 함 (방문했던 링크는 색상 변경되도록)
+// 확인한 알림은 색상 변경
+function alarmVisited() {
+ 	var beforeCheck = $("#allAlarm").children("ul");
+
+    for (let i = 0; i < beforeCheck.length; i++) {
+    	// console.log("몇번타? : " + i);
+    	
+        if (beforeCheck.eq(i).attr("alCheck") == "Y") {
+        	// console.log(i);
+            beforeCheck.eq(i).addClass("visited");
+        }
+    }
+}
