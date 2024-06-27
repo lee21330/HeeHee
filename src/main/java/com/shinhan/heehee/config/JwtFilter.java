@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,8 +19,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.shinhan.heehee.service.CustomUserDetailsService;
 import com.shinhan.heehee.util.JwtUtil;
-import com.shinhan.security.CustomUserDetailsService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,16 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
 			throws ServletException, IOException {
-		String authorizationHeader = httpServletRequest.getHeader("Authorization");
+		String authorizationHeader = null;
+		final Cookie[] cookies = httpServletRequest.getCookies();
+		
+		if (cookies != null && authorizationHeader == null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {
+                	authorizationHeader = cookie.getValue().replaceAll("%20", " ");
+                }
+            }
+        }
 		String token = null;
 		String userName = null;
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -50,12 +60,20 @@ public class JwtFilter extends OncePerRequestFilter {
 		}
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
+			
 			if (jwtUtil.validateToken(token, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 				usernamePasswordAuthenticationToken
 						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				httpServletRequest.setAttribute("userNickName", customUserDetailsService.findNickName(userName).get("nickName"));
+			} else {
+				Cookie tokenCookie = new Cookie("Authorization", null);
+
+				tokenCookie.setMaxAge(0);
+				tokenCookie.setPath("/");
+				httpServletResponse.addCookie(tokenCookie);
 			}
 		}
 		filterChain.doFilter(httpServletRequest, httpServletResponse);

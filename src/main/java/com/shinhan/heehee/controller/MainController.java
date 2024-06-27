@@ -1,30 +1,34 @@
 package com.shinhan.heehee.controller;
 
-import java.io.IOException;
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.codebuild.model.Build;
-import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.AuctionService;
+import com.shinhan.heehee.service.MainService;
 
 @Controller
 public class MainController {
 	
 	@Autowired
-	AuctionService auctionService;
+	MainService mainservice;
 	
 	@Autowired
-	private AWSS3Service s3Service;
+	AuctionService auctionService;
 	
 	@GetMapping("/main")
-	public String main() {
+	public String main(Model model, Principal principal) {
+		
+		if(principal != null) {
+			System.out.println("아이디: " + principal.getName());
+		}
+		
+		model.addAttribute("rankProdList", mainservice.rankProdList());
+		model.addAttribute("recommandList", mainservice.recommandList());
+		model.addAttribute("recentprodList", mainservice.recentprodList());
 		return "/main/main";
 	}
 	
@@ -32,12 +36,5 @@ public class MainController {
 	public String auction(Model model) {
 		model.addAttribute("aucList", auctionService.aucProdList());
 		return "/main/auction";
-	}
-	
-	@PostMapping("/upload")
-	@ResponseBody
-	public String upload(MultipartFile multipartFile) throws IOException {
-		String filePath ="images/auction/";
-		return s3Service.uploadObject(multipartFile, filePath + multipartFile.getOriginalFilename());
 	}
 }

@@ -1,0 +1,86 @@
+@charset "UTF-8";
+*{
+	color: black;
+}
+.inner{
+	width: 1280px;
+	margin: 0 auto;
+	border: 1px solid black;
+}
+.align{
+	width: 410px;
+	margin: 0 auto;
+	
+}
+.item{
+	margin: 16px 0px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	/* border: 1px solid pink; */
+	
+	
+}
+.photo{
+	width: 150px;
+	height: 150px;
+	border-radius: 7px;
+}
+.file{
+	display: none;
+}
+.btn_photo{
+	width: 80px;
+}
+
+p{
+	width: 80px;
+	height: 100%;
+	display: inline-block;
+	margin: 0px 0px;
+	/* border: 1px solid red; */
+	
+}
+input{
+	width: 210px;
+	height: 25px;
+	border: 1px solid #acacac;
+	border-radius: 7px;
+	margin-right: 0;
+	color: #989898;
+	
+}
+.readonly{
+	background-color: #D9D9D9;
+	color: #989898;
+}
+
+.btn{
+	cursor: pointer;
+	width: 80px;
+	height: 30px;
+	background: #4949e9;
+	border: none;
+	border-radius: 5px;
+	color: white;
+}
+.address{
+	width: 210px;
+}
+.address input{
+	margin: 0px 0px 16px 0px;
+}
+.submit{
+	text-align: center;
+}
+.withdrawal{
+	text-decoration: none;
+	color: black;
+}
+.bottom{
+	text-align: right;
+}
+#drawal:hover{
+	cursor: pointer;
+	color: #4949e9;
+}

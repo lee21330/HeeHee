@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper의 namespace와 DAO의 네임스페이스가 일치해야 한다. (다만, DAO에는 경로때문에 뒤에 . 이 붙어있음. -->
+<mapper namespace="com.shinhan.heehee.admin">
+<!--id는 DAO에서 namespace + "여기" 들어가는 것과 일치해야 한다. -->
+<!-- resultType은 SqlMapConfig의 typeAlia 중 alias에 작성해놓은 명칭과 일치하도록 쓴다. -->
+
+	<!-- 관리자 홈 관련 SQL문 -->
+	
+	<!-- 전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회) -->
+	
+	
+	<!-- 최근 주문내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회) -->
+	
+	
+	<!-- 최근 문의내역 조회 (기능: 최근 문의관련 모니터링용 대시보드 항목 조회) -->
+	
+	
+	<!-- 관리자 홈 끝 -->
+	
+	<!-- 회원정보 관리 관련 SQL문 -->
+
+	<!-- 회원정보 관리 - 회원정보 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능) -->
+	<select id="searchAllUser" resultType="adminUserVO">
+		SELECT NAME, ID, EMAIL, PHONE_NUM, ADDRESS, CREATE_DATE 
+		FROM HH_USER
+		WHERE 1=1
+        <if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+            <choose>
+                <when test="category == 'memberName'">
+                    AND NAME LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'userID'">
+                    AND ID LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'email'">
+                    AND EMAIL LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        <if test="startDate != null and !startDate.isEmpty()">
+            AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="endDate != null and !endDate.isEmpty()">
+            AND CREATE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+        </if>
+        ORDER BY CREATE_DATE ASC
+	</select>
+	
+	<!-- 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능, 수정사항 : 시작일,종료일이 null 이거나 현재 날짜가 시작일과 종료일 사이에 포함되지 않는 회원은 조회되지 않도록 수정 예정) -->
+	<select id="userBanSearch" resultType="adminUserBanVO">
+		SELECT hh.NAME, hh.ID, bh.BAN_CONTENT, bh.BAN_STR , bh.BAN_END
+		FROM HH_USER hh
+		LEFT JOIN BAN_HISTORY bh ON hh.ID = bh.ID
+		WHERE 1=1
+        <if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+            <choose>
+                <when test="category == 'memberName'">
+                    AND NAME LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'userID'">
+                    AND ID LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        <if test="startDate != null and !startDate.isEmpty()">
+            AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="endDate != null and !endDate.isEmpty()">
+            AND CREATE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+        </if>
+	</select>
+	
+	<!-- 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯) -->
+	
+	
+	<!-- 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정) -->
+	
+	
+	<!-- 회원정보 끝 -->
+	
+	<!-- 상품 관리 관련 SQL문 -->
+	
+	<!-- 상품 관리 - 일반상품 상세조회 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능) -->
+	<select id="searchProductDetail" resultType="adminProductVO">
+		SELECT sp.PRODUCT_SEQ AS PRODUCT_SEQ, 
+				pc.CATEGORY AS CATEGORY, 
+				pc.DETAIL_CATEGORY AS DETAIL_CATEGORY, 
+				sp.ID AS ID, 
+				sp.ARTICLE_TITLE AS ARTICLE_TITLE, 
+				sp.CREATE_DATE AS CREATE_DATE, 
+				sp.PRO_STATUS AS PRO_STATUS
+				FROM SELL_PRODUCT sp
+				LEFT JOIN PRODUCT_TYPE pt ON sp.SELECT_SEQ = pt.PRODUCT_SEQ
+				LEFT JOIN PRODUCT_CATEGORY pc ON pt.PRODUCT_CATE_SEQ = pc.PRODUCT_CATE_SEQ
+		WHERE 1=1
+		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+            <choose>
+                <when test="category == 'regNumber'">
+                    AND sp.PRODUCT_SEQ = #{keyword}
+                </when>
+                <when test="category == 'category'">
+                    AND pc.CATEGORY LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'subCategory'">
+                    AND pc.DETAIL_CATEGORY LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'sellerID'">
+                    AND sp.ID LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'status'">
+                    AND sp.PRO_STATUS LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+		ORDER BY sp.PRODUCT_SEQ ASC
+	</select>
+	
+	<!-- 상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능) -->
+	<select id="getProductBanReason" resultType="AdminProductVO">
+		SELECT PRODUCT_SEQ, PRODUCT_BAN_REASON
+		FROM SELL_PRODUCT
+		WHERE PRODUCT_SEQ = #{product_seq}
+	</select>
+	
+	
+	<!-- 상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임) -->
+	<update id="updateProductStatus">
+		UPDATE SELL_PRODUCT 
+		SET PRO_STATUS = #{pro_status},
+			PRODUCT_BAN_REASON = #{product_ban_reason}
+		WHERE PRODUCT_SEQ = #{product_seq}
+	</update>
+	
+	<!-- 상품 관리 - 일반상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
+	<delete id="deleteProduct">
+		DELETE FROM SELL_PRODUCT sp 
+		WHERE sp.PRODUCT_SEQ = #{product_seq}
+	</delete>
+	
+	<!-- 상품 관리 - 경매상품 상세조회 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능) -->
+	<select id="searchAuctionDetail" resultType="adminAuctionVO">
+		SELECT ap.PRODUCT_SEQ AS PRODUCT_SEQ,
+				pc.CATEGORY AS CATEGORY,
+				pc.DETAIL_CATEGORY AS DETAIL_CATEGORY,
+				ap.SELLER_ID AS SELLER_ID,
+				ap.AUCTION_TITLE AS AUCTION_TITLE,
+				ap.EXP_TIME AS EXP_TIME,
+				ap.AUC_STATUS AS AUC_STATUS
+				FROM AUC_PRODUCT ap 
+				LEFT JOIN PRODUCT_CATEGORY pc ON ap.AUCTION_SEQ = pc.PRODUCT_CATE_SEQ
+		WHERE 1=1
+		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+            <choose>
+                <when test="category == 'regNumber'">
+                    AND ap.PRODUCT_SEQ = #{keyword}
+                </when>
+                <when test="category == 'category'">
+                    AND pc.CATEGORY LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'subCategory'">
+                    AND pc.DETAIL_CATEGORY LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'sellerID'">
+                    AND ap.SELLER_ID LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'status'">
+                    AND ap.AUC_STATUS LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+		ORDER BY ap.PRODUCT_SEQ ASC
+	</select>
+	
+	<!-- 상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능) -->
+	<select id="getAucBanReason" resultType="AdminAuctionVO">
+		SELECT PRODUCT_SEQ, AUC_BAN_REASON
+		FROM AUC_PRODUCT
+		WHERE PRODUCT_SEQ = #{product_seq}
+	</select>
+
+	<!-- 상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임) -->
+	<update id="updateAucStatus">
+		UPDATE AUC_PRODUCT 
+		SET AUC_STATUS = #{auc_status},
+			AUC_BAN_REASON = #{auc_ban_reason}
+		WHERE PRODUCT_SEQ = #{product_seq}
+	</update>
+	
+	<!-- 상품 관리 - 경매상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
+	<delete id="deleteAuction">
+		DELETE FROM AUC_PRODUCT ap 
+		WHERE ap.PRODUCT_SEQ = #{product_seq}
+	</delete>
+	
+						 
+	<!-- 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음 -->
+	<select id="searchCategoryInfo" resultType="adminCategoryVO">
+		SELECT pc.PRODUCT_CATE_SEQ AS PRODUCT_CATE_SEQ , pc.CATEGORY AS CATEGORY , pc.DETAIL_CATEGORY AS DETAIL_CATEGORY 
+		FROM PRODUCT_CATEGORY pc
+		WHERE 1=1
+		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+            <choose>
+                <when test="category == 'number'">
+                    AND pc.PRODUCT_CATE_SEQ = #{keyword}
+                </when>
+                <when test="category == 'category'">
+                    AND pc.CATEGORY LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == 'subCategory'">
+                    AND pc.DETAIL_CATEGORY LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        ORDER BY PRODUCT_CATE_SEQ ASC
+	</select>
+	
+	<!-- 상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함) -->
+	<insert id="insertCategory">
+		INSERT INTO PRODUCT_CATEGORY pc 
+		VALUES (SEQ_PROD_CATE.NEXTVAL, #{category}, #{detail_category})	
+	</insert>
+	
+	<!-- 상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함) -->
+	<update id="updateCategory">
+		UPDATE PRODUCT_CATEGORY pc 
+		SET pc.CATEGORY = #{category}, 
+			pc.DETAIL_CATEGORY = #{detail_category}
+		WHERE pc.PRODUCT_CATE_SEQ = #{product_cate_seq}
+	</update>
+	
+	<!-- 상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
+	<delete id="deleteCategory">
+		DELETE FROM PRODUCT_CATEGORY pc 
+		WHERE pc.PRODUCT_CATE_SEQ = #{product_cate_seq}
+	</delete>
+	
+	
+	<!-- 상품 관리 끝 -->
+
+	<!-- 고객 지원 관련 SQL문 -->
+	
+	<!-- 고객 지원 - 1:1 상담문의 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
+	<select id="searchQnaAll" resultType="adminQnaManagerVO">
+		SELECT qb.SEQ_QNA_BNO , qo.QNA_OPTION , qb.QNA_TITLE , qb.ID , qb.QNA_TIME 
+		FROM QNA_BOARD qb 
+		LEFT JOIN QNA_OPTION qo ON qb.SEQ_QNA_OPTION = qo.SEQ_QNA_OPTION
+		WHERE 1=1
+		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+			<choose>
+				<when test="category == 'number'">
+				    AND qb.SEQ_QNA_BNO = #{keyword}
+				</when>
+				<when test="category == 'qnaCategory'">
+				    AND qo.QNA_OPTION LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="category == 'qnaTitle'">
+				    AND qb.QNA_TITLE LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="category == 'userID'">
+				    AND qb.ID LIKE '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+		ORDER BY qb.SEQ_QNA_BNO ASC
+	</select>
+	
+	<!-- 고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능) -->
+	<select id="getQnaContent" parameterType="int" resultType="adminQnaManagerVO">
+		SELECT qb.SEQ_QNA_BNO , qb.QNA_CONTENT , qb.QNA_ANS
+		FROM QNA_BOARD qb
+		WHERE qb.SEQ_QNA_BNO = #{seq_qna_bno}
+	</select>
+	
+	<!-- 고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능) -->
+	<update id="updateQnaAns">
+		UPDATE QNA_BOARD qb
+		SET qb.QNA_ANS = #{newValue}
+		WHERE qb.SEQ_QNA_BNO = #{seq_qna_bno}
+	</update>
+	
+	<!-- 고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
+	<delete id="deleteQna">
+		DELETE FROM QNA_BOARD qb
+		WHERE qb.SEQ_QNA_BNO = ${seq_qna_bno}
+	</delete>
+	
+	<!-- 고객 지원 - FAQ 내용관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
+	<select id="searchFaqAll" resultType="adminFaqManagerVO">
+		SELECT fb.SEQ_FAQ_BNO , qo.QNA_OPTION , fb.FAQ_CONTENT , fb.ID , fb.FAQ_TIME 
+		FROM FAQ_BOARD fb 
+		LEFT JOIN QNA_OPTION qo ON fb.OPTION_SEQ = qo.SEQ_QNA_OPTION
+		WHERE 1=1
+		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+			<choose>
+				<when test="category == 'number'">
+				    AND fb.SEQ_FAQ_BNO = #{keyword}
+				</when>
+				<when test="category == 'qnaCategory'">
+				    AND qo.QNA_OPTION LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="category == 'qnaTitle'">
+				    AND fb.FAQ_CONTENT LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="category == 'userID'">
+				    AND fb.ID LIKE '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+		ORDER BY fb.SEQ_FAQ_BNO ASC
+	</select>
+	
+	<!-- 고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select하여 선택된 유형과, 수기 입력받은 FAQ 제목, 내용을 Insert 함) -->
+
+	
+	<!-- 고객 지원 - FAQ 내용관리 - 열람/수정 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능) -->
+	<select id="getFaqContent" resultType="adminFaqManagerVO">
+		SELECT fb.FAQ_ANS 
+		FROM FAQ_BOARD fb 
+		WHERE fb.SEQ_FAQ_BNO = #{id}
+	</select>
+	
+	<!-- 고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 선택된 항목에 대한 세부내용 작성 및 Update 가능) -->
+	<update id="updateFaq">
+		UPDATE FAQ_BOARD 
+		SET OPTION_SEQ = #{seq_qna_option},
+			FAQ_CONTENT = #{faq_content},
+			FAQ_ANS = #{faq_ans}
+		WHERE SEQ_FAQ_BNO = #{seq_faq_bno}
+	</update>
+	
+	<!-- 고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌) -->
+	<select id="getQnaOptions" resultType="adminQuestionManagerVO">
+		SELECT SEQ_QNA_OPTION AS seq_qna_option, QNA_OPTION AS qna_option, QNA_OPTION_CONTENT AS qna_option_content
+		FROM QNA_OPTION qo
+	</select>
+	
+	<!-- 고객 지원 - FAQ 내용관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
+	<delete id="deleteFaq">
+		DELETE FROM FAQ_BOARD fb 
+		WHERE fb.SEQ_FAQ_BNO = #{seq_faq_bno}
+	</delete>
+	
+	<!-- 고객 지원 - 문의 유형 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
+	<select id="searchQuestionCategory" resultType="adminQuestionManagerVO">
+		SELECT qo.SEQ_QNA_OPTION , qo.QNA_OPTION , qo.QNA_OPTION_CONTENT 
+		FROM QNA_OPTION qo
+		WHERE 1=1
+		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
+			<choose>
+				<when test="category == 'number'">
+				    AND qo.SEQ_QNA_OPTION = #{keyword}
+				</when>
+				<when test="category == 'questioncategory'">
+				    AND qo.QNA_OPTION LIKE '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+		ORDER BY qo.SEQ_QNA_OPTION ASC
+	</select>
+	
+	<!-- 고객 지원 - 문의 유형 관리 - 신규 등록 (기능 : 수기 입력받은 유형과 내용을 Insert 함) -->
+	<insert id="insertQnaOption">
+		INSERT INTO QNA_OPTION qo 
+		VALUES (SEQ_QNA_OPTION.NEXTVAL, #{qna_option}, #{qna_option_content})
+	</insert>
+	
+	<!-- 고객 지원 - 문의 유형 관리 - 수정 기능 (기능 : 수기 입력받은 유형과 내용을 Update 함) -->
+	<update id="updateQnaOption">
+		UPDATE QNA_OPTION 
+		SET QNA_OPTION = #{qna_option},
+			QNA_OPTION_CONTENT  = #{qna_option_content}
+		WHERE QNA_OPTION.SEQ_QNA_OPTION =  #{seq_qna_option}
+	</update>
+	
+	<!-- 고객 지원 - 문의 유형 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
+	<delete id="deleteQnaOption">
+		DELETE FROM QNA_OPTION qo 
+		WHERE qo.SEQ_QNA_OPTION = #{seq_qna_option}
+	</delete>
+	
+	<!-- 고객 지원 끝 -->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
