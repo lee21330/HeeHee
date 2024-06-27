@@ -306,6 +306,13 @@
 			<artifactId>spring-messaging</artifactId>
 			<version>5.3.10</version>
 		</dependency>
+		
+		<!-- SMS 인증 -->
+		<dependency>
+		    <groupId>net.nurigo</groupId>
+		    <artifactId>sdk</artifactId>
+		    <version>4.3.0</version>
+		</dependency>
 
 	</dependencies>
 

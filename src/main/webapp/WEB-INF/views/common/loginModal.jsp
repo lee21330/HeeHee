@@ -55,14 +55,13 @@
 		if (sel == "signup") {
 			// 로그인 화면 없애고 본인인증 화면 보여주기
 			$("#loginArea").removeClass("show");
-            $("#passArea").addClass("show");
+            $("#signupArea").addClass("show");
             $(".modal_body").css("width", "400px");
             $(".modal_body").css("height", "auto");
 			
 		} else {
 			// 회원가입 화면 보여주기
 			$("#loginArea").removeClass("show");
-			$("#passArea").removeClass("show");
 			$("#signupArea").addClass("show");
 			$(".modal_body").css("margin-top", "70px"); /* 입력칸이 많아서 맨 윗부분 가려짐, 간격주기 */
 			$(".selDiv").children().removeClass("topSel");
@@ -154,9 +153,7 @@
                 </div>
                 <%-- 본인인증 --%>
                 <div id="passArea" class="selectedArea">
-                    <div class="modal_label">
-                        <input type="text" class="input_box" placeholder="이름">
-                    </div>
+                    
                     <div class="modal_pass">
                         <input class="pass_input" placeholder="주민번호 앞자리">
                         <input class="pass_input" placeholder="주민번호 뒷자리">
@@ -169,6 +166,9 @@
                 <%-- 회원가입 --%>
                 <div id="signupArea" class="selectedArea">
                     <form method="POST" enctype="multipart/form-data" id="signUpForm">
+	                    <div class="modal_label">
+	                        <input type="text" class="input_box" placeholder="이름">
+	                    </div>
                         <div class="modal_label">
                             <input type="text" class="input_box" id="signId" name="id" placeholder="사용하실 아이디를 입력하세요" />
                             <input type="button" class="dup_btn" value="중복체크">
