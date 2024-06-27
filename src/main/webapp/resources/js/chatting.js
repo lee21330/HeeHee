@@ -47,13 +47,15 @@ function showMessage(chatMessage){
     const contentBody = document.querySelector(".content-body");
     
     if(chatMessage.sender == loginMemberNo){
-        if(chatMessage.imgs.length == 0){
-            const myChat = document.createElement("div");
+    
+        const myChat = document.createElement("div");
             myChat.classList.add("my-chat");
             
             const chatDate = document.createElement("span");
             chatDate.classList.add("chatDate");
             chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
+        
+        if(chatMessage.imgs.length == 0){
                     
             const chat = document.createElement("p");
             chat.classList.add("chat");
@@ -67,29 +69,45 @@ function showMessage(chatMessage){
         }
         else{
             chatMessage.imgs.forEach(img => {
-                
+                    const chatImage = document.createElement("img");
+                    chatImage.classList.add("chat-image");
+                        
+                    const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${img}`;
+                        
+                    chatImage.setAttribute("src", imgUrl);
+                    chatImage.setAttribute("alt", "image");
+                    
+                    myChat.append(chatDate, chatImage);
+                    
+                    messageList.append(myChat);
+                    
+                    contentBody.append(messageList);
+    
+                    contentBody.scrollTop = contentBody.scrollHeight;
             });
         }
     }
     else if(chatMessage.sender != loginMemberNo){
-         if(chatMessage.content.indexOf('[img_asdfzv]')==-1){
-            const targetChat = document.createElement("div");
-            targetChat.classList.add("target-chat");
+      
+          const targetChat = document.createElement("div");
+          targetChat.classList.add("target-chat");
+          
+          const chatDate = document.createElement("span");
+          chatDate.classList.add("chatDate");
+                    
+          let read = '안 읽음';
+                    
+          if(message.readCheck == 'Y'){
+              read = '읽음';
+          }
+                    
+          chatDate.innerHTML = message.sendTime + ' ' + read;
+    
+         if(chatMessage.imgs.length == 0){
                     
             const chat = document.createElement("p");
             chat.classList.add("chat");
             chat.innerHTML = message.content;
-                    
-            const chatDate = document.createElement("span");
-            chatDate.classList.add("chatDate");
-                    
-            let read = '안 읽음';
-                    
-            if(message.readCheck == 'Y'){
-                read = '읽음';
-            }
-                    
-            chatDate.innerHTML = message.sendTime + ' ' + read;
                     
             targetChat.append(chat, chatDate);
                     
@@ -98,6 +116,22 @@ function showMessage(chatMessage){
             contentBody.append(messageList);
     
             contentBody.scrollTop = contentBody.scrollHeight;
+          } else{
+              const chatImage = document.createElement("img");
+              chatImage.classList.add("chat-image");
+                        
+              const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${img}`;
+                        
+              chatImage.setAttribute("src", imgUrl);
+              chatImage.setAttribute("alt", "image");
+              
+              targetChat.append(chat, chatDate);
+                    
+              messageList.append(targetChat);
+            
+              contentBody.append(messageList);
+            
+              contentBody.scrollTop = contentBody.scrollHeight;
           }
      }
     
