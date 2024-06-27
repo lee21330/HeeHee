@@ -162,7 +162,7 @@ body {
     height: 45px;
     float: right;
     margin-top: 45px;
-    cursor: pointer;
+    
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -172,6 +172,11 @@ body {
     position: relative;
     display: inline-block;
     margin: 0 10px 0 40px;
+    cursor: pointer;
+}
+
+.menu_div img:hover{
+    transform: translateY(-2px);
 }
 
 .menu_container img {
@@ -181,6 +186,22 @@ body {
     position: absolute;
     top: -10px;
     left: -30px;
+}
+
+/* 알림 애니메이션 효과 */
+@keyframes alarm-ani {
+  from {
+    transform: rotate(35deg);
+  }
+  to {
+    transform: rotate(-35deg);
+  }
+}
+
+.alarmImg {
+	animation: alarm-ani 0.3s /* 속도 */
+               		linear 0s   /* 처음부터 끝까지 일정 속도로 진행 */
+               		infinite alternate; /* 무한 반복 */
 }
 
 /* 알림 목록 */

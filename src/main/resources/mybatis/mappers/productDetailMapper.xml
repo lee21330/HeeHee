@@ -133,4 +133,18 @@
 		GROUP BY SELL.PRODUCT_SEQ, SELL.INTRODUCE, SELL.PRODUCT_PRICE
 	</select>
 	
+	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
+		SELECT CATEGORY, MIN(PRODUCT_CATE_SEQ) AS MIN_CATE
+		FROM PRODUCT_CATEGORY
+		GROUP BY CATEGORY
+		ORDER BY MIN_CATE ASC
+	</select>
+	
+	<select id="mainCateDetail" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
+		SELECT DETAIL_CATEGORY, MIN(PRODUCT_CATE_SEQ) AS MIN_CATE
+		FROM PRODUCT_CATEGORY
+		GROUP BY DETAIL_CATEGORY
+		ORDER BY MIN_CATE ASC
+	</select>
+	
 </mapper>

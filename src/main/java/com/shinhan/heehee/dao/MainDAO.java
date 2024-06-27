@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.shinhan.heehee.dto.response.MainProdRankDTO;
 import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
 import com.shinhan.heehee.dto.response.MainProdRecoDTO;
+import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Repository
@@ -42,6 +43,14 @@ public class MainDAO {
 
 	public List<MainProdRecentlyDTO> recentprodList() {
 		return sqlSession.selectList(prodDetailNamespace + "recently");
+	}
+
+	public List<ProductCategoryDTO> mainCateList() {
+		return sqlSession.selectList(prodDetailNamespace + "mainCateList");
+	}
+
+	public List<ProductCategoryDTO> mainCateDetail() {
+		return sqlSession.selectList(prodDetailNamespace + "mainCateDetail");
 	}
 	
 }

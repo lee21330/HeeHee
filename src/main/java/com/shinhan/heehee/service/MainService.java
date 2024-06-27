@@ -9,6 +9,7 @@ import com.shinhan.heehee.dao.MainDAO;
 import com.shinhan.heehee.dto.response.MainProdRankDTO;
 import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
 import com.shinhan.heehee.dto.response.MainProdRecoDTO;
+import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Service
@@ -27,5 +28,13 @@ public class MainService {
 
 	public List<MainProdRecentlyDTO> recentprodList() {
 		return mainDao.recentprodList();
+	}
+	
+	public List<ProductCategoryDTO> mainCateList() {
+		return mainDao.mainCateList();
+	}
+
+	public List<ProductCategoryDTO> mainCateDetail() {
+		return mainDao.mainCateDetail();
 	}
 }
