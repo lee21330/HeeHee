@@ -24,8 +24,6 @@ public class AlarmController {
 	
 	String userId = "";
 	
-	// DB 조회 후 소켓 연결
-	
 	// 알림 전체 조회
 	@ResponseBody
 	@GetMapping("/alarmAll")
@@ -63,5 +61,7 @@ public class AlarmController {
 		
 		return result;
 	}
+	
+	// DB 조회 후 소켓 연결
 	
 }
