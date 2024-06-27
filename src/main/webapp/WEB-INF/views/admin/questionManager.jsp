@@ -23,8 +23,7 @@
 				</div>
 				<select id="searchCategory">
 					<option value="number">번호</option>
-					<option value="category">카테고리</option>
-					<option value="subCategory">세부 카테고리</option>
+					<option value="questioncategory">유형</option>
 				</select>
 				<input type="text" id="searchInput" placeholder="입력란 (제목 혹은 내용 입력)">
 				<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>
@@ -45,28 +44,10 @@
 						<th>번호</th>
 						<th>유형</th>
 						<th>내용</th>
-						<th>작성자ID</th>
-						<th>작성일</th>
 					</tr>
 				</thead>
 				<tbody id="tableBody">
 					<!-- Ajax로 동적 업데이트 -->
-					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>00001</td>
-                        <td>상의</td>
-                        <td>글자수가 얼마나 들어갈 수 있을지</td>
-                        <td>cutehs97</td>
-                        <td>2024-05-31</td>
-                    </tr>
-					<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>00002</td>
-                        <td>하의</td>
-                        <td>글자수가 얼마나 들어갈 수 있을지</td>
-                        <td>cutehs97</td>
-                        <td>2024-05-31</td>
-                    </tr>
 				</tbody>
 			</table>
 		</div>

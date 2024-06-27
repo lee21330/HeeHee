@@ -23,15 +23,16 @@ $(document).ready(function() {
         $.ajax({
             url: '/heehee/admin/searchQnaAll',
             method: 'GET',
-            data: { 'category': category, 'keyword': keyword },
+            data: { 'category': category, 
+            		'keyword': keyword },
             success: function(data) {
                 var tableBody = $('#tableBody');
                 tableBody.empty();
 
                 data.forEach(function(item) {
                     var row = `<tr>
-                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-                        <td>${item.seq_faq_bno}</td>
+                        <td><input type="checkbox" class="rowCheckbox" data-id="${item.seq_qna_bno}"></td>
+                        <td>${item.seq_qna_bno}</td>
                         <td>${item.qna_option}</td>
                         <td>${item.qna_title}</td>
                         <td>${item.id}</td>
@@ -46,48 +47,69 @@ $(document).ready(function() {
         });
     }
 
-    // 답변 버튼 클릭 시
+    //열람/답변 버튼 클릭 시
     $('#editButton').click(function() {
         var selected = getSelectedRow();
-
+        
         if (selected.length === 1) {
             var row = selected.closest('tr');
-            var id = selected.data('id');
-
-            // 수정할 내용 입력란을 추가
-            if (row.next().hasClass('qnaContentRow')) {
+            var seq_qna_bno = selected.data('id');
+            
+			//숫자가 아닌 id를 거르기
+			if(isNaN(seq_qna_bno)) {
+				alert('Invaild seq_qna_bno: ' + seq_qna_bno);
+				return;
+			}
+			
+			//수정할 내용 입력란을 추가
+			if(row.next().hasClass('qnaContentRow')) {
 				row.next().next().remove();
-                row.next().remove();
-            } else {
-                var editRow = `
-                    <tr class="editRow">
-						<td colspan="6">
-						    <div class="updateContainer">
-						        <p class="productUpdate">답변<br>입력</p>
-						    </div>
-						    <input type="text" id="editInput${id}" class="singleInput" value="${row.find('td').eq(3).text()}">
-						    <button class="saveEditButton" data-id="${id}">답변 등록</button>
-						</td>
-                    </tr>`;
-				
-                var qnaContentRow = `
-					<tr class="qnaContentRow">
-                        <td colspan="6">
-                            <div class="qnaContainer">
-                                    <p class="productUpdate">문의내용</p>
-                                    <br>
-                                <div class="qnaContentText">
-                                    <p>여기에 문의내용이 나오도록 할 예정입니다. 그를 위해서 구역설정도 해줘야하고 이것저것 할게 많네.... asdkasldlaskjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdlkasjdalskdjalksdjaslkdjaslkdjaslkdjaslkdjsalkdjaslkdjaslkdjaslkdjaslkjd</p>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                
-                row.after(editRow);
-                row.after(qnaContentRow);
-                
-            }
+				row.next().remove();
+			} else {
+				$.ajax({
+					url: '/heehee/admin/getQnaContent',
+					method: 'GET',
+					data: {'seq_qna_bno': seq_qna_bno , 
+							},
+					success: function(contentData){
+		                var editRow = `
+		                    <tr class="editRow">
+								<td colspan="6">
+								    <div class="updateContainer">
+								        <p class="productUpdate">답변 입력</p>
+								    </div>
+								    <input type="text" id="editInput${contentData.seq_qna_bno}" class="singleInput" placeholder="답변하실 내용을 입력하세요.">
+								    <button class="saveEditButton" data-id="${contentData.seq_qna_bno}">답변 등록</button>
+								</td>
+		                    </tr>`;
+						
+		                var qnaContentRow = `
+							<tr class="qnaContentRow">
+		                        <td colspan="6">
+		                            <div class="qnaContainer">
+		                                <div class="qnaContentText">
+		                                    <p class="productUpdate">문의내용</p>
+		                                    <br>
+		                                	<p>${contentData.qna_content}</p>
+		                                </div>
+		                                	<br>
+		                                <div class="qnaAnsText">
+		                                	<p class="productUpdate">답변내용</p>
+		                                	<br>
+		                                	<p>${contentData.qna_ans}</p>
+		                                </div>
+		                            </div>
+		                        </td>
+		                    </tr>`;
+			                row.after(editRow);
+			                row.after(qnaContentRow);
+			            console.log(`${contentData.seq_qna_bno}`)
+					},
+		            error: function(xhr, status, error){
+						alert('문의 내용을 가져오는 중 오류가 발생했습니다.');
+					}
+				});
+			}
         } else if (selected.length === 0) { 
         	alert('열람할 항목을 선택해주세요');
         } else {
@@ -95,27 +117,22 @@ $(document).ready(function() {
         }
     });
     
-    //제목 글자 클릭 시
-    $('.qnaContent').click(function(){
-		var selected = getSelectedRow();
-		
-		
-	});
-
     // 저장 버튼 클릭 시
     $(document).on('click', '.saveEditButton', function() {
-        var id = $(this).data('id');
-        var newStatus = $(`#editStatus${id}`).val();
-        var newValue = $(`#editInput${id}`).val();
-
+        var seq_qna_bno = $('.saveEditButton').attr("data-id");
+        var newValue = $(`#editInput${seq_qna_bno}`).val();
+		console.log(seq_qna_bno);
         $.ajax({
-            url: '/your-server-endpoint/' + id,
-            method: 'PUT',
-            data: { 'newStatus': newStatus, 'newValue': newValue },
+            url: '/heehee/admin/updateQnaAns',
+            method: 'post',
+            data: { 'seq_qna_bno': seq_qna_bno , 
+            		'newValue': newValue 
+            		},
             success: function() {
                 loadTable();
             },
-            error: function() {
+            error: function(e) {
+				console.log(e);
                 alert('등록 중 오류가 발생했습니다.');
             }
         });
@@ -128,11 +145,13 @@ $(document).ready(function() {
         if (selected.length > 0) {
             if (confirm('선택된 항목을 삭제하시겠습니까?')) {
                 selected.each(function() {
-                    var id = $(this).data('id');
-
+                    var seq_qna_bno = $(this).attr("data-id");
+					console.log('번호를 잘 가져왔나?' + seq_qna_bno);
                     $.ajax({
-                        url: '/your-server-endpoint/' + id,
-                        method: 'DELETE',
+                        url: '/heehee/admin/deleteQna',
+                        method: 'POST',
+                        data:{'seq_qna_bno': seq_qna_bno
+                        		 },
                         success: function() {
                             loadTable();
                         },
