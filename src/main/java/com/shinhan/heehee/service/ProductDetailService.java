@@ -60,15 +60,15 @@ public class ProductDetailService {
 		
 		// 파일 업로드 로직
 		for(MultipartFile file : files) {
-			ImageFileDTO imgfile = new ImageFileDTO();
-			String fileName = fileUploadService.uploadOneObject(file, filePath);
-			imgfile.setImgName(fileName);
-			imgfile.setProdSeq(modiDTO.getProdSeq());
-			imgfile.setUserId("a");
-			productDetailDao.insertImgFile(imgfile);
+			if(file.getSize() != 0) {
+				ImageFileDTO imgfile = new ImageFileDTO();
+				String fileName = fileUploadService.uploadOneObject(file, filePath);
+				imgfile.setImgName(fileName);
+				imgfile.setProdSeq(modiDTO.getProdSeq());
+				imgfile.setUserId("a");
+				productDetailDao.insertImgFile(imgfile);
+			}
 		}
-		
-		// 만약, 자바스크립트에서 기존에 있는 프리뷰 삭제했을때 input hidden 삭제한 리스트를 또 받아와
 		
 		// SELL_PRODUCT 테이블 UPDATE
 		productDetailDao.updateProduct(modiDTO);

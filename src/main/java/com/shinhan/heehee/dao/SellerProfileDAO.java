@@ -23,5 +23,9 @@ public class SellerProfileDAO {
 	public List<SellerProfileDTO> sellerprod(String id) {
 		return sqlSession.selectList(namespace + "sellerprod", id);
 	}
+
+	public SellerProfileDTO dealComplete(String id) {
+		return sqlSession.selectOne(namespace + "dealComplete", id);
+	}
 	
 }

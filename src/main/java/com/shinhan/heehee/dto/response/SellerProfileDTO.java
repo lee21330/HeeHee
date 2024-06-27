@@ -19,4 +19,5 @@ public class SellerProfileDTO {
 	private Date createDate;
 	private String id;
 	private int createDiff;
+	private int counting;
 }

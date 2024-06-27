@@ -62,6 +62,7 @@ public class ProductController {
 	public String home(@PathVariable("id") String id, Model model) {
 		model.addAttribute("sellerinfo", sellerprofileservice.sellerinfo(id));
 		model.addAttribute("sellerprodList", sellerprofileservice.sellerprod(id));
+		model.addAttribute("dealComplete", sellerprofileservice.dealComplete(id));
 		return "/used/sellerProfile";
 	}
 	

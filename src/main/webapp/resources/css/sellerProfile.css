@@ -181,7 +181,7 @@ main {
 	cursor: pointer;
 	width: 150px;
 	height: 30px;
-	background: #4949e9;
+	background: #3F51A1;
 	color: white;
 	border: none;
 	border-radius: 10px;
@@ -216,7 +216,7 @@ main {
 }
 
 .selected {
-	background-color: #4949E9;
+	background-color: #3F51A1;
 	color: white;
 }
 

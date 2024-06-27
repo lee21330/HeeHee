@@ -125,6 +125,23 @@
 	   ORDER BY DBMS_RANDOM.RANDOM
 	</select>
 	
+	<select id="dealComplete" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProfileDTO">
+		SELECT COUNT(*) as counting
+		FROM (
+		SELECT AUC.SELLER_ID
+		  FROM AUC_PRODUCT AUC, DEAL_HISTORY DEAL
+		 WHERE AUC.PRODUCT_SEQ = DEAL.AUC_SEQ
+		 AND DEAL.P_CHECK IS NOT NULL
+		 AND DEAL.S_CHECK IS NOT NULL
+		 UNION ALL
+		 SELECT SELL.ID
+		   FROM SELL_PRODUCT SELL, DEAL_HISTORY DEAL
+		WHERE SELL.PRODUCT_SEQ = DEAL.SELL_SEQ
+		 AND DEAL.P_CHECK IS NOT NULL
+		 AND DEAL.S_CHECK IS NOT NULL)
+		WHERE SELLER_ID = #{id}
+	</select>
+	
 	<select id="productModify" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
 		SELECT SELL.PRODUCT_SEQ, MIN(IMG.IMG_NAME) AS IMG_NAME,
         SELL.INTRODUCE, SELL.PRODUCT_PRICE
