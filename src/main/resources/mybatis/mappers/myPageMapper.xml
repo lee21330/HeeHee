@@ -20,6 +20,21 @@
 		2
 		GROUP BY TABLE_PK)
 	</select>
+	<select id="saleDetail" parameterType="int" resultType="saleDetailvo">
+		SELECT *
+		FROM SELL_PRODUCT SELL, IMG_FILES IMG, DEAL_HISTORY dh 
+		WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
+		AND SELL.PRODUCT_SEQ = dh.SELL_SEQ
+		AND IMG_CATE_SEQ = 2
+		AND SELL.PRODUCT_SEQ = #{proSeq}
+		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
+							FROM IMG_FILES
+							WHERE IMG_CATE_SEQ = 2
+							GROUP BY TABLE_PK)
+	</select>
+	<select id="dcOption" resultType="dcvo">
+		SELECT * FROM DELIVERY_COMPANY
+	</select>
 	<select id="purchaseList" parameterType="string"
 		resultType="purchasevo">
 		SELECT *
@@ -57,8 +72,7 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
-	<select id="profile" parameterType="String"
-		resultType="profilevo">
+	<select id="profile" parameterType="String" resultType="profilevo">
 		SELECT *
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
@@ -85,18 +99,37 @@
 	</select>
 	<select id="myQna" parameterType="String" resultType="qnavo">
 		SELECT *
-		FROM QNA_OPTION qo ,QNA_BOARD qb
-		WHERE qo.SEQ_QNA_OPTION =
+		FROM QNA_OPTION qo
+		JOIN QNA_BOARD qb ON qo.SEQ_QNA_OPTION =
 		qb.SEQ_QNA_OPTION
-		AND qb.ID = #{USER_ID}
+		WHERE qb.ID = #{USER_ID}
 		ORDER BY qb.SEQ_QNA_BNO
 	</select>
+	<select id="myQnaImg" parameterType="map" resultType="qnaImgvo">
+		SELECT *
+		FROM IMG_FILES
+		WHERE ID = #{userId}
+		AND IMG_CATE_SEQ = 4
+		AND TABLE_PK =
+		#{seqQnaBno}
+	</select>
+	<delete id="deleteQna" parameterType="int">
+		DELETE FROM QNA_BOARD
+		WHERE
+		seq_qna_bno = #{seqQnaBno}
+	</delete>
+	<delete id="deleteQnaImg" parameterType="int">
+		DELETE FROM IMG_FILES
+		WHERE img_cate_seq = 4
+		AND table_pk = #{seqQnaBno}
+	</delete>
 	<insert id="insertQna" parameterType="insertQnavo">
 		INSERT INTO QNA_BOARD
 		VALUES (SEQ_QNA_BNO.nextval, #{ID}, #{QNA_TITLE}, #{QNA_CONTENT},
 		#{QNA_FILE}, null, SYSDATE, #{SEQ_QNA_OPTION})
 	</insert>
- 	<insert id="insertQnaImg" parameterType="insertQnaImgvo">
-		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{ID})
-	</insert> 
+	<insert id="insertQnaImg" parameterType="insertQnaImgvo">
+		INSERT INTO IMG_FILES
+		VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{ID})
+	</insert>
 </mapper>

@@ -16,5 +16,5 @@
 <sec:authorize access="isAuthenticated()">
 	<div onclick="logout()">로그아웃</div>
 	<div class="div_line"></div>
-	<div class="login_text" onclick="location.href='${path}/myPage'">마이페이지</div>
+	<div class="login_text" onclick="location.href='${path}/mypage/main'">마이페이지</div>
 </sec:authorize>

@@ -1,10 +1,31 @@
 $(function() {
 	faqOption(0);
-});
+	$("#submit").on("click", search);
 
+	//엔터 키 누르면 검색
+	$("#searchInput").keydown(function(event) {
+		if (event.keyCode === 13) { // 엔터 키의 keyCode: 13
+			search(); 
+		}
+	});
+});
+function search() {
+	var keyword = $('#searchInput').val();
+	$.each($(".title"), function(index, item) {
+		var text = $(item).text();
+		if (!text.includes(keyword))
+			$(this).parent().addClass("searchStyle");
+		else
+			$(this).parent().removeClass("searchStyle");
+
+		$("#faqTable").removeClass("searchStyle");
+	});
+
+}
 function faqOption(option) {
+	$("#searchInput").val("");
 	$.ajax({
-		url: '/heehee/faqBoard/faqOption',
+		url: '/heehee/mypage/faqBoard/faqOption',
 		method: 'GET',
 		data: { 'option': option },
 		success: function(data) {
@@ -39,8 +60,11 @@ function faqOption(option) {
 function show() {
 	if ($(this).next().css("display") != "none") {
 		$(".answer").hide();
+		$(".question").removeClass("select");
 	} else {
 		$(".answer").hide();
 		$(this).next().show();
+		$(".question").removeClass("select");
+		$(this).addClass("select");
 	}
 }

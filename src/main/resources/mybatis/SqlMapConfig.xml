@@ -10,14 +10,18 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="com.shinhan.heehee.dto.response.SaleListDTO" alias="salevo" />
+		<typeAlias type="com.shinhan.heehee.dto.response.SaleDetailDTO" alias="saleDetailvo" />
+		<typeAlias type="com.shinhan.heehee.dto.response.DeliveryCompanyDTO" alias="dcvo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.PurchaseListDTO" alias="purchasevo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.JjimDTO" alias="jjimvo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.EditProfileDTO" alias="profilevo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.MyPageHeaderDTO" alias="myHeaderDTO" />
 		<typeAlias type="com.shinhan.heehee.dto.response.QnADTO" alias="qnavo" />
+		<typeAlias type="com.shinhan.heehee.dto.response.QnAImgDTO" alias="qnaImgvo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.InsertQnADTO" alias="insertQnavo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.InsertQnAImgDTO" alias="insertQnaImgvo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.FaQDTO" alias="faqvo" />
+		
 		
 		<typeAlias type="com.shinhan.heehee.dto.response.AlarmDTO" alias="alarmDTO" />
 		<typeAlias type="com.shinhan.heehee.dto.response.NfCategoryDTO" alias="nfCategoryDTO" />

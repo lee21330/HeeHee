@@ -50,6 +50,7 @@
 	border-radius: 10px;
 	height: 100px;
 	text-align: center;
+	box-sizing: border-box;
 }
 
 textarea {
@@ -70,6 +71,7 @@ textarea {
 	margin-top: 100px;
 	border: 1px solid #CECECE;
 	border-radius: 10px;
+	box-sizing: border-box;
 }
 
 .rating p {
@@ -86,6 +88,7 @@ textarea {
 	margin-top: 100px;
 	border: 1px solid #CECECE;
 	border-radius: 10px;
+	box-sizing: border-box;
 }
 
 .account p {
@@ -126,6 +129,7 @@ textarea {
 	height: 100px;
 	border: 1px solid #CECECE;
 	border-radius: 10px;
+	box-sizing: border-box;
 }
 
 .point p {

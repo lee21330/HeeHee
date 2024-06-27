@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
@@ -16,6 +17,8 @@ import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
+import com.shinhan.heehee.dto.response.QnAImgDTO;
+import com.shinhan.heehee.dto.response.SaleDetailDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
 @Repository
@@ -64,7 +67,7 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "faqOption", option);
 	}
 
-	public List<FaQDTO> myQna(String userId) {
+	public List<QnADTO> myQna(String userId) {
 		return sqlSession.selectList(namespace + "myQna", userId);
 	}
 
@@ -76,8 +79,31 @@ public class MyPageDAO {
 		return sqlSession.insert(namespace + "insertQnaImg", qnaImg);
 	}
 
-	public String profile(String userId) {
+	public EditProfileDTO profile(String userId) {
 		return sqlSession.selectOne(namespace + "profile", userId);
+	}
+
+	public List<QnAImgDTO> myQnaImg(String userId, int seqQnaBno) {
+		Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("seqQnaBno", seqQnaBno);
+        return sqlSession.selectList(namespace + "myQnaImg", params);
+	}
+
+	public int deleteQna(Integer seqQnaBno) {
+        return sqlSession.delete(namespace + "deleteQna", seqQnaBno);
+	}
+
+	public int deleteQnaImg(Integer seqQnaBno) {
+		 return sqlSession.delete(namespace + "deleteQnaImg", seqQnaBno);
+	}
+
+	public SaleDetailDTO saleDetail(int proSeq) {
+		return sqlSession.selectOne(namespace + "saleDetail", proSeq);
+	}
+
+	public List<DeliveryCompanyDTO> dcOption() {
+		return sqlSession.selectList(namespace + "dcOption");
 	}
 
 }

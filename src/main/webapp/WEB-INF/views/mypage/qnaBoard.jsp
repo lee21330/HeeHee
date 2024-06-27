@@ -19,6 +19,7 @@
 		<%@include file="../common/header.jsp"%>
 	</header>
 	<div class="main_container">
+		<!-- 왼쪽 영역 -->
 		<div class="left">
 			<div id="note">
 				<h1>1:1 Q&amp;A</h1>
@@ -29,7 +30,9 @@
 				<p>상품 정보(사이즈, 실측, 예상 배송일 등) 관련 문의는 해당 상품 문의에 남기셔야 빠른 답변이 가능합니다.</p>
 			</div>
 
-			<form id="qna" action="${path}/qnaBoard/insertQna" method="post">
+
+			<form id="qna" method="post" onsubmit="return false;"
+				enctype="multipart/form-data">
 				<h1>1:1문의하기</h1>
 				<div class="qna_item">
 					<p>문의제목</p>
@@ -40,8 +43,10 @@
 					<div class="type">
 						<c:forEach var="op" items="${qnaOption}">
 							<div class="radioContainer">
-								<input type="radio" id="${op.qnaOption}" name="SEQ_QNA_OPTION" value="${op.seqQnaOption}">
-								<label for="${op.qnaOption}" class="radioLabel">${op.qnaOption}</label>
+								<input type="radio" id="${op.qnaOption}" name="SEQ_QNA_OPTION"
+									value="${op.seqQnaOption}"> <label
+									for="${op.qnaOption}" class="radioLabel">${op.qnaOption}</label>
+									<p id="qnaOptionContent">${op.qnaOptionContent}</p>
 							</div>
 						</c:forEach>
 					</div>
@@ -51,21 +56,26 @@
 					<textarea name="QNA_CONTENT"></textarea>
 				</div>
 				<div class="qna_item">
-					<p>첨부파일</p>
+					<p>첨부파일 최대(3개))</p>
 					<img id="img_preview"
 						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg">
-					<input type="file" id="input_file" name="imgName">
+					<input type="file" id="input_file" name="imgName" multiple
+						accept="image/*" onchange="readURL(this);" />
+					<img id="preview">
+					
 				</div>
 				<div class="btn">
-					<button class="btn_cancel">취소</button>
-					<button class="btn_submit">작성하기</button>
+					<div id="cancel" class="btn_cancel">취소</div>
+					<div class="btn_submit">작성하기</div>
 				</div>
 			</form>
 		</div>
+
+		<!-- 오른쪽 영역 -->
 		<div class="right">
 			<div id="faq">
 				<h1>
-					<a href="${path}/faqBoard">Best FAQ</a>
+					<a href="${path}/mypage/faqBoard">Best FAQ</a>
 				</h1>
 				<c:forEach var="fa" items="${faq}">
 					<div class="header">
@@ -76,8 +86,9 @@
 					<div class="content">${fa.faqAns}</div>
 				</c:forEach>
 			</div>
+			<h1>나의 문의</h1>
 			<div id="myQna">
-				<h1>나의 문의</h1>
+
 				<c:forEach var="myq" items="${myQna}">
 					<div class="header">
 						<img id="img_q"
@@ -88,10 +99,12 @@
 					<div class="content">
 						<div class="qnaContent">
 							<p>${myq.qnaContent}</p>
-							<img class="qnaFile"
-								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${myq.qnaFile}">
-								<button>수정</button>
-								<button>삭제</button>
+							<c:forEach var="img" items="${myq.imgList}">
+								<img class="qnaFile"
+									src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/qnaBoard/${img.imgName}">
+							</c:forEach>
+							<button id="delete"
+								onclick="location.href='${path}/mypage/qnaBoard/deleteQna?seqQnaBno=${myq.seqQnaBno}'">삭제</button>
 						</div>
 						<div class="qnaAns">${myq.qnaAns}</div>
 					</div>

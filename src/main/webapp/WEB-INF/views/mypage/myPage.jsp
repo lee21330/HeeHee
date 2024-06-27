@@ -29,11 +29,11 @@
 				<div class="profile">
 					<div class="profileName">
 						<h2>${sellerInfo.nickName}</h2>
-						<button onclick="location.href='${path}/profile'"
+						<button onclick="location.href='${path}/mypage/profile'"
 							class="btn">개인정보 변경</button>
 					</div>
 					<div class="intro">
-						<form action="${path}/userIntroUpdate" method="post">
+						<form action="${path}/mypage/userIntroUpdate" method="post">
 							<textarea class="self-intro" name="intro">${sellerInfo.userIntroduce}</textarea>
 							<button class="btn" id="btn-intro" type="submit">소개글 수정</button>
 						</form>
@@ -65,12 +65,12 @@
 					</div>
 				</div>
 				<div class="top-right">
-					<a href="${path}/qnaBoard" class="qna">1:1문의</a>
+					<a href="${path}/mypage/qnaBoard" class="qna">1:1문의</a>
 					<div class="point">
 						<p>포인트</p>
 						<br>
 						<p id="userPoint">${sellerInfo.userPoint}</p>
-						<img onclick="location.href='${path}/pointlist'"
+						<img onclick="location.href='${path}/mypage/pointlist'"
 							src="${path}/resources/images/화살표.png" id="pointImg">
 
 						<div>

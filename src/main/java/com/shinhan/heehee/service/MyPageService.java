@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.MyPageDAO;
+import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
@@ -14,6 +15,8 @@ import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
+import com.shinhan.heehee.dto.response.QnAImgDTO;
+import com.shinhan.heehee.dto.response.SaleDetailDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
 @Service
@@ -54,7 +57,7 @@ public class MyPageService {
 		return mypageDao.faqOption(option);
 	}
 
-	public List<FaQDTO> myQna(String userId) {
+	public List<QnADTO> myQna(String userId) {
 		return mypageDao.myQna(userId);
 	}
 
@@ -67,8 +70,29 @@ public class MyPageService {
 		
 	}
 
-	public String profile(String userId) {
+	public EditProfileDTO profile(String userId) {
 		return mypageDao.profile(userId);
+	}
+
+	public List<QnAImgDTO> myQnaImg(String userId, int seqQnaBno) {
+		return mypageDao.myQnaImg(userId,seqQnaBno);
+	}
+
+	public int deleteQna(Integer seqQnaBno) {
+		return mypageDao.deleteQna(seqQnaBno);
+	}
+
+	public int deleteQnaImg(Integer seqQnaBno) {
+		return mypageDao.deleteQnaImg(seqQnaBno);
+		
+	}
+
+	public SaleDetailDTO saleDetail(int proSeq) {
+		return mypageDao.saleDetail(proSeq);
+	}
+
+	public List<DeliveryCompanyDTO> dcOption() {
+		return mypageDao.dcOption();
 	}
 
 }

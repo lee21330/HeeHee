@@ -23,11 +23,7 @@
 			<h1>FAQ</h1>
 			<p>자주 묻는 질문</p>
 		</div>
-		<input type="text" id="searchInput" placeholder="무엇을 도와드릴까요?">
-		<button class="btn_small">FAQ 검색</button>
-
 		<div class="faq _header">
-			<p>문의유형</p>
 			<div class="type_list">
 				<div class="radioContainer">
 					<input type="radio" id="all" name="typeSelect" checked="checked">
@@ -42,12 +38,14 @@
 					</div>
 				</c:forEach>
 			</div>
+			<input type="text" id="searchInput" placeholder="무엇을 도와드릴까요?">
+			<button id="submit" class="btn_small">FAQ 검색</button>
 		</div>
 
 		<div id="allTable">
 			<table>
 				<thead>
-					<tr>
+					<tr id="faqTable">
 						<th class="type">구분</th>
 						<th class="title">제목</th>
 					</tr>
