@@ -224,6 +224,11 @@
 	width:100px;
 }
 
+.reserve:disabled{
+	background-color:#858585;
+	cursor: not-allowed;
+}
+
 .payEdit:disabled{
 	background-color:#858585;
 	cursor: not-allowed;
@@ -412,9 +417,10 @@
 	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
     transform: translateX(-50%) translateY(-60%);
 	font-size: 30px;
-	padding: 60px;
+	padding: 40px 80px 40px 40px;
 	text-align: center; 
 	line-height: 100px; 
+	white-space: nowrap;
 }
 
 .current-input {

@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.chatting">
+<!-- 채팅방 목록에 필요한 정보 불러오기 -->
 	<select id="getRoomList" parameterType="String" resultType="com.shinhan.heehee.dto.response.ChatRoomDTO">
 		select room_id as id,
 		(
@@ -76,6 +77,7 @@
 	where r.room_id=#{chatRoomId}
 </select>
 
+<!-- 채팅방 메시지 불러오기 -->
 <select id="getRoomMessage" parameterType="int" resultType="com.shinhan.heehee.dto.response.RoomMessageDTO">
     select msg_id msgId, content, to_char(send_time,'HH24:MI') as sendTime, read_check as readCheck, sender
     from chat_message m
@@ -83,6 +85,7 @@
     order by msgId
 </select>
 
+<!-- 로그인 유저 은행 및 계좌, 포인트 정보 불러오기 -->
 <select id="getRoomUser" parameterType="String" resultType="com.shinhan.heehee.dto.response.RoomUserDTO">
     select u.ACCOUNT_NUM, u.USER_POINT,
     (select bank from bank_kind b where b.bank_seq=u.bank_seq) bank
@@ -90,30 +93,35 @@
     where id=#{loginUserId}
 </select>
 
+<!-- 메시지 읽음 체크 -->
 <update id="updateReadCheck">
 	update chat_message
 	set read_check='Y'
 	where room_id=#{chatRoomId} and sender!=#{loginUserId}
 </update>
 
+<!-- 가격 수정 -->
 <update id="updatePrice">
 	update sell_product
 	set product_price=#{newPrice}
 	where sell_product.product_seq=#{productSeq}
 </update>
 
+<!-- 포인트 충전 시 포인트 값 업데이트 -->
 <update id="updatePoint">
 	update hh_user
 	set user_point=#{newPoint}
 	where id=#{loginUserId}
 </update>
 
+<!-- 약속 잡기 시 상품 상태 업데이트 -->
 <update id="updateProStatus">
 	update sell_product
 	set pro_status='예약중'
 	where product_seq=#{productSeq}
 </update>
 
+<!-- 약속 잡기 시 거래내역 데이터 추가 -->
 <insert id="insertDeal">
 	<selectKey keyProperty="dealSeq" order="BEFORE" resultType="int">
          SELECT deal_seq.NEXTVAL FROM DUAL
@@ -134,7 +142,7 @@
      <selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
-     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, #{sendTime}, 'N')
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, TO_DATE(#{sendTime}, 'YYYY/MM/DD HH24:mi:ss'), 'N')
 </insert>
 
 <!-- 이미지를 보낸 경우 (2)이미지 저장 / content: 폴더/이미지이름 -->

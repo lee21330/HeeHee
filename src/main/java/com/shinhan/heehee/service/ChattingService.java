@@ -52,21 +52,22 @@ public class ChattingService {
 	}
 
 	public void insertMsgImg(ChatMessageDTO messageDTO) throws IOException {
-		String filePath = "images/chat/";
-		List<MultipartFile> files = messageDTO.getImgs();
+		//String filePath = "images/chat/";
+		List<String> imgs = messageDTO.getImgs();
 		
-		for(MultipartFile file : files) {
-            String fileName = s3Service.uploadOneObject(file, filePath);
-            messageDTO.setContent("[img_asdfzv] " + fileName);
+		for(String img : imgs) {
+            messageDTO.setContent("[img_asdfzv] " + img);
     		cDao.insertChatMsg(messageDTO);
     		
     		int msgId=messageDTO.getMsgId();
     		
     		messageDTO.setMsgId(msgId);
-    		messageDTO.setContent("chat/" + fileName);
+    		messageDTO.setContent(img);
     		cDao.insertChatImg(messageDTO);
         }
 	}
+	
+	
 
 	public void reserve(Map<String, Object> map) {
 		cDao.updateProStatus(map);

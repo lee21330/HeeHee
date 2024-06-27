@@ -1,7 +1,9 @@
 let selectRoomId; // 선택한 채팅방 번호
 let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
-var stompClient = null; //stomp 소켓 클라이언트 전역 설정
+var stompClient = null; // stomp 소켓 클라이언트 전역 설정
+
+let selectedFiles = []; // 첨부한 이미지 파일 목록
 
 // 문서 로딩 완료 후 수행할 기능
 document.addEventListener("DOMContentLoaded", ()=>{
@@ -45,7 +47,7 @@ function showMessage(chatMessage){
     const contentBody = document.querySelector(".content-body");
     
     if(chatMessage.sender == loginMemberNo){
-        if(chatMessage.content.indexOf('[img_asdfzv]')==-1){
+        if(chatMessage.imgs.length == 0){
             const myChat = document.createElement("div");
             myChat.classList.add("my-chat");
             
@@ -62,6 +64,11 @@ function showMessage(chatMessage){
             contentBody.append(messageList);
     
             contentBody.scrollTop = contentBody.scrollHeight;
+        }
+        else{
+            chatMessage.imgs.forEach(img => {
+                
+            });
         }
     }
     else if(chatMessage.sender != loginMemberNo){
@@ -98,22 +105,51 @@ function showMessage(chatMessage){
 
 // 채팅 보내기
 function sendMessage(inputValue){
-    if(inputValue!=""){
+    if(inputValue!="" || selectedFiles.length > 0){
         const offset = new Date().getTimezoneOffset() * 60000;
         const today = new Date(Date.now() - offset);
-        const sendTime = today.toISOString();
+        const sendTime = today.toISOString().replace('T', ' ').replace('Z', '').substring(0,19);
         
-        stompClient.send("/app/chat", {},
-                          JSON.stringify({
-                              'roomId': selectRoomId,
-                              'sender': loginMemberNo,
-	                          'receiver': selectReceiverId, 
-	                          'content': inputValue,
-	                          'sendTime': sendTime
-	                         // 'imgs': 
-                          })
-                     );
+        if (selectedFiles.length > 0) {
+            const formData = new FormData();
+
+            selectedFiles.forEach(file => {
+                formData.append('imgs', file);
+            });
+            
+            fetch("/heehee/chatting/upload/image", {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const message = {
+                    'roomId': selectRoomId,
+                    'sender': loginMemberNo,
+                    'receiver': selectReceiverId,
+                    'content': inputValue,
+                    'sendTime': sendTime,
+                    'imgs': data
+                };
+                stompClient.send("/app/chat", {}, JSON.stringify(message));
+                selectedFiles = [];  // 이미지 전송 후 파일 초기화
+                imageInput.value = "";  // 파일 입력 초기화
+            })
+            .catch(err => console.log(err));
+        } else {
+            const message = {
+                'roomId': selectRoomId,
+                'sender': loginMemberNo,
+                'receiver': selectReceiverId,
+                'content': inputValue,
+                'sendTime': sendTime,
+                'imgs': []
+            };
+        
+        stompClient.send("/app/chat", {}, JSON.stringify(message));
     }
+  }
 }
 
 // 채팅방 목록에서 채팅방 선택 시 추가되는 이벤트
@@ -381,6 +417,11 @@ function selectChattingFn(){
             imageInput.click();
         });
         
+        imageInput.addEventListener('change', (event) => {
+            selectedFiles = Array.from(event.target.files);
+            sendMessage();
+        });
+        
         const imgUrl1 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/camera.png";
         inputPhoto.setAttribute("src", imgUrl1);
         
@@ -481,14 +522,16 @@ function pay(accountNum, bank, userPoint, productPrice){
             const newPoint=Number(userPoint) + Number(addPoint);
             //console.log(newPoint);
             
-            fetch("/heehee/chatting/point",{
-             method : "PUT",
-             headers : {"Content-Type": "application/json"},
-             body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
-            })
-            .then(resp => resp.text())
-            .then(result => console.log(result))
-            .catch(err => console.log(err));
+            payment(addPoint);
+            
+            //fetch("/heehee/chatting/point",{
+            // method : "PUT",
+            // headers : {"Content-Type": "application/json"},
+            // body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
+            //})
+           // .then(resp => resp.text())
+           // .then(result => console.log(result))
+           // .catch(err => console.log(err));
             
             });
     
@@ -507,6 +550,34 @@ function pay(accountNum, bank, userPoint, productPrice){
     
         chattingModal.append(modalContent);
     }
+}
+
+//결제창 띄우는 함수
+//버튼 클릭하면 실행
+function payment(addPoint) {
+    IMP.init('imp41857573');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
+    IMP.request_pay({// param
+        pg: "html5_inicis", //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
+        pay_method: "card", //지불 방법
+        merchant_uid: 'merchant_'+new Date().getTime(), //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
+        name: "포인트", //결제창에 노출될 상품명
+        amount: addPoint, //금액
+        buyer : loginMemberNo
+    }, function (rsp) { // callback
+        if (rsp.success) {
+            alert("완료 -> imp_uid : "+rsp.imp_uid+" / merchant_uid(orderKey) : " +rsp.merchant_uid);
+            fetch("/heehee/chatting/point",{
+                method : "PUT",
+                headers : {"Content-Type": "application/json"},
+                body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        } else {
+            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
+        }
+    });
 }
 
 //가격 수정하기 함수
