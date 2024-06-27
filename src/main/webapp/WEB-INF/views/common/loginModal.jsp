@@ -12,13 +12,28 @@
 		$("#loginBtn").on("click", openLogin);
 		$("#loginClose").on("click", closeLogin);
 		$("#signupBtn").on("click", openSignup);
-		$("#google_log_btn").on("click",googleLogin);
+		$("#google_log_btn").on("click",naverLogin);
+		$("#zipcodeBtn").on("click", openZipcodeApi)
+		
+	$("#logPw").on("keyup",function(key){
+		if(key.keyCode==13) {
+			login();
+		}    
+	 });
 	});
 	
 	function googleLogin() {
 		location.href="/heehee/oauth2/authorize/google";
 	}
-
+	
+	function kakaoLogin() {
+		location.href="/heehee/oauth2/authorize/kakao";
+	}
+	
+	function naverLogin() {
+		location.href="/heehee/oauth2/authorize/naver";
+	}
+	
 	function openLogin() {
 		$("#loginModal").addClass("show");
 		$("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
@@ -84,6 +99,7 @@
 		    	localStorage.setItem('accessToken', xhr.getResponseHeader('Authorization')) // 로컬스토리지
 		    	closeLogin();
 		    	loginCheck();
+		    	location.reload();
 		    },
 		    error: function (data, status, err) {
 		    	console.log(err);
@@ -100,6 +116,7 @@
 		    	console.log(status);
 		    	console.log(xhr);
 		    	loginCheck();
+		    	location.reload();
 		    },error: function (data, status, err) {
 		    	console.log(err);
 		    }
@@ -119,6 +136,16 @@
 		    	console.log(err);
 		    }
 		});
+	}
+	
+	function openZipcodeApi() {
+		new daum.Postcode({
+	        oncomplete: function(data) {
+	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+	            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+	            console.log(data);
+	        }
+	    }).open();
 	}
 </script>
 </head>
@@ -186,7 +213,7 @@
                         </div>
                         <div class="modal_label">
                             <input type="text" class="input_box" placeholder="우편번호를 검색하세요">
-                            <input type="button" class="dup_btn" value="검색">
+                            <input type="button" id="zipcodeBtn" class="dup_btn" value="검색">
                         </div>
                         <div class="modal_label">
                             <input type="text" class="input_box" placeholder="사용하실 주소를 입력하세요">

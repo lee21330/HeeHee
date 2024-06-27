@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.MainProdRankDTO;
 import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
 import com.shinhan.heehee.dto.response.MainProdRecoDTO;
@@ -44,4 +45,11 @@ public class MainDAO {
 		return sqlSession.selectList(prodDetailNamespace + "recently");
 	}
 	
+	public List<CategoryDTO> mainCateList() {
+		return sqlSession.selectList(prodDetailNamespace + "mainCateList");
+	}
+	
+	public List<String> subCateList(String mainCate) {
+		return sqlSession.selectList(prodDetailNamespace + "subCateList", mainCate);
+	}
 }
