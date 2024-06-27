@@ -1,17 +1,20 @@
-package com.shinhan.heehee.dto.response;
+package com.shinhan.heehee.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProdDetailImgDTO {
+@ToString
+public class ImageFileDTO {
 	private int imgSeq;
-	private String imgName;
 	private int tablePk;
-	private int productSeq;
+	private String imgName;
+	private int prodSeq;
+	private String userId;
 }

@@ -1,11 +1,16 @@
 package com.shinhan.heehee.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.ProductDetailDAO;
+import com.shinhan.heehee.dto.request.ImageFileDTO;
+import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
@@ -15,6 +20,9 @@ public class ProductDetailService {
 
 	@Autowired
 	ProductDetailDAO productDetailDao;
+	
+	@Autowired
+	AWSS3Service fileUploadService;
 	
 	public ProdDetailDTO prodInfo(Integer prodSeq) {
 		return productDetailDao.productInfo(prodSeq);
@@ -29,7 +37,41 @@ public class ProductDetailService {
 	 * productDetailDao.userIntroduce(prodSeq); }
 	 */
 
-	public List<ProdDetailRecoDTO> prodReco() {
-		return productDetailDao.prodReco();
+	public List<ProdDetailRecoDTO> prodReco(Integer prodSeq) {
+		return productDetailDao.prodReco(prodSeq);
+	}
+	
+	@Transactional
+	public void prodModify(ProductModifyRequestDTO modiDTO) throws IOException {
+		String filePath = "images/sell/";
+		List<MultipartFile> files = modiDTO.getUploadFiles();
+		
+		System.out.println("서비스: " + modiDTO);
+		
+		// 파일 업로드 전 기존 파일 삭제
+		if(modiDTO.getDelArr() != null) {
+			for(String delItem : modiDTO.getDelArr()) {
+				ImageFileDTO imgDTO= new ImageFileDTO();
+				imgDTO.setImgSeq(Integer.parseInt(delItem));
+				imgDTO.setTablePk(modiDTO.getProdSeq());
+				productDetailDao.deleteImgFiles(imgDTO);
+			}
+		}
+		
+		// 파일 업로드 로직
+		for(MultipartFile file : files) {
+			ImageFileDTO imgfile = new ImageFileDTO();
+			String fileName = fileUploadService.uploadOneObject(file, filePath);
+			imgfile.setImgName(fileName);
+			imgfile.setProdSeq(modiDTO.getProdSeq());
+			imgfile.setUserId("a");
+			productDetailDao.insertImgFile(imgfile);
+		}
+		
+		// 만약, 자바스크립트에서 기존에 있는 프리뷰 삭제했을때 input hidden 삭제한 리스트를 또 받아와
+		
+		// SELL_PRODUCT 테이블 UPDATE
+		productDetailDao.updateProduct(modiDTO);
+		
 	}
 }

@@ -29,7 +29,7 @@
 	</select>
 	
 	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
-		SELECT IMG.IMG_NAME
+		SELECT IMG.IMG_NAME, IMG.IMG_SEQ
 		FROM IMG_FILES IMG, SELL_PRODUCT SELL
 		WHERE IMG.TABLE_PK = SELL.PRODUCT_SEQ
         AND IMG.IMG_CATE_SEQ = 2
@@ -50,7 +50,7 @@
 		WHERE ROWNUM <![CDATA[<]]> 3
 	</select> -->
 	
-	<select id="prodrecoDetail" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
+	<select id="prodrecoDetail" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT *
 		FROM (SELECT IMG.IMG_NAME, SELL.PRODUCT_SEQ
 		FROM IMG_FILES IMG
@@ -59,6 +59,7 @@
 		AND CREATE_DATE >= SYSDATE - 30
 		ORDER BY DBMS_RANDOM.RANDOM)
 		WHERE ROWNUM <![CDATA[<]]> 6
+		AND PRODUCT_SEQ != #{PROD_SEQ}
 	</select>
 	
 	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
@@ -105,9 +106,9 @@
 	</select>
 	
 	<select id="sellerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProfileDTO">
-		SELECT *
-  		FROM HH_USER
-		WHERE HH_USER.ID = #{id}
+		SELECT HH_USER.*, ROUND(SYSDATE - CREATE_DATE) AS CREATE_DIFF
+		FROM HH_USER
+		WHERE ID = #{id}
 	</select>
 	
 	<select id="sellerprod" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProdDTO">
@@ -126,11 +127,44 @@
 	
 	<select id="productModify" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
 		SELECT SELL.PRODUCT_SEQ, MIN(IMG.IMG_NAME) AS IMG_NAME,
-       SELL.INTRODUCE, SELL.PRODUCT_PRICE
+        SELL.INTRODUCE, SELL.PRODUCT_PRICE
 		FROM SELL_PRODUCT SELL
 		INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
 		WHERE IMG.IMG_CATE_SEQ = 2
 		GROUP BY SELL.PRODUCT_SEQ, SELL.INTRODUCE, SELL.PRODUCT_PRICE
 	</select>
+	
+	<select id="getCategory" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
+		SELECT CATEGORY, MIN(PRODUCT_CATE_SEQ) AS MIN_CATE
+		FROM PRODUCT_CATEGORY
+		GROUP BY CATEGORY
+		ORDER BY MIN_CATE ASC
+	</select>
+	
+	<select id="getDetailCategory" parameterType="String" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
+		SELECT PRODUCT_CATE_SEQ, DETAIL_CATEGORY FROM PRODUCT_CATEGORY WHERE CATEGORY = #{category}
+	</select>
+	
+	<delete id="deleteImgFiles" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
+		DELETE FROM IMG_FILES 
+		WHERE IMG_CATE_SEQ = 2 
+		AND TABLE_PK = #{tablePk}
+		AND IMG_SEQ = #{imgSeq}
+	</delete>
+	
+	<insert id="insertImgFile" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
+		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName},#{prodSeq},2,#{userId})
+	</insert>
+	
+	<update id="updateProduct" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		UPDATE SELL_PRODUCT
+		SET ARTICLE_TITLE = #{articleTitle}
+		, PRODUCT_PRICE = #{productPrice}
+		, INTRODUCE = #{introduce}
+		, CONDITION = #{state}
+		, DEAL = #{deal}
+		, D_CHARGE = #{dCharge}
+		WHERE PRODUCT_SEQ = #{prodSeq}
+	</update>
 	
 </mapper>

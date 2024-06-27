@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,115 +15,110 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/product.js"></script> <!-- 이미지파일 업로드때문에 필요 -->
 	<script src="/heehee/resources/js/productregiCategory.js"></script>
-	<form action="#" method="GET">
+	<form action="/heehee/sell/productModify" method="POST" enctype="multipart/form-data">
+	<input type="hidden" value="${info.productSeq}" name="prodSeq">
 	<div class="productRegistrate">
 	<div id="test">
 		<main>
-			<p id="regi_title">상품 등록</p>
+			<p id="regi_title">정보 수정</p>
 			<div id="regi_info">
-				<p>상품 이미지</p>
-				<img id="preview" src="/heehee/resources/images/picture.png">
-				<div id="regi_img">
-					<input type="file" id="input_file">
-				</div>
-			</div>
+    <p id="prod_img">상품 이미지</p>
+    <div id="regi_img">
+        <div class="img_container">
+            <h6 class="preview" id="prv_img1" style="cursor: pointer;">사진 추가</h6>
+            <input type="file" id="input_file1" class="input_file" name="uploadImgs" accept="image/*" multiple>
+        </div>
+    </div>
+    <div id="preview_container">
+    	<c:forEach var="img" items="${prodImgList}">
+            <div class="img_container" data="${img.imgSeq}">
+                <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${img.imgName}" alt="Product Image">
+                <button type="button" class="remove_img">x</button>
+            </div>
+        </c:forEach>
+    </div>
+    <div id = "new_preview_container">
+    
+    </div>
+	</div>
+	<input type="hidden" id="delArr" name="delArr" value="">
 				<p id="cate">카테고리</p>
-					<div id="elementColumn">
-					<div class="nav_inner1">
-						<div class="nav_title1">
-							<div class="category_name1">
-								<p>대분류</p>
-							</div>
-							<%-- 카테고리 대분류 --%>
-							<div class="category_content1">
-								<nav>
-									<ul class="category_list1">
-										<li>여성의류</li>
-										<li>남성의류</li>
-										<li>신발</li>
-										<li>가방/지갑</li>
-										<li>시계</li>
-										<li>쥬얼리</li>
-										<li>패션 액세서리</li>
-										<li>디지털</li>
-										<li>가전제품</li>
-										<li>스포츠/레저</li>
-										<li>차량/오토바이</li>
-										<li>스타굿즈</li>
-										<li>키덜트</li>
-										<li>예술/희귀/수집품</li>
-										<li>음반/악기</li>
-										<li>도서/티켓/문구</li>
-										<li>뷰티/미용</li>
-										<li>가구/인테리어</li>
-										<li>생활/주방용품</li>
-										<li>공구/산업용품</li>
-										<li>식품</li>
-										<li>유아동/출산</li>
-										<li>반려동물용품</li>
-										<li>기타</li>
-									</ul>
-								</nav>
-							</div>
-						</div>
-						<div class="nav_content1">
-							<div class="category_name1">
-								<p>소분류</p>
-							</div>
-							<%-- 카테고리 소분류 --%>
-							<div class="category_content1">
-								<ul class="content_list1">
-									<li><p>아우터</p></li>
-									<li><p>상의</p></li>
-									<li><p>바지</p></li>
-									<li><p>치마</p></li>
-									<li><p>원피스</p></li>
-									<li><p>점프수트</p></li>
-									<li><p>셋업/세트</p></li>
-									<li><p>언더웨어/홈웨어</p></li>
-									<li><p>테마/이벤트</p></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
+				<div id="elementColumn">
+			    <div class="nav_inner1">
+			        <div class="nav_title1">
+			            <div class="category_name1">
+			                <p>대분류</p>
+			            </div>
+			            <%-- 카테고리 대분류 --%>
+			            <div class="category_content1">
+			                <nav>
+			                    <ul class="category_list1">
+			                        <c:forEach var="bigCate" items="${categoryList}">
+									    <li class="bigCategory" data-category="${bigCate.category}">${bigCate.category}</li>
+									</c:forEach>
+			                    </ul>
+			                </nav>
+			            </div>
+			        </div>
+			        <div class="nav_content1">
+			            <div class="category_name1">
+			                <p>소분류</p>
+			            </div>
+			            <%-- 카테고리 소분류 --%>
+			            <div class="category_content1">
+	                         <ul class="content_list1" id="subCategoryList">
+	                             <!-- 여기에 소분류 항목들 추가됨 -->
+	                         </ul>
+	                         <input id="selCateSeq" type="hidden" value="" name="cateSeq">
+                        </div>
+			        </div>
+			    </div>
+			</div>
+	<div class="regi_item">
+		<p class="setmargin">글 제목</p>
+		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." value="${info.articleTitle}" name="articleTitle">
+	</div>
 	<div class="regi_item">
 		<p>상품 이름</p>
-		<input type="text" class="input_name" placeholder="상품명을 입력해주세요.">
+		<input type="text" class="input_name" placeholder="상품명을 입력해주세요." value="${info.prodName}" name="prodName">
 	</div>
 	<div class="regi_item">
 		<p>상품 상태</p>
 		<div class="state_radio">
-		    <input type="radio" id="new" name="state" checked="checked">
-		    <label for="new">새 상품(미사용)</label>
+		    <input type="radio" id="new" name="state" value="신품" checked="checked">
+		    <label for="new">신품(미사용)</label>
 		
-		    <input type="radio" id="slightly_used" name="state" class="radio_order">
+		    <input type="radio" id="slightly_used" name="state" value="사용감 적음" class="radio_order">
 		    <label for="slightly_used">사용감 적음</label>
 		
-		    <input type="radio" id="used" name="state" class="radio_order">
+		    <input type="radio" id="used" name="state" value="사용감 많음" class="radio_order">
 		    <label for="used">사용감 많음</label>
 		
-		    <input type="radio" id="damaged" name="state" class="radio_order">
+		    <input type="radio" id="damaged" name="state" value="고장/파손" class="radio_order">
 		    <label for="damaged">고장/파손</label>
 		</div>
 	</div>
 	<div class="regi_item">
 		<p>상품 설명</p>
-		<input type="text" class="input_name" placeholder="설명을 입력해주세요.">
+		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요.">${info.introduce}</textarea>
 	</div>
 	<div class="regi_item">
 		<p>상품 가격</p>
-		<input type="text" class="input_name" placeholder="가격을 입력해주세요.">
+		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요." value="${info.productPrice}">
 	</div>
 	<div class="regi_item">
-		<p>거래 유형</p>
-		<div class="state_radio">
-		    <input type="radio" id="package" name="deal_type" checked="checked">
-		    <label for="package">택배</label>
-		
-		    <input type="radio" id="direct" name="deal_type" class="radio_order">
-		    <label for="direct">직거래</label>
-		</div>
+    <p>거래 유형</p>
+    <div class="state_radio1">
+        <input type="radio" id="package" name="deal" class="radio_order" value="택배" checked="checked">
+        <label for="package">택배</label>
+
+        <input type="radio" id="direct" name="deal" class="radio_order" value="직거래">
+        <label for="direct">직거래</label>
+    </div>
+	</div>
+	<div class="regi_item">
+	    <p class="setmargin">배송비</p>
+	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." value="${info.DCharge}" disabled>
 	</div>
 		</main>
 		</div>
@@ -132,9 +128,150 @@
 	</div>
 	
 	</form>
-	<footer>
-		&copy; 2024 희희낙찰. All rights reserved.
-	</footer>
+	
+	<script>
+	$(document).ready(function() {
+		var delArr = [];
+		
+		var selectedStatus = "${info.condition}";
+        if (selectedStatus === "신품") {
+            $("#new").prop("checked", true);
+        } else if (selectedStatus === "사용감 적음") {
+        	$("#slightly_used").prop("checked", true);
+        } else if (selectedStatus === "사용감 많음") {
+        	$("#used").prop("checked", true);
+        } else if (selectedStatus === "파손") {
+        	$("#damaged").prop("checked", true);
+        }
+    	
+        var selectedDeal = "${info.deal}";
+        if (selectedDeal === "택배") {
+            $("#package").prop("checked", true);
+            $('#d_charge').attr('disabled', false);
+            /* $('#d_charge').focus(); */
+        } else if (selectedDeal === "직거래") {
+            $("#direct").prop("checked", true);
+            $('#d_charge').val('');
+            $('#d_charge').attr('disabled', true);
+        }
+
+	    $('.content_list1 p').click(function(event) {
+	        event.preventDefault();
+	        $('.content_list1 p').removeClass('selected');
+	        $(this).addClass('selected');
+	    });
+
+	    $('.radio_order').on('click', function() {
+	        var valueCheck = $('input[name="deal"]:checked').attr('id');
+	        if (valueCheck === 'package') {
+	            $('#d_charge').attr('disabled', false);
+	            $('#d_charge').focus();
+	        } else {
+	            $('#d_charge').val('');
+	            $('#d_charge').attr('disabled', true);
+	        }
+	    });
+
+	    if ($('#package').is(':checked')) {
+	        $('#d_charge').attr('disabled', false);
+	    } else {
+	        $('#d_charge').attr('disabled', true);
+	    }
+	    
+	    $("#prv_img1").click(function() {
+	        $("#input_file1").click(); // 이미지 클릭 시 파일 입력 필드를 활성화
+	    });
+
+	    $("#input_file1").on('change', function() {
+	    	$("#new_preview_container").empty();
+	        if (this.files.length > 5) {
+	            alert('최대 5개의 이미지만 선택 가능합니다.');
+	            this.value = ''; // 선택된 파일들 초기화
+	            return; // 초과 선택 시 더 이상 진행하지 않음
+	        }
+
+	        for (var i = 0; i < this.files.length; i++) {
+	            var file = this.files[i];
+
+	            if (file.type.startsWith('image/')) {
+	                var reader = new FileReader();
+
+	                var temp = 0;
+	                reader.onload = function(e) {
+	                    var imgHtml = '<div class="img_container" newIdx="' + temp++ + '"><img src="' + e.target.result + '" alt="Selected Image"><button type="button" class="remove_img">x</button></div>';
+	                    $('#new_preview_container').append(imgHtml); // 생성된 이미지 태그를 미리보기 컨테이너에 추가
+	                };
+
+	                reader.readAsDataURL(file);
+	            }
+	        }
+	        
+	    });
+
+	    // 이미지 삭제 기능 추가
+	    $(document).on('click', '.remove_img', function() {
+	    	var imgSeq = $(this).closest('.img_container').attr('data');
+	    	var newIdx = $(this).closest('.img_container').attr('newIdx');
+
+	    	if(imgSeq != undefined) delArr.push(imgSeq);
+	    	if(newIdx != undefined) removeFile(newIdx);
+	    	$("#delArr").val(delArr);
+	        $(this).closest('.img_container').remove();
+	    });
+	    
+	    function removeFile(index) {
+            var inputFile = $('#input_file1')[0];
+            var files = Array.from(inputFile.files); // FileList를 배열로 변환
+            files.splice(index, 1); // 배열에서 파일 삭제
+            updateFileInput(files);
+        }
+	    
+	    function updateFileInput(files) {
+            var dataTransfer = new DataTransfer(); // DataTransfer 객체 생성 (크롬, 파이어폭스 등 최신 브라우저에서 지원)
+            files.forEach(file => dataTransfer.items.add(file)); // DataTransfer 객체에 파일 추가
+            $('#input_file1')[0].files = dataTransfer.files; // 파일 입력 요소에 업데이트된 파일 목록 설정
+        }
+
+	    function showSubCategories(category) {
+	        $('#subCategoryList').empty(); // 기존의 소분류 항목을 비움
+	        $.ajax({
+	            type: 'GET',
+	            url: '/heehee/sell/detailCate',
+	            data: { "category": category },
+	            success: function(data) {
+	                data.forEach(function(detailCategory) {
+	                    var li = $('<li>');
+	                    li.html('<p style="cursor: pointer" data="' + detailCategory.productCateSeq + '">' + detailCategory.detailCategory + '</p>');
+	                    $('#subCategoryList').append(li);
+	                });
+	            },
+	            error: function() {
+	                alert('소분류를 가져오는 중 오류가 발생했습니다.');
+	            }
+	        });
+	    }
+
+	    // 대분류에 마우스가 들어왔을 때 소분류를 동적으로 업데이트하는 이벤트 설정
+	    $('.category_list1').on('mouseenter', 'li.bigCategory', function() {
+	        var category = $(this).data('category');
+	        showSubCategories(category);
+	    });
+	    
+	    
+	    $(document).on('click', '#subCategoryList p', function() {
+	        $('#subCategoryList p').css('color', ''); // 기존 모든 p 태그의 색상 초기화
+	        $(this).css('color', '#abc3ff'); // 클릭한 p 태그의 색상 변경
+	        
+	        var cateSeq = $(this).attr('data');
+	        $("#selCateSeq").val(cateSeq);
+	    });
+	});
+	
+	
+
+</script>
 </body>
+
+
 
 </html>
