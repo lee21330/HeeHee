@@ -1,6 +1,9 @@
 //table 동적 업데이트 Ajax용
 
 $(document).ready(function() {
+
+	console.log("테스트");
+
     // 페이지 로드 시 테이블을 초기화
     loadTable();
 
@@ -32,9 +35,9 @@ $(document).ready(function() {
                 data.forEach(function(item) {
                     var row = `<tr>
                         <td><input type="checkbox" class="rowCheckbox" data-id="${item.seq_qna_bno}"></td>
-                        <td>${item.seq_qna_bno}</td>
-                        <td>${item.qna_option}</td>
-                        <td>${item.qna_title}</td>
+                        <td>${item.seqQnaBno}</td>
+                        <td>${item.qnaOption}</td>
+                        <td>${item.qnaTitle}</td>
                         <td>${item.id}</td>
                         <td>${new Date(item.qna_time).toLocaleDateString()}</td>
                     </tr>`;
