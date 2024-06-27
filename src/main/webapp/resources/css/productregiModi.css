@@ -45,7 +45,7 @@ form{
 	text-align: center;
 	margin-top: 30px;
 	font-size: 30px;
-	color: #4949e9;
+	color: #3F51A1;
 }
 
 #regi_info {
@@ -115,7 +115,7 @@ form{
 	text-align: center;
 	color: white;
 	font-size: 15px;
-	background-color: #4949E9;
+	background-color: #3F51A1;
 	border: none;
     box-sizing: border-box;
     margin-top: 10px;
@@ -341,7 +341,7 @@ form{
 
 input[type="submit"] {
 	color: white;
-	background-color: #4949e9;
+	background-color: #3F51A1;
 	width: 100px;
 	height: 45px;
 	cursor: pointer;

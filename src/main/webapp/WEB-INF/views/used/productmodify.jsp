@@ -216,6 +216,7 @@
 	    	if(imgSeq != undefined) delArr.push(imgSeq);
 	    	if(newIdx != undefined) removeFile(newIdx);
 	    	$("#delArr").val(delArr);
+	    	console.log(imgSeq);
 	        $(this).closest('.img_container').remove();
 	    });
 	    
