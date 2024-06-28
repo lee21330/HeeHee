@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
+import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.ProductDetailService;
 import com.shinhan.heehee.service.ProductModifyService;
 import com.shinhan.heehee.service.SellerProfileService;
@@ -39,8 +41,14 @@ public class ProductController {
 	@Autowired
 	SellerProfileService sellerprofileservice;
 	
+	@Autowired
+	MainService mainservice;
+	
 	@GetMapping("/productdetail/{prod_seq}")
 	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		
 		ProdDetailDTO prodInfo = productservice.prodInfo(prodSeq);
 		if(prodInfo == null) return "/";
 		String userId = (principal != null) ? principal.getName() : "admin";
@@ -54,6 +62,9 @@ public class ProductController {
 	
 	@GetMapping("/productmodify/{prod_seq}")
 	public String modify(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		
 		ProdDetailDTO prodInfo = productservice.prodInfo(prodSeq);
 		if(prodInfo == null) return "/";
 		String userId = (principal != null) ? principal.getName() : "admin";
@@ -69,6 +80,9 @@ public class ProductController {
 	
 	@GetMapping("/sellerProfile/{id}")
 	public String home(@PathVariable("id") String id, Model model) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		
 		model.addAttribute("sellerinfo", sellerprofileservice.sellerinfo(id));
 		model.addAttribute("sellerprodList", sellerprofileservice.sellerprod(id));
 		model.addAttribute("dealComplete", sellerprofileservice.dealComplete(id));
@@ -83,7 +97,10 @@ public class ProductController {
 	
 	@PostMapping("/productModify")
 	public String prodModify(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
-							,ProductModifyRequestDTO modiDTO) throws IOException {
+							,ProductModifyRequestDTO modiDTO, Model model) throws IOException {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		
 		modiDTO.setUploadFiles(uploadImgs);
 		productservice.prodModify(modiDTO);
 		return "redirect:/sell/productdetail/" + modiDTO.getProdSeq();

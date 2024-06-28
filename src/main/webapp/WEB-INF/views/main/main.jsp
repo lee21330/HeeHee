@@ -24,15 +24,16 @@
 					<p class="classifyTitle">실시간 인기 상품</p>
 					<div id="rankListArea">
 					<c:forEach var="rankProd" items="${rankProdList}" varStatus="status">
-						<div class="rankProdDiv">
-							<p>${status.count}위</p>
-							<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}">
-							<div class="rankProdInfo">
-								<p class="rankProdTitle">${rankProd.articleTitle}</p>
-								<p class="rankProdIntro">${rankProd.introduce}</p>
-								<p class="rankProdPrice">${rankProd.productPrice}원</p>
-							</div>
-						</div>
+					    <div class="rankProdDiv">
+					        <p>${status.count}위</p>
+					        <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}" 
+					            onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">
+					        <div class="rankProdInfo">
+					            <p class="rankProdTitle" onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">${rankProd.articleTitle}</p>
+					            <p class="rankProdIntro">${rankProd.introduce}</p>
+					            <p class="rankProdPrice">${rankProd.productPrice}원</p>
+					        </div>
+					    </div>
 					</c:forEach>
 				
 					</div>
