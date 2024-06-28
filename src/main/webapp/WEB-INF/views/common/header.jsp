@@ -66,7 +66,7 @@
 					<div id="alarmDiv" class="menu_div">
 						<div>
 							<%-- <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 없는 아이콘"> --%>
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 있는 아이콘">
+							<img class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 있는 아이콘">
 							<span>알림</span>
 						</div>
 						<div class="alarm_container">

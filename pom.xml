@@ -157,11 +157,6 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<dependency>
-	        <groupId>org.springframework</groupId>
-	        <artifactId>spring-context-support</artifactId>
-	        <version>${org.springframework-version}</version> <!-- 필요에 따라 최신 버전으로 변경 -->
-	    </dependency>
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>

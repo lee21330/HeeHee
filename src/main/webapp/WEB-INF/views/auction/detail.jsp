@@ -29,6 +29,7 @@
 		<input id = "aucPrice" type="number" value="${aucProdInfo.aucPrice}" disabled>
 		<button id="placeBidBtn">입찰하기</button>
 		<button id="paymentBtn">결제하기</button>
+		<button id="에러" onclick="error()"></button>
 		<div id="response"></div>
 	</div>
     <footer>
@@ -141,6 +142,21 @@
 	    $(".h_" + seq).html(HH);
 	    $(".m_" + seq).html(MM);
 	    $(".s_" + seq).html(SS);
+	}
+	
+	function error() {
+		$.ajax({
+		    url: '/heehee/auc/detail/asdfasf',
+		    method: 'GET',
+		    success: function (data, status, xhr) {
+		    	console.log(data);
+		    	console.log(status);
+		    	console.log(xhr);
+		    },
+		    error: function (data, status, err) {
+		    	console.log(err);
+		    }
+		});
 	}
     </script>
 </html>

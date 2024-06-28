@@ -11,15 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.service.MainService;
 
-@ControllerAdvice
-public class GlobalController {
-
-	@Autowired
-	MainService mainService;
-
-	@ModelAttribute
-	public void mainCateList(Model model) {
-		List<CategoryDTO> mainCateList = mainService.mainCateList();
-		model.addAttribute("mainCateList", mainCateList); // 카테고리 서비스 호출
-	}
-}
+/*
+ * @ControllerAdvice public class GlobalController {
+ * 
+ * @Autowired MainService mainService;
+ * 
+ * @ModelAttribute public void mainCateList(Model model) { List<CategoryDTO>
+ * mainCateList = mainService.mainCateList(); model.addAttribute("mainCateList",
+ * mainCateList); // 카테고리 서비스 호출 } }
+ */
