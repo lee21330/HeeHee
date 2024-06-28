@@ -1,22 +1,18 @@
 package com.shinhan.heehee.dto.response;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlarmChatDTO {
-	String alContent;
-	String alDate;
-	int cateNum;
-	String sender;
-	int reqSeq;
-	int alNum;
-	String alCheck;
+public class RoomUserDTO {
+	private String accountNum;
+	private String bank;
+	private int userPoint;
 }
