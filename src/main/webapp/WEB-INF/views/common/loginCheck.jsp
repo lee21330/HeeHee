@@ -17,6 +17,7 @@
 	<sec:authorize access="hasRole('ADMIN')">
 		<div onclick="">관리자 화면</div>
 	</sec:authorize>
+	${userNickName}님 안녕하세요.
 	<div onclick="logout()">로그아웃</div>
 	<div class="div_line"></div>
 	<div class="login_text" onclick="location.href='${path}/mypage/main'">마이페이지</div>

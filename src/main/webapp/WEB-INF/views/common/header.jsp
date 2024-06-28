@@ -10,8 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
@@ -65,7 +65,8 @@
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
-							<img class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 아이콘">
+							<%-- <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 없는 아이콘"> --%>
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 있는 아이콘">
 							<span>알림</span>
 						</div>
 						<div class="alarm_container">
@@ -73,10 +74,20 @@
 								<div id="alarmAll" class="alarm_type add">전체 알림</div>
 								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
+
+							<%-- 알림 없는 경우 --%>
+							<%--
+							<div id="none">
+								<p>최근 알림이 없습니다.</p>
+							</div>
+							--%>
+
+							<%-- 알림 있는 경우 --%>
 							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
 				</div>
+
 				<%-- 카테고리 --%>
 				<div class="nav_container">
 					<div class="nav_menu">
@@ -92,24 +103,16 @@
 							<div class="category_content">
 								<nav>
 									<ul class="category_list">
-										<c:forEach items="${mainCateList}" var="mainCate">
-											<li>${mainCate.category}</li>
+										<c:forEach var="mainCategory" items="${mainCateList}">
+											<li> ${mainCategory.category}
+												<ul class="sub-category-list">
+													<c:forEach var="subCategory" items="${mainCategory.subCategory}">
+														<li>${subCategory}</li>
+													</c:forEach>
+												</ul>
 										</c:forEach>
 									</ul>
 								</nav>
-							</div>
-						</div>
-						<div class="nav_content">
-							<div class="category_name">
-								<p></p>
-							</div>
-							<%-- 카테고리 소분류 --%>
-							<div class="category_content">
-								<ul class="content_list">
-									<c:forEach items="${mainCateDetail}" var="cateDetail">
-										<li><a href="#home">${cateDetail.detailCategory}</a></li>
-									</c:forEach>
-								</ul>
 							</div>
 						</div>
 					</div>

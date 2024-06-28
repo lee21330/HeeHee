@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+
+input[type=button] {
+	cursor: pointer;
+}
+
+button {
+	cursor: pointer;
+}
+
 @font-face {
     font-family: 'SEBANG_Gothic_Bold';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
@@ -299,7 +308,7 @@ body {
 }
 
 .nav_inner {
-    width: 400px;
+    width: 200px;
     height: auto;
     position: relative;
     top: -20px;
@@ -308,7 +317,6 @@ body {
 
 /* 카테고리 대문류 */
 .nav_title {
-    width: 50%;
     display: flex;
     flex-direction: column;
     background: white;
@@ -323,6 +331,10 @@ body {
 
 .category_name {
     border-bottom: 1px solid lightgray;
+}
+
+.category_content {
+	position: relative;
 }
 
 .category_list {
@@ -353,6 +365,7 @@ body {
 }
 
 .category_list li {
+	/* position: relative; */
     padding: 5px 0;
     list-style: none;
     color: black;
@@ -364,6 +377,24 @@ body {
     padding: 10px;
     display: block;
     text-decoration: none;
+}
+
+.category_list > li:hover .sub-category-list {
+	display: block;
+}
+
+.sub-category-list {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.sub-category-list > li {
+	padding: 10px 20px;
+    white-space: nowrap;
 }
 
 /* 카테고리 소분류 */

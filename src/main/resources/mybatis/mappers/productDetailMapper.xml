@@ -153,6 +153,7 @@
 		GROUP BY SELL.PRODUCT_SEQ, SELL.INTRODUCE, SELL.PRODUCT_PRICE
 	</select>
 	
+<<<<<<< HEAD
 	<select id="getCategory" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
 		SELECT CATEGORY, MIN(PRODUCT_CATE_SEQ) AS MIN_CATE
 		FROM PRODUCT_CATEGORY
@@ -185,5 +186,18 @@
 		, D_CHARGE = #{dCharge}
 		WHERE PRODUCT_SEQ = #{prodSeq}
 	</update>
+=======
+	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
+		SELECT CATEGORY
+	  	FROM PRODUCT_CATEGORY
+	 	GROUP BY CATEGORY
+	</select>
+	
+	<select id="subCateList" parameterType="String" resultType="String">
+		SELECT DETAIL_CATEGORY
+  		FROM PRODUCT_CATEGORY
+		WHERE CATEGORY = #{mainCate}
+	</select>
+>>>>>>> branch 'feat/hyunsang' of https://github.com/Sh03Team05/HeeHee.git
 	
 </mapper>
