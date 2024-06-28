@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+
+input[type=button] {
+	cursor: pointer;
+}
+
+button {
+	cursor: pointer;
+}
+
 @font-face {
     font-family: 'SEBANG_Gothic_Bold';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
@@ -162,7 +171,7 @@ body {
     height: 45px;
     float: right;
     margin-top: 45px;
-    cursor: pointer;
+    
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -172,6 +181,11 @@ body {
     position: relative;
     display: inline-block;
     margin: 0 10px 0 40px;
+    cursor: pointer;
+}
+
+.menu_div img:hover{
+    transform: translateY(-2px);
 }
 
 .menu_container img {
@@ -181,6 +195,22 @@ body {
     position: absolute;
     top: -10px;
     left: -30px;
+}
+
+/* 알림 애니메이션 효과 */
+@keyframes alarm-ani {
+  from {
+    transform: rotate(35deg);
+  }
+  to {
+    transform: rotate(-35deg);
+  }
+}
+
+.alarmImg {
+	animation: alarm-ani 0.3s /* 속도 */
+               		linear 0s   /* 처음부터 끝까지 일정 속도로 진행 */
+               		infinite alternate; /* 무한 반복 */
 }
 
 /* 알림 목록 */
@@ -200,7 +230,7 @@ body {
 }
 
 .alarm_container.none {
-    height: 150px;
+    height: 100px;
 }
 
 .alarm_container p {
@@ -278,7 +308,7 @@ body {
 }
 
 .nav_inner {
-    width: 400px;
+    width: 200px;
     height: auto;
     position: relative;
     top: -20px;
@@ -287,7 +317,6 @@ body {
 
 /* 카테고리 대문류 */
 .nav_title {
-    width: 50%;
     display: flex;
     flex-direction: column;
     background: white;
@@ -302,6 +331,10 @@ body {
 
 .category_name {
     border-bottom: 1px solid lightgray;
+}
+
+.category_content {
+	position: relative;
 }
 
 .category_list {
@@ -332,6 +365,7 @@ body {
 }
 
 .category_list li {
+	/* position: relative; */
     padding: 5px 0;
     list-style: none;
     color: black;
@@ -343,6 +377,24 @@ body {
     padding: 10px;
     display: block;
     text-decoration: none;
+}
+
+.category_list > li:hover .sub-category-list {
+	display: block;
+}
+
+.sub-category-list {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.sub-category-list > li {
+	padding: 10px 20px;
+    white-space: nowrap;
 }
 
 /* 카테고리 소분류 */
@@ -381,6 +433,11 @@ body {
     margin-right: -10px;
     -webkit-transition: .5s ease-in-out;
     transition: .5s ease-in-out;
+}
+
+/* 확인한 알림 색상 변경 */
+.visited {
+	color: gray;
 }
 
 /*토스트 메시지*/

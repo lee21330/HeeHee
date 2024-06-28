@@ -17,7 +17,7 @@ public class AdminUserDTO {
 	private String name;
 	private String id;
 	private String email;
-	private String phone_num;
+	private String phoneNum;
 	private String address;
-	private Date create_date;
+	private Date createDate;
 }

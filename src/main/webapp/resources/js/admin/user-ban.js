@@ -12,6 +12,8 @@ $(document).ready(function() {
     // 초기화 버튼 클릭 시
     $('#resetButton').click(function() {
         $('#searchInput').val('');
+        $('#startDate').val('');
+        $('#endDate').val('');
         loadTable();
     });
 
@@ -24,7 +26,7 @@ $(document).ready(function() {
         var endDate = $('#endDate').val();
 
         $.ajax({
-            url: '/heehee/admin/userBan',
+            url: '/heehee/admin/userBanSearch',
             method: 'GET',
             data: { 
             	'category': category, 

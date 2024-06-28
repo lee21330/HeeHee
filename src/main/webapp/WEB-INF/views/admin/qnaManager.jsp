@@ -21,7 +21,7 @@
 				<div class="containerHeadBlock">
 					<p class="searchContext">검색어</p>
 				</div>
-			<select>
+			<select id="searchCategory">
 				<option value="number">번호</option>
 				<option value="qnaCategory">유형</option>
 				<option value="qnaTitle">제목</option>
@@ -49,31 +49,8 @@
 						<th>작성일</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-						<td>번호</td>
-						<td>유형</td>
-						<td>제목</td>
-						<td>작성자ID</td>
-						<td>작성일</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-						<td>번호</td>
-						<td>유형</td>
-						<td>제목</td>
-						<td>작성자ID</td>
-						<td>작성일</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-						<td>번호</td>
-						<td>유형</td>
-						<td>제목</td>
-						<td>작성자ID</td>
-						<td>작성일</td>
-					</tr>
+				<tbody id="tableBody">
+					<!-- Ajax로 동적 업데이트 -->
 				</tbody>
 			</table>
 		</div>

@@ -3,15 +3,22 @@ package com.shinhan.heehee.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import com.shinhan.heehee.exception.JwtTokenExpiredException;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Component
 public class JwtUtil {
+
 	private String secret = "fasdjsdkjsdafhfsdklhjfsadkljsardkljkbsskfkjsarklsda";
 	
 	public String extractUsername(String token) {
@@ -49,6 +56,9 @@ public class JwtUtil {
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = extractUsername(token);
+		if (isTokenExpired(token)) {
+			throw new JwtTokenExpiredException("만료된 토큰 입니다.");
+		}
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 

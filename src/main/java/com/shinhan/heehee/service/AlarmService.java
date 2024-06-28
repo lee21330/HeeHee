@@ -15,8 +15,19 @@ public class AlarmService {
 	@Autowired
 	AlarmDAO alarmDAO;
 	
-	public List<AlarmChatDTO> alarmList() {
-		return alarmDAO.alarmList();
+	// 알림 전체 조회
+	public List<AlarmChatDTO> alarmList(String userId) {
+		return alarmDAO.alarmList(userId);
+	}
+
+	// 미확인 알림 조회
+	public List<AlarmChatDTO> alarmUnck(String userId) {
+		return alarmDAO.alarmUnck(userId);
+	}
+
+	// 알림 확인
+	public int alarmUpdate(int alNum) {
+		return alarmDAO.alarmUpdate(alNum);
 	}
 	
 }

@@ -13,5 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RoomDetailDTO {
 	RoomProductDTO roomProductDTO;
+	RoomUserDTO roomUserDTO;
 	List<RoomMessageDTO> roomMessageDTO;
 }

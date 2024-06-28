@@ -25,7 +25,6 @@
 					<option value="number">번호</option>
 					<option value="qnaCategory">유형</option>
 					<option value="qnaTitle">제목</option>
-					<option value="userID">작성자ID</option>
 				</select>
 				<input type="text" id="searchInput" placeholder="입력란 (제목 혹은 내용 입력)">
 				<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>
@@ -35,7 +34,7 @@
 		<div id="btmContainer">
 		<p class="detailTitle">FAQ 내용</p>
 		<button class="commonSmallBtn" id="addButton">신규 등록</button> <!-- 기능구현 추가 필요함 -->
-		<button class="commonSmallBtn" id="editButton">수정</button>
+		<button class="commonSmallBtn" id="editButton">열람/수정</button>
 		<button class="commonSmallBtn" id="deleteButton">삭제</button>
 		</div>
 		<div class="faqTable">
@@ -52,22 +51,6 @@
 				</thead>
 				<tbody id="tableBody">
 				<!-- Ajax로 동적 업데이트 -->
-					<tr>
-						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-						<td>0001</td>
-						<td>사용</td>
-						<td>ajaxtesttesttesttesttesttet</td>
-						<td>jaemyung95</td>
-						<td>2024-05-30</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" class="rowCheckbox" data-id="${item.id}"></td>
-						<td>0001</td>
-						<td>사용</td>
-						<td>ajaxtesttesttesttesttesttet</td>
-						<td>jaemyung95</td>
-						<td>2024-05-30</td>
-					</tr>
 				</tbody>
 			</table>
 		</div>

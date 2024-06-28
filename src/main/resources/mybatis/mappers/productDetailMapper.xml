@@ -186,4 +186,16 @@
 		WHERE PRODUCT_SEQ = #{prodSeq}
 	</update>
 	
+	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
+		SELECT CATEGORY
+	  	FROM PRODUCT_CATEGORY
+	 	GROUP BY CATEGORY
+	</select>
+	
+	<select id="subCateList" parameterType="String" resultType="String">
+		SELECT DETAIL_CATEGORY
+  		FROM PRODUCT_CATEGORY
+		WHERE CATEGORY = #{mainCate}
+	</select>
+	
 </mapper>
