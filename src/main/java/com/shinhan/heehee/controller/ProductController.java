@@ -1,6 +1,7 @@
 package com.shinhan.heehee.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 import com.shinhan.heehee.service.ProductDetailService;
 import com.shinhan.heehee.service.ProductModifyService;
@@ -38,17 +40,24 @@ public class ProductController {
 	SellerProfileService sellerprofileservice;
 	
 	@GetMapping("/productdetail/{prod_seq}")
-	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model) {
-		model.addAttribute("userId","dhfl123");
-		model.addAttribute("info", productservice.prodInfo(prodSeq));
+	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
+		ProdDetailDTO prodInfo = productservice.prodInfo(prodSeq);
+		if(prodInfo == null) return "/";
+		String userId = (principal != null) ? principal.getName() : "admin";
+		model.addAttribute("userId", userId);
+		
+		model.addAttribute("info", prodInfo);
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
 		model.addAttribute("prodRecoList",productservice.prodReco(prodSeq));
 		return "/used/productdetail";
 	}
 	
 	@GetMapping("/productmodify/{prod_seq}")
-	public String modify(@PathVariable("prod_seq") Integer prodSeq, Model model) {
-		model.addAttribute("userId","dhfl123");
+	public String modify(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
+		ProdDetailDTO prodInfo = productservice.prodInfo(prodSeq);
+		if(prodInfo == null) return "/";
+		String userId = (principal != null) ? principal.getName() : "admin";
+		model.addAttribute("userId", userId);
 		
 		model.addAttribute("info", productmodifyservice.prodInfo(prodSeq));
 		
