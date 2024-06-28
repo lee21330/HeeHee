@@ -4,16 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageDTO {
-	private int msgId;
-	private int imgId;
-	private int roomId;
-	private String sender;
-	private String receiver;
-	private String content;
+@ToString
+public class ChatImageDTO {
+    private int imgSeq;
+    private int tablePk;
+    private String imgName;
+    private int msgSeq;
+    private String userId;
 }

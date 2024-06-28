@@ -1,5 +1,6 @@
 package com.shinhan.heehee.dto.request;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class ChatMessageDTO {
 	private String receiver;
 	private String content;
 	private String sendTime;
+	private List<String> imgs;
 }

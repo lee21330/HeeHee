@@ -1,12 +1,15 @@
 package com.shinhan.heehee.controller;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -16,19 +19,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shinhan.heehee.dto.request.MessageDTO;
+import com.shinhan.heehee.dto.request.ChatMessageDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
-import com.shinhan.heehee.dto.response.RoomMessageDTO;
 import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.ChattingService;
 
 @Controller
+@RequestMapping("/chatting")
 public class ChattingController {
 
 	@Autowired
@@ -40,72 +44,140 @@ public class ChattingController {
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 
+	String userId = "";
+
 	// 채팅 페이지
-	@GetMapping("/chatting")
-	public String chatting(Model model) {
+	@GetMapping
+	public String chatting(Model model, Principal principal) {
+		if (principal != null)
+			userId = principal.getName();
 		// model에 담을 것: 유저별 채팅방 목록
-		model.addAttribute("roomList", cService.getRoomList("b"));
+		model.addAttribute("roomList", cService.getRoomList(userId));
+		model.addAttribute("userId", userId);
 		return "chatting/chatting";
 	}
 
 	// 채팅방 목록 조회
-	// 추후 로그인 유저 정보 받는 부분 수정하기
-	@GetMapping(value = "/chatting/roomList", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/roomList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<ChatRoomDTO> getRoomList() {
-		// System.out.println(cService.getRoomList("a"));
-		return cService.getRoomList("b"); // 로그인 유저 Id 전달
+	public List<ChatRoomDTO> getRoomList(Principal principal) {
+		if (principal != null)
+			userId = principal.getName();
+		return cService.getRoomList(userId); // 로그인 유저 Id 전달
 	}
 
-	// 채팅방 목록에서 채팅방 클릭 시 해당 채팅방의 판매 물품 정보, 메시지 목록 조회
-	// 추후 로그인 유저 정보 수정하기
-	@GetMapping(value = "/chatting/{id}", produces = "application/json; charset=UTF-8")
+	// 채팅방 목록에서 채팅방 클릭 시 해당 채팅방의 판매 물품 정보, 유저 계좌 및 포인트 정보, 메시지 목록 조회
+	@GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public RoomDetailDTO getRoomDetail(@PathVariable("id") int chatRoomId) {
+	public RoomDetailDTO getRoomDetail(@PathVariable("id") int chatRoomId, Principal principal) {
+		if (principal != null)
+			userId = principal.getName();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("chatRoomId", chatRoomId);
-		map.put("loginUserId", "b");
+		map.put("loginUserId", userId);
 		return cService.getRoomDetail(map); // 채팅방 번호와 로그인 유저 Id 전달
 	}
 
 	// 선택한 채팅방에서 상대 메세지 읽음 체크
 	// 업데이트 성공 시 1 반환
-	// 추후 로그인 유저 정보 수정하기
-	@PutMapping("/chatting/read")
+	@PutMapping("/read")
 	@ResponseBody
 	public int updateReadCheck(@RequestBody Map<String, Object> map) {
 		return cService.updateReadCheck(map);
 	}
 
-	// 메시지(+이미지) insert
-	// 추후 로그인 유저 정보 수정하기
-	// (1) 메시지 전송
-	@PostMapping("/chatting/message")
+	// 선택한 채팅방 -> 가격 수정 모달 -> 수정하기 눌렀을때 가격 수정
+	// 업데이트 성공 시 1 반환
+	@PutMapping("/price")
 	@ResponseBody
-	public String insertMessage(@RequestBody MessageDTO messageDTO) throws IOException {
-		System.out.println(messageDTO);
-		cService.insertMessage(messageDTO);
-		return "test";
+	public int updatePrice(@RequestBody Map<String, Object> map) {
+		return cService.updatePrice(map);
 	}
 
-	// (2) 사진 전송
-	@PostMapping("/chatting/Image")
+	// 선택한 채팅방 -> 포인트 충전 모달 -> 충전하기 눌렀을때 포인트 수정
+	// 업데이트 성공 시 1 반환
+	@PutMapping("/point")
 	@ResponseBody
-	public String insertImage(@RequestPart(required = false) MessageDTO messageDTO,
-			@RequestPart(required = false) List<MultipartFile> img) throws IOException {
-		if(img!=null && !img.isEmpty()) {
-			cService.insertMsgImg(messageDTO, img);
-			String filePath ="images/chat/";
-			s3Service.uploadObject(img, filePath);
-			return "test1";
+	public int updatePoint(@RequestBody Map<String, Object> map) {
+		return cService.updatePoint(map);
+	}
+
+	//약속 잡기
+	@PostMapping("/reserve")
+	@ResponseBody
+	public void reserve(@RequestBody Map<String, Object> map) {
+		cService.reserve(map);
+	}
+
+	// 메시지(+이미지) insert
+	// (1) 메시지 전송
+	/*
+	 * @PostMapping("/message")
+	 * 
+	 * @ResponseBody public String insertMessage(@RequestBody ChatMessageDTO
+	 * messageDTO) throws IOException { System.out.println(messageDTO);
+	 * cService.insertMessage(messageDTO); return "test"; }
+	 */
+
+	// (2) 사진 전송
+	/*
+	 * @PostMapping("/image")
+	 * 
+	 * @ResponseBody public void insertImage(@RequestPart(required = false)
+	 * ChatMessageDTO messageDTO,
+	 * 
+	 * @RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
+	 * if(imgs!=null && !imgs.isEmpty()) { String filePath ="images/chat/";
+	 * s3Service.uploadObject(imgs, filePath); for(MultipartFile img : imgs) {
+	 * if(img!=null && !img.isEmpty()) {
+	 * System.out.println(img.getOriginalFilename());
+	 * cService.insertMsgImg(messageDTO, img); } } } }
+	 */
+
+	/*@PostMapping("/message")
+	@ResponseBody
+	public void insertMessage(@RequestPart(required = false) ChatMessageDTO messageDTO,
+			@RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
+		if (imgs != null && !imgs.isEmpty()) {
+			messageDTO.setImgs(imgs);
+			cService.insertMsgImg(messageDTO);
+		} else {
+			cService.insertMessage(messageDTO);
 		}
-		return "test2";
+	}*/
+
+	@PostMapping("/upload/image")
+	@ResponseBody
+	public List<String> uploadImages(@RequestPart List<MultipartFile> imgs) throws IOException {
+
+		ArrayList<String> imgNames = new ArrayList<String>();
+
+		if (imgs != null && !imgs.isEmpty()) {
+			for (MultipartFile img : imgs) {
+				try {
+					String imgName = s3Service.uploadOneObject(img, "images/chat/");
+					imgNames.add(imgName);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return imgNames;
 	}
 
 	// 소켓: 메시지(+이미지) insert
-	@MessageMapping("/message/{roomId}")
-	public void sendMessage(@DestinationVariable("roomId") int roomId, RoomMessageDTO message) {
+	// @SendTo 대신 converAndSend 사용
+	@MessageMapping("/chat")
+	public void sendMessage(ChatMessageDTO message) throws IOException {
 		// 메세지 Insert 로직 구현 필요
-		messagingTemplate.convertAndSend("/topic/chatroom/" + roomId, message);
+		if (message.getImgs() != null && !message.getImgs().isEmpty()) {
+			System.out.println("이미지 확인");
+			cService.insertMsgImg(message);
+		} else {
+			System.out.println("텍스트 확인");
+			cService.insertMessage(message);
+		}
+
+		messagingTemplate.convertAndSend("/topic/chatroom/" + message.getRoomId(), message);
 	}
 }
