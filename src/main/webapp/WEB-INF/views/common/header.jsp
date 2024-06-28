@@ -12,9 +12,44 @@
 <title>header</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
+<script>
+$(document).ready(function() {
+	beforeConnectCheck();
+});
+
+function beforeConnectCheck() {
+	if("${userId}" != "") connect();
+}
+
+function connect() {
+    var socket = new SockJS('/heehee/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
+            showResponse(JSON.parse(response.body));
+        });
+    });
+}
+
+function showResponse(res) {
+	console.log(res);
+	
+	$("#alarmImg").addClass("alarmImg");
+	$("#alarmCnt").text(res);
+}
+
+function sendAlarm() {
+    var userId = 'sinsang';
+    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 3, 'reqSeq': 46, 'alContent': "낙찰되었습니다."}));
+}
+
+</script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 </head>
 <body>
@@ -25,6 +60,7 @@
 			<div class="login_container">
 				<div class="login_menu">
 					<%@ include file="/WEB-INF/views/common/loginCheck.jsp"%>
+					<button onclick="sendAlarm() ">소켓</button>
 				</div>
 			</div>
 			<div class="header_container">
@@ -65,7 +101,8 @@
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
-							<img class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 아이콘">
+							<img id="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 아이콘">
+							<span id="alarmCnt"></span>
 							<span>알림</span>
 						</div>
 						<div class="alarm_container">
@@ -73,7 +110,7 @@
 								<div id="alarmAll" class="alarm_type add">전체 알림</div>
 								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
-							<%-- 알림 리스트 찍어주는 위치 --%>
+							<%-- 알림 찍어주는 위치 --%>
 							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
@@ -89,9 +126,14 @@
 							<div class="category_name">
 								<p>카테고리 이름</p>
 							</div>
-							<%-- 카테고리 대분류 --%>
+							<%-- 카테고리 리스트 --%>
 							<div class="category_content">
 								<nav>
+									<%-- 
+									<div class="category_name">
+										<p>카테고리 이름</p>
+									</div>
+									--%>
 									<ul class="category_list">
 										<c:forEach var="mainCategory" items="${mainCateList}">
 											<li> ${mainCategory.category}
@@ -100,6 +142,7 @@
 														<li>${subCategory}</li>
 													</c:forEach>
 												</ul>
+											</li>	
 										</c:forEach>
 									</ul>
 								</nav>

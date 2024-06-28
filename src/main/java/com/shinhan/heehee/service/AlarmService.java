@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dto.response.AlarmChatDTO;
@@ -30,4 +31,13 @@ public class AlarmService {
 		return alarmDAO.alarmUpdate(alNum);
 	}
 	
+	// 알림 생성
+	@Transactional
+	public int alarmInsert(AlarmDTO alarm) {
+		return alarmDAO.alarmInsert(alarm);
+	}
+	
+	public int alarmCount(String userId) {
+		return alarmDAO.alarmCount(userId);
+	}
 }

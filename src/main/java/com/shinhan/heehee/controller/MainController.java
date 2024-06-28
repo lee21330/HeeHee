@@ -28,8 +28,8 @@ public class MainController {
 		
 		if(principal != null) {
 			System.out.println("아이디: " + principal.getName());
+			model.addAttribute("userId",principal.getName());
 		}
-		
 		model.addAttribute("rankProdList", mainservice.rankProdList());
 		model.addAttribute("recommandList", mainservice.recommandList());
 		model.addAttribute("recentprodList", mainservice.recentprodList());

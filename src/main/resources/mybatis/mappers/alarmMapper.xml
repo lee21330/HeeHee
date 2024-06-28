@@ -167,4 +167,21 @@
 		WHERE AL_NUM = #{alNum} 
 					AND AL_CHECK = 'N'
 	</update>
+	
+	<insert id="alarmInsert" parameterType="alarmDTO">
+		INSERT INTO ALARM VALUES (ALARM_SEQ.NEXTVAL, 
+													#{id}, 
+													#{cateNum},  
+													#{reqSeq}, 
+													#{alContent}, 
+													'N', 
+													SYSDATE)
+	</insert>
+	
+	<select id="alarmCount" parameterType="String" resultType="int">
+		SELECT COUNT(AL_NUM) AS CNT
+  		FROM ALARM
+ 		WHERE ID = #{userId}
+   		AND AL_CHECK = 'N'
+	</select>
 </mapper>

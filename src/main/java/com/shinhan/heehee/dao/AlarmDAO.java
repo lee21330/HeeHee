@@ -29,9 +29,16 @@ public class AlarmDAO {
 
 	// 알림 확인
 	public int alarmUpdate(int alNum) {
-		// int result = sqlSession.update(namespace + "alarmUpdate", alNum);
-		
 		return sqlSession.update(namespace + "alarmUpdate", alNum);
+	}
+
+	// 알림 생성
+	public int alarmInsert(AlarmDTO alarm) {
+		return sqlSession.insert(namespace + "alarmInsert", alarm);
+	}
+	
+	public int alarmCount(String userId) {
+		return sqlSession.selectOne(namespace + "alarmCount", userId);
 	}
 	
 }

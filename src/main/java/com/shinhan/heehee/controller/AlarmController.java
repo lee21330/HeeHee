@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shinhan.heehee.dto.request.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.response.AlarmChatDTO;
+import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.service.AlarmService;
 
 @Controller
@@ -21,6 +26,9 @@ public class AlarmController {
 	
 	@Autowired
 	AlarmService alarmService;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 	
 	// 알림 전체 조회
 	@ResponseBody
@@ -66,6 +74,19 @@ public class AlarmController {
 		return result;
 	}
 	
-	// DB 조회 후 소켓 연결
+	/*
+	 * @PostMapping("/app/alarmInsert") public int alarmInsert(AlarmDTO alarmDTO) {
+	 * int result = alarmService.alarmInsert(alarmDTO);
+	 * 
+	 * return result; }
+	 */
+	
+	@MessageMapping("/alarm/{fromUser}")
+	public void handleBid(AlarmDTO alarmDto, @DestinationVariable("fromUser") String fromUser) {
+		alarmDto.setId(fromUser);
+		alarmService.alarmInsert(alarmDto);
+		int alarmCnt = alarmService.alarmCount(fromUser);
+		messagingTemplate.convertAndSend("/topic/alarm/" + fromUser, alarmCnt);
+	}
 	
 }
