@@ -44,11 +44,12 @@
 						<c:forEach var="op" items="${qnaOption}">
 							<div class="radioContainer">
 								<input type="radio" id="${op.qnaOption}" name="SEQ_QNA_OPTION"
-									value="${op.seqQnaOption}"> <label
+									value="${op.seqQnaOption}" onclick="showQnaOptionContent('${op.qnaOptionContent}')"> <label
 									for="${op.qnaOption}" class="radioLabel">${op.qnaOption}</label>
-									<p id="qnaOptionContent">${op.qnaOptionContent}</p>
+									
 							</div>
 						</c:forEach>
+						<p id="qnaOptionContent"></p>
 					</div>
 				</div>
 				<div class="qna_item">
@@ -56,7 +57,7 @@
 					<textarea name="QNA_CONTENT"></textarea>
 				</div>
 				<div class="qna_item">
-					<p>첨부파일 최대(3개))</p>
+					<p>첨부파일 최대(3개)</p>
 					<img id="img_preview"
 						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg">
 					<input type="file" id="input_file" name="imgName" multiple

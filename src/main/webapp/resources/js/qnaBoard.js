@@ -15,7 +15,7 @@ $(function() {
 
 		}
 	});
-	$("#cancel").on("click",reset);
+	$("#cancel").on("click", reset);
 });
 
 function change() {
@@ -43,7 +43,11 @@ function readURL(input) {
 		$('#preview').attr('src', "");
 	}
 }
-function reset(){
+function reset() {
 	$("#qna input, textarea").val("");
-	$("input:radio[name='SEQ_QNA_OPTION']").removeAttr("checked"); 
+	$("input:radio[name='SEQ_QNA_OPTION']").removeAttr("checked");
+}
+
+function showQnaOptionContent(optionContent) {
+	$('#qnaOptionContent').text(optionContent);
 }

@@ -8,14 +8,15 @@
 }
 /*--------------왼쪽 영역--------------*/
 .left {
-	width: 45%;
+	width: 600px;
 }
 
 /*-------1:1 Q&A-------*/
-#note{
-	border: 1px solid red;
+#note {
+	border: 1px solid #979797;
 	margin-bottom: 16px;
 }
+
 #note p {
 	font-size: 13px;
 }
@@ -27,19 +28,24 @@ h1 {
 }
 
 /*-------1:1 문의하기-------*/
+#qna {
+	border: 1px solid #979797;
+}
+
 #qna_title {
 	width: 450px;
 	height: 30px;
-	padding: 0px 0px 0px 0px;
+	box-sizing: border-box;
 }
 
 .qna_item {
+	width: 100%;
 	display: flex;
 	gap: 60px;
 	margin-top: 10px;
 }
 
-.qna_item p{
+.qna_item p {
 	width: 75px;
 	height: 100%;
 	margin-top: 0;
@@ -52,6 +58,7 @@ h1 {
 	height: 30px;
 	border: 1px solid #D3D3D3;
 	cursor: pointer;
+	box-sizing: border-box;
 }
 
 input[type="radio"] {
@@ -63,7 +70,7 @@ input[type="radio"] {
 	height: 100%;
 	display: flex;
 	flex-flow: wrap;
-	gap: 26px;
+	gap: 30px;
 	/* justify-content: space-between; */
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
@@ -77,14 +84,16 @@ input[type="radio"] {
 	align-items: center;
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
+	box-sizing: border-box;
 }
 
 .radioContainer input[type="radio"]:checked+label {
 	background-color: #ABC3FF;
 }
 
-#qna_type {
-	display: none;
+#qnaOptionContent {
+	display: block;
+	width: 100%;
 }
 
 textarea {
@@ -92,6 +101,7 @@ textarea {
 	height: 200px;
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 15px;
+	box-sizing: border-box;
 }
 
 #input_file {
@@ -111,9 +121,11 @@ textarea {
 	text-align: center;
 	line-height: 50px; /* 텍스트의 세로 정렬 */
 }
-.btn div{
+
+.btn div {
 	display: inline-block;
 }
+
 .btn_submit {
 	cursor: pointer;
 	width: 150px;
@@ -145,20 +157,21 @@ textarea {
 #faq {
 	margin: 0px;
 	height: 400px;
-	border: 1px solid green;
+	border: 1px solid #979797;
 	overflow-y: auto;
 }
+
 #faq::-webkit-scrollbar {
 	display: block !important;
 }
 
 #faq::-webkit-scrollbar-thumb {
-    background-color: #ccc; /* Color of the scrollbar thumb */
-    border-radius: 5px; /* Rounded corners */
+	background-color: #ccc; /* Color of the scrollbar thumb */
+	border-radius: 5px; /* Rounded corners */
 }
 
 #faq::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Color of the scrollbar track */
+	background-color: #f1f1f1; /* Color of the scrollbar track */
 }
 
 #faq a {
@@ -205,8 +218,8 @@ textarea {
 }
 
 /*-------나의 문의-------*/
-#myQna{
-	border: 1px solid pink;
+#myQna {
+	border: 1px solid #979797;
 	height: 400px;
 	overflow-y: auto;
 }
@@ -216,12 +229,12 @@ textarea {
 }
 
 #myQna::-webkit-scrollbar-thumb {
-    background-color: #ccc; /* Color of the scrollbar thumb */
-    border-radius: 5px; /* Rounded corners */
+	background-color: #ccc; /* Color of the scrollbar thumb */
+	border-radius: 5px; /* Rounded corners */
 }
 
 #myQna::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Color of the scrollbar track */
+	background-color: #f1f1f1; /* Color of the scrollbar track */
 }
 
 .ansStatus {
@@ -233,6 +246,7 @@ textarea {
 	align-items: center;
 	justify-content: center;
 }
+
 .qnaContent {
 	border: 1px solid green;
 }
