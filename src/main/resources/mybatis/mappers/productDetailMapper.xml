@@ -26,6 +26,8 @@
 		    (SELECT ID, PROFILE_IMG, NICK_NAME, USER_RATING, USER_INTRODUCE FROM HH_USER) USER_INFO ON SELL.ID = USER_INFO.ID
 		WHERE 
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
+		AND
+			(SELL.PRO_STATUS = '판매중' OR SELL.PRO_STATUS = '예약중')
 	</select>
 	
 	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
