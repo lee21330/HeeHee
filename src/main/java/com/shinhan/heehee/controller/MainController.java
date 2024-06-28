@@ -1,5 +1,7 @@
 package com.shinhan.heehee.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,12 @@ public class MainController {
 	AuctionService auctionService;
 	
 	@GetMapping("/main")
-	public String main(Model model) {
+	public String main(Model model, Principal principal) {
+		
+		if(principal != null) {
+			System.out.println("아이디: " + principal.getName());
+		}
+		
 		model.addAttribute("rankProdList", mainservice.rankProdList());
 		model.addAttribute("recommandList", mainservice.recommandList());
 		model.addAttribute("recentprodList", mainservice.recentprodList());

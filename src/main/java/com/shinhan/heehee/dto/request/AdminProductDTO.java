@@ -14,25 +14,41 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AdminProductDTO {
-	//등록번호
-	private int product_seq;
 	
-	//카테고리
+	//등록번호 - SELL_PRODUCT
+	private int productSeq;
+	
+	//카테고리 - PRODUCT_CATEGORY
 	private String category;
 	
-	//세부 카테고리
-	private String detail_category;
+	//세부 카테고리 - PRODUCT_CATEGORY
+	private String detailCategory;
 	
-	//판매자ID
+	//판매자ID - SELL_PRODUCT
 	private String id;
 	
-	//제목
-	private String article_title;
+	//제목 - SELL_PRODUCT
+	private String articleTitle;
 	
-	//게시일
-	private Date create_date;
+	//게시일 - SELL_PRODUCT
+	private Date createDate;
 	
-	//상태
-	private String pro_status;
+	//상태 - SELL_PRODUCT
+	private String proStatus;
+	
+	//정지사유 - SELL_PRODUCT
+	private String productBanReason;
+	
+	//삭제용 - 파라미터 1개 생성자 추가
+	public AdminProductDTO(int productSeq) {
+		this.productSeq = productSeq;
+	}
+	
+	//수정용 - 파라미터 3개 생성자 추가
+	public AdminProductDTO(int productSeq, String proStatus, String productBanReason) {
+		this.productSeq = productSeq;
+		this.proStatus = proStatus;
+		this.productBanReason = productBanReason;
+	}
 	
 }

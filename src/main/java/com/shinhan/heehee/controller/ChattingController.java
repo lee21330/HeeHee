@@ -92,11 +92,11 @@ public class ChattingController {
 	@PostMapping("/chatting/Image")
 	@ResponseBody
 	public String insertImage(@RequestPart(required = false) MessageDTO messageDTO,
-			@RequestPart(required = false) MultipartFile img) throws IOException {
+			@RequestPart(required = false) List<MultipartFile> img) throws IOException {
 		if(img!=null && !img.isEmpty()) {
 			cService.insertMsgImg(messageDTO, img);
 			String filePath ="images/chat/";
-			s3Service.uploadObject(img, filePath + img.getOriginalFilename());
+			s3Service.uploadObject(img, filePath);
 			return "test1";
 		}
 		return "test2";

@@ -12,7 +12,12 @@
 		$("#loginBtn").on("click", openLogin);
 		$("#loginClose").on("click", closeLogin);
 		$("#signupBtn").on("click", openSignup);
+		$("#google_log_btn").on("click",googleLogin);
 	});
+	
+	function googleLogin() {
+		location.href="/heehee/oauth2/authorize/google";
+	}
 
 	function openLogin() {
 		$("#loginModal").addClass("show");
@@ -144,7 +149,7 @@
                         <div>비밀번호 찾기</div>
                     </div>
                     <div class="modal_btn save" id="log_btn" onclick="login()">로그인</div>
-                    <div class="modal_btn kakao_save" id="log_btn">카카오 로그인</div>
+                    <div class="modal_btn kakao_save" id="google_log_btn">카카오 로그인</div>
                     <div id="signup_btn" class="signup" onclick="join('signup')">회원가입</div>
                 </div>
                 <%-- 본인인증 --%>

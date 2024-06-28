@@ -36,7 +36,7 @@ $(document).ready(function() {
         });
 		
         $.ajax({
-            url: "/heehee/admin/searchUsers",
+            url: "/heehee/admin/searchAllUser",
             method: 'GET',
             data: { 
             	'category': category, 
