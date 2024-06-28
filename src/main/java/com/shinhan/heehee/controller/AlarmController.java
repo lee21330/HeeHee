@@ -22,17 +22,18 @@ public class AlarmController {
 	@Autowired
 	AlarmService alarmService;
 	
-	String userId = "";
-	
 	// 알림 전체 조회
 	@ResponseBody
 	@GetMapping("/alarmAll")
 	// @GetMapping("/alarmAll/{userId}")
 	// public List<AlarmChatDTO> alarmList(@PathVariable("userId") String userId) {
 	public List<AlarmChatDTO> alarmList(Principal principal) {
-		String userId = principal.getName();
+		String userId = "";
+		userId = principal.getName();
 		
-		if (principal != null) { userId = principal.getName(); }
+		if (principal != null) { 
+			userId = principal.getName(); 
+		}
 		
 		List<AlarmChatDTO> alarmList = alarmService.alarmList(userId);
 		return alarmList;
@@ -44,9 +45,12 @@ public class AlarmController {
 	// @GetMapping("/alarmUnck/{userId}")
 	// public List<AlarmChatDTO> alarmUnck(@PathVariable("userId") String userId) {
 	public List<AlarmChatDTO> alarmUnck(Principal principal) {
-		String userId = principal.getName();
+		String userId = "";
+		userId = principal.getName();
 		
-		if (principal != null) { userId = principal.getName(); }
+		if (principal != null) { 
+			userId = principal.getName(); 
+		}
 		
 		List<AlarmChatDTO> alarmUnck = alarmService.alarmUnck(userId);
 		return alarmUnck;

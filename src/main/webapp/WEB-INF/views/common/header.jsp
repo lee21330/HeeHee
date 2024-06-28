@@ -65,8 +65,7 @@
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
-							<%-- <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 없는 아이콘"> --%>
-							<img class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 있는 아이콘">
+							<img class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 아이콘">
 							<span>알림</span>
 						</div>
 						<div class="alarm_container">
@@ -74,20 +73,11 @@
 								<div id="alarmAll" class="alarm_type add">전체 알림</div>
 								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
-
-							<%-- 알림 없는 경우 --%>
-							<%--
-							<div id="none">
-								<p>최근 알림이 없습니다.</p>
-							</div>
-							--%>
-
-							<%-- 알림 있는 경우 --%>
+							<%-- 알림 리스트 찍어주는 위치 --%>
 							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
 				</div>
-
 				<%-- 카테고리 --%>
 				<div class="nav_container">
 					<div class="nav_menu">
