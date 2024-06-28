@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="btn_modal">
-                            <button type="submit" class="btn_submit">충전하기</button>
+                            <button type="submit" class="btn_submit">수정하기</button>
                             <button class="btn_cancel">취소하기</button>
                         </div>
                     </form>

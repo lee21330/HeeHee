@@ -2,33 +2,67 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.myPage">
-	<select id="saleList" parameterType="string" resultType="salevo">
+	<select id="saleList" parameterType="map" resultType="salevo">
 		SELECT *
 		FROM SELL_PRODUCT SELL, IMG_FILES IMG
 		WHERE SELL.PRODUCT_SEQ =
 		IMG.TABLE_PK
-		AND SELL.ID = #{USER_ID}
+		AND SELL.ID = #{userId}
 		AND IMG_CATE_SEQ = 2
-		AND
-		IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
+
+		<if test="status!='all'">
+			AND SELL.PRO_STATUS = #{status}
+		</if>
+		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
 		FROM IMG_FILES
-		WHERE IMG_CATE_SEQ =
+		WHERE
+		IMG_CATE_SEQ =
 		2
 		GROUP BY TABLE_PK)
 	</select>
-	<select id="sellPro" parameterType="map" resultType="salevo">
+	<select id="saleDetail" parameterType="int"
+		resultType="saleDetailvo">
 		SELECT *
-		FROM SELL_PRODUCT SELL, IMG_FILES IMG
-		WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
-		AND SELL.ID = #{USER_ID}
-		AND IMG_CATE_SEQ = 2
-		  AND SELL.PRO_STATUS = #{STATUS}
-		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
-		FROM IMG_FILES
-		WHERE IMG_CATE_SEQ =
-		2
+		FROM SELL_PRODUCT SELL
+		JOIN PRODUCT_TYPE TYPE ON
+		SELL.SELECT_SEQ = TYPE.PRODUCT_SEQ
+		JOIN PRODUCT_CATEGORY CATE ON
+		TYPE.PRODUCT_CATE_SEQ =
+		CATE.PRODUCT_CATE_SEQ
+		JOIN IMG_FILES IMG ON
+		SELL.PRODUCT_SEQ = IMG.TABLE_PK
+		LEFT OUTER JOIN DEAL_HISTORY DH ON
+		SELL.PRODUCT_SEQ = DH.SELL_SEQ
+		LEFT OUTER JOIN DELIVERY D ON DH.S_SEQ =
+		d.S_SEQ
+		LEFT OUTER JOIN DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ =
+		DC.D_COMPANY_SEQ
+		WHERE IMG.IMG_SEQ IN (
+		SELECT MIN(IMG_SEQ)
+		FROM
+		IMG_FILES
+		WHERE
+		IMG_CATE_SEQ = 2
 		GROUP BY TABLE_PK)
-	</select>	
+		AND SELL.PRODUCT_SEQ =
+		#{proSeq}
+	</select>
+
+	<insert id="insertDelivery" parameterType="deliveryvo">
+		INSERT INTO DELIVERY
+		VALUES (DELIVERY_SEQ.nextval, #{dCompanySeq},
+		#{dNumber},
+		'발송완료',#{sSeq})
+	</insert>
+	<update id="updateSCheck" parameterType="int">
+		UPDATE DEAL_HISTORY
+		SET
+		S_CHECK = SYSDATE
+		WHERE SELL_SEQ = #{proSeq}
+	</update>
+	<select id="dcOption" resultType="dcvo">
+		SELECT * FROM DELIVERY_COMPANY
+	</select>
 	<select id="purchaseList" parameterType="string"
 		resultType="purchasevo">
 		SELECT *
@@ -66,5 +100,65 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
+	<select id="profile" parameterType="String"
+		resultType="profilevo">
+		SELECT *
+		FROM HH_USER
+		WHERE HH_USER.ID = #{USER_ID}
+	</select>
+	<update id="userIntroduce" parameterType="map">
+		UPDATE HH_USER
+		SET
+		USER_INTRODUCE = #{introduce}
+		WHERE ID = #{userId}
+	</update>
 
+
+	<select id="qnaOption" resultType="qnavo">
+		SELECT * FROM QNA_OPTION
+	</select>
+	<select id="faqOption" parameterType="int" resultType="faqvo">
+		SELECT *
+		FROM QNA_OPTION qo ,FAQ_BOARD fb
+		WHERE qo.SEQ_QNA_OPTION =
+		fb.OPTION_SEQ
+		<if test="option!=0">
+			AND OPTION_SEQ = #{option}
+		</if>
+	</select>
+	<select id="myQna" parameterType="String" resultType="qnavo">
+		SELECT *
+		FROM QNA_OPTION qo
+		JOIN QNA_BOARD qb ON qo.SEQ_QNA_OPTION =
+		qb.SEQ_QNA_OPTION
+		WHERE qb.ID = #{USER_ID}
+		ORDER BY qb.SEQ_QNA_BNO
+	</select>
+	<select id="myQnaImg" parameterType="map" resultType="qnaImgvo">
+		SELECT *
+		FROM IMG_FILES
+		WHERE ID = #{userId}
+		AND IMG_CATE_SEQ = 4
+		AND TABLE_PK =
+		#{seqQnaBno}
+	</select>
+	<delete id="deleteQna" parameterType="int">
+		DELETE FROM QNA_BOARD
+		WHERE
+		seq_qna_bno = #{seqQnaBno}
+	</delete>
+	<delete id="deleteQnaImg" parameterType="int">
+		DELETE FROM IMG_FILES
+		WHERE img_cate_seq = 4
+		AND table_pk = #{seqQnaBno}
+	</delete>
+	<insert id="insertQna" parameterType="insertQnavo">
+		INSERT INTO QNA_BOARD
+		VALUES (SEQ_QNA_BNO.nextval, #{ID}, #{QNA_TITLE}, #{QNA_CONTENT},
+		#{QNA_FILE}, null, SYSDATE, #{SEQ_QNA_OPTION})
+	</insert>
+	<insert id="insertQnaImg" parameterType="insertQnaImgvo">
+		INSERT INTO IMG_FILES
+		VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{ID})
+	</insert>
 </mapper>
