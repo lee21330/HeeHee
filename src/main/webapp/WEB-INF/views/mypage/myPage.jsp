@@ -80,6 +80,11 @@
 					</div>
 				</div>
 			</div>
+			<ul id="deal">
+				<li>중고물품</li>
+				<li>경매물품</li>
+			</ul>
+			
 			<ul class="menu">
 				<li class="select" onclick="changeStatus('all')">판매내역</li>
 				<li onclick="showPurchaseList()">구매내역</li>
