@@ -7,14 +7,23 @@
   <setting name="logImpl" value="LOG4J"/>
   <setting name="jdbcTypeForNull" value="NULL"/>
 </settings>
-   <typeAliases>
-   <typeAlias type="com.shinhan.heehee.dto.request.AdminUserDTO" alias="adminUserVO"/>
-   <typeAlias type="com.shinhan.heehee.dto.request.AdminUserBanDTO" alias="adminUserBanVO"/>
-   <typeAlias type="com.shinhan.heehee.dto.request.AdminProductDTO" alias="adminProductVO"/>
-   <typeAlias type="com.shinhan.heehee.dto.request.AdminAuctionDTO" alias="adminAuctionVO"/>
-   <typeAlias type="com.shinhan.heehee.dto.request.AdminCategoryDTO" alias="adminCategoryVO"/>
-   <typeAlias type="com.shinhan.heehee.dto.request.AdminQnaManagerDTO" alias="adminQnaManagerVO"/>
-   <typeAlias type="com.shinhan.heehee.dto.request.AdminFaqManagerDTO" alias="adminFaqManagerVO"/>
-   <typeAlias type="com.shinhan.heehee.dto.request.adminQuestionManagerDTO" alias="adminQuestionManagerVO"/>
-   </typeAliases>
+	<typeAliases>
+	<typeAlias type="com.shinhan.heehee.dto.request.AdminUserDTO" alias="adminUserVO"/>
+	<typeAlias type="com.shinhan.heehee.dto.request.AdminUserBanDTO" alias="adminUserBanVO"/>
+	<typeAlias type="com.shinhan.heehee.dto.request.AdminProductDTO" alias="adminProductVO"/>
+	<typeAlias type="com.shinhan.heehee.dto.request.AdminAuctionDTO" alias="adminAuctionVO"/>
+	<typeAlias type="com.shinhan.heehee.dto.request.AdminCategoryDTO" alias="adminCategoryVO"/>
+	<typeAlias type="com.shinhan.heehee.dto.request.AdminQnaManagerDTO" alias="adminQnaManagerVO"/>
+	<typeAlias type="com.shinhan.heehee.dto.request.AdminFaqManagerDTO" alias="adminFaqManagerVO"/>
+	<typeAlias type="com.shinhan.heehee.dto.request.adminQuestionManagerDTO" alias="adminQuestionManagerVO"/>
+	
+	<typeAlias type="com.shinhan.heehee.dto.response.JjimDTO" alias="salevo"/>
+	<typeAlias type="com.shinhan.heehee.dto.response.PurchaseListDTO" alias="purchasevo"/>
+	
+	<typeAlias type="com.shinhan.heehee.dto.response.JjimDTO" alias="jjimvo" />
+	<typeAlias type="com.shinhan.heehee.dto.response.AlarmDTO" alias="alarmDTO" />
+	<typeAlias type="com.shinhan.heehee.dto.response.NfCategoryDTO" alias="nfCategoryDTO" />
+	<typeAlias type="com.shinhan.heehee.dto.response.AlarmChatDTO" alias="alarmChatDTO" />
+	<typeAlias type="com.shinhan.heehee.dto.response.MyPageHeaderDTO" alias="myHeaderDTO" />
+	</typeAliases>
 </configuration>

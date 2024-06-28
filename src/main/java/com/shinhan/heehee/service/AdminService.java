@@ -63,18 +63,18 @@ public class AdminService {
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
-	public AdminProductDTO getProductBanReason (int product_seq) {
-		return adminDAO.getProductBanReason(product_seq);
+	public AdminProductDTO getProductBanReason (int productSeq) {
+		return adminDAO.getProductBanReason(productSeq);
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
-	public void updateProductStatus (int product_seq, String pro_status, String product_ban_reason) {
-		adminDAO.updateProductStatus(product_seq, pro_status, product_ban_reason);
+	public void updateProductStatus (int productSeq, String proStatus, String productBanReason) {
+		adminDAO.updateProductStatus(productSeq, proStatus, productBanReason);
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteProduct (int product_seq) {
-		adminDAO.deleteProduct(product_seq);
+	public void deleteProduct (int productSeq) {
+		adminDAO.deleteProduct(productSeq);
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능)
@@ -83,18 +83,18 @@ public class AdminService {
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
-	public AdminAuctionDTO getAucBanReason (int product_seq){
-		return adminDAO.getAucBanReason(product_seq);
+	public AdminAuctionDTO getAucBanReason (int productSeq){
+		return adminDAO.getAucBanReason(productSeq);
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
-	public void updateAucStatus (int product_seq, String auc_status, String auc_ban_reason) {
-		adminDAO.updateAucStatus(product_seq, auc_status, auc_ban_reason);
+	public void updateAucStatus (int productSeq, String aucStatus, String aucBanReason) {
+		adminDAO.updateAucStatus(productSeq, aucStatus, aucBanReason);
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteAuction (int product_seq) {
-		adminDAO.deleteAuction(product_seq);
+	public void deleteAuction (int productSeq) {
+		adminDAO.deleteAuction(productSeq);
 	}
 
 	//상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음
@@ -103,18 +103,18 @@ public class AdminService {
 	}
 	
 	//상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
-	public void insertCategory(String category, String detail_category) {
-		adminDAO.insertCategory(category, detail_category);
+	public void insertCategory(String category, String detailCategory) {
+		adminDAO.insertCategory(category, detailCategory);
 	}
 	
 	//상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
-	public void updateCategory (int product_cate_seq, String category, String detail_category) {
-		adminDAO.updateCategory(product_cate_seq, category, detail_category);
+	public void updateCategory (int productCateSeq, String category, String detailCategory) {
+		adminDAO.updateCategory(productCateSeq, category, detailCategory);
 	}
 	
 	//상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteCategory (int product_cate_seq) {
-		adminDAO.deleteCategory(product_cate_seq);
+	public void deleteCategory (int productCateSeq) {
+		adminDAO.deleteCategory(productCateSeq);
 	}
 	
 	//상품 관리 끝
@@ -127,20 +127,20 @@ public class AdminService {
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
-	public List<AdminQnaManagerDTO> getQnaContent(int seq_qna_bno){
-		return adminDAO.getQnaContent(seq_qna_bno);
+	public List<AdminQnaManagerDTO> getQnaContent(int seqQnaBno){
+		return adminDAO.getQnaContent(seqQnaBno);
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능)
 	@Transactional
-	public void updateQnaAns(int seq_qna_bno, String newValue) {
-		adminDAO.updateQnaAns(seq_qna_bno, newValue);
+	public void updateQnaAns(int seqQnaBno, String newValue) {
+		adminDAO.updateQnaAns(seqQnaBno, newValue);
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@Transactional
-	public void deleteQna (int seq_qna_bno) {
-		adminDAO.deleteQna(seq_qna_bno);
+	public void deleteQna (int seqQnaBno) {
+		adminDAO.deleteQna(seqQnaBno);
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 조회 기능 (기능 : 키워드로 필터검색 가능)
@@ -157,8 +157,8 @@ public class AdminService {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 선택된 항목에 대한 세부내용 작성 및 Update 가능)
-	public void updateFaq (int seq_faq_bno, int seq_qna_option, String faq_content, String faq_and) {
-		adminDAO.updateFaq(seq_faq_bno, seq_qna_option, faq_content, faq_and);
+	public void updateFaq (int seqFaqBno, int seqQnaOption, String faqContent, String faqAns) {
+		adminDAO.updateFaq(seqFaqBno, seqQnaOption, faqContent, faqAns);
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌)
@@ -167,8 +167,8 @@ public class AdminService {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteFaq(int seq_faq_bno) {
-		adminDAO.deleteFaq(seq_faq_bno);
+	public void deleteFaq(int seqFaqBno) {
+		adminDAO.deleteFaq(seqFaqBno);
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능)
@@ -177,23 +177,18 @@ public class AdminService {
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 신규 등록 (기능 : 수기 입력받은 유형과 내용을 Insert 함)
-	public void insertQnaOption (String qna_option, String qna_option_content) {
-		adminDAO.insertQnaOption(qna_option, qna_option_content);
+	public void insertQnaOption (String qnaOption, String qnaOptionContent) {
+		adminDAO.insertQnaOption(qnaOption, qnaOptionContent);
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 수정 기능 (기능 : 수기 입력받은 유형과 내용을 Update 함)
-	public void updateQnaOption(int seq_qna_bno, String qna_option, String qna_option_content) {
-		adminDAO.updateQnaOption(seq_qna_bno, qna_option, qna_option_content);
+	public void updateQnaOption(int seqQnaBno, String qnaOption, String qnaOptionContent) {
+		adminDAO.updateQnaOption(seqQnaBno, qnaOption, qnaOptionContent);
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteQnaOption(int seq_qna_option) {
-		adminDAO.deleteQnaOption(seq_qna_option);
+	public void deleteQnaOption(int seqQnaOption) {
+		adminDAO.deleteQnaOption(seqQnaOption);
 	}
 	//고객 지원 끝
 }
-
-
-
-
-

@@ -16,39 +16,39 @@ import lombok.ToString;
 public class AdminProductDTO {
 	
 	//등록번호 - SELL_PRODUCT
-	private int product_seq;
+	private int productSeq;
 	
 	//카테고리 - PRODUCT_CATEGORY
 	private String category;
 	
 	//세부 카테고리 - PRODUCT_CATEGORY
-	private String detail_category;
+	private String detailCategory;
 	
 	//판매자ID - SELL_PRODUCT
 	private String id;
 	
 	//제목 - SELL_PRODUCT
-	private String article_title;
+	private String articleTitle;
 	
 	//게시일 - SELL_PRODUCT
-	private Date create_date;
+	private Date createDate;
 	
 	//상태 - SELL_PRODUCT
-	private String pro_status;
+	private String proStatus;
 	
 	//정지사유 - SELL_PRODUCT
-	private String product_ban_reason;
+	private String productBanReason;
 	
 	//삭제용 - 파라미터 1개 생성자 추가
-	public AdminProductDTO(int product_seq) {
-		this.product_seq = product_seq;
+	public AdminProductDTO(int productSeq) {
+		this.productSeq = productSeq;
 	}
 	
 	//수정용 - 파라미터 3개 생성자 추가
-	public AdminProductDTO(int product_seq, String pro_status, String product_ban_reason) {
-		this.product_seq = product_seq;
-		this.pro_status = pro_status;
-		this.product_ban_reason = product_ban_reason;
+	public AdminProductDTO(int productSeq, String proStatus, String productBanReason) {
+		this.productSeq = productSeq;
+		this.proStatus = proStatus;
+		this.productBanReason = productBanReason;
 	}
 	
 }

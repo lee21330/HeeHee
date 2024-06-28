@@ -16,37 +16,37 @@ import lombok.ToString;
 public class AdminQnaManagerDTO {
 	
 	//번호 - QNA_BOARD
-	private int seq_qna_bno;
+	private int seqQnaBno;
 	
 	//유형 - QNA_OPTION
-	private String qna_option;
+	private String qnaOption;
 	
 	//제목 - QNA_BOARD
-	private String qna_title;
+	private String qnaTitle;
 	
 	//답변내용 - QNA_BOARD
-	private String qna_content;
+	private String qnaContent;
 	
 	//작성자ID - QNA_BOARD
 	private String id;
 	
 	//작성일 - QNA_BOARD
-	private Date qna_time;
+	private Date qnaTime;
 	
 	//답변내용 열람용
-	private String qna_ans;
+	private String qnaAns;
 	
 	//자바스크립트 변수 : 1:1 답변내용
 	private String newValue;
 	
 	//삭제용 - 파라미터 1개 생성자 추가
-	public AdminQnaManagerDTO(int seq_qna_bno) {
-		this.seq_qna_bno = seq_qna_bno;
+	public AdminQnaManagerDTO(int seqQnaBno) {
+		this.seqQnaBno = seqQnaBno;
 	}
 	
 	//수정, 답변용 - 파라미터 2개 생성자 추가
-	public AdminQnaManagerDTO(int seq_qna_bno, String newValue) {
-		this.seq_qna_bno = seq_qna_bno;
+	public AdminQnaManagerDTO(int seqQnaBno, String newValue) {
+		this.seqQnaBno = seqQnaBno;
 		this.newValue = newValue;
 	}
 	

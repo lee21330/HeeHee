@@ -16,36 +16,36 @@ import lombok.ToString;
 public class AdminFaqManagerDTO {
 	
 	//번호 - FAQ_BOARD
-	private int seq_faq_bno;
+	private int seqFaqBno;
 	
 	//유형 - QNA_OPTION
-	private String qna_option;
+	private String qnaOption;
 	
 	//제목 - FAQ_BOARD
-	private String faq_content;
+	private String faqContent;
 	
 	//내용 - FAQ_BOARD
-	private String faq_ans;
+	private String faqAns;
 	
 	//작성자ID - FAQ_BOARD
 	private String id;
 	
 	//작성일 - FAQ_BOARD
-	private Date faq_time;
+	private Date faqTime;
 	
 	//수정용 임시 변수 - QNA_OPTION
-	private int seq_qna_option;
+	private int seqQnaOption;
 	
 	//삭제용 - 파라미터 1개 생성자 추가
-	public AdminFaqManagerDTO(int seq_faq_bno) {
-		this.seq_faq_bno = seq_faq_bno;
+	public AdminFaqManagerDTO(int seqFaqBno) {
+		this.seqFaqBno = seqFaqBno;
 	}
 	
 	//수정용 - 파라미터 4개 생성자 추가
-	public AdminFaqManagerDTO(int seq_faq_bno, int seq_qna_option, String faq_content, String faq_ans) {
-		this.seq_faq_bno = seq_faq_bno;
-		this.seq_qna_option = seq_qna_option;
-		this.faq_content = faq_content;
-		this.faq_ans = faq_ans;
+	public AdminFaqManagerDTO(int seqFaqBno, int seqQnaOption, String faqContent, String faqAns) {
+		this.seqFaqBno = seqFaqBno;
+		this.seqQnaOption = seqQnaOption;
+		this.faqContent = faqContent;
+		this.faqAns = faqAns;
 	}
 }

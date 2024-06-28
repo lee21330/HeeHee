@@ -15,39 +15,39 @@ import lombok.ToString;
 @ToString
 public class AdminAuctionDTO {
 	//등록번호 - AUC_PRODUCT
-	private int product_seq;
+	private int productSeq;
 	
 	//카테고리 - PRODUCT_CATEGORY
 	private String category;
 	
 	//세부 카테고리 - PRODUCT_CATEGORY
-	private String detail_category;
+	private String detailCategory;
 	
 	//판매자ID - AUC_PRODUCT
-	private String seller_id;
+	private String sellerId;
 	
 	//제목 - AUC_PRODUCT
-	private String auction_title;
+	private String auctionTitle;
 	
 	//경매 만료 시간 - AUC_PRODUCT
-	private Date exp_time;
+	private Date expTime;
 	
 	//경매상태 - AUC_PRODUCT
-	private String auc_status;
+	private String aucStatus;
 	
 	//정지사유 - AUC_PRODUCT
-	private String auc_ban_reason;
+	private String aucBanReason;
 	
 	//삭제 - 파라미터 1개 
-	public AdminAuctionDTO (int product_seq) {
-		this.product_seq = product_seq;
+	public AdminAuctionDTO (int productSeq) {
+		this.productSeq = productSeq;
 	}
 	
 	//수정용 - 파라미터 3개 생성자 추가
-	public AdminAuctionDTO (int product_seq, String auc_status, String auc_ban_reason) {
-		this.product_seq = product_seq;
-		this.auc_status = auc_status;
-		this.auc_ban_reason = auc_ban_reason;
+	public AdminAuctionDTO (int productSeq, String aucStatus, String aucBanReason) {
+		this.productSeq = productSeq;
+		this.aucStatus = aucStatus;
+		this.aucBanReason = aucBanReason;
 	}
 	
 }

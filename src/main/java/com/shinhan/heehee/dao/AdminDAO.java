@@ -81,20 +81,20 @@ public class AdminDAO {
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
-	public AdminProductDTO getProductBanReason (int product_seq) {
-		AdminProductDTO dto = new AdminProductDTO(product_seq);
+	public AdminProductDTO getProductBanReason (int productSeq) {
+		AdminProductDTO dto = new AdminProductDTO(productSeq);
 		return sqlSession.selectOne(namespace + "getProductBanReason", dto);
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
-	public void updateProductStatus (int product_seq, String pro_status, String product_ban_reason) {
-		AdminProductDTO dto = new AdminProductDTO(product_seq, pro_status, product_ban_reason);
+	public void updateProductStatus (int productSeq, String proStatus, String productBanReason) {
+		AdminProductDTO dto = new AdminProductDTO(productSeq, proStatus, productBanReason);
 		sqlSession.update("updateProductStatus", dto);
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteProduct (int product_seq) {
-		AdminProductDTO dto = new AdminProductDTO(product_seq);
+	public void deleteProduct (int productSeq) {
+		AdminProductDTO dto = new AdminProductDTO(productSeq);
 		sqlSession.delete("deleteProduct", dto);
 	}
 	
@@ -107,20 +107,20 @@ public class AdminDAO {
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
-	public AdminAuctionDTO getAucBanReason (int product_seq){
-		AdminAuctionDTO dto = new AdminAuctionDTO(product_seq);
+	public AdminAuctionDTO getAucBanReason (int productSeq){
+		AdminAuctionDTO dto = new AdminAuctionDTO(productSeq);
 		return sqlSession.selectOne(namespace + "getAucBanReason", dto);
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
-	public void updateAucStatus (int product_seq, String auc_status, String auc_ban_reason) {
-		AdminAuctionDTO dto = new AdminAuctionDTO(product_seq, auc_status, auc_ban_reason);
+	public void updateAucStatus (int productSeq, String aucStatus, String aucBanReason) {
+		AdminAuctionDTO dto = new AdminAuctionDTO(productSeq, aucStatus, aucBanReason);
 		sqlSession.update("updateAucStatus", dto);
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteAuction (int product_seq) {
-		AdminAuctionDTO dto = new AdminAuctionDTO(product_seq);
+	public void deleteAuction (int productSeq) {
+		AdminAuctionDTO dto = new AdminAuctionDTO(productSeq);
 		sqlSession.delete("deleteAuction", dto);
 	}
 	
@@ -133,20 +133,20 @@ public class AdminDAO {
 	}
 	
 	//상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
-	public void insertCategory(String category, String detail_category) {
-		AdminCategoryDTO dto = new AdminCategoryDTO(category, detail_category);
+	public void insertCategory(String category, String detailCategory) {
+		AdminCategoryDTO dto = new AdminCategoryDTO(category, detailCategory);
 		sqlSession.insert("insertCategory", dto);
 	}
 	
 	//상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
-	public void updateCategory (int product_cate_seq, String category, String detail_category) {
-		AdminCategoryDTO dto = new AdminCategoryDTO(product_cate_seq, category, detail_category);
+	public void updateCategory (int productCateSeq, String category, String detailCategory) {
+		AdminCategoryDTO dto = new AdminCategoryDTO(productCateSeq, category, detailCategory);
 		sqlSession.update("updateCategory", dto);
 	}
 	
 	//상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteCategory (int product_cate_seq) {
-		AdminCategoryDTO dto = new AdminCategoryDTO(product_cate_seq);
+	public void deleteCategory (int productCateSeq) {
+		AdminCategoryDTO dto = new AdminCategoryDTO(productCateSeq);
 		sqlSession.delete("deleteCategory", dto);
 	}
 	
@@ -163,19 +163,19 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
-	public List<AdminQnaManagerDTO> getQnaContent(int seq_qna_bno) {
-		return sqlSession.selectList(namespace + "getQnaContent", seq_qna_bno);
+	public List<AdminQnaManagerDTO> getQnaContent(int seqQnaBno) {
+		return sqlSession.selectList(namespace + "getQnaContent", seqQnaBno);
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능)
-	public void updateQnaAns(int seq_qna_bno, String newValue) {
-		AdminQnaManagerDTO dto = new AdminQnaManagerDTO(seq_qna_bno, newValue);
+	public void updateQnaAns(int seqQnaBno, String newValue) {
+		AdminQnaManagerDTO dto = new AdminQnaManagerDTO(seqQnaBno, newValue);
 		sqlSession.update("updateQnaAns", dto);
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteQna (int seq_qna_bno) {
-		AdminQnaManagerDTO dto = new AdminQnaManagerDTO(seq_qna_bno);
+	public void deleteQna (int seqQnaBno) {
+		AdminQnaManagerDTO dto = new AdminQnaManagerDTO(seqQnaBno);
 		sqlSession.delete("deleteQna", dto);
 	}
 	
@@ -197,8 +197,8 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 선택된 항목에 대한 세부내용 작성 및 Update 가능)
-	public void updateFaq (int seq_faq_bno, int seq_qna_option, String faq_content, String faq_and) {
-		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seq_faq_bno, seq_qna_option, faq_content, faq_and);
+	public void updateFaq (int seqFaqBno, int seqQnaOption, String faqContent, String faqAns) {
+		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seqFaqBno, seqQnaOption, faqContent, faqAns);
 		sqlSession.update("updateFaq", dto);
 	}
 	
@@ -208,8 +208,8 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteFaq(int seq_faq_bno) {
-		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seq_faq_bno);
+	public void deleteFaq(int seqFaqBno) {
+		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seqFaqBno);
 		sqlSession.delete("deleteFaq", dto);
 	}
 	
@@ -222,36 +222,21 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 신규 등록 (기능 : 수기 입력받은 유형과 내용을 Insert 함)
-	public void insertQnaOption (String qna_option, String qna_option_content) {
-		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(qna_option, qna_option_content);
+	public void insertQnaOption (String qnaOption, String qnaOptionContent) {
+		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(qnaOption, qnaOptionContent);
 		sqlSession.insert("insertQnaOption", dto);
 	}
 	
-	
 	//고객 지원 - 문의 유형 관리 - 수정 기능 (기능 : 수기 입력받은 유형과 내용을 Update 함)
-	public void updateQnaOption(int seq_qna_bno, String qna_option, String qna_option_content) {
-		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(seq_qna_bno, qna_option, qna_option_content);
+	public void updateQnaOption(int seqQnaBno, String qnaOption, String qnaOptionContent) {
+		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(seqQnaBno, qnaOption, qnaOptionContent);
 		sqlSession.update("updateQnaOption", dto);
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteQnaOption(int seq_qna_option) {
-		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(seq_qna_option);
+	public void deleteQnaOption(int seqQnaOption) {
+		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(seqQnaOption);
 		sqlSession.delete("deleteQnaOption", dto);
 	}
 	//고객 지원 끝
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

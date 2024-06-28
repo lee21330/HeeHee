@@ -116,18 +116,13 @@ public class AdminController {
     	System.out.println(filterSearch.size());
         return filterSearch;
     }
-	
-	@GetMapping("/auction")
-	public String admin_auction() {
-		return "/admin/auction";
-	}
-	
+    
 	//상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
 	@GetMapping("/getProductBanReason")
 	@ResponseBody
-	public AdminProductDTO getProductBanReason (Integer product_seq) {
-		System.out.println("Received search request with params: " + product_seq);
-		AdminProductDTO detailSearch = adminService.getProductBanReason(product_seq);
+	public AdminProductDTO getProductBanReason (Integer productSeq) {
+		System.out.println("Received search request with params: " + productSeq);
+		AdminProductDTO detailSearch = adminService.getProductBanReason(productSeq);
 		return detailSearch;
 	}
 	
@@ -135,12 +130,12 @@ public class AdminController {
 	@PostMapping("/updateProductStatus")
 	@ResponseBody
 	public ResponseEntity<String> updateProductStatus (
-			Integer product_seq,
-			String pro_status,
-			String product_ban_reason ){
-		System.out.println("Controller" + product_seq);
+			Integer productSeq,
+			String proStatus,
+			String productBanReason ){
+		System.out.println("Controller" + productSeq);
 		try {
-			adminService.updateProductStatus(product_seq, pro_status, product_ban_reason);
+			adminService.updateProductStatus(productSeq, proStatus, productBanReason);
 			return ResponseEntity.ok("수정 등록에 성공하였습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -151,17 +146,20 @@ public class AdminController {
 	//상품 관리 - 일반상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteProduct")
 	@ResponseBody
-	public ResponseEntity<String> deleteProduct(
-			Integer product_seq
-			) {
-		System.out.println("Controller" + product_seq);
+	public ResponseEntity<String> deleteProduct(Integer productSeq) {
+		System.out.println("Controller" + productSeq);
 		try {
-			adminService.deleteProduct(product_seq);
+			adminService.deleteProduct(productSeq);
 			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 진행 중 오류가 발생했습니다.");
 		}
+	}
+
+	@GetMapping("/auction")
+	public String admin_auction() {
+		return "/admin/auction";
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능)
@@ -179,9 +177,9 @@ public class AdminController {
 	//상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능)
 	@GetMapping("/getAucBanReason")
 	@ResponseBody
-	public AdminAuctionDTO getAucBanReason (Integer product_seq) {
-		System.out.println("Received search request with params: " + product_seq);
-		AdminAuctionDTO detailSearch = adminService.getAucBanReason(product_seq);
+	public AdminAuctionDTO getAucBanReason (Integer productSeq) {
+		System.out.println("Received search request with params: " + productSeq);
+		AdminAuctionDTO detailSearch = adminService.getAucBanReason(productSeq);
 		return detailSearch;
 	}
 	
@@ -189,12 +187,12 @@ public class AdminController {
 	@PostMapping("/updateAucStatus")
 	@ResponseBody
 	public ResponseEntity<String> updateAucStatus(
-			Integer product_seq,
-			String auc_status,
-			String auc_ban_reason ){
-		System.out.println("Controller" + product_seq);
+			Integer productSeq,
+			String aucStatus,
+			String aucBanReason ){
+		System.out.println("Controller" + productSeq);
 		try {
-			adminService.updateAucStatus(product_seq, auc_status, auc_ban_reason);
+			adminService.updateAucStatus(productSeq, aucStatus, aucBanReason);
 			return ResponseEntity.ok("수정 등록에 성공하였습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -202,23 +200,19 @@ public class AdminController {
 		}
 	}
 	
-	
 	//상품 관리 - 경매상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteAuction")
 	@ResponseBody
-	public ResponseEntity<String> deleteAuction(
-			Integer product_seq
-			) {
-		System.out.println("Controller" + product_seq);
+	public ResponseEntity<String> deleteAuction(Integer productSeq) {
+		System.out.println("Controller" + productSeq);
 		try {
-			adminService.deleteAuction(product_seq);
+			adminService.deleteAuction(productSeq);
 			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 진행 중 오류가 발생했습니다.");
 		}
 	}
-	
 	
 	@GetMapping("/category")
 	public String admin_category() {
@@ -242,10 +236,10 @@ public class AdminController {
 	@ResponseBody
 	public ResponseEntity<String> insertCategory(
 			String category,
-			String detail_category ){
+			String detailCategory ){
 		System.out.println("Controller" + category);
 		try {
-			adminService.insertCategory(category, detail_category);
+			adminService.insertCategory(category, detailCategory);
 			return ResponseEntity.ok("신규 등록이 성공적으로 완료되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -257,12 +251,12 @@ public class AdminController {
 	@PostMapping("/updateCategory")
 	@ResponseBody
 	public ResponseEntity<String> updateCategory(
-			Integer product_cate_seq,
+			Integer productCateSeq,
 			String category,
-			String detail_category ){
-		System.out.println("Controller" + product_cate_seq);
+			String detailCategory ){
+		System.out.println("Controller" + productCateSeq);
 		try {
-			adminService.updateCategory(product_cate_seq, category, detail_category);
+			adminService.updateCategory(productCateSeq, category, detailCategory);
 			return ResponseEntity.ok("수정사항이 성공적으로 업데이트되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -274,12 +268,10 @@ public class AdminController {
 	//상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteCategory")
 	@ResponseBody
-	public ResponseEntity<String> deleteCategory(
-			Integer product_cate_seq
-			) {
-		System.out.println("Controller" + product_cate_seq);
+	public ResponseEntity<String> deleteCategory(Integer productCateSeq) {
+		System.out.println("Controller" + productCateSeq);
 		try {
-			adminService.deleteCategory(product_cate_seq);
+			adminService.deleteCategory(productCateSeq);
 			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -313,8 +305,7 @@ public class AdminController {
 	@GetMapping("/getQnaContent")
 	@ResponseBody
 	public ResponseEntity<?> getQnaContent(
-			@RequestParam("seq_qna_bno") String bnoStr) {
-			
+			@RequestParam("seqQnaBno") String bnoStr) {
 			try {
 				int seq_qna_bno = Integer.parseInt(bnoStr);
 				List<AdminQnaManagerDTO> detailSearch = adminService.getQnaContent(seq_qna_bno);
@@ -335,11 +326,11 @@ public class AdminController {
 	@PostMapping("/updateQnaAns")
 	@ResponseBody
 	public ResponseEntity<String> updateQnaAns(
-			Integer seq_qna_bno,
+			Integer seqQnaBno,
 			String newValue) {
-		System.out.println(seq_qna_bno);
+		System.out.println(seqQnaBno);
 		try {
-			adminService.updateQnaAns(seq_qna_bno, newValue);
+			adminService.updateQnaAns(seqQnaBno, newValue);
 			return ResponseEntity.ok("문의 답변이 성공적으로 업데이트되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -350,18 +341,15 @@ public class AdminController {
 	//고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteQna")
 	@ResponseBody
-	public ResponseEntity<String> deleteQna(
-			Integer seq_qna_bno
-			) {
-		System.out.println(seq_qna_bno);
+	public ResponseEntity<String> deleteQna(Integer seqQnaBno) {
+		System.out.println(seqQnaBno);
 		try {
-			adminService.deleteQna(seq_qna_bno);
+			adminService.deleteQna(seqQnaBno);
 			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 진행 중 오류가 발생했습니다.");
 		}
-		
 	}
 			
 	@GetMapping("/faqManager")
@@ -410,13 +398,13 @@ public class AdminController {
 	@PostMapping("/updateFaq")
 	@ResponseBody
 	public ResponseEntity<String> updateFaq (
-			Integer seq_faq_bno,
-			Integer seq_qna_option,
-			String faq_content,
-			String faq_ans ) {
-		System.out.println("Controller" + seq_faq_bno);
+			Integer seqFaqBno,
+			Integer seqQnaOption,
+			String faqContent,
+			String faqAns ) {
+		System.out.println("Controller" + seqFaqBno);
 		try {
-			adminService.updateFaq(seq_faq_bno, seq_qna_option, faq_content, faq_ans);
+			adminService.updateFaq(seqFaqBno, seqQnaOption, faqContent, faqAns);
 			return ResponseEntity.ok("업데이트에 성공하였습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -434,12 +422,10 @@ public class AdminController {
 	//고객 지원 - FAQ 내용관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteFaq")
 	@ResponseBody
-	public ResponseEntity<String> deleteFaq(
-			Integer seq_faq_bno
-			) {
-		System.out.println("Controller" + seq_faq_bno);
+	public ResponseEntity<String> deleteFaq(Integer seqFaqBno) {
+		System.out.println("Controller" + seqFaqBno);
 		try {
-			adminService.deleteFaq(seq_faq_bno);
+			adminService.deleteFaq(seqFaqBno);
 			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -468,11 +454,11 @@ public class AdminController {
 	@PostMapping("/insertQnaOption")
 	@ResponseBody
 	public ResponseEntity<String> insertQnaOption(
-			String qna_option,
-			String qna_option_content){
-		System.out.println("Controller" + qna_option);
+			String qnaOption,
+			String qnaOptionContent){
+		System.out.println("Controller" + qnaOption);
 		try {
-			adminService.insertQnaOption(qna_option, qna_option_content);
+			adminService.insertQnaOption(qnaOption, qnaOptionContent);
 			return ResponseEntity.ok("문의 유형이 성공적으로 등록되었습니다.");
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -484,12 +470,12 @@ public class AdminController {
 	@PostMapping("/updateQnaOption")
 	@ResponseBody
 	public ResponseEntity<String> updateQnaOption(
-			Integer seq_qna_option,
-			String qna_option,
-			String qna_option_content) {
-		System.out.println(seq_qna_option);
+			Integer seqQnaOption,
+			String qnaOption,
+			String qnaOptionContent) {
+		System.out.println(seqQnaOption);
 		try {
-			adminService.updateQnaOption(seq_qna_option, qna_option, qna_option_content);
+			adminService.updateQnaOption(seqQnaOption, qnaOption, qnaOptionContent);
 			return ResponseEntity.ok("문의 유형이 성공적으로 수정되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -500,12 +486,10 @@ public class AdminController {
 	//고객 지원 - 문의 유형 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	@PostMapping("/deleteQnaOption")
 	@ResponseBody
-	public ResponseEntity<String> deleteQnaOption(
-			Integer seq_qna_option
-			) {
-		System.out.println("Controller" + seq_qna_option);
+	public ResponseEntity<String> deleteQnaOption(Integer seqQnaOption) {
+		System.out.println("Controller" + seqQnaOption);
 		try {
-			adminService.deleteQnaOption(seq_qna_option);
+			adminService.deleteQnaOption(seqQnaOption);
 			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -514,17 +498,3 @@ public class AdminController {
 	}
 	//고객 지원 끝
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
