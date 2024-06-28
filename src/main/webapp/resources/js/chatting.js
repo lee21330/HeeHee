@@ -234,6 +234,9 @@ function selectChattingFn(){
     .then(roomDetail => {
         
         const chattingContent = document.querySelector(".chatting-content");
+        
+        
+        
         chattingContent.innerHTML="";
     
         //채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명)

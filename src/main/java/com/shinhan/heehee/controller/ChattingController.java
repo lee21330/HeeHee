@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -20,16 +18,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.request.ChatMessageDTO;
+import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.ChattingService;
+import com.shinhan.heehee.service.MainService;
 
 @Controller
 @RequestMapping("/chatting")
@@ -37,18 +36,22 @@ public class ChattingController {
 
 	@Autowired
 	private ChattingService cService;
+	
+	@Autowired
+	private MainService mainservice;
 
 	@Autowired
 	private AWSS3Service s3Service;
 
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
-
-	String userId = "";
-
+	
 	// 채팅 페이지
 	@GetMapping
 	public String chatting(Model model, Principal principal) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
 		// model에 담을 것: 유저별 채팅방 목록
@@ -61,6 +64,7 @@ public class ChattingController {
 	@GetMapping(value = "/roomList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ChatRoomDTO> getRoomList(Principal principal) {
+		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
 		return cService.getRoomList(userId); // 로그인 유저 Id 전달
@@ -70,6 +74,7 @@ public class ChattingController {
 	@GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public RoomDetailDTO getRoomDetail(@PathVariable("id") int chatRoomId, Principal principal) {
+		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
 		Map<String, Object> map = new HashMap<String, Object>();
