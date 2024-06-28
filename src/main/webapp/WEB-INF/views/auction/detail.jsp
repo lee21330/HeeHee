@@ -55,7 +55,7 @@
 				  {
 				    pg: "html5_inicis.INIpayTest", //테스트 시 html5_inicis.INIpayTest 기재
 				    pay_method: "card",
-				    merchant_uid: "order_no_0003", //상점에서 생성한 고유 주문번호
+				    merchant_uid: "order_no_0004", //상점에서 생성한 고유 주문번호
 				    name: "포인트:5000",
 				    amount: 1,
 				    buyer_email: "test@portone.io",

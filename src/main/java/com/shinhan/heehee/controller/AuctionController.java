@@ -31,7 +31,6 @@ public class AuctionController {
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 	
-
 	// 동시성 문제를 방지
 	private final ReentrantLock bidLock = new ReentrantLock();
 
