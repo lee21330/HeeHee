@@ -46,7 +46,7 @@ public class MainDAO {
 		return sqlSession.selectList(prodDetailNamespace + "recently");
 	}
 
-	public List<ProductCategoryDTO> mainCateList() {
+	public List<CategoryDTO> mainCateList() {
 		return sqlSession.selectList(prodDetailNamespace + "mainCateList");
 	}
 	
