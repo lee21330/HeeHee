@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -169,7 +170,7 @@ public class ChattingController {
 		}
 		return imgNames;
 	}
-
+	
 	// 소켓: 메시지(+이미지) insert
 	// @SendTo 대신 converAndSend 사용
 	@MessageMapping("/chat")

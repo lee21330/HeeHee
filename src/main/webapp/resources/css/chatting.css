@@ -224,6 +224,11 @@
 	width:100px;
 }
 
+.pay:disabled{
+	background-color:#858585;
+	cursor: not-allowed;
+}
+
 .reserve:disabled{
 	background-color:#858585;
 	cursor: not-allowed;

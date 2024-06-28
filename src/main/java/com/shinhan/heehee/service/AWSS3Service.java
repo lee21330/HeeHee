@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -36,17 +38,20 @@ public class AWSS3Service {
 
 		return saveUrls;
 	}
-	
+
 	public String uploadOneObject(MultipartFile multipartFile, String filepath) throws IOException {
-		
+
 		ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(multipartFile.getSize());
-        metadata.setContentType(multipartFile.getContentType());
-        metadata.setContentDisposition("inline");
-        
-		s3Client.putObject(new PutObjectRequest(bucketName, filepath + multipartFile.getOriginalFilename(), multipartFile.getInputStream(), metadata));
-		String[] urlSplit = s3Client.getUrl(bucketName, filepath + multipartFile.getOriginalFilename()).getFile().toString().split("/");
+		metadata.setContentLength(multipartFile.getSize());
+		metadata.setContentType(multipartFile.getContentType());
+		metadata.setContentDisposition("inline");
+
+		s3Client.putObject(new PutObjectRequest(bucketName, filepath + multipartFile.getOriginalFilename(),
+				multipartFile.getInputStream(), metadata));
+		String[] urlSplit = s3Client.getUrl(bucketName, filepath + multipartFile.getOriginalFilename()).getFile()
+				.toString().split("/");
 		return urlSplit[urlSplit.length - 1];
 	}
+
 
 }

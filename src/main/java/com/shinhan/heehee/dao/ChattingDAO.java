@@ -60,7 +60,7 @@ public class ChattingDAO {
 	}
 
 	public void updateProStatus(Map<String, Object> map) {
-		sqlSession.update(namespace + "updateProStatus", map);
+		sqlSession.update(namespace + "updateProStatus", map.get("productSeq"));
 	}
 
 	public void insertDeal(Map<String, Object> map) {
