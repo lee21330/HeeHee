@@ -51,7 +51,7 @@ function changeStatus(status) {
 			} else {
 
 				data.forEach(function(sale) {
-					var detailUrl = sale.proStatus === '판매중' ? `/heehee/sell/productdetail/${sale.productSeq}` : `/heehee/mypage/saledetail/${sale.productSeq}`;
+					var detailUrl = (sale.proStatus === '판매중' || sale.proStatus === '판매보류') ? `/heehee/sell/productdetail/${sale.productSeq}` : `/heehee/mypage/saledetail/${sale.productSeq}`;
 					output += `							
                             <div class="product" onclick="location.href='${detailUrl}'">
                                 <div class="product_slider">

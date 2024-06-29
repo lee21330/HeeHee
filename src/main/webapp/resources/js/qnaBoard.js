@@ -16,6 +16,8 @@ $(function() {
 		}
 	});
 	$("#cancel").on("click", reset);
+	$("#btn_submit").on("click", insertQna);
+
 });
 
 function change() {
@@ -50,4 +52,8 @@ function reset() {
 
 function showQnaOptionContent(optionContent) {
 	$('#qnaOptionContent').text(optionContent);
+}
+
+function insertQna() {
+
 }

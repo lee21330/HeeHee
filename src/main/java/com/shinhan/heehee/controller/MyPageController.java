@@ -1,7 +1,6 @@
 package com.shinhan.heehee.controller;
 
 import java.security.Principal;
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
@@ -24,6 +24,7 @@ import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
+import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
 
 @Controller
@@ -32,11 +33,15 @@ public class MyPageController {
 
 	@Autowired
 	MyPageService mypageservice;
+	@Autowired
+	MainService mainservice;
 
 	// 마이페이지
 	@GetMapping("/main")
 	public String sellerInfo(Principal principal, Model model) {
 		String userId = principal.getName();
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
 		return "/mypage/myPage";
 	}
@@ -206,25 +211,23 @@ public class MyPageController {
 	public String insertQna(InsertQnADTO qna, InsertQnAImgDTO qnaImg, Principal principal,
 			RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
-		qna.setID(userId);
+		qna.setId(userId);
+		
 		// 이미지 업로드 3장으로 제한
-		qnaImg.setImgName("qna_test.jpg");
 		qnaImg.setTablePk(qna.getSeqQnaBno());
-		qnaImg.setID(userId);
-		System.out.println("==============================");
-		System.out.println(qna);
-		System.out.println(qnaImg);
+		qnaImg.setId(userId);
+	    
 		int result = mypageservice.insertQna(qna);
 		int imageResult = mypageservice.insertQnaImg(qnaImg);
 
 		String message;
 		if (result > 0) {
-			message = "update success";
+			message = "insert success";
 		} else {
-			message = "update fail";
+			message = "insert fail";
 		}
 		redirectAttr.addFlashAttribute("result", message);
-		return "redirect:/qnaBoard";
+		return "redirect:/mypage/qnaBoard";
 	}
 
 	// 마이페이지-FAQ
