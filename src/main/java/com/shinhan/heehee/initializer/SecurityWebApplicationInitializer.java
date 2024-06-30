@@ -1,4 +1,4 @@
-package com.shinhan.heehee.initalizer;
+package com.shinhan.heehee.initializer;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

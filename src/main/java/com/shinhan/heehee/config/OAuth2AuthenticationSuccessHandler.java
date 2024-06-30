@@ -38,39 +38,32 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		switch (clientName) {
 		case "google":
-			handleGoogleLogin(oauth2User);
+			handleGoogleLogin(oauth2User, response);
 			break;
 		case "naver":
-			handleNaverLogin(oauth2User);
+			handleNaverLogin(oauth2User, response);
 			break;
 		case "kakao":
-			handleKakaoLogin(oauth2User);
-			break;
-		default:
-			handleDefaultLogin(oauth2User);
+			handleKakaoLogin(oauth2User, response);
 			break;
 		}
 
 		response.sendRedirect("/heehee/main");
 	}
 	
-	private void handleGoogleLogin(DefaultOAuth2User oauth2User) {
+	private void handleGoogleLogin(DefaultOAuth2User oauth2User, HttpServletResponse response) {
         // 구글 로그인 관련 처리
         System.out.println("Logged in with Google");
     }
 
-    private void handleNaverLogin(DefaultOAuth2User oauth2User) {
+    private void handleNaverLogin(DefaultOAuth2User oauth2User, HttpServletResponse response) {
         // 네이버 로그인 관련 처리
         System.out.println("Logged in with Naver");
     }
     
-    private void handleKakaoLogin(DefaultOAuth2User oauth2User) {
+    private void handleKakaoLogin(DefaultOAuth2User oauth2User, HttpServletResponse response) {
         // 카카오 로그인 관련 처리
         System.out.println("Logged in with KaKao");
     }
 
-    private void handleDefaultLogin(DefaultOAuth2User oauth2User) {
-        // 기타 로그인 관련 처리
-        System.out.println("Logged in with Other Client");
-    }
 }

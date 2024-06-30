@@ -1,12 +1,17 @@
 package com.shinhan.heehee.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.response.UserDTO;
+import com.shinhan.heehee.exception.UserNotFoundException;
 
 
 @Service
@@ -19,6 +24,12 @@ public class UserService {
 	BCryptPasswordEncoder passwordEncoder;
 	
 	public ResponseEntity<?> signup(UserDTO userDto) {
+		if (!userDto.getPassword().equals(null)) {
+			// BCryptPasswordEncoder 생성
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+			userDto.setPassword(encodedPassword);
+		}
 
         if(userDao.signup(userDto) > 0) {
             return ResponseEntity.ok("회원 가입에 성공했습니다!");
@@ -29,7 +40,46 @@ public class UserService {
 	
 	public UserDTO login(String userId, String userPw) {
 		UserDTO user = userDao.findUserByUsername(userId);
-		if(!passwordEncoder.matches(userPw, user.getPassword())) return null;
+		if(user == null || !passwordEncoder.matches(userPw, user.getPassword())) throw new UserNotFoundException("UserNotFound");
 		return user;
+	}
+	
+	public Map<String, Object> dupIdCheck(String id) {
+		Map<String,Object> response = new HashMap<String,Object>();
+		int result = userDao.dupIdCheck(id);
+		if(result == 0) {
+			response.put("able", true);
+			response.put("message", "사용가능한 ID입니다.");
+		} else {
+			response.put("able", false);
+			response.put("message", "중복된 ID가 존재합니다.");
+		}
+		return response;
+	}
+	
+	public Map<String, Object> dupNickCheck(String nickName) {
+		Map<String,Object> response = new HashMap<String,Object>();
+		int result = userDao.dupNickCheck(nickName);
+		if(result == 0) {
+			response.put("able", true);
+			response.put("message", "사용가능한 닉네임입니다.");
+		} else {
+			response.put("able", false);
+			response.put("message", "중복된 닉네임이 존재합니다.");
+		}
+		return response;
+	}
+	
+	public Map<String, Object> dupEmailCheck(String email) {
+		Map<String,Object> response = new HashMap<String,Object>();
+		int result = userDao.dupEmailCheck(email);
+		if(result == 0) {
+			response.put("able", true);
+			response.put("message", "사용가능한 이메일입니다.");
+		} else {
+			response.put("able", false);
+			response.put("message", "중복된 이메일이 존재합니다.");
+		}
+		return response;
 	}
 }

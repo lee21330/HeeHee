@@ -25,4 +25,22 @@
         INSERT INTO HH_USER (ID, PW, NAME, EMAIL, PHONE_NUM, ROLE)
         VALUES ( #{username}, #{password}, #{realName}, #{email}, #{phone_num}, 'ROLE_USER' )
     </insert>
+    
+    <select id="getBuyerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.UserDTO">
+    	SELECT *
+    	FROM HH_USER
+    	WHERE ID = #{buyerId}
+    </select>
+    
+    <select id="dupIdCheck" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM HH_USER WHERE ID = #{id}
+    </select>
+    
+    <select id="dupNickCheck" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM HH_USER WHERE NICK_NAME = #{nickName}
+    </select>
+    
+    <select id="dupEmailCheck" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM HH_USER WHERE EMAIL = #{email}
+    </select>
 </mapper>
