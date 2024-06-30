@@ -54,5 +54,10 @@ public class ProductDetailDAO {
 	public int updateProduct(ProductModifyRequestDTO modiDTO) {
 		return sqlSession.update(namespace + "updateProduct", modiDTO);
 	}
+
+	public int proStatusSelling(Integer prodSeq) {
+		return sqlSession.update(namespace + "ProStatusSelling", prodSeq);
+		
+	}
 	
 }

@@ -1,4 +1,6 @@
-package com.shinhan.heehee.dto.response;
+package com.shinhan.heehee.dto.request;
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +13,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class JjimDTO {
+public class RecentlyDTO {
 	private int productSeq;
-	private String articleTitle;
-	private int productPrice;
-	private String deal;
 	private String id;
-	private String imgName;
 }

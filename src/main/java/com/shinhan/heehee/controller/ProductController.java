@@ -57,6 +57,8 @@ public class ProductController {
 		model.addAttribute("info", prodInfo);
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
 		model.addAttribute("prodRecoList",productservice.prodReco(prodSeq));
+		
+		productservice.proStatusSelling(prodSeq); // 판매중으로 바꾸는 코드
 		return "/used/productdetail";
 	}
 	

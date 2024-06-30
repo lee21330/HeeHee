@@ -26,11 +26,46 @@
 	<div class="productDetail">
 		<main>
 			<div class="product-container">
+				<c:if test="${userId == info.id && info.proStatus != '판매보류'}">
 				<div class="product_slider">
 					<c:forEach var="product" items="${prodImgList}">
 						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 					</c:forEach>
 				</div>
+				</c:if>
+				<c:if test="${userId == info.id && info.proStatus == '판매보류'}">
+				    <div class="product_slider">
+				        <c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">판매가 보류된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+				<c:if test="${userId != info.id && info.proStatus != '판매보류'}">
+				    <div class="product_slider">
+				        <c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+				<c:if test="${userId != info.id && info.proStatus == '판매보류'}">
+				    <div class="product_slider">
+				        <c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">판매가 보류된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
 				<div class="product-details">
 					<div class="title-container">
 						<p id="product_category">${info.category} > ${info.detailCategory} (${info.prodName})</p>
@@ -46,39 +81,39 @@
 					<p id="product_price">${info.productPrice}원</p>
 					<p id="product_etc">
 					<fmt:formatDate value="${info.createDate}" pattern="yyyy/MM/dd" type="date"/>
-					 · 
-					 조회 ${info.viewCnt}
-					 · 
-					 찜 ${info.jjimCnt} ❤️</p>
+					· 
+					조회 ${info.viewCnt}
+					· 
+					찜 ${info.jjimCnt} 
+					<span id="fullHeart">❤️</span>
+					<span id="emptyHeart">🤍</span></p>
 					<ul id="product_state">
 						<li>제품 상태: ${info.condition}</li>
 						<li>거래 방식: ${info.deal}</li>
-						<li>배송비: ${info.DCharge}원</li>
+						<c:if test="${info.deal == '택배'}">
+							<li>배송비: ${info.DCharge}원</li>
+						</c:if>
 					</ul>
-					<c:if test="${userId == info.id && info.deal == '직거래'}">
+					<c:if test="${userId == info.id}">
 						<div class="button-container">
-							<button onclick="location.href='${path}/productmodify/${info.id}'" id="gochat" style="cursor: pointer">보류하기</button>
-							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">수정하기</button>
+							<button onclick="location.href='${path}/sell/productmodify/${info.productSeq}'" id="gochat" style="cursor: pointer">물품정보 수정</button>
+							<button id="gobuy" style="cursor: pointer">판매상태 수정</button>
+							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
 						</div>
 					</c:if>
-					<c:if test="${userId == info.id && info.deal == '택배'}">
+					<c:if test="${userId != info.id && info.deal == '택배' && info.proStatus != '판매보류'}">
 						<div class="button-container">
-							<button onclick="location.href='${path}/productmodify/${info.id}'" id="gochat" style="cursor: pointer">보류하기</button>
-							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">수정하기</button>
+							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
+							<button id="gobuy" style="cursor: pointer">즉시구매</button>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.deal == '직거래'}">
+					<c:if test="${userId != info.id && info.deal == '직거래' && info.proStatus != '판매보류'}">
 						<div class="button-container">
-							<button onclick="location.href='${path}/chatting/${info.id}'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
-							<button onclick="location.href='#'" id="gobuy" disabled="disabled" style="color: white; background-color: lightgray;">즉시구매</button>
+							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
+							<button id="disabled_btn" disabled>즉시구매</button>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.deal == '택배'}">
-						<div class="button-container"> 
-							<button onclick="location.href='${path}/chatting/${info.id}'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
-							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">즉시구매</button>
-						</div>
-					</c:if>
+					
 				</div>
 				<div id="plusArea">
 					<p>최근 본 상품</p>
@@ -137,7 +172,19 @@
 	        }
 	    });
 		
+		
+	    $('#fullHeart').click(function() {
+	        $(this).hide(); // fullHeart를 숨깁니다.
+	        $('#emptyHeart').show(); // emptyHeart를 보여줍니다.
+	    });
+
+	    $('#emptyHeart').click(function() {
+	        $(this).hide(); // emptyHeart를 숨깁니다.
+	        $('#fullHeart').show(); // fullHeart를 보여줍니다.
+	    });
+		
 	
 	</script>
 </body>
 </html>
+

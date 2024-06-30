@@ -46,8 +46,6 @@ public class ProductDetailService {
 		String filePath = "images/sell/";
 		List<MultipartFile> files = modiDTO.getUploadFiles();
 		
-		System.out.println("서비스: " + modiDTO);
-		
 		// 파일 업로드 전 기존 파일 삭제
 		if(modiDTO.getDelArr() != null) {
 			for(String delItem : modiDTO.getDelArr()) {
@@ -73,5 +71,10 @@ public class ProductDetailService {
 		// SELL_PRODUCT 테이블 UPDATE
 		productDetailDao.updateProduct(modiDTO);
 		
+	}
+	
+	@Transactional
+	public void proStatusSelling(Integer prodSeq) { 
+		productDetailDao.proStatusSelling(prodSeq);
 	}
 }

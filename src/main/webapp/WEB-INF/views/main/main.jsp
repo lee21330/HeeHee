@@ -45,9 +45,10 @@
 						<div id="classifyPrev" class="prevBtn">&lt;</div>
 						<div id="classifyNext" class="nextBtn">&gt;</div>
 						<div class="recommandProdDiv">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recommandprod.imgName}">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recommandprod.imgName}" 
+							onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'">
 							<div class="recommandProdInfo">
-								<p class="recommandTitle">${recommandprod.articleTitle}</p>
+								<p class="recommandTitle" onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'">${recommandprod.articleTitle}</p>
 								<p class="recommandPrice">${recommandprod.productPrice}원</p>
 								<p class="recommandUpTime">${recommandprod.agoTime}</p>
 							</div>
@@ -69,9 +70,10 @@
 						<div id="classifyNext" class="nextBtn">&gt;</div>
 						<c:forEach var="recentprod" items="${recentprodList}" varStatus="status">
 						<div class="nowRegProdDiv">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recentprod.imgName}">
+							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recentprod.imgName}" 
+							onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'">
 							<div class="nowRegProdInfo">
-								<p class="nowRegProdTitle">${recentprod.articleTitle}</p>
+								<p class="nowRegProdTitle" onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'">${recentprod.articleTitle}</p>
 								<p class="nowRegProdPrice">${recentprod.productPrice}원</p>
 								<p class="nowRegProdUpTime">${recentprod.agoTime}</p>
 							</div>
