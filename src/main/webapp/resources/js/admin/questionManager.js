@@ -37,6 +37,8 @@ $(document).ready(function() {
 							"<td>" + item.seqQnaOption + "</td>" + 
 							"<td>" + item.qnaOption + "</td>" + 
 							"<td>" + item.qnaOptionContent + "</td>" + 
+							"<td>" + item.id + "</td>" + 
+							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
 						"</tr>";
 						tableBody.append(row);
 					});

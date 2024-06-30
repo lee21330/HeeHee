@@ -150,6 +150,11 @@ public class AdminDAO {
 		sqlSession.delete("deleteCategory", dto);
 	}
 	
+	/* 데이터 한번에 넣기용
+	 * public void dbset(int productCateSeq) { sqlSession.update("dbset",
+	 * productCateSeq); }
+	 */
+	
 	//상품 관리 끝
 	
 	//고객 지원 관련 SQL문

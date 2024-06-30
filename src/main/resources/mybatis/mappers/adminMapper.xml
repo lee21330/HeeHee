@@ -197,7 +197,7 @@
 						 
 	<!-- 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음 -->
 	<select id="searchCategoryInfo" resultType="adminCategoryVO">
-		SELECT pc.PRODUCT_CATE_SEQ AS PRODUCT_CATE_SEQ , pc.CATEGORY AS CATEGORY , pc.DETAIL_CATEGORY AS DETAIL_CATEGORY 
+		SELECT pc.PRODUCT_CATE_SEQ , pc.CATEGORY , pc.DETAIL_CATEGORY , pc.ID , pc.CREATE_DATE 
 		FROM PRODUCT_CATEGORY pc
 		WHERE 1=1
 		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
@@ -229,6 +229,14 @@
 			pc.DETAIL_CATEGORY = #{detailCategory}
 		WHERE pc.PRODUCT_CATE_SEQ = #{productCateSeq}
 	</update>
+	
+	<!-- id, date 추가용 임시-->
+	<!--<update id="dbset" parameterType="int">
+		UPDATE PRODUCT_CATEGORY 
+		SET CREATE_DATE = '2024-06-01',
+			ID = 'admin'
+		WHERE PRODUCT_CATE_SEQ = #{productCateSeq}
+	</update>-->
 	
 	<!-- 상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
 	<delete id="deleteCategory">
@@ -344,7 +352,7 @@
 	
 	<!-- 고객 지원 - 문의 유형 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
 	<select id="searchQuestionCategory" resultType="adminQuestionManagerVO">
-		SELECT qo.SEQ_QNA_OPTION , qo.QNA_OPTION , qo.QNA_OPTION_CONTENT 
+		SELECT qo.SEQ_QNA_OPTION , qo.QNA_OPTION , qo.QNA_OPTION_CONTENT , qo.ID , qo.CREATE_DATE
 		FROM QNA_OPTION qo
 		WHERE 1=1
 		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">

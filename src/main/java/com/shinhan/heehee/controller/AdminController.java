@@ -32,6 +32,8 @@ public class AdminController {
 	
 	//관리자 홈 관련 SQL문
 	
+
+	
 	@GetMapping("/main")
 	public String admin_main() {
 		return "/admin/main";
@@ -278,6 +280,12 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 진행 중 오류가 발생했습니다.");
 		}
 	}
+	
+	/* 데이터 한번에 넣기용
+	 * @GetMapping("/dbset") public void dbset() { List<AdminCategoryDTO> all =
+	 * adminService.searchCategoryInfo(null, null); for(AdminCategoryDTO part :all)
+	 * { adminService.dbset(part.getProductCateSeq()); } }
+	 */
 	
 	//상품 관리 끝
 	

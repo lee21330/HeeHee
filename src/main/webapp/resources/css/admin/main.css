@@ -397,9 +397,7 @@ table tbody tr td {
 /* product.jsp, auction.jsp 끝 */
 
 /* category.jsp */
-.categoryTable table {
-	width: 70%;
-}
+
 	/* 선택 */
 .categoryTable table thead tr th:nth-child(1),
 .categoryTable table tbody tr td:nth-child(1) {
@@ -414,12 +412,24 @@ table tbody tr td {
 	/* 카테고리 */
 .categoryTable table thead tr th:nth-child(3),
 .categoryTable table tbody tr td:nth-child(3) {
-	width: 34%;
+	width: 21%;
 }
 	/* 세부 카테고리 */
 .categoryTable table thead tr th:nth-child(4),
 .categoryTable table tbody tr td:nth-child(4) {
-	width: 44%;
+	width: 34%;
+}
+
+	/* 작성자ID */
+.categoryTable table thead tr th:nth-child(5),
+.categoryTable table tbody tr td:nth-child(5) {
+	width: 13%;
+}
+
+	/* 작성일 */
+.categoryTable table thead tr th:nth-child(6),
+.categoryTable table tbody tr td:nth-child(6) {
+	width: 10%;
 }
 
 	/* 카테고리 수정, 신규등록 Input */
@@ -547,7 +557,20 @@ table tbody tr td {
 	/* 내용 */
 .qnaManagerTable table thead tr th:nth-child(4),
 .qnaManagerTable table tbody tr td:nth-child(4) {
-	width: 72%;
+	width: 49%;
 }
+
+	/* 작성자ID */
+.qnaManagerTable table thead tr th:nth-child(5),
+.qnaManagerTable table tbody tr td:nth-child(5) {
+	width: 13%;
+}
+
+	/* 작성일 */
+.qnaManagerTable table thead tr th:nth-child(6),
+.qnaManagerTable table tbody tr td:nth-child(6) {
+	width: 10%;
+}
+
 
 /* questiomManager.jsp 끝 */
