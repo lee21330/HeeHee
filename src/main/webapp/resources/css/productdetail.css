@@ -76,6 +76,9 @@ body {
 .product_slider {
 	width: 350px;
 	height: 325px;
+}
+
+#product_item {
 	
 }
 
@@ -119,6 +122,19 @@ body {
 	font-weight: normal;
 	border: none;
 	justify-content: left;
+}
+
+#disabled_btn {
+	margin-top: 15px;
+	width: 200px;
+	height: 45px;
+	background: #acacac;
+	color: #3F51A1;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+	cursor: default;
 }
 
 /* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 동희한테 물어보기 */
@@ -173,6 +189,19 @@ body {
 	font-size: 13px;
 }
 
+#fullHeart {
+	cursor: pointer;
+	display: none;
+	margin-left: 1ch;
+	font-size: 20px;
+}
+
+#emptyHeart {
+	cursor: pointer;
+	margin-left: 1ch;
+	font-size: 20px;
+}
+
 /* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 속성 추가함 */
 #product_state {
 	font-size: 15px;
@@ -186,6 +215,19 @@ body {
     gap: 5%; /* 버튼 사이의 간격 */
     width: 100%;
     justify-content: left;
+}
+
+#overlay {
+	position: absolute;
+	z-index: 1px;
+}
+
+#postpone {
+	font-size: 28px;
+	color: orangered;
+	margin-top: 140px;
+	margin-left: 25px;
+	background-color: white;
 }
 
 .info-container {

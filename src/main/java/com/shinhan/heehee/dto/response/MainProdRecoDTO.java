@@ -22,4 +22,5 @@ public class MainProdRecoDTO {
 	private Date createDate;
 	private String agoTime;
 	private int imgCateSeq;
+	private String proStatus;
 }
