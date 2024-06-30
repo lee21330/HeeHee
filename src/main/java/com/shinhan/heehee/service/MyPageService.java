@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.MyPageDAO;
+import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
@@ -102,6 +103,10 @@ public class MyPageService {
 
 	public int updateSCheck(int proSeq) {
 		return mypageDao.updateSCheck(proSeq);
+	}
+
+	public List<BankKindDTO> bankList() {
+		return mypageDao.bankList();
 	}
 
 

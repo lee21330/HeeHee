@@ -60,28 +60,23 @@
 					<input type="text" name="qnaContent" required="required">
 				</div>
 				<div class="qna_item">
-					<p>첨부파일 최대(3개)</p>
+					<p>사진첨부 최대(3개)</p>
 					<div>
-						<img id="img_preview"
-							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg">
-						<input type="file" id="input_file" name="imgName" multiple
-							accept="image/*" onchange="readURL(this);" /> <img id="preview">
-
-						<img id="img_preview"
-							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg">
-						<input type="file" id="input_file" name="imgName" multiple
-							accept="image/*" onchange="readURL(this);" /> <img id="preview">
-
-
-						<img id="img_preview"
-							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg">
-						<input type="file" id="input_file" name="imgName" multiple
-							accept="image/*" onchange="readURL(this);" /> <img id="preview">
-
-
-						<input id="imgFile" type="file" name="imgFile"><br> <input
-							id="file1" type="text" style="display: none" name="file1">
-						<input id="file2" type="text" style="display: none" name="file2">
+						<div>
+							<img id="img_preview1" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(1)"> 
+							<input type="file" class="input_file" id="input_file1" name="uploadImgs" accept="image/*" onchange="readURL(this,1);" /> 
+							<img id="preview1" class="preview">
+						</div>
+						<div>
+							<img id="img_preview2" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(2)"> 
+							<input type="file" class="input_file" id="input_file2" name="uploadImgs" accept="image/*" onchange="readURL(this,2);" /> 
+							<img id="preview2" class="preview">
+						</div>
+						<div>
+							<img id="img_preview3" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(3)"> 
+							<input type="file" class="input_file" id="input_file3" name="uploadImgs" accept="image/*" onchange="readURL(this,3);" /> 
+							<img id="preview3" class="preview">
+						</div>
 					</div>
 				</div>
 				<div class="btn">

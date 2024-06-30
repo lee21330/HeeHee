@@ -1,6 +1,7 @@
 package com.shinhan.heehee.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shinhan.heehee.dto.response.CategoryDTO;
@@ -24,6 +26,7 @@ import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
+import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
 
@@ -35,6 +38,8 @@ public class MyPageController {
 	MyPageService mypageservice;
 	@Autowired
 	MainService mainservice;
+	@Autowired
+	private AWSS3Service s3Service;
 
 	// 마이페이지
 	@GetMapping("/main")
@@ -73,7 +78,6 @@ public class MyPageController {
 	// 마이페이지 - 판매 상품 상세페이지
 	@GetMapping("/saledetail/{productSeq}")
 	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model) {
-		System.out.println(proSeq);
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		model.addAttribute("dcOption", mypageservice.dcOption());
 		return "/mypage/saleDetail";
@@ -110,6 +114,7 @@ public class MyPageController {
 	// 마이페이지 - 구매 상품 상세페이지
 	@GetMapping("/purchasedetail/{productSeq}")
 	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model) {
+		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		return "/mypage/purchaseDetail";
 	}
 
@@ -134,6 +139,7 @@ public class MyPageController {
 	public String profile(Principal principal, Model model) {
 		String userId = principal.getName();
 		model.addAttribute("profile", mypageservice.profile(userId));
+		model.addAttribute("bankList", mypageservice.bankList());
 		return "/mypage/editProfile";
 	}
 
@@ -208,10 +214,18 @@ public class MyPageController {
 
 	// 마이페이지_QnA 1:1문의하기
 	@PostMapping("/qnaBoard/insertQna")
-	public String insertQna(InsertQnADTO qna, InsertQnAImgDTO qnaImg, Principal principal,
+	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, InsertQnADTO qna, InsertQnAImgDTO qnaImg, Principal principal,
 			RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
 		qna.setId(userId);
+		
+		 // 이미지 업로드 관련 처리
+	    List<QnAImgDTO> imgList = new ArrayList<>();
+	    for (MultipartFile file : uploadImgs) {
+	        // 각 파일을 처리하여 imgList에 추가하는 로직
+	        // 예: 파일을 S3에 업로드하고, 업로드된 파일의 경로를 DTO에 추가하는 등의 작업
+	        // QnAImgDTO 객체를 생성하여 imgList에 추가
+	    }
 		
 		// 이미지 업로드 3장으로 제한
 		qnaImg.setTablePk(qna.getSeqQnaBno());
@@ -228,8 +242,8 @@ public class MyPageController {
 		}
 		redirectAttr.addFlashAttribute("result", message);
 		return "redirect:/mypage/qnaBoard";
-	}
-
+	}	
+	
 	// 마이페이지-FAQ
 	@GetMapping("/faqBoard")
 	public String faqBoard(Model model) {

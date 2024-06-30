@@ -100,6 +100,10 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
+	<select id="bankList" resultType="bankvo">
+		SELECT *
+		FROM BANK_KIND
+	</select>
 	<select id="profile" parameterType="String"
 		resultType="profilevo">
 		SELECT *

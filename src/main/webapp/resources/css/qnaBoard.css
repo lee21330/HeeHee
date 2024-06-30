@@ -104,11 +104,11 @@ textarea {
 	box-sizing: border-box;
 }
 
-#input_file {
+.input_file {
 	display: none;
 }
 
-#img_preview, #preview {
+.img_preview, .preview {
 	width: 80px;
 	height: 80px;
 	border-radius: 5px;

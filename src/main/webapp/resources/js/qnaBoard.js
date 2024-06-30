@@ -1,6 +1,5 @@
 $(function() {
 	$(".content").hide();
-	$("#img_preview").on("click", change);
 	$(".header").on("click", show);
 	$("#myQna .header").each(function() {
 		var $ansStatus = $(this).find(".ansStatus");
@@ -20,8 +19,9 @@ $(function() {
 
 });
 
-function change() {
-	$("#input_file").click();
+function selectFileInput(number) {
+	var inputId = "#input_file" + number;
+	$(inputId).click();
 }
 function show() {
 	if ($(this).next().css("display") != "none") {
@@ -34,15 +34,16 @@ function show() {
 		$(this).addClass("select");
 	}
 }
-function readURL(input) {
+function readURL(input, number) {
+	 var previewId = "preview" + number;
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
 		reader.onload = function(e) {
-			$('#preview').attr('src', e.target.result);
+			$('#' + previewId).attr('src', e.target.result);
 		};
 		reader.readAsDataURL(input.files[0]);
 	} else {
-		$('#preview').attr('src', "");
+		$('#' + previewId).attr('src', "");
 	}
 }
 function reset() {
