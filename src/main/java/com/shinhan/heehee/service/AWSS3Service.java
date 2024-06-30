@@ -3,9 +3,13 @@ package com.shinhan.heehee.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -27,10 +31,8 @@ public class AWSS3Service {
 			metadata.setContentLength(file.getSize());
 			metadata.setContentType(file.getContentType());
 			metadata.setContentDisposition("inline");
-			// 파일 업로드
 			s3Client.putObject(new PutObjectRequest(bucketName, filePath + file.getOriginalFilename(),
 					file.getInputStream(), metadata));
-			// 업로드된 파일의 url 저장
 			saveUrls.add(s3Client.getUrl(bucketName, filePath + file.getOriginalFilename()).toString());
 		}
 
@@ -50,4 +52,6 @@ public class AWSS3Service {
 				.toString().split("/");
 		return urlSplit[urlSplit.length - 1];
 	}
+
+
 }

@@ -20,15 +20,7 @@
 		<div class="container">
 			<div class="login_container">
 				<div class="login_menu">
-					<%-- 로그인 전 --%>
-					<div id="loginBtn">로그인</div>
-					<div class="div_line"></div>
-					<%-- <div id="signupBtn" class="login_text" onclick="join('signup')">회원가입</div> --%>
-
-					<%-- 로그인 후 --%>
-					<%-- <div>로그아웃</div>
-                        <div class="div_line"></div>
-                        <div class="login_text">마이페이지</div> --%>
+					<%@ include file="/WEB-INF/views/common/loginCheck.jsp"%>
 				</div>
 			</div>
 			<div class="header_container">

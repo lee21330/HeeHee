@@ -16,18 +16,35 @@ import lombok.ToString;
 public class AdminCategoryDTO {
 	
 	//번호 - PRODUCT_CATEGORY
-	private int product_cate_seq;
+	private int productCateSeq;
 	
 	//카테고리 - PRODUCT_CATEGORY
 	private String category;
 	
 	//세부 카테고리 - PRODUCT_CATEGORY
-	private String detail_category;
+	private String detailCategory;
 	
-	//작성자ID
+	//작성자ID - PRODUCT_CATEGORY
 	private String id;
 	
-	//작성일 - 테이블 미생성으로 결정 필요
-	private Date create_date;
+	//작성일 - PRODUCT_CATEGORY
+	private Date createDate;
 	
+	//삭제용 - 파라미터 1개 생성자 추가
+	public AdminCategoryDTO(int productCateSeq) {
+		this.productCateSeq = productCateSeq;
+	}
+	
+	//신규등록용 - 파라미터 2개 생성자 추가
+	public AdminCategoryDTO(String category, String detailCategory) {
+		this.category = category;
+		this.detailCategory = detailCategory;
+	}
+	
+	//수정용 - 파라미터 3개 생성자 추가
+	public AdminCategoryDTO(int productCateSeq, String category, String detailCategory) {
+		this.productCateSeq = productCateSeq;
+		this.category = category;
+		this.detailCategory = detailCategory;
+	}
 }

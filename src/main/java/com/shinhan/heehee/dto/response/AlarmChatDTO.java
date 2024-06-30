@@ -17,4 +17,6 @@ public class AlarmChatDTO {
 	int cateNum;
 	String sender;
 	int reqSeq;
+	int alNum;
+	String alCheck;
 }

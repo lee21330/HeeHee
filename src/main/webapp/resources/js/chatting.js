@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	fetchChatRoomList();
 	setInterval(function() {
 		fetchChatRoomList();
+		//selectChattingFn();
 	}, 1500);
 	
 });
@@ -53,7 +54,7 @@ function showMessage(chatMessage){
             
             const chatDate = document.createElement("span");
             chatDate.classList.add("chatDate");
-            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
+            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 안 읽음';
         
         if(chatMessage.imgs.length == 0){
                     
@@ -94,14 +95,7 @@ function showMessage(chatMessage){
           
           const chatDate = document.createElement("span");
           chatDate.classList.add("chatDate");
-                    
-          let read = '안 읽음';
-                    
-          if(message.readCheck == 'Y'){
-              read = '읽음';
-          }
-                    
-          chatDate.innerHTML = message.sendTime + ' ' + read;
+          chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 안 읽음';
     
          if(chatMessage.imgs.length == 0){
                     
@@ -205,7 +199,7 @@ function roomListAddEvent(){
                 unreadCountElem.remove();
             }
 
-         // 모든 채팅방에서 selecㅉt 클래스를 제거
+         // 모든 채팅방에서 select 클래스를 제거
          for(let it of chattingItemList) it.classList.remove("select")
    
          // 현재 클릭한 채팅방에 select 클래스 추가
@@ -234,6 +228,7 @@ function selectChattingFn(){
     .then(roomDetail => {
         
         const chattingContent = document.querySelector(".chatting-content");
+        
         chattingContent.innerHTML="";
     
         //채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명)
@@ -272,23 +267,27 @@ function selectChattingFn(){
         
         // 버튼 생성 및 판매자/구매자별로 내용 다르게 설정
         const status = roomDetail.roomProductDTO.status;
+        const payStatus = roomDetail.roomProductDTO.payStatus;
+        //console.log(payStatus);
         
-        
-        //추후 결제 비활성화 조건 체크
         if (status == '구매자') {
             const payButton = document.createElement("button");
             payButton.classList.add("pay");
         
             payButton.innerText = "결제하기";
             
-            sellingInfo.append(payButton);
+            //거래 내역 테이블에 동일 구매자id&제품 seq 데이터의 결제상태가 '완료'면 결제하기 버튼 비활성화
+            if(payStatus == '완료'){
+                payButton.disabled = true;
+            }
             
             payButton.addEventListener("click", () => {
                 // 구매자 버튼 클릭 이벤트 처리
                 pay(roomDetail.roomUserDTO.accountNum, roomDetail.roomUserDTO.bank, roomDetail.roomUserDTO.userPoint, roomDetail.roomProductDTO.productPrice);
             });
             
-        //추후 약속잡기 비활성화 조건 체크
+            sellingInfo.append(payButton);
+            
         } else if(status == '판매자'){
             if(roomDetail.roomProductDTO.productType=='sell'){
                 const payButton = document.createElement("button");
@@ -308,6 +307,11 @@ function selectChattingFn(){
                 rsvButton.classList.add("reserve");
             
                 rsvButton.innerText = "약속 잡기";
+                
+                //판매 제품의 판매 상태가 예약중이면 약속 잡기 버튼 비활성화
+                if(roomDetail.roomProductDTO.sellProStatus=='예약중'){
+                    rsvButton.disabled = true;
+                }
                 
                 // 약속잡기 버튼 클릭 이벤트 처리
                 rsvButton.addEventListener("click", () => {
@@ -337,7 +341,14 @@ function selectChattingFn(){
                     
                     const chatDate = document.createElement("span");
                     chatDate.classList.add("chatDate");
-                    chatDate.innerHTML = message.sendTime + ' 읽음';
+                    
+                    let read = '안 읽음';
+                    
+                    if(message.readCheck == 'Y'){
+                        read = '읽음';
+                    }
+                    
+                    chatDate.innerHTML = message.sendTime + ' ' + read;
                     
                     const chat = document.createElement("p");
                     chat.classList.add("chat");
@@ -354,7 +365,14 @@ function selectChattingFn(){
                     
                         const chatDate = document.createElement("span");
                         chatDate.classList.add("chatDate");
-                        chatDate.innerHTML = message.sendTime + ' 읽음';
+                        
+                        let read = '안 읽음';
+                    
+                        if(message.readCheck == 'Y'){
+                            read = '읽음';
+                        }
+                    
+                        chatDate.innerHTML = message.sendTime + ' ' + read;
                     
                         const chatImage = document.createElement("img");
                         chatImage.classList.add("chat-image");
@@ -470,10 +488,19 @@ function selectChattingFn(){
         const inputSend = document.createElement("img");
         inputSend.classList.add("input-send");
         
+        // 전송 버튼 클릭 시 이벤트 추가
         inputSend.addEventListener('click', ()=>{
             sendMessage(inputElement.value);
             //console.log(inputElement.value);
             inputElement.value='';
+        });
+        
+        // 엔터 키 입력 시 이벤트 추가
+        inputElement.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage(inputElement.value);
+                inputElement.value = '';
+            }
         });
         
         const imgUrl2 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/send.png";
@@ -490,6 +517,7 @@ function selectChattingFn(){
     connect(selectRoomId);
 }
 
+
 //모달 관련
 const chattingModal = document.querySelector(".chattingModal");
 
@@ -500,7 +528,7 @@ function pay(accountNum, bank, userPoint, productPrice){
     
     //결제에 성공한 경우
     if(userPoint>=productPrice){
-        const button = document.querySelector(".payEdit");
+        const button = document.querySelector(".pay");
         //console.log(payButton);
         button.disabled = true;
         

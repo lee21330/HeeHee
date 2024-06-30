@@ -74,7 +74,7 @@
 						</div>
 					</c:if>
 					<c:if test="${userId != info.id && info.deal == '택배'}">
-						<div class="button-container">
+						<div class="button-container"> 
 							<button onclick="location.href='${path}/chatting/${info.id}'" id="gochat" style="cursor: pointer">판매자와 채팅</button>
 							<button onclick="location.href='#'" id="gobuy" style="cursor: pointer">즉시구매</button>
 						</div>
@@ -99,7 +99,7 @@
 					<p class="info_title">판매자 정보</p>
 					<hr>
 					<div id="seller_score">
-						<img id="sellerimg" onclick="location.href='${path}/sellerProfile/${info.id}'" style="cursor: pointer"
+						<img id="sellerimg" onclick="location.href='${path}/sell/sellerProfile/${info.id}'" style="cursor: pointer"
 						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}">
 						<div>
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
@@ -111,7 +111,7 @@
 					</div>
 
 					<div id="seller_info">
-						<a class="seller" href="${path}/sellerProfile/${info.id}">${info.nickName}</a>
+						<a class="seller" href="${path}/sell/sellerProfile/${info.id}">${info.nickName}</a>
 						<p class="seller_comm">${info.userIntroduce}</p>
 					</div>
 				</div>
@@ -119,16 +119,13 @@
 			<p id="recommand_title">제품 추천</p>
 			<div id="recommand">
 				<c:forEach var="prodReco" items="${prodRecoList}">
-					<img class="reco" onclick="location.href='${path}/productdetail/${prodReco.productSeq}'" style="cursor: pointer"
+					<img class="reco" onclick="location.href='${path}/sell/productdetail/${prodReco.productSeq}'" style="cursor: pointer"
 					src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${prodReco.imgName}">
 				</c:forEach>
 			</div>
 		</main>
 	</div>
 	
-	<footer>
-		<p>&copy; 2024 희희낙찰. All rights reserved.</p>
-	</footer>
 	
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {

@@ -12,9 +12,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ImageFileDTO {
-    private int imgSeq;
-    private int tablePk;
-    private String imgName;
-    private int prodSeq;
-    private String userId;
+	private int imgSeq;
+	private int tablePk;
+	private String imgName;
+	private int prodSeq;
+	private String userId;
 }

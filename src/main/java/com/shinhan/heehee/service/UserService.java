@@ -14,9 +14,9 @@ public class UserService {
 
 	@Autowired
 	UserDAO userDao;
-	
+
 	@Autowired
-	BCryptPasswordEncoder passEncoder;
+	BCryptPasswordEncoder passwordEncoder;
 	
 	public ResponseEntity<?> signup(UserDTO userDto) {
 
@@ -29,7 +29,7 @@ public class UserService {
 	
 	public UserDTO login(String userId, String userPw) {
 		UserDTO user = userDao.findUserByUsername(userId);
-		if(!passEncoder.matches(userPw, user.getPassword())) return null;
+		if(!passwordEncoder.matches(userPw, user.getPassword())) return null;
 		return user;
 	}
 }

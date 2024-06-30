@@ -98,7 +98,7 @@
 .product img {
 	width: 200px;
 	height: 200px;
-	object-fit: cover;
+	object-fit: contain;
 	border-radius: 15%;
 	box-shadow: 0 5px 10px -5px lightgray;
 }

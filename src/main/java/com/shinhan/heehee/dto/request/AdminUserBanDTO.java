@@ -24,11 +24,11 @@ public class AdminUserBanDTO {
 	private String id;
 	
 	//정지내용 
-	private String ban_content;
+	private String banContent;
 	
 	//시작일 
-	private Date ban_str;
+	private Date banStr;
 	
 	//종료일 
-	private Date ban_end;
+	private Date banEnd;
 }

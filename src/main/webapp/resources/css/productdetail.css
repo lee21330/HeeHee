@@ -1,16 +1,10 @@
 @charset "UTF-8";
 
-/* Reset default browser styles */
+body {
+	padding-top: 200px;
+}
 
-/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
-/* * {
-	
-    margin: 0;
-    padding: 0%;
-    box-sizing: border-box;
-} */
 
-/* Body styles */
 .productDetail {
 	width: 1280px;
 	height: auto;
@@ -107,7 +101,7 @@
 	margin-top: 15px;
 	width: 200px;
 	height: 45px;
-	background: #4949e9;
+	background: #3F51A1;
 	color: white;
 	font-size: 22px;
 	font-weight: normal;
@@ -120,7 +114,7 @@
 	width: 200px;
 	height: 45px;
 	background: #dcf343;
-	color: #4949e9;
+	color: #3F51A1;
 	font-size: 22px;
 	font-weight: normal;
 	border: none;
@@ -212,7 +206,7 @@ hr{
 	margin-top: 20px;
 	margin-bottom: 20px;
 	font-size: 22px;
-	color: #4949e9;
+	color: #3F51A1;
 }
 
 #info {
@@ -286,7 +280,7 @@ hr{
 	text-align: center;
 	margin-top: 25px;
 	font-size: 22px;
-	color: #4949e9;
+	color: #3F51A1;
 }
 
 #recommand {

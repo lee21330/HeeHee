@@ -3,6 +3,7 @@ package com.shinhan.heehee.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -42,7 +44,6 @@ public class UserController {
 	UserService userService;
 
 	@Autowired
-	@Qualifier("authenticationManager")
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
@@ -54,7 +55,7 @@ public class UserController {
 	@PostMapping("/signup")
 	@ResponseBody
 	public ResponseEntity<?> singUp(UserDTO userDto, HttpServletResponse response) throws Exception {
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("text/plain;charset=UTF-8");
 		if (!userDto.getPassword().equals(null)) {
 			// BCryptPasswordEncoder 생성
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -105,5 +106,13 @@ public class UserController {
 	@GetMapping("/loginCheck")
 	public String logCheck() {
 		return "/common/loginCheck";
+	}
+	
+	@GetMapping("/duplicateCheck")
+	@ResponseBody
+	public ResponseEntity<?> duplicateCheck(@RequestParam String id) {
+		Map<String,Object> response = new HashMap<String,Object>();
+		UserDTO user = new UserDTO();
+		return ResponseEntity.ok("");
 	}
 }
