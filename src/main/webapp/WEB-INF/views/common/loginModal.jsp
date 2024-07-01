@@ -8,6 +8,8 @@
 	    document.cookie = encodeURIComponent(cookieName) + "=deleted; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 	});
 	
+	
+	
 	$(function() {
 		$("#loginBtn").on("click", openLogin);
 		$("#loginClose").on("click", closeLogin);
@@ -32,9 +34,22 @@
 		}
 	 });
 	
+	// OAuth 가입 체크
 	var status = "${param.status}";
 	if(status == "signup") {
-		openSignup();
+		$("#loginModal").addClass("show");
+		$("#loginArea").removeClass("show");
+        $("#signupArea").addClass("show");
+        $(".modal_body").css("width", "400px");
+        $(".modal_body").css("height", "auto");
+        
+    	 // 새로고침 눌렀을 시 파라미터 초기화
+    	$(document).keydown(function(e){
+    		key = (e)?e.keyCode:event.keyCode;
+    		if(key == 116 || (event.ctrlKey && event.keyCode == 82)) {
+    			history.replaceState({}, null, location.pathname);
+    		}
+    	})
 	}
 	});
 	
@@ -257,6 +272,7 @@
 		    data: {"phoneNum": phoneNum},
 		    success: function (data) {
 		    	console.log(data);
+		    	showTost(data.message);
 		    },error: function (data, status, err) {
 		    	console.log(err);
 		    }
@@ -335,7 +351,7 @@
                 <div id="signupArea" class="selectedArea">
                     <form method="POST" enctype="multipart/form-data" id="signUpForm">
 	                    <div class="modal_label">
-	                        <input type="text" class="input_box" placeholder="이름">
+	                        <input type="text" class="input_box" placeholder="이름" value="${param.name}">
 	                    </div>
                         <div class="modal_label">
                             <input type="text" class="input_box" id="signId" name="id" placeholder="사용하실 아이디를 입력하세요" />
@@ -346,12 +362,12 @@
                             <input type="password" class="input_box" id="signPw" name="pw" placeholder="사용하실 비밀번호를 입력하세요" />
                         </div>
                         <div class="modal_label">
-                            <input type="text" class="input_box" id="signNickName" name="name" placeholder="사용하실 닉네임을 입력하세요" />
+                            <input type="text" class="input_box" id="signNickName" name="name" placeholder="사용하실 닉네임을 입력하세요" value="${param.nickName}"/>
                             <input type="button"  id="nick_dup_btn" class="dup_btn" value="중복체크">
                             <div id="nick_dup_result" class="dup_result"></div>
                         </div>
                         <div class="modal_label">
-                            <input type="text" class="input_box" id="signEmail"placeholder="사용하실 이메일을 입력하세요">
+                            <input type="text" class="input_box" id="signEmail" placeholder="사용하실 이메일을 입력하세요" value="${param.email}">
                             <input type="button"  id="email_dup_btn" class="dup_btn" value="중복체크">
                             <div id="email_dup_result" class="dup_result"></div>
                         </div>

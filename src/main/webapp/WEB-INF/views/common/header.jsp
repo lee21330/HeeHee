@@ -16,6 +16,31 @@
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
+<script>
+	$(document).ready(function() {
+	    $("#searchInput").on("input", function() {
+	        var keyword = $(this).val();
+	        if (keyword.length > 2) {
+	            $.ajax({
+	                url: "/heehee/search",
+	                method: "GET",
+	                data: { keyword: keyword },
+	                success: function(data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function(index, result) {
+	                            console.log(result);
+	                        });
+	                    } else {
+	                        console.log("데이터가 없습니다.");
+	                    }
+	                }
+	            });
+	        } else {
+	        	 console.log("데이터가 없습니다.");
+	        }
+	    });
+	});
+</script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 </head>
 <body>
@@ -45,7 +70,7 @@
 				</div>
 				<div class="search_container">
 					<div class="search_bar">
-						<input placeholder="어떤 상품을 찾으시나요?">
+						<input id="searchInput" placeholder="어떤 상품을 찾으시나요?">
 						<a href="">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
 						</a>

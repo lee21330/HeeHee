@@ -1,6 +1,7 @@
 package com.shinhan.heehee.config;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,9 +29,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	private JwtUtil jwtUtil;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -75,8 +73,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			handleKakaoLogin(oauth2User, request, response);
 			break;
 		}
-
-		/* response.sendRedirect("/heehee/main"); */
 	}
 	
 	private void handleGoogleLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -88,25 +84,50 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		if(userDto != null) {
 			authenticationHandle(request, response, userDto.getUsername(), userDto.getPassword());
 		} else {
-			response.sendRedirect("/heehee/main?status=signup&name=" + name + "&email=" + email);
+			String encodedName = URLEncoder.encode(name, "UTF-8");
+	        String encodedEmail = URLEncoder.encode(email, "UTF-8");
+			response.sendRedirect("/heehee/main?status=signup&name=" + encodedName + "&email=" + encodedEmail);
 		}
 		
         System.out.println("Logged in with Google");
     }
 
-    private void handleNaverLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) {
-        
+    private void handleNaverLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    	Map<String,Object> naverRes =  oauth2User.getAttribute("response");
+    	String email = (String) naverRes.get("email");
+    	String name = (String) naverRes.get("name");
+    	
+    	UserDTO userDto = userService.findByUserEmail(email);
+    	
+    	if(userDto != null) {
+			authenticationHandle(request, response, userDto.getUsername(), userDto.getPassword());
+		} else {
+			String encodedName = URLEncoder.encode(name, "UTF-8");
+	        String encodedEmail = URLEncoder.encode(email, "UTF-8");
+			response.sendRedirect("/heehee/main?status=signup&name=" + encodedName + "&email=" + encodedEmail);
+		}
         System.out.println("Logged in with Naver");
     }
     
-    private void handleKakaoLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) {
+    private void handleKakaoLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     	Map<String,Object> kakao_account = oauth2User.getAttribute("kakao_account");
-    	String email = (String) kakao_account.get("email");
     	Map<String,Object> profile = (Map<String, Object>) kakao_account.get("profile");
+    	
+    	String email = (String) kakao_account.get("email");
     	String nickName = (String) profile.get("nickname");
-        logger.info("email: " + email + "\n nickName: " + nickName);
+    	
+    	UserDTO userDto = userService.findByUserEmail(email);
+    	
+    	if(userDto != null) {
+			authenticationHandle(request, response, userDto.getUsername(), userDto.getPassword());
+		} else {
+			String encodedNickName = URLEncoder.encode(nickName, "UTF-8");
+	        String encodedEmail = URLEncoder.encode(email, "UTF-8");
+			response.sendRedirect("/heehee/main?status=signup&nickName=" + encodedNickName + "&email=" + encodedEmail);
+		}
         System.out.println("Logged in with KaKao");
     }
+    
     
     private void authenticationHandle(HttpServletRequest request, HttpServletResponse response, 
     							String userId, String userPw) throws IOException, ServletException {

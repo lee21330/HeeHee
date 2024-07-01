@@ -77,7 +77,6 @@ public class SmsController {
         if(sessionAuthNo == authNo) {
         	response.put("status", 200);
         	response.put("message", "인증되었습니다.");
-        	session.invalidate();
         	logger.info(sessionAuthNo + "인증 완료");
         } else {
         	response.put("status", 404);
