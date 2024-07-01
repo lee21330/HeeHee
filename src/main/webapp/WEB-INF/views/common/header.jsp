@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
@@ -10,8 +11,10 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
@@ -29,8 +32,9 @@
 			</div>
 			<div class="header_container">
 				<div class="logo">
-					<a href="${path}/main">
-						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo.png" alt="로고 이미지">
+					<a href="${path}/main"> <img
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo.png"
+						alt="로고 이미지">
 					</a>
 				</div>
 				<div class="product_container">
@@ -44,30 +48,31 @@
 				</div>
 				<div class="search_container">
 					<div class="search_bar">
-						<input placeholder="어떤 상품을 찾으시나요?">
-						<a href="">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
+						<input placeholder="어떤 상품을 찾으시나요?"> <a href=""> <img
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png"
+							alt="검색 버튼 아이콘">
 						</a>
 					</div>
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="${path}/sell/productregi">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
-							<span>물품등록</span>
+						<a href="${path}/sell/productregi"> <img
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png"
+							alt="물품등록 아이콘"> <span>물품등록</span>
 						</a>
 					</div>
 					<div class="menu_div">
-						<a href="/heehee/chatting">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_chat.png" alt="채팅 아이콘">
-							<span>채팅</span>
+						<a href="/heehee/chatting"> <img
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_chat.png"
+							alt="채팅 아이콘"> <span>채팅</span>
 						</a>
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
 							<%-- <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 없는 아이콘"> --%>
-							<img class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 있는 아이콘">
-							<span>알림</span>
+							<img class="alarmImg"
+								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png"
+								alt="알림 있는 아이콘"> <span>알림</span>
 						</div>
 						<div class="alarm_container">
 							<div>
@@ -91,8 +96,9 @@
 				<%-- 카테고리 --%>
 				<div class="nav_container">
 					<div class="nav_menu">
-						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_menu.png" alt="메뉴 아이콘">
-						<span>카테고리</span>
+						<img
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_menu.png"
+							alt="메뉴 아이콘"> <span>카테고리</span>
 					</div>
 					<div class="nav_inner">
 						<div class="nav_title">
@@ -104,9 +110,10 @@
 								<nav>
 									<ul class="category_list">
 										<c:forEach var="mainCategory" items="${mainCateList}">
-											<li> ${mainCategory.category}
+											<li>${mainCategory.category}
 												<ul class="sub-category-list">
-													<c:forEach var="subCategory" items="${mainCategory.subCategory}">
+													<c:forEach var="subCategory"
+														items="${mainCategory.subCategory}">
 														<li>${subCategory}</li>
 													</c:forEach>
 												</ul>
@@ -120,8 +127,6 @@
 			</div>
 		</div>
 	</header>
-	<div id="tost_message">
-		
-	</div>
+	<div id="tost_message"></div>
 </body>
 </html>

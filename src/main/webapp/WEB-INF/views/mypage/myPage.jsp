@@ -91,7 +91,6 @@
 			<div id="dealContainer">
 				<%@include file="/WEB-INF/views/mypage/myPageSell.jsp"%>
 				<%@include file="/WEB-INF/views/mypage/myPageAuc.jsp"%>
-
 			</div>
 		</div>
 	</section>

@@ -5,17 +5,17 @@
 	margin: 0 auto;
 	/* border: 1px solid red; */
 }
-#deal{
+
+#deal {
 	border-top: 1px solid #C1C1C1;
 	display: flex;
-	
 }
-#deal li{
+
+#deal li {
 	list-style: none;
 	width: 50%;
 	text-align: center;
 	cursor: pointer;
-	
 }
 /* ---------------nav--------------- */
 .menu {
@@ -91,12 +91,12 @@
 }
 
 .list {
-	width: 100%;
-	display: flex;
+	width: 100%; display : flex;
 	flex-wrap: wrap;
 	gap: 20px;
 	padding: 0px 0px 0px 0px;
 	margin: 10px 0px;
+	display: flex;
 }
 
 .product {
@@ -106,15 +106,24 @@
 	/* border: 1px solid green; */
 }
 
-.product img {
+.product_img {
 	width: 200px;
 	height: 200px;
 	object-fit: contain;
 	border-radius: 15%;
 	box-shadow: 0 5px 10px -5px lightgray;
+	position: relative;
+	z-index: 1;
 }
 
-.product img:active {
+.photo_status {
+	width: 40px;
+	position: absolute;
+	float: right;
+	z-index: 2;
+}
+
+.product_img:active {
 	width: 200px;
 	height: 200px;
 	object-fit: cover;
@@ -182,9 +191,11 @@ input[type="radio"] {
 .radioContainer input[type="radio"]:checked+label {
 	background-color: #ABC3FF;
 }
-#date_input{
+
+#date_input {
 	display: none;
 }
+
 #btn_submit {
 	cursor: pointer;
 	width: 80px;
@@ -198,6 +209,20 @@ input[type="radio"] {
 	float: right;
 }
 /*찜내역 */
-#deleteJjim{
+#deleteJjim {
 	width: 100%;
+}
+
+#dropdown{
+	display: none;
+	list-style: none;
+	position: absolute;
+	z-index: 2;
+	background-color: white;
+}
+#dropdown li{
+	text-align: center;
+}
+#sub_dropdown{
+	display: none;
 }

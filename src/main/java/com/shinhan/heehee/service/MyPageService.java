@@ -19,6 +19,7 @@ import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleDetailDTO;
+import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
 @Service
@@ -107,6 +108,18 @@ public class MyPageService {
 
 	public List<BankKindDTO> bankList() {
 		return mypageDao.bankList();
+	}
+
+	public int deleteJjim(List<Integer> seq, String userId) {
+		return mypageDao.deleteJjim(seq,userId);
+	}
+
+	public List<SaleListAucDTO> saleListAuc(String status, String userId) {
+		return mypageDao.saleListAuc(status,userId);
+	}
+
+	public List<PurchaseListDTO> purchaselistAuc(String userId) {
+		return mypageDao.purchaselistAuc(userId);
 	}
 
 

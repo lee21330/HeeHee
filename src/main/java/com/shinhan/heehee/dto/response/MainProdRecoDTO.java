@@ -23,4 +23,5 @@ public class MainProdRecoDTO {
 	private String agoTime;
 	private int imgCateSeq;
 	private String proStatus;
+	private int productSeq;
 }

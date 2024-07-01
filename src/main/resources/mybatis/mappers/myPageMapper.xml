@@ -13,11 +13,33 @@
 		<if test="status!='all'">
 			AND SELL.PRO_STATUS = #{status}
 		</if>
+		<if test="status!='판매보류'">
+			AND SELL.PRO_STATUS != '판매보류'
+		</if>
+
 		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
 		FROM IMG_FILES
 		WHERE
 		IMG_CATE_SEQ =
 		2
+		GROUP BY TABLE_PK)
+	</select>
+	<select id="saleListAuc" parameterType="map"
+		resultType="com.shinhan.heehee.dto.response.SaleListAucDTO">
+		SELECT *
+		FROM AUC_PRODUCT ap, IMG_FILES IMG
+		WHERE ap.PRODUCT_SEQ =
+		IMG.TABLE_PK
+		AND ap.SELLER_ID = #{userId}
+		AND IMG_CATE_SEQ = 3
+		<if test="status!='all'">
+			AND ap.AUC_STATUS = #{status}
+		</if>
+		AND IMG.IMG_SEQ IN
+		(SELECT MIN(IMG_SEQ)
+		FROM IMG_FILES
+		WHERE IMG_CATE_SEQ
+		= 3
 		GROUP BY TABLE_PK)
 	</select>
 	<select id="saleDetail" parameterType="int"
@@ -71,7 +93,7 @@
 		where dh.SELL_SEQ = sp.PRODUCT_SEQ
 		AND sp.PRODUCT_SEQ = img.TABLE_PK
 		AND img.IMG_CATE_SEQ = 2
-		AND BUYER_ID = #{USER_ID}
+		AND BUYER_ID = #{userId}
 		AND IMG.IMG_SEQ IN
 		(SELECT MIN(IMG_SEQ)
 		FROM IMG_FILES
@@ -79,6 +101,28 @@
 		GROUP BY
 		TABLE_PK)
 	</select>
+	<select id="purchaselistAuc" parameterType="string"
+		resultType="purchasevo">
+		SELECT *
+		FROM DEAL_HISTORY dh, AUC_PRODUCT ap, IMG_FILES img
+		where dh.AUC_SEQ
+		= ap.PRODUCT_SEQ
+		AND ap.PRODUCT_SEQ = img.TABLE_PK
+		AND
+		img.IMG_CATE_SEQ
+		= 3
+		AND BUYER_ID = #{userId}
+		AND IMG.IMG_SEQ IN
+		(SELECT
+		MIN(IMG_SEQ)
+		FROM
+		IMG_FILES
+		WHERE IMG_CATE_SEQ = 3
+		GROUP BY
+		TABLE_PK)
+	</select>
+
+
 	<select id="jjimList" parameterType="string" resultType="jjimvo">
 		SELECT *
 		FROM JJIM j, SELL_PRODUCT sp, IMG_FILES img
@@ -94,6 +138,15 @@
 		WHERE IMG_CATE_SEQ = 2
 		GROUP BY TABLE_PK)
 	</select>
+	<delete id="deleteJjim" parameterType="java.util.List">
+		DELETE FROM JJIM
+		WHERE PRODUCT_SEQ IN
+		<foreach collection="list" item="proSeq" open="("
+			separator="," close=")">
+			#{proSeq}
+		</foreach>
+		AND ID = #{userId}
+	</delete>
 	<select id="sellerInfo" parameterType="String"
 		resultType="myHeaderDTO">
 		SELECT *
@@ -156,13 +209,9 @@
 		WHERE img_cate_seq = 4
 		AND table_pk = #{seqQnaBno}
 	</delete>
-	<insert id="insertQna" parameterType="insertQnavo">
-		INSERT INTO QNA_BOARD
-		VALUES (SEQ_QNA_BNO.nextval, #{id}, #{qnaTitle}, #{qnaContent},
-		null, SYSDATE, #{seqQnaOption})
-	</insert>
-	<insert id="insertQnaImg" parameterType="insertQnaImgvo">
-		INSERT INTO IMG_FILES
-		VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id})
-	</insert>
+	<!-- <insert id="insertQna" parameterType="insertQnavo"> INSERT INTO QNA_BOARD 
+		VALUES (SEQ_QNA_BNO.nextval, #{id}, #{qnaTitle}, #{qnaContent}, null, SYSDATE, 
+		#{seqQnaOption}) </insert> <insert id="insertQnaImg" parameterType="insertQnaImgvo"> 
+		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 
+		4, #{id}) </insert> -->
 </mapper>

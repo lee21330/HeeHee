@@ -21,6 +21,7 @@ import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleDetailDTO;
+import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 
 @Repository
@@ -28,7 +29,7 @@ public class MyPageDAO {
 
 	@Autowired
 	SqlSession sqlSession;
-	
+
 	String namespace = "com.shinhan.myPage.";
 
 	public List<PurchaseListDTO> purchaseList(String userId) {
@@ -47,15 +48,15 @@ public class MyPageDAO {
 		Map<String, Object> params = new HashMap<>();
 		params.put("status", status);
 		params.put("userId", userId);
-		return sqlSession.selectList(namespace + "saleList",params);
+		return sqlSession.selectList(namespace + "saleList", params);
 	}
 
 	public int userIntroduce(String intro, String userId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("introduce", intro);
-        params.put("userId", userId);
-        return sqlSession.update(namespace + "userIntroduce", params);
-    }
+		Map<String, Object> params = new HashMap<>();
+		params.put("introduce", intro);
+		params.put("userId", userId);
+		return sqlSession.update(namespace + "userIntroduce", params);
+	}
 
 	public int editProfile(EditProfileDTO profile) {
 		return sqlSession.selectOne(namespace + "editProfile", profile);
@@ -87,17 +88,17 @@ public class MyPageDAO {
 
 	public List<QnAImgDTO> myQnaImg(String userId, int seqQnaBno) {
 		Map<String, Object> params = new HashMap<>();
-        params.put("userId", userId);
-        params.put("seqQnaBno", seqQnaBno);
-        return sqlSession.selectList(namespace + "myQnaImg", params);
+		params.put("userId", userId);
+		params.put("seqQnaBno", seqQnaBno);
+		return sqlSession.selectList(namespace + "myQnaImg", params);
 	}
 
 	public int deleteQna(Integer seqQnaBno) {
-        return sqlSession.delete(namespace + "deleteQna", seqQnaBno);
+		return sqlSession.delete(namespace + "deleteQna", seqQnaBno);
 	}
 
 	public int deleteQnaImg(Integer seqQnaBno) {
-		 return sqlSession.delete(namespace + "deleteQnaImg", seqQnaBno);
+		return sqlSession.delete(namespace + "deleteQnaImg", seqQnaBno);
 	}
 
 	public SaleDetailDTO saleDetail(int proSeq) {
@@ -118,6 +119,24 @@ public class MyPageDAO {
 
 	public List<BankKindDTO> bankList() {
 		return sqlSession.selectList(namespace + "bankList");
+	}
+
+	public int deleteJjim(List<Integer> seq, String userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("list", seq);
+		params.put("userId", userId);
+		return sqlSession.delete(namespace + "deleteJjim", params);
+	}
+
+	public List<SaleListAucDTO> saleListAuc(String status, String userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("status", status);
+		params.put("userId", userId);
+		return sqlSession.selectList(namespace + "saleListAuc", params);
+	}
+
+	public List<PurchaseListDTO> purchaselistAuc(String userId) {
+		return sqlSession.selectList(namespace + "purchaselistAuc", userId);
 	}
 
 }
