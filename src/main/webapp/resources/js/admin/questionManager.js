@@ -141,7 +141,6 @@ $(document).ready(function() {
 			method: 'POST',
 			data: { 'qnaOption': qnaOption, 
 					'qnaOptionContent': qnaOptionContent,
-					'id': id
 					},
 			success: function() {
 				loadTable();

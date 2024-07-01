@@ -31,4 +31,8 @@ public class AdminUserBanDTO {
 	
 	//종료일 
 	private Date banEnd;
+	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
 }

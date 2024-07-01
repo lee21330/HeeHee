@@ -48,6 +48,27 @@ $(document).ready(function() {
 			});
 	};
 
+	//수정 시 카테고리 셀렉트로 선택
+	function loadQnaOptions(selectElementId){
+		$.ajax({
+			url: '/heehee/admin/getQnaOptions',
+			method: 'GET',
+			success: function(getOptions){
+				var selectElement = $(selectElementId);
+				selectElement.empty();
+
+				getOptions.forEach(function(getOption){
+					var option = "<option value='" + getOption.seqQnaOption + "'>" + getOption.qnaOption + "</option>";
+					selectElement.append(option);
+				});
+			},
+			error: function(xhr, status, error){
+				alert('유형 데이터를 가져오는 중 오류가 발생했습니다.');
+			}
+		});
+	};
+	
+
 	//열람/수정 버튼 클릭 시
 	$('#editButton').click(function() {
 		var selected = getSelectedRow();
@@ -106,23 +127,9 @@ $(document).ready(function() {
 								"</tr>";
 								row.after(editRow);
 								row.after(qnaContentRow);
-
-							//수정 시 카테고리 셀렉트로 선택
-							$.ajax({
-								url: '/heehee/admin/getQnaOptions',
-								method: 'GET',
-								success: function(getOptions){
-									var selectElement = $("#editCategory" + id);
-									getOptions.forEach(function(getOption){
-										var option = "<option value='" + getOption.seqQnaOption + "'>" + getOption.qnaOption + "</option>";
-										selectElement.append(option);
-									});
-								},
-								error: function(xhr, status, error){
-									alert('유형 데이터를 가져오는 중 오류가 발생했습니다.');
-								}
-							});
-						},
+								
+								loadQnaOptions("#editCategory" + id);
+							},
 						error: function(xhr, status, error){
 							alert('문의 내용을 가져오는 중 오류가 발생했습니다.');
 						}
@@ -155,12 +162,15 @@ $(document).ready(function() {
 							"<div class='updateContainer'>" + 
 							"<p class='productUpdate'>FAQ내용<br>신규 등록</p>" + 
 							"</div>" + 
-							"<input type='text' id='newCategory' class='doubleInputSmall' placeholder='신규 유형 입력'>" + 
-							"<input type='text' id='newSubCategory' class='doubleInputBigger' placeholder='신규 내용 입력'>" +
+							"<select id='editCategory" + id + "' class='doubleInputSmall' placeholder='수정할 유형 입력'></select>" + 
+							"<input type='text' id='newContentInput' class='doubleInputSmall' placeholder='신규 유형 입력'>" + 
+							"<input type='text' id='newAnsInput' class='doubleInputBigger' placeholder='신규 내용 입력'>" +
 							"<button class='saveNewButton' data-id='" + id + "'>신규 등록</button>" + 
 						"</td>" + 
 					"</tr>";
 				$('#tableBody').append(newRow);
+				
+				loadQnaOptions("#editCategory" + id);
 			}
 	});
 
@@ -190,14 +200,18 @@ $(document).ready(function() {
 
 	// 저장 버튼 클릭 시 (신규 등록)
 	$(document).on('click', '.saveNewButton', function() {
-		var newCategory = $('#newCategory').val();
-		var newSubCategory = $('#newSubCategory').val();
-		var userID = '현재 로그인된 아이디'; //실제로는 서버에서 로그인된 아이디를 가져와야 함
+		var seqFaqBno = $(this).attr('data-id');
+		var seqQnaOption = $("#editCategory" + seqFaqBno).val();
+		var faqContent = $("#newContentInput").val();
+		var faqAns = $("#newAnsInput").val();
 
 		$.ajax({
-			url: '/your-server-endpoint',
+			url: '/heehee/admin/insertFaq',
 			method: 'POST',
-			data: { 'category': newCategory, 'subCategory': newSubCategory, 'userID': userID },
+			data: { 'faqContent': faqContent, 
+					'faqAns': faqAns, 
+					'seqQnaOption': seqQnaOption, 
+					},
 			success: function() {
 				loadTable();
 			},

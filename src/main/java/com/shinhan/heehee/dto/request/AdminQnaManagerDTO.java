@@ -39,6 +39,10 @@ public class AdminQnaManagerDTO {
 	//자바스크립트 변수 : 1:1 답변내용
 	private String newValue;
 	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
+	
 	//삭제용 - 파라미터 1개 생성자 추가
 	public AdminQnaManagerDTO(int seqQnaBno) {
 		this.seqQnaBno = seqQnaBno;

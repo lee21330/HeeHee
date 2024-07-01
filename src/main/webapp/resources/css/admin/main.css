@@ -227,7 +227,27 @@ table tbody tr td {
 	
 }
 
+/* 페이징처리 영역 */
+
+.pageButton {
+	background-color: white;
+	border: 1px solid rgb (73,73,233);
+	padding:5px;
+	cursor: pointer;
+	margin: 2px;
+}
+
+.pageButton.active {
+	background-color: rgb(73,73,233);
+	color: white;
+}
+
+.pageButton:hover {
+	background-color: lightgray;
+}
+
 /* 공용영역 끝 */
+
 /* 페이지별 영역 시작 */
 
 /* main.jsp */

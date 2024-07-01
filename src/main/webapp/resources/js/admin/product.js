@@ -80,7 +80,7 @@ $(document).ready(function() {
 										"<option value='판매중' " + (row.find('td').eq(7).text() === '판매중' ? 'selected' : '') + ">판매중</option>" + 
 										"<option value='판매중지' " + (row.find('td').eq(7).text() === '판매중지' ? 'selected' : '') + ">판매중지</option>" + 
 										"</select>" + 
-										"<input type='text' id='editInput" + id + "' class='singleInput' value='" + row.find('td').eq(5).text() + "' placeholder='판매중지 사유를 입력해주세요'>" + 
+										"<input type='text' id='editInput" + id + "' class='singleInput' placeholder='판매중지 사유를 입력해주세요'>" + 
 										"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
 									"</td>" + 
 								"</tr>";

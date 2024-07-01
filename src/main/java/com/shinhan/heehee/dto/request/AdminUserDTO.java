@@ -32,4 +32,8 @@ public class AdminUserDTO {
 	
 	//
 	private Date createDate;
+	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
 }
