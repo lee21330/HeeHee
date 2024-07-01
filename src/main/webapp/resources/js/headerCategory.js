@@ -1,8 +1,8 @@
 $(function () {
 
 	// 카테고리 메뉴 숨겨놓기
-	$(".nav_title").hide();
-	$(".nav_content").hide();
+	// $(".nav_title").hide();
+	// $(".nav_content").hide();
 
 	// 숨긴 카테고리 메뉴 보여주기
 	$(".nav_container").mouseenter(function () {
@@ -30,8 +30,8 @@ $(function () {
 	// 카테고리 메뉴 숨기기
 	$(".nav_inner").mouseleave(function () {
 		$(".category_list").scrollTop(0); /* 스크롤 위치 초기화 */
-		$(".nav_title").hide();
-		$(".nav_content").hide();
+		// $(".nav_title").hide();
+		// $(".nav_content").hide();
 		$(".category_list li").css("background", "white"); /* css 초기화 */
 		$(".category_list li").css("color", "black"); /* css 초기화 */
 	})

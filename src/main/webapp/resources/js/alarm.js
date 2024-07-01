@@ -11,6 +11,8 @@ $(function () {
 	$("#alarmAll").on("click", alarmAll); // 전체 알림 보기
 	$("#alarmUnck").on("click", alarmUnck); // 미확인 알림 보기
 	
+	$("#alarmImg").on("click", alarmCheck); // 알림 아이콘 클릭 시 애니메이션 효과 제거
+	
 });
 
 // 클릭하면 알림 보여주거나 숨기기
@@ -293,4 +295,10 @@ function alarmVisited() {
             beforeCheck.eq(i).addClass("visited");
         }
     }
+}
+
+// 알림 아이콘 클릭 시 애니메이션 효과 제거
+function alarmCheck() {
+	$("#alarmImg").removeClass("alarmImg");
+	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png");
 }

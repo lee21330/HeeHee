@@ -85,7 +85,8 @@ public class AlarmController {
 	public void handleBid(AlarmDTO alarmDto, @DestinationVariable("fromUser") String fromUser) {
 		alarmDto.setId(fromUser);
 		alarmService.alarmInsert(alarmDto);
-		int alarmCnt = alarmService.alarmCount(fromUser);
+		int alarmCnt = alarmService.alarmCount(fromUser); // 받은 알림 수
+		
 		messagingTemplate.convertAndSend("/topic/alarm/" + fromUser, alarmCnt);
 	}
 	

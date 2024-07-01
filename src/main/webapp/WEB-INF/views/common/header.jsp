@@ -19,34 +19,42 @@
 <script src="/heehee/resources/js/common.js"></script>
 <script>
 $(document).ready(function() {
+	/* 로그인 여부 확인 */
 	beforeConnectCheck();
 });
 
 function beforeConnectCheck() {
+	/* 로그인 하면 소켓 연결 */
 	if("${userId}" != "") connect();
 }
 
 function connect() {
     var socket = new SockJS('/heehee/ws');
     stompClient = Stomp.over(socket);
+    
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
+        
         stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
-            showResponse(JSON.parse(response.body));
+			showResponse(JSON.parse(response.body));
         });
     });
 }
 
+/* 소켓 연결 후 실행 */
 function showResponse(res) {
 	console.log(res);
-	
+
+	// 알림 올 경우 이미지 변경, 애니메이션 효과 추가
+	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png");
 	$("#alarmImg").addClass("alarmImg");
 	$("#alarmCnt").text(res);
 }
 
+/* 알림 insert */
 function sendAlarm() {
     var userId = 'sinsang';
-    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 3, 'reqSeq': 46, 'alContent': "낙찰되었습니다."}));
+    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 3, 'reqSeq': 47, 'alContent': "낙찰되었습니다."}));
 }
 
 </script>
@@ -101,9 +109,9 @@ function sendAlarm() {
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
-							<img id="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 아이콘">
-							<span id="alarmCnt"></span>
+							<img id="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 아이콘">
 							<span>알림</span>
+							<span id="alarmCnt"></span>
 						</div>
 						<div class="alarm_container">
 							<div>
@@ -123,9 +131,9 @@ function sendAlarm() {
 					</div>
 					<div class="nav_inner">
 						<div class="nav_title">
-							<div class="category_name">
+							<%-- <div class="category_name">
 								<p>카테고리 이름</p>
-							</div>
+							</div> --%>
 							<%-- 카테고리 리스트 --%>
 							<div class="category_content">
 								<nav>
@@ -136,10 +144,12 @@ function sendAlarm() {
 									--%>
 									<ul class="category_list">
 										<c:forEach var="mainCategory" items="${mainCateList}">
-											<li> ${mainCategory.category}
+											<li>${mainCategory.category}
 												<ul class="sub-category-list">
 													<c:forEach var="subCategory" items="${mainCategory.subCategory}">
-														<li>${subCategory}</li>
+														<a>
+															<li>${subCategory}</li>
+														</a>
 													</c:forEach>
 												</ul>
 											</li>	
