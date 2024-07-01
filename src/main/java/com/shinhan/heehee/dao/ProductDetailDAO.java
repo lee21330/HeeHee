@@ -56,13 +56,28 @@ public class ProductDetailDAO {
 		return sqlSession.update(namespace + "updateProduct", modiDTO);
 	}
 
-	public int proStatusSelling(Integer prodSeq) {
-		return sqlSession.update(namespace + "ProStatusSelling", prodSeq);
-		
-	}
 
 	public void insertViewLog(ViewLogDTO viewLogDTO) {
 		sqlSession.insert(namespace+"insertViewLog", viewLogDTO);
 	}
+	
+	public int proStatusReserve(int productSeq) {
+		return sqlSession.update(namespace + "proStatusReserve", productSeq);
+	}
+	
+	public int proStatusSelling(int productSeq) {
+		return sqlSession.update(namespace + "proStatusSelling", productSeq);
+	}
+
+	public int proStatusPutOff(int productSeq) {
+		return sqlSession.update(namespace + "proStatusPutoff", productSeq);
+	}
+
+	public int proStatusDelete(int productSeq) {
+		return sqlSession.update(namespace + "proStatusDelete", productSeq);
+	}
+	
+	
+	
 	
 }

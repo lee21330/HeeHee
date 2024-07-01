@@ -74,13 +74,24 @@ public class ProductDetailService {
 		
 	}
 	
-	@Transactional
-	public void proStatusSelling(Integer prodSeq) { 
-		productDetailDao.proStatusSelling(prodSeq);
-	}
-
 	public void insertViewLog(ViewLogDTO viewLogDTO) {
 		productDetailDao.insertViewLog(viewLogDTO);
+	}
+	
+	public int proStatusSelling(int productSeq) {
+		return productDetailDao.proStatusSelling(productSeq);
+	}
+	
+	public int proStatusReserve(int productSeq) {
+		return productDetailDao.proStatusReserve(productSeq);
+	}
+
+	public int proStatusPutOff(int productSeq) {
+		return productDetailDao.proStatusPutOff(productSeq);
+	}
+
+	public int proStatusDelete(int productSeq) {
+		return productDetailDao.proStatusDelete(productSeq);
 	}
 	
 	

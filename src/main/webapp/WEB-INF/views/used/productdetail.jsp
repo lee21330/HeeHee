@@ -26,26 +26,26 @@
 	<div class="productDetail">
 		<main>
 			<div class="product-container">
-				<c:if test="${userId == info.id && info.proStatus != '판매보류'}">
+				<c:if test="${userId == info.id && info.proStatus != '예약중'}">
 				<div class="product_slider">
 					<c:forEach var="product" items="${prodImgList}">
 						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 					</c:forEach>
 				</div>
 				</c:if>
-				<c:if test="${userId == info.id && info.proStatus == '판매보류'}">
+				<c:if test="${userId == info.id && info.proStatus == '예약중'}">
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
 				            <div id="overlay">
-				                <p id="postpone">판매가 보류된 상품입니다.</p>
+				                <p id="postpone">예약중인 상품입니다.</p>
 				            </div>
 				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 				            </div>
 				        </c:forEach>
 				    </div>
 				</c:if>
-				<c:if test="${userId != info.id && info.proStatus != '판매보류'}">
+				<c:if test="${userId != info.id && info.proStatus != '예약중'}">
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
@@ -54,12 +54,12 @@
 				        </c:forEach>
 				    </div>
 				</c:if>
-				<c:if test="${userId != info.id && info.proStatus == '판매보류'}">
+				<c:if test="${userId != info.id && info.proStatus == '예약중'}">
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
 				            <div id="overlay">
-				                <p id="postpone">판매가 보류된 상품입니다.</p>
+				                <p id="postpone">예약중인 상품입니다.</p>
 				            </div>
 				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 				            </div>
@@ -94,20 +94,31 @@
 							<li>배송비: ${info.DCharge}원</li>
 						</c:if>
 					</ul>
-					<c:if test="${userId == info.id}">
+					<c:if test="${userId == info.id && info.proStatus != '예약중'}">
 						<div class="button-container">
 							<button onclick="location.href='${path}/sell/productmodify/${info.productSeq}'" id="gochat" style="cursor: pointer">물품정보 수정</button>
 							<button id="gobuy" style="cursor: pointer">판매상태 수정</button>
 							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.deal == '택배' && info.proStatus != '판매보류'}">
+					<c:if test="${userId == info.id && info.proStatus == '예약중'}">
+						<div class="button-container">
+							<p id="reserve_explanation">예약중인 물품은 수정할 수 없습니다.</p>
+							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.proStatus == '예약중'}">
+						<div class="button-container">
+							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.deal == '택배' && info.proStatus != '예약중'}">
 						<div class="button-container">
 							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
 							<button id="gobuy" style="cursor: pointer">즉시구매</button>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.deal == '직거래' && info.proStatus != '판매보류'}">
+					<c:if test="${userId != info.id && info.deal == '직거래' && info.proStatus != '예약중'}">
 						<div class="button-container">
 							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
 							<button id="disabled_btn" disabled>즉시구매</button>
@@ -151,7 +162,7 @@
 					</div>
 				</div>
 			</div>
-			<p id="recommand_title">제품 추천</p>
+			<p id="recommand_title">추천 제품</p>
 			<div id="recommand">
 				<c:forEach var="prodReco" items="${prodRecoList}">
 					<img class="reco" onclick="location.href='${path}/sell/productdetail/${prodReco.productSeq}'" style="cursor: pointer"
@@ -163,26 +174,55 @@
 	
 	
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-	        var userRating = ${info.userRating}; // EL문법때문에 js파일로 따로 못뺌
-	        var stars = document.querySelectorAll('#seller_score .star');
+	$(function () {
+		$("#fullHeart").on("click", addJjim);
+		$("#emptyHeart").on("click", deleteJjim);
+	});
+	
+	document.addEventListener('DOMContentLoaded', function () {
+        var userRating = ${info.userRating}; // EL문법때문에 js파일로 따로 못뺌
+        var stars = document.querySelectorAll('#seller_score .star');
 
-	        for (var i = 0; i < userRating; i++) {
-	            stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
-	        }
-	    });
-		
-		
-	    $('#fullHeart').click(function() {
-	        $(this).hide(); // fullHeart를 숨깁니다.
-	        $('#emptyHeart').show(); // emptyHeart를 보여줍니다.
-	    });
-
-	    $('#emptyHeart').click(function() {
-	        $(this).hide(); // emptyHeart를 숨깁니다.
-	        $('#fullHeart').show(); // fullHeart를 보여줍니다.
-	    });
-		
+        for (var i = 0; i < userRating; i++) {
+            stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
+        }
+    });
+	
+	
+    function addJjim() {
+    	$('#fullHeart').hide();
+        $('#emptyHeart').show();
+        
+        var productSeq = ${info.productSeq};
+    	$.ajax({
+            url: '/heehee/sell/cancelreserve',
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ "productSeq": productSeq }),
+            success: function (data, status, xhr) {
+                console.log(data);
+                if(data.success == true) {
+                    showTost(data.message);
+                    $("#current_status").text("현재 상태: 판매중");
+                    $("#cancel_reserve_btn").off("click");
+                    $("#cancel_reserve_btn").text("예약하기");
+                    $("#cancel_reserve_btn").attr("id", "to_reserve_btn");
+                    $("#to_reserve_btn").on("click", toReserve);
+                } else {
+                	showTost(data.message);
+                }
+            },
+            error: function (data, status, err) {
+                console.log(err);
+            }
+        });
+    }
+        
+    function deleteJjim() {
+    	$('#emptyHeart').hide();
+        $('#fullHeart').show();
+    }
+	
 	
 	</script>
 </body>

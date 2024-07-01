@@ -203,23 +203,28 @@
 	</select>
 	
 	<!-- 여기서부터 구현해야함 -->
-	<update id="ProStatusSelling" parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+	<update id="proStatusSelling" parameterType="int">
 		UPDATE SELL_PRODUCT
 		SET PRO_STATUS = '판매중'
-        WHERE PRODUCT_SEQ = #{PROD_SEQ}
+        WHERE PRODUCT_SEQ = #{productSeq}
 	</update>
 	
-	<update id="ProStatusPreserve" parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+	<update id="proStatusReserve" parameterType="int">
 		UPDATE SELL_PRODUCT
 		SET PRO_STATUS = '예약중'
-        WHERE PRODUCT_SEQ = #{PROD_SEQ}
+        WHERE PRODUCT_SEQ = #{productSeq}
 	</update>
 	
-	<update id="ProStatusPutoff" parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+	<update id="proStatusPutoff" parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
 		UPDATE SELL_PRODUCT
 		SET PRO_STATUS = '판매보류'
         WHERE PRODUCT_SEQ = #{productSeq}
 	</update>
+	
+	<delete id="proStatusDelete" parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+		DELETE FROM SELL_PRODUCT
+		WHERE PRODUCT_SEQ = #{productSeq}
+	</delete>
 	
 	<insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.request.ViewLogDTO">
 		INSERT INTO VIEW_LOG VALUES (#{productSeq}, #{ID}, SYSDATE)
