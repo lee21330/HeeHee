@@ -78,20 +78,31 @@
 						<a href="#" class="price-check-link">시세조회</a>
 
 					</div>
-					<p id="product_price">${info.productPrice}원</p>
+					<p id="product_price"><fmt:formatNumber value="${info.productPrice}" pattern="#,###" />원</p>
 					<p id="product_etc">
 					<fmt:formatDate value="${info.createDate}" pattern="yyyy/MM/dd" type="date"/>
 					· 
 					조회 ${info.viewCnt}
 					· 
 					찜 ${info.jjimCnt} 
-					<span id="fullHeart">❤️</span>
-					<span id="emptyHeart">🤍</span></p>
+					<c:if test="${userId == info.id}">
+						<span id="fullHeart" style="display: none">❤️</span>
+						<span id="emptyHeart" style="display: none">🤍</span>
+					</c:if>
+					<c:if test="${userId != info.id && info.specifiedJjimCnt >= 1}">
+						<span id="fullHeart">❤️</span>
+						<span id="emptyHeart" style="display: none">🤍</span>
+					</c:if>
+					<c:if test="${userId != info.id && info.specifiedJjimCnt == 0}">
+						<span id="fullHeart" style="display: none">❤️</span>
+						<span id="emptyHeart">🤍</span>
+					</c:if>
+					</p>
 					<ul id="product_state">
 						<li>제품 상태: ${info.condition}</li>
 						<li>거래 방식: ${info.deal}</li>
 						<c:if test="${info.deal == '택배'}">
-							<li>배송비: ${info.DCharge}원</li>
+							<li>배송비: <fmt:formatNumber value="${info.DCharge}" pattern="#,###"/>원</li>
 						</c:if>
 					</ul>
 					<c:if test="${userId == info.id && info.proStatus != '예약중'}">
@@ -129,8 +140,10 @@
 				<div id="plusArea">
 					<p>최근 본 상품</p>
 					<div id="recentArea">
-						<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
-						<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
+						<c:if test="여기 하는중~">
+							<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
+							<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
+						</c:if>
 					</div>
 					<p id="gotop" style="cursor: pointer">TOP</p>
 				</div>
@@ -175,8 +188,24 @@
 	
 	<script>
 	$(function () {
-		$("#fullHeart").on("click", addJjim);
-		$("#emptyHeart").on("click", deleteJjim);
+		$("#emptyHeart").on("click", addJjim);
+		$("#fullHeart").on("click", deleteJjim);
+		
+		var productSeq = ${info.productSeq};
+        var id = "${userId}";
+    	$.ajax({
+            url: '/heehee/sell/selectJjim',
+            method: 'GET',
+            contentType: 'application/json',
+            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
+            success: function (data, status, xhr) {
+                console.log(data);
+               
+            },
+            error: function (data, status, err) {
+                console.log(err);
+            }
+        });
 	});
 	
 	document.addEventListener('DOMContentLoaded', function () {
@@ -190,24 +219,20 @@
 	
 	
     function addJjim() {
-    	$('#fullHeart').hide();
-        $('#emptyHeart').show();
+    	$('#emptyHeart').hide();
+        $('#fullHeart').show();
         
         var productSeq = ${info.productSeq};
+        var id = "${userId}";
     	$.ajax({
-            url: '/heehee/sell/cancelreserve',
-            method: 'PUT',
+            url: '/heehee/sell/insertJjim',
+            method: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ "productSeq": productSeq }),
+            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
             success: function (data, status, xhr) {
                 console.log(data);
                 if(data.success == true) {
                     showTost(data.message);
-                    $("#current_status").text("현재 상태: 판매중");
-                    $("#cancel_reserve_btn").off("click");
-                    $("#cancel_reserve_btn").text("예약하기");
-                    $("#cancel_reserve_btn").attr("id", "to_reserve_btn");
-                    $("#to_reserve_btn").on("click", toReserve);
                 } else {
                 	showTost(data.message);
                 }
@@ -219,8 +244,46 @@
     }
         
     function deleteJjim() {
-    	$('#emptyHeart').hide();
-        $('#fullHeart').show();
+    	$('#fullHeart').hide();
+        $('#emptyHeart').show();
+        
+        var productSeq = ${info.productSeq};
+        var id = "${userId}";
+    	$.ajax({
+            url: '/heehee/sell/deleteJjim',
+            method: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
+            success: function (data, status, xhr) {
+                console.log(data);
+                if(data.success == true) {
+                    showTost(data.message);
+                } else {
+                	showTost(data.message);
+                }
+            },
+            error: function (data, status, err) {
+                console.log(err);
+            }
+        });
+    }
+    
+    function selectJjim() {
+        var productSeq = ${info.productSeq};
+        var id = "${userId}";
+    	$.ajax({
+            url: '/heehee/sell/selectJjim',
+            method: 'GET',
+            contentType: 'application/json',
+            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
+            success: function (data, status, xhr) {
+                console.log(data);
+               
+            },
+            error: function (data, status, err) {
+                console.log(err);
+            }
+        });
     }
 	
 	

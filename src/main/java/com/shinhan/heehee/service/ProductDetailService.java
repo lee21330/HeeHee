@@ -1,6 +1,7 @@
 package com.shinhan.heehee.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.ProductDetailDAO;
 import com.shinhan.heehee.dto.request.ImageFileDTO;
+import com.shinhan.heehee.dto.request.JjimDTO;
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.RecentlyDTO;
+import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
 import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
@@ -25,8 +29,8 @@ public class ProductDetailService {
 	@Autowired
 	AWSS3Service fileUploadService;
 	
-	public ProdDetailDTO prodInfo(Integer prodSeq) {
-		return productDetailDao.productInfo(prodSeq);
+	public ProdDetailDTO prodInfo(ProductDetailRequestDTO sampleDTO) {
+		return productDetailDao.productInfo(sampleDTO);
 	}
 	
 	public List<ProdDetailImgDTO> prodImg(Integer prodSeq) {
@@ -93,6 +97,20 @@ public class ProductDetailService {
 	public int proStatusDelete(int productSeq) {
 		return productDetailDao.proStatusDelete(productSeq);
 	}
+
+	public int insertJjim(JjimDTO jjimDTO) {
+		return productDetailDao.insertJjim(jjimDTO);
+	}
+
+	public int deleteJjim(JjimDTO jjimDTO) {
+		return productDetailDao.deleteJjim(jjimDTO);
+	}
 	
-	
+	public int selectJjim(JjimDTO jjimDTO) {
+		return productDetailDao.selectJjim(jjimDTO);
+	}
+
+	public int insertRecently(RecentlyDTO recentlyDTO) {
+		return productDetailDao.insertRecently(recentlyDTO);
+	}
 }

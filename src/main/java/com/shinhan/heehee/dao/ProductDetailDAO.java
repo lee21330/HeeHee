@@ -1,6 +1,7 @@
 
 package com.shinhan.heehee.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shinhan.heehee.dto.request.ImageFileDTO;
+import com.shinhan.heehee.dto.request.JjimDTO;
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.RecentlyDTO;
+import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
 import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
@@ -22,8 +26,8 @@ public class ProductDetailDAO {
 	
 	String namespace = "com.shinhan.productDetail.";
 	
-	public ProdDetailDTO productInfo(Integer prodSeq) {
-		return sqlSession.selectOne(namespace + "productInfo", prodSeq);
+	public ProdDetailDTO productInfo(ProductDetailRequestDTO sampleDTO) {
+		return sqlSession.selectOne(namespace + "productInfo", sampleDTO);
 	}
 	
 	public List<ProdDetailImgDTO> productImg(Integer prodSeq) {
@@ -74,10 +78,24 @@ public class ProductDetailDAO {
 	}
 
 	public int proStatusDelete(int productSeq) {
-		return sqlSession.update(namespace + "proStatusDelete", productSeq);
+		return sqlSession.delete(namespace + "proStatusDelete", productSeq);
+	}
+
+	public int insertJjim(JjimDTO jjimDTO) {
+		return sqlSession.insert(namespace + "insertJjim", jjimDTO);
 	}
 	
+	public int deleteJjim(JjimDTO jjimDTO) {
+		return sqlSession.insert(namespace + "deleteJjim", jjimDTO);
+	}
 	
+	public int selectJjim(JjimDTO jjimDTO) {
+		return sqlSession.insert(namespace + "selectJjim", jjimDTO);
+	}
+
+	public int insertRecently(RecentlyDTO recentlyDTO) {
+		return sqlSession.insert(namespace + "insertRecently", recentlyDTO);
+	}
 	
 	
 }

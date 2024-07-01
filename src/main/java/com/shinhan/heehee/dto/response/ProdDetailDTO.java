@@ -35,4 +35,5 @@ public class ProdDetailDTO {
 	private int userRating;
 	private String userIntroduce;
 	private int viewCnt;
+	private int specifiedJjimCnt;
 }
