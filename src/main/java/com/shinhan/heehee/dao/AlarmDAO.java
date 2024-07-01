@@ -37,6 +37,7 @@ public class AlarmDAO {
 		return sqlSession.insert(namespace + "alarmInsert", alarm);
 	}
 	
+	// 미확인 알림 개수
 	public int alarmCount(String userId) {
 		return sqlSession.selectOne(namespace + "alarmCount", userId);
 	}

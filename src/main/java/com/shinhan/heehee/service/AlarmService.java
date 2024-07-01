@@ -37,6 +37,7 @@ public class AlarmService {
 		return alarmDAO.alarmInsert(alarm);
 	}
 	
+	// 미확인 알림 개수
 	public int alarmCount(String userId) {
 		return alarmDAO.alarmCount(userId);
 	}
