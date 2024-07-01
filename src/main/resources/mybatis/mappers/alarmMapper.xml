@@ -6,7 +6,45 @@
 	<!-- 알림 전체 조회  -->
 	<select id="alarmList" parameterType="string" resultType="alarmChatDTO">
 		SELECT * 
-		FROM (SELECT NVL(S.ARTICLE_TITLE, '📢 From. 희희낙찰') sender, 
+		FROM (SELECT NVL(AP.AUCTION_TITLE, '📢 From. 희희낙찰') sender,
+							   A.AL_CONTENT alContent,
+							   TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI') alDate,
+							   NF.CATE_NUM cateNum,
+							   A.AL_REQ_SEQ reqSeq,
+							   A.AL_NUM alNum,
+							   A.AL_CHECK alCheck 
+				  FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
+										 JOIN AUC_PRODUCT AP ON (A.AL_REQ_SEQ = AP.PRODUCT_SEQ)
+				  WHERE A.CATE_NUM = 8 -- 경매물품 판매중지
+							  AND A.AL_REQ_SEQ = AP.PRODUCT_SEQ
+							  AND A.ID = #{userId} 
+				  UNION ALL
+				  SELECT NVL(S.ARTICLE_TITLE, '📢 From. 희희낙찰') sender,
+							   A.AL_CONTENT alContent,
+							   TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI') alDate,
+							   NF.CATE_NUM cateNum,
+							   A.AL_REQ_SEQ reqSeq,
+							   A.AL_NUM alNum,
+							   A.AL_CHECK alCheck 
+				  FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
+										 JOIN SELL_PRODUCT S ON (A.ID = S.ID)
+				  WHERE A.CATE_NUM = 7 -- 중고물품 판매중지
+							  AND A.ID = #{userId} 
+							  AND A.AL_REQ_SEQ = S.PRODUCT_SEQ
+				  UNION ALL
+				  SELECT NVL(B.BAN_CONTENT, '📢 From. 희희낙찰') sender,
+							   A.AL_CONTENT alContent,
+							   TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI') alDate,
+							   NF.CATE_NUM cateNum,
+							   A.AL_REQ_SEQ reqSeq,
+							   A.AL_NUM alNum,
+							   A.AL_CHECK alCheck 
+				  FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
+										 JOIN BAN_HISTORY B ON (A.ID = B.ID)
+				  WHERE A.CATE_NUM = 6 -- 계정 정지
+							  AND A.ID = #{userId} 
+				  UNION ALL
+				  SELECT NVL(S.ARTICLE_TITLE, '📢 From. 희희낙찰') sender, 
 							   A.AL_CONTENT alContent, 
 							   TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI') alDate, 
 							   NF.CATE_NUM cateNum, 
@@ -81,7 +119,48 @@
 	<!-- 미확인 알림 조회 -->
 	<select id="alarmUnck" parameterType="string" resultType="alarmChatDTO">
 		SELECT * 
-		FROM(SELECT NVL(MAX(Q.QNA_TITLE), '📢 From. 희희낙찰') sender, 
+		FROM(SELECT NVL(MAX(AP.AUCTION_TITLE), 'From. 희희낙찰') sender, 
+							  MAX(A.AL_CONTENT) alContent, 
+							  MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+							  MAX(NF.CATE_NUM) cateNum, 
+							  MAX(A.AL_REQ_SEQ) reqSeq, 
+							  MAX(A.AL_NUM) alNum, 
+							  MAX(A.AL_CHECK) alCheck 
+				  FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+										 JOIN AUC_PRODUCT AP ON (A.AL_REQ_SEQ = AP.PRODUCT_SEQ) 
+				  WHERE A.CATE_NUM = 8 -- 경매물품 판매중지 
+							  AND A.AL_REQ_SEQ = AP.PRODUCT_SEQ
+							  AND AL_CHECK = 'N'
+							  AND A.ID = #{userId} 
+				  UNION ALL
+				  SELECT NVL(MAX(S.ARTICLE_TITLE), '📢 From. 희희낙찰') sender, 
+									MAX(A.AL_CONTENT) alContent, 
+									MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+									MAX(NF.CATE_NUM) cateNum, 
+									MAX(A.AL_REQ_SEQ) reqSeq, 
+									MAX(A.AL_NUM) alNum, 
+									MAX(A.AL_CHECK) alCheck 
+				  FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+							   			 JOIN SELL_PRODUCT S ON (A.ID = S.ID)
+				  WHERE A.CATE_NUM = 7 -- 중고물품 판매중지
+							  AND A.AL_REQ_SEQ = S.PRODUCT_SEQ
+							  AND AL_CHECK = 'N' 
+							  AND A.ID = #{userId} 
+				  UNION ALL
+				  SELECT NVL(MAX(B.BAN_CONTENT), '📢 From. 희희낙찰') sender, 
+									 MAX(A.AL_CONTENT) alContent,
+									 MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate,
+									 MAX(NF.CATE_NUM) cateNum,
+									 MAX(A.AL_REQ_SEQ) reqSeq,
+									 MAX(A.AL_NUM) alNum,
+									 MAX(A.AL_CHECK) alCheck 
+				  FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+										 JOIN BAN_HISTORY B ON (A.ID = B.ID)
+				  WHERE A.CATE_NUM = 6 -- 계정 정지
+							  AND AL_CHECK = 'N'
+							  AND A.ID = #{userId} 
+				  UNION ALL
+				  SELECT NVL(MAX(Q.QNA_TITLE), '📢 From. 희희낙찰') sender, 
 							  MAX(A.AL_CONTENT) alContent, 
 							  MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
 							  MAX(NF.CATE_NUM) cateNum, 
@@ -168,6 +247,7 @@
 					AND AL_CHECK = 'N'
 	</update>
 	
+	<!-- 알림 생성 -->
 	<insert id="alarmInsert" parameterType="alarmDTO">
 		INSERT INTO ALARM VALUES (ALARM_SEQ.NEXTVAL, 
 													#{id}, 
@@ -178,10 +258,11 @@
 													SYSDATE)
 	</insert>
 	
+	<!-- 미확인 알림 개수 -->
 	<select id="alarmCount" parameterType="String" resultType="int">
 		SELECT COUNT(AL_NUM) AS CNT
   		FROM ALARM
  		WHERE ID = #{userId}
-   		AND AL_CHECK = 'N'
+   					AND AL_CHECK = 'N'
 	</select>
 </mapper>

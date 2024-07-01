@@ -127,6 +127,30 @@ function alarmAll() {
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
 						output += "</ul>";
+						
+					} else if (item.alDate != null && item.cateNum == 6) {
+						// 계정 정지
+						output += "<ul alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						output += "<li class='alarm_date'>" + item.alDate + "</li>";
+						output += "<li>" + item.sender + "</li>";
+						output += "<li>" + item.alContent + "</li>";
+						output += "</ul>";
+						
+					} else if (item.alDate != null && item.cateNum == 7) {
+						// 중고물품 판매중지 (마이페이지 경로로 수정 필)
+						output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						output += "<li class='alarm_date'>" + item.alDate + "</li>";
+						output += "<li>" + item.sender + "</li>";
+						output += "<li>" + item.alContent + "</li>";
+						output += "</ul>";
+						
+					} else if (item.alDate != null && item.cateNum == 8) {
+						// 경매물품 판매중지 (마이페이지 경로로 수정 필)
+						output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						output += "<li class='alarm_date'>" + item.alDate + "</li>";
+						output += "<li>" + item.sender + "</li>"
+						output += "<li>" + item.alContent + "</li>";
+						output += "</ul>";
 					}
 				});
             }
@@ -233,6 +257,30 @@ function alarmUnck() {
                             output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
+                            output += "<li>" + item.alContent + "</li>";
+                            output += "</ul>";
+                            
+                        } else if (item.alDate != null && item.cateNum == 6) {
+                        	// 계정 정지
+							output += "<ul alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
+							
+                        } else if (item.alDate != null && item.cateNum == 7) {
+	                        // 중고물품 판매중지 (마이페이지 경로로 수정 필)
+							output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+							output += "<li class='alarm_date'>" + item.alDate + "</li>";
+							output += "<li>" + item.sender + "</li>";
+							output += "<li>" + item.alContent + "</li>";
+							output += "</ul>";
+							
+                        } else if (item.alDate != null && item.cateNum == 8) {
+                        	// 경매물품 판매중지
+                        	output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+                            output += "<li class='alarm_date'>" + item.alDate + "</li>";
+                            output += "<li>" + item.sender + "</li>"
                             output += "<li>" + item.alContent + "</li>";
                             output += "</ul>";
                         }
