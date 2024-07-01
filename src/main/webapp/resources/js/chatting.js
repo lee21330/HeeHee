@@ -27,13 +27,19 @@ function connect(chatRoomId) {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
+        stompClient.send("/app/joinRoom", {}, JSON.stringify({"userId": loginMemberNo, "roomId": chatRoomId}));
         stompClient.subscribe('/topic/chatroom/' + chatRoomId, function (chatMessage) {
-            console.log(chatMessage);
-            showMessage(JSON.parse(chatMessage.body));
+        	var json = JSON.parse(chatMessage.body);
+        	if(json.userId != null) {
+				selectChattingFn();
+        	} else {
+	            showMessage(json);
+            }
         });
     });
 }
 
+// 연결 끊기
 function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
@@ -49,12 +55,18 @@ function showMessage(chatMessage){
     
     if(chatMessage.sender == loginMemberNo){
     
-        const myChat = document.createElement("div");
+            const myChat = document.createElement("div");
             myChat.classList.add("my-chat");
             
             const chatDate = document.createElement("span");
             chatDate.classList.add("chatDate");
-            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 안 읽음';
+            let read = '안 읽음';
+                    
+            if(chatMessage.readCheck == 'Y'){
+                read = '읽음';
+            }
+                    
+            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + read;
         
         if(chatMessage.imgs.length == 0){
                     
@@ -89,19 +101,18 @@ function showMessage(chatMessage){
         }
     }
     else if(chatMessage.sender != loginMemberNo){
-      
           const targetChat = document.createElement("div");
           targetChat.classList.add("target-chat");
           
           const chatDate = document.createElement("span");
           chatDate.classList.add("chatDate");
-          chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 안 읽음';
+          chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
     
          if(chatMessage.imgs.length == 0){
                     
             const chat = document.createElement("p");
             chat.classList.add("chat");
-            chat.innerHTML = message.content;
+            chat.innerHTML = chatMessage.content;
                     
             targetChat.append(chat, chatDate);
                     
@@ -111,21 +122,23 @@ function showMessage(chatMessage){
     
             contentBody.scrollTop = contentBody.scrollHeight;
           } else{
-              const chatImage = document.createElement("img");
-              chatImage.classList.add("chat-image");
+              chatMessage.imgs.forEach(img => {
+                  const chatImage = document.createElement("img");
+                  chatImage.classList.add("chat-image");
                         
-              const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${img}`;
-                        
-              chatImage.setAttribute("src", imgUrl);
-              chatImage.setAttribute("alt", "image");
+                  const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${img}`;
+                         
+                  chatImage.setAttribute("src", imgUrl);
+                  chatImage.setAttribute("alt", "image");
               
-              targetChat.append(chat, chatDate);
+                  targetChat.append(chatImage, chatDate);
                     
-              messageList.append(targetChat);
+                  messageList.append(targetChat);
             
-              contentBody.append(messageList);
+                  contentBody.append(messageList);
             
-              contentBody.scrollTop = contentBody.scrollHeight;
+                  contentBody.scrollTop = contentBody.scrollHeight;
+              });
           }
      }
     
@@ -204,7 +217,8 @@ function roomListAddEvent(){
    
          // 현재 클릭한 채팅방에 select 클래스 추가
          item.classList.add("select");
-   
+         
+         // 채팅 메시지가 있는 경우
          // 비동기로 메시지 목록을 조회하는 함수 호출
          selectChattingFn();
          
@@ -216,6 +230,9 @@ function roomListAddEvent(){
             .then(resp => resp.text())
             .then(result => console.log(result))
             .catch(err => console.log(err));
+            
+          //소켓 연결
+          connect(selectRoomId);
       });
       
    }
@@ -283,7 +300,7 @@ function selectChattingFn(){
             
             payButton.addEventListener("click", () => {
                 // 구매자 버튼 클릭 이벤트 처리
-                pay(roomDetail.roomUserDTO.accountNum, roomDetail.roomUserDTO.bank, roomDetail.roomUserDTO.userPoint, roomDetail.roomProductDTO.productPrice);
+                payment(roomDetail.roomProductDTO.productPrice);
             });
             
             sellingInfo.append(payButton);
@@ -305,18 +322,24 @@ function selectChattingFn(){
                 //약속잡기 버튼
                 const rsvButton = document.createElement("button");
                 rsvButton.classList.add("reserve");
-            
-                rsvButton.innerText = "약속 잡기";
+                
+                if(roomDetail.roomProductDTO.sellProStatus=='판매중'){
+                    rsvButton.innerText = "약속 잡기";
+                    // 약속 잡기 버튼 클릭 이벤트 처리
+                    rsvButton.addEventListener("click", () => {
+                        reserve(roomDetail.roomProductDTO.productSeq);
+                    });
+                }
                 
                 //판매 제품의 판매 상태가 예약중이면 약속 잡기 버튼 비활성화
                 if(roomDetail.roomProductDTO.sellProStatus=='예약중'){
-                    rsvButton.disabled = true;
+                    rsvButton.innerText = "약속 취소";
+                    // 약속 취소 버튼 클릭 이벤트 처리
+                    rsvButton.addEventListener("click", () => {
+                        cancelReserve(roomDetail.roomProductDTO.productSeq);
+                    });
                 }
                 
-                // 약속잡기 버튼 클릭 이벤트 처리
-                rsvButton.addEventListener("click", () => {
-                    reserve(roomDetail.roomProductDTO.productSeq);
-                });
                 
                 sellingInfo.append(rsvButton, payButton);
                 
@@ -513,106 +536,10 @@ function selectChattingFn(){
         contentBody.scrollTop = contentBody.scrollHeight; //스크롤 최하단으로 이동
     })
     .catch(err => console.log(err));
-    
-    connect(selectRoomId);
 }
-
 
 //모달 관련
 const chattingModal = document.querySelector(".chattingModal");
-
-//결제하기 함수
-function pay(accountNum, bank, userPoint, productPrice){
-    chattingModal.style.display='block';
-    chattingModal.innerHTML="";
-    
-    //결제에 성공한 경우
-    if(userPoint>=productPrice){
-        const button = document.querySelector(".pay");
-        //console.log(payButton);
-        button.disabled = true;
-        
-        const modalContent2 = document.createElement("div");
-        modalContent2.classList.add("modal-content2");
-    
-        const Info2 = document.createElement("div");
-        Info2.innerText='결제에 성공하였습니다!';
-    
-        modalContent2.append(Info2);
-    
-        chattingModal.append(modalContent2);
-        
-        setTimeout(()=>{
-            chattingModal.style.display='none';
-        }, 3000);
-    }
-    //결제에 실패한 경우
-    else if(userPoint<productPrice){
-        const modalContent = document.createElement("div");
-        modalContent.classList.add("modal-content");
-    
-        const Info = document.createElement("div");
-        Info.classList.add("info");
-        Info.innerText='포인트가 부족합니다.';
-    
-        const currentAccount = document.createElement("div");
-        currentAccount.classList.add("current-account");
-        currentAccount.innerText='현재 계좌 : ' + accountNum + ' (' + bank + ')';
-    
-        const currentInput3 = document.createElement("div");
-        currentInput3.classList.add("current-input3");
-    
-        const ciElement3 = document.createElement('input');
-        ciElement3.className = 'add-point';
-        ciElement3.type = 'number';
-        ciElement3.placeholder = '충전할 금액을 입력해주세요. (원)';
-    
-        currentInput3.append(ciElement3);
-    
-        const chModalBtn3 = document.createElement("div");
-        chModalBtn3.classList.add("chModalBtn3");
-    
-        const submitPrice = document.createElement("button");
-        submitPrice.classList.add("submit-price");
-        submitPrice.innerText='충전하기';
-    
-        //결제하기 클릭했을때 => 유저 포인트 바로 반영 어떻게 하지..
-        submitPrice.addEventListener('click', ()=>{
-            chattingModal.style.display='none';
-        
-            const addPoint=document.querySelector('.add-point').value;
-            const newPoint=Number(userPoint) + Number(addPoint);
-            //console.log(newPoint);
-            
-            payment(addPoint);
-            
-            //fetch("/heehee/chatting/point",{
-            // method : "PUT",
-            // headers : {"Content-Type": "application/json"},
-            // body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
-            //})
-           // .then(resp => resp.text())
-           // .then(result => console.log(result))
-           // .catch(err => console.log(err));
-            
-            });
-    
-        //취소하기 클릭했을때
-        const cancel = document.createElement("button");
-        cancel.classList.add("cancel");
-        cancel.innerText='취소하기';
-    
-        cancel.addEventListener('click', ()=>{
-            chattingModal.style.display='none';
-        });
-    
-        chModalBtn3.append(submitPrice, cancel);
-    
-        modalContent.append(Info, currentAccount, currentInput3, chModalBtn3);
-    
-        chattingModal.append(modalContent);
-    }
-}
 
 //결제창 띄우는 함수
 //버튼 클릭하면 실행
@@ -716,9 +643,7 @@ function reserve(productSeq){
             .then(result => console.log(result))
             .catch(err => console.log(err));
         
-     //비활성화 왜 안되는고야...
      const button = document.querySelector(".reserve");
-     button.disabled = true;
      
      chattingModal.style.display='block';
      chattingModal.innerHTML="";
@@ -728,6 +653,41 @@ function reserve(productSeq){
     
      const Info2 = document.createElement("div");
      Info2.innerText='약속 잡기에 성공하였습니다!';
+    
+     modalContent2.append(Info2);
+    
+     chattingModal.append(modalContent2);
+        
+     setTimeout(()=>{
+         chattingModal.style.display='none';
+     }, 3000);
+     
+}
+
+//약속 취소 함수
+function cancelReserve(productSeq){
+    fetch("/heehee/chatting/reserve/cancel",{
+             method : "POST",
+             headers : {"Content-Type": "application/json"},
+             body : JSON.stringify({
+             "buyerId" : selectReceiverId,
+             "productSeq" : productSeq
+             })
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        
+     const button = document.querySelector(".reserve");
+     
+     chattingModal.style.display='block';
+     chattingModal.innerHTML="";
+        
+     const modalContent2 = document.createElement("div");
+     modalContent2.classList.add("modal-content2");
+    
+     const Info2 = document.createElement("div");
+     Info2.innerText='약속 취소에 성공하였습니다!';
     
      modalContent2.append(Info2);
     
@@ -764,20 +724,31 @@ function updateChatRoomList(data) {
 
         // 채팅방 아이템을 찾기
         const existingChatRoom = chattingList.querySelector(`li[room-id="${room.id}"]`);
+        //console.log(chattingList.querySelector(`li[room-id="${room.id}"]`));
         
         // 이미 있는 채팅방이면 unreadCount, sendTime, lastContent만 업데이트
         if (existingChatRoom) {
             const content = existingChatRoom.querySelector(".recent-message").innerHTML;
-             let unreadCount = 0;
-             if(existingChatRoom.querySelector(".unread-count")){
-                 unreadCount = existingChatRoom.querySelector(".unread-count").value;
-             }
-            
             //안 읽은 메시지가 있고 메시지가 새로 와서 업데이트해야하는 경우
-            if(unreadCount>0 && content!=room.lastcontent){
-                existingChatRoom.querySelector(".unread-count").innerText = room.unreadcount;
-          	    existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
-          	    existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+            if(room.unreadcount>0 && content!=room.lastcontent){
+                //기존 unread-count div가 있는 경우
+                if(existingChatRoom.querySelector(".unread-count")){
+                    existingChatRoom.querySelector(".unread-count").innerText = room.unreadcount;
+          	        existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
+          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+                }
+                //기존 unread-count div가 없는 경우
+                else{
+                    const unreadCount = document.createElement("p");
+                    unreadCount.classList.add("unread-count");
+                    unreadCount.innerText = room.unreadcount;
+                    
+                    const nameCount = document.querySelector(".name-count");
+                   	nameCount.append(unreadCount);
+                   	
+                    existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
+          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+                }
           	    
           	    //업데이트 후 목록 맨 위로 이동
           	    chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
@@ -794,14 +765,16 @@ function updateChatRoomList(data) {
             const itemHeader = document.createElement("div");
             itemHeader.classList.add("item-header");
 
-            const listProfile = document.createElement("img");
-            listProfile.classList.add("receiver-image");
+            const receiverImage = document.createElement("img");
+            receiverImage.classList.add("receiver-image");
 
             // 프로필 사진 없는 경우 수정하기
-            const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverImg}`;
-            listProfile.setAttribute("src", imgUrl);
+            const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverimg}`;
+            receiverImage.setAttribute("src", imgUrl);
+            console.log(imgUrl);
+            console.log(receiverImage);
 
-            itemHeader.append(listProfile);
+            itemHeader.append(receiverImage);
 
             // item-body 부분
             const itemBody = document.createElement("div");
@@ -832,7 +805,7 @@ function updateChatRoomList(data) {
             itemBody.append(nameCount, messageContainer);
 
             // 현재 채팅방을 보고 있지 않고, 읽지 않은 메시지 개수가 0개 이상인 경우 -> 읽지 않은 메시지 개수 표시
-            if(room.notReadCount > 0 && room.id != selectRoomId){
+            if(room.unreadcount > 0 && room.id != selectRoomId){
                 const unreadCount = document.createElement("p");
                 unreadCount.classList.add("unread-count");
                 unreadCount.innerText = room.unreadcount;
@@ -840,6 +813,40 @@ function updateChatRoomList(data) {
            }
 
             li.append(itemHeader, itemBody);
+            
+            //클릭 이벤트 추가
+            li.addEventListener("click", e => {
+            // 전역변수에 채팅방 번호, 상대 id, 상대 닉네임 저장
+            selectRoomId = li.getAttribute("room-id");
+            selectReceiverId = li.getAttribute("receiver-id");
+
+            selectReceiverName = li.children[1].children[0].children[0].innerText;
+
+            const unreadCountElem = li.querySelector(".unread-count");
+            if (unreadCountElem) {
+                unreadCountElem.remove();
+            }
+
+            // 모든 채팅방에서 select 클래스를 제거
+            const chattingItemList = chattingList.querySelectorAll(".chatting-item");
+            chattingItemList.forEach(item => item.classList.remove("select"));
+
+            // 현재 클릭한 채팅방에 select 클래스 추가
+            li.classList.add("select");
+
+            // 채팅 메시지가 있는 경우
+            // 비동기로 메시지 목록을 조회하는 함수 호출
+            selectChattingFn();
+
+            fetch("/heehee/chatting/read", {
+                method : "PUT",
+                headers : {"Content-Type": "application/json"},
+                body : JSON.stringify({"chatRoomId" : selectRoomId, "loginUserId" : loginMemberNo})
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        });
 
             // 새로운 채팅방을 목록의 맨 위에 추가
             chattingList.insertBefore(li, chattingList.children[1]);

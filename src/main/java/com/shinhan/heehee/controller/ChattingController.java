@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shinhan.heehee.config.WebSocketEventListener;
 import com.shinhan.heehee.dto.request.ChatMessageDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
@@ -47,6 +48,9 @@ public class ChattingController {
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 	
+	@Autowired
+    private WebSocketEventListener webSocketEventListener;
+	
 	// 채팅 페이지
 	@GetMapping
 	public String chatting(Model model, Principal principal) {
@@ -68,6 +72,7 @@ public class ChattingController {
 		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
+		//System.out.println(cService.getRoomList(userId));
 		return cService.getRoomList(userId); // 로그인 유저 Id 전달
 	}
 
@@ -113,6 +118,13 @@ public class ChattingController {
 	@ResponseBody
 	public void reserve(@RequestBody Map<String, Object> map) {
 		cService.reserve(map);
+	}
+	
+	//약속 취소
+    @PostMapping("/reserve/cancel")
+	@ResponseBody
+	public void cancelReserve(@RequestBody Map<String, Object> map) {
+		cService.cancelReserve(map);
 	}
 
 	// 메시지(+이미지) insert
@@ -172,10 +184,19 @@ public class ChattingController {
 	}
 	
 	// 소켓: 메시지(+이미지) insert
-	// @SendTo 대신 converAndSend 사용
+	// @SendTo 대신 convertAndSend 사용
 	@MessageMapping("/chat")
 	public void sendMessage(ChatMessageDTO message) throws IOException {
-		// 메세지 Insert 로직 구현 필요
+		int subscribeCount = webSocketEventListener.getSubscribersCount("/topic/chatroom/" + message.getRoomId());
+		
+		//System.out.println("******************구독자 수 : " + subscribeCount);
+		
+		if(subscribeCount>=2) {
+			message.setReadCheck("Y");
+		} else {
+			message.setReadCheck("N");
+		}
+		
 		if (message.getImgs() != null && !message.getImgs().isEmpty()) {
 			System.out.println("이미지 확인");
 			cService.insertMsgImg(message);
@@ -185,5 +206,10 @@ public class ChattingController {
 		}
 
 		messagingTemplate.convertAndSend("/topic/chatroom/" + message.getRoomId(), message);
+	}
+	
+	@MessageMapping("/joinRoom")
+	public void joinRoom(Map<String,Object> map) throws IOException {
+		messagingTemplate.convertAndSend("/topic/chatroom/" + map.get("roomId"), map);
 	}
 }

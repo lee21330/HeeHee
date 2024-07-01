@@ -59,12 +59,24 @@ public class ChattingDAO {
 		sqlSession.insert(namespace + "insertChatImg", messageDTO);
 	}
 
-	public void updateProStatus(Map<String, Object> map) {
-		sqlSession.update(namespace + "updateProStatus", map.get("productSeq"));
+	//판매 상태 -> 예약중
+	public void updateReserve(Map<String, Object> map) {
+		sqlSession.update(namespace + "updateReserve", map.get("productSeq"));
+	}
+	
+	//판매 상태 -> 판매중
+	public void cancelReserve(Map<String, Object> map) {
+		sqlSession.update(namespace + "cancelReserve", map.get("productSeq"));
 	}
 
+	//거래내역 데이터 삽입
 	public void insertDeal(Map<String, Object> map) {
 		sqlSession.insert(namespace + "insertDeal", map);
+	}
+
+	//거래내역 데이터 삭제
+	public void deleteDeal(Map<String, Object> map) {
+		sqlSession.delete(namespace + "deleteDeal", map);
 	}
 
 }
