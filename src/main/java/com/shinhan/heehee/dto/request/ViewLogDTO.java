@@ -15,6 +15,5 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ViewLogDTO {
 	private int productSeq;
-	private String id;
-	private Date createDate;
+	private String ID;
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
@@ -58,6 +59,10 @@ public class ProductDetailDAO {
 	public int proStatusSelling(Integer prodSeq) {
 		return sqlSession.update(namespace + "ProStatusSelling", prodSeq);
 		
+	}
+
+	public void insertViewLog(ViewLogDTO viewLogDTO) {
+		sqlSession.insert(namespace+"insertViewLog", viewLogDTO);
 	}
 	
 }

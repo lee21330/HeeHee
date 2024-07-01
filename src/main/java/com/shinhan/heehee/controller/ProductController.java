@@ -2,23 +2,21 @@ package com.shinhan.heehee.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
@@ -26,7 +24,6 @@ import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.ProductDetailService;
 import com.shinhan.heehee.service.ProductModifyService;
 import com.shinhan.heehee.service.SellerProfileService;
-import com.shinhan.heehee.service.TestService;
 
 @Controller
 @RequestMapping("/sell")
@@ -58,7 +55,11 @@ public class ProductController {
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
 		model.addAttribute("prodRecoList",productservice.prodReco(prodSeq));
 		
+		ViewLogDTO viewLogDTO = new ViewLogDTO(prodSeq, userId);
+		
+		productservice.insertViewLog(viewLogDTO);
 		productservice.proStatusSelling(prodSeq); // 판매중으로 바꾸는 코드
+		
 		return "/used/productdetail";
 	}
 	

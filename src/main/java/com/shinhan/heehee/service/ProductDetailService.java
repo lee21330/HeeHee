@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.shinhan.heehee.dao.ProductDetailDAO;
 import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
@@ -77,4 +78,10 @@ public class ProductDetailService {
 	public void proStatusSelling(Integer prodSeq) { 
 		productDetailDao.proStatusSelling(prodSeq);
 	}
+
+	public void insertViewLog(ViewLogDTO viewLogDTO) {
+		productDetailDao.insertViewLog(viewLogDTO);
+	}
+	
+	
 }
