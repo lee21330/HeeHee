@@ -15,5 +15,5 @@ import lombok.ToString;
 @NoArgsConstructor
 public class RecentlyDTO {
 	private int productSeq;
-	private String id;
+	private String ID;
 }
