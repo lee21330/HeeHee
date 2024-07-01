@@ -227,7 +227,6 @@ body {
     background-color: rgb(247,247,247);
     box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 4px 0px;
     overflow: auto;
-    
 }
 
 .alarm_container.none {
@@ -309,7 +308,8 @@ body {
 }
 
 .nav_inner {
-    width: 200px;
+    /* width: 200px; */
+    width: 240px;
     height: auto;
     position: relative;
     top: -20px;
@@ -403,11 +403,12 @@ body {
 .category_list > li:hover .sub-category-list {
 	display: block;
 	overflow: auto;
+	background-color: rgb(249,249,249);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sub-category-list {
-    /* display: none; */
+    display: none;
     position: absolute;
     top: -1px;
     left: 100%;
@@ -416,7 +417,8 @@ body {
     height: 412px;
 	text-align: center;    
     padding: 15px 20px;
-    background-color: white;
+    /* background-color: white; */
+    background-color: rgb(249,249,249);
     border: 1px solid #ccc;
 }
 
@@ -455,13 +457,13 @@ body {
     text-decoration: none;
 }
 
-
 .sub-category-list li:hover {
     color: rgb(63, 81, 161);
     text-decoration: underline;
     margin-right: -10px;
     -webkit-transition: .5s ease-in-out;
     transition: .5s ease-in-out;
+    cursor: pointer;
 }
 
 /* 확인한 알림 색상 변경 */

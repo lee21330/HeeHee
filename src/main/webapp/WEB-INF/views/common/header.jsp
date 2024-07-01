@@ -131,9 +131,11 @@ function sendAlarm() {
 					</div>
 					<div class="nav_inner">
 						<div class="nav_title">
-							<%-- <div class="category_name">
+							<%--
+							<div class="category_name">
 								<p>카테고리 이름</p>
-							</div> --%>
+							</div> 
+							--%>
 							<%-- 카테고리 리스트 --%>
 							<div class="category_content">
 								<nav>
@@ -144,7 +146,7 @@ function sendAlarm() {
 									--%>
 									<ul class="category_list">
 										<c:forEach var="mainCategory" items="${mainCateList}">
-											<li>${mainCategory.category}
+											<li class="category_list_li">${mainCategory.category}
 												<ul class="sub-category-list">
 													<c:forEach var="subCategory" items="${mainCategory.subCategory}">
 														<a>
