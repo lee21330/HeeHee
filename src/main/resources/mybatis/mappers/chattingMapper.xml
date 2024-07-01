@@ -5,10 +5,10 @@
 <!-- 채팅방 목록에 필요한 정보 불러오기 -->
 	<select id="getRoomList" parameterType="String" resultType="com.shinhan.heehee.dto.response.ChatRoomDTO">
 		select room_id as id,
-		(
-		select max(m.content) keep(dense_rank first order by m.send_time desc)
-		from chat_message m
-		where m.room_id=r.room_id) as lastcontent,
+		(select m.content from chat_message m
+		                  where m.msg_id=(select max(msg_id)
+		                                  from chat_message m
+		                                  where r.room_id = m.room_id)) as lastcontent,
 		to_char((select max(send_time) from chat_message m where m.room_id=r.room_id),
 		'MM/DD') sendtime,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
@@ -121,9 +121,16 @@
 </update>
 
 <!-- 약속 잡기 시 상품 상태 업데이트 -->
-<update id="updateProStatus">
+<update id="updateReserve">
 	update sell_product
 	set pro_status='예약중'
+	where product_seq=#{productSeq}
+</update>
+
+<!-- 약속 취소 시 상품 상태 업데이트 -->
+<update id="cancelReserve">
+	update sell_product
+	set pro_status='판매중'
 	where product_seq=#{productSeq}
 </update>
 
@@ -135,12 +142,18 @@
      insert into deal_history values(#{dealSeq}, #{buyerId}, null, null, null, #{productSeq}, null)
 </insert>
 
+<!-- 약속 취소 시 거래내역 데이터 삭제 -->
+<delete id="deleteDeal">
+    delete from deal_history
+    where buyer_id=#{buyerId} and sell_seq=#{productSeq}
+</delete> 
+
 <!-- 이미지 없이 텍스트만 보낸 경우 -->
 <insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.ChatMessageDTO">
 	<selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
-     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, 'N')
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, #{readCheck})
 </insert>
 
 <!-- 이미지를 보낸 경우 (1)메세지 저장 / content: [img] 이미지 이름 -->
@@ -148,7 +161,7 @@
      <selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
-     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, TO_DATE(#{sendTime}, 'YYYY/MM/DD HH24:mi:ss'), 'N')
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, TO_DATE(#{sendTime}, 'YYYY/MM/DD HH24:mi:ss'), #{readCheck})
 </insert>
 
 <!-- 이미지를 보낸 경우 (2)이미지 저장 / content: 폴더/이미지이름 -->

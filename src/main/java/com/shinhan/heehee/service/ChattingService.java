@@ -67,10 +67,15 @@ public class ChattingService {
         }
 	}
 	
-	
-
+    //약속 잡기
 	public void reserve(Map<String, Object> map) {
-		cDao.updateProStatus(map);
+		cDao.updateReserve(map);
 		cDao.insertDeal(map);
+	}
+
+	//약속 취소
+	public void cancelReserve(Map<String, Object> map) {
+		cDao.cancelReserve(map);
+		cDao.deleteDeal(map);
 	}
 }
