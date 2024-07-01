@@ -29,8 +29,13 @@
 	$("#logPw").on("keyup",function(key){
 		if(key.keyCode==13) {
 			login();
-		}    
+		}
 	 });
+	
+	var status = "${param.status}";
+	if(status == "signup") {
+		openSignup();
+	}
 	});
 	
 	function googleLogin() {

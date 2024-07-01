@@ -67,8 +67,7 @@ public class UserController {
 
 		UserDTO user = userService.login(userId, userPw);
 
-		if (user == null)
-			throw new UserNotFoundException();
+		if (user == null) throw new UserNotFoundException();
 
 		try {
 			// 사용자 인증을 위한 UsernamePasswordAuthenticationToken 객체 생성

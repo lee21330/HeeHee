@@ -82,4 +82,8 @@ public class UserService {
 		}
 		return response;
 	}
+	
+	public UserDTO findByUserEmail(String email) {
+		return userDao.findByUserEmail(email);
+	}
 }

@@ -27,6 +27,10 @@ public class UserDAO {
 		return sqlSession.selectOne(namespace + "findByUserId", userId);
 	}
 	
+	public UserDTO findByUserEmail(String email) {
+		return sqlSession.selectOne(namespace + "findByUserEmail", email);
+	}
+	
 	public int signup(UserDTO userDto) {
 		return sqlSession.insert(namespace + "signup", userDto);
 	}

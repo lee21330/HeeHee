@@ -58,6 +58,7 @@ function payForPoint(payName, amount) {
 	    	},
 	    success: function (data, status, xhr) {
 	    	payment(payName,data);
+	    	return true;
 	    },
 	    error: function (data, status, err) {
 	    	console.log(err);
@@ -93,6 +94,7 @@ function payment(payName, payInfo) {
 			  }, function (rsp) {
 			    if(rsp.success) {
 			    	completePayment(payInfo.paySeq);
+			    	return true;
 			    }
 			  }
 			);

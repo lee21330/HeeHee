@@ -12,6 +12,7 @@
 <title>header</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>

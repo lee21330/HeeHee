@@ -1,6 +1,8 @@
 package com.shinhan.heehee.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +14,13 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.shinhan.heehee.exception.UserNotFoundException;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 @ControllerAdvice
 public class ExceptionHandlerController {
 
 	Logger logger = LoggerFactory.getLogger("ExceptionHandlerController.class");
-	
+
 	@ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);

@@ -1,18 +1,46 @@
 package com.shinhan.heehee.config;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shinhan.heehee.dto.response.UserDTO;
+import com.shinhan.heehee.service.UserService;
+import com.shinhan.heehee.util.JwtUtil;
 
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	AuthenticationSuccess success;
+
+	@Autowired
+	AuthenticationFailure failure;
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -38,32 +66,64 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		switch (clientName) {
 		case "google":
-			handleGoogleLogin(oauth2User, response);
+			handleGoogleLogin(oauth2User, request, response);
 			break;
 		case "naver":
-			handleNaverLogin(oauth2User, response);
+			handleNaverLogin(oauth2User, request, response);
 			break;
 		case "kakao":
-			handleKakaoLogin(oauth2User, response);
+			handleKakaoLogin(oauth2User, request, response);
 			break;
 		}
 
-		response.sendRedirect("/heehee/main");
+		/* response.sendRedirect("/heehee/main"); */
 	}
 	
-	private void handleGoogleLogin(DefaultOAuth2User oauth2User, HttpServletResponse response) {
-        // 구글 로그인 관련 처리
+	private void handleGoogleLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String name = oauth2User.getAttribute("name");
+		String email = oauth2User.getAttribute("email");
+		
+		UserDTO userDto = userService.findByUserEmail(email);
+		
+		if(userDto != null) {
+			authenticationHandle(request, response, userDto.getUsername(), userDto.getPassword());
+		} else {
+			response.sendRedirect("/heehee/main?status=signup&name=" + name + "&email=" + email);
+		}
+		
         System.out.println("Logged in with Google");
     }
 
-    private void handleNaverLogin(DefaultOAuth2User oauth2User, HttpServletResponse response) {
-        // 네이버 로그인 관련 처리
+    private void handleNaverLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) {
+        
         System.out.println("Logged in with Naver");
     }
     
-    private void handleKakaoLogin(DefaultOAuth2User oauth2User, HttpServletResponse response) {
-        // 카카오 로그인 관련 처리
+    private void handleKakaoLogin(DefaultOAuth2User oauth2User, HttpServletRequest request, HttpServletResponse response) {
+    	Map<String,Object> kakao_account = oauth2User.getAttribute("kakao_account");
+    	String email = (String) kakao_account.get("email");
+    	Map<String,Object> profile = (Map<String, Object>) kakao_account.get("profile");
+    	String nickName = (String) profile.get("nickname");
+        logger.info("email: " + email + "\n nickName: " + nickName);
         System.out.println("Logged in with KaKao");
+    }
+    
+    private void authenticationHandle(HttpServletRequest request, HttpServletResponse response, 
+    							String userId, String userPw) throws IOException, ServletException {
+    	try {
+			// 사용자 인증을 위한 UsernamePasswordAuthenticationToken 객체 생성
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, userPw);
+			// AuthenticationManager를 사용하여 인증 수행
+			Authentication authentication = authenticationManager.authenticate(token);
+			// 인증 성공 후 SecurityContext에 인증 객체 설정
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			success.onAuthenticationSuccess(request, response, authentication);
+
+		} catch (Exception e) {
+			System.err.println(e);
+			failure.onAuthenticationFailure(request, response, null);
+		}
     }
 
 }
