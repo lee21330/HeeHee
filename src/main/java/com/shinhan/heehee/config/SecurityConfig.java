@@ -110,6 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/auc").authenticated()
                 .antMatchers("/auc/**").authenticated()
+                .antMatchers("/mypage/**").authenticated()
                 .antMatchers("/user/**").permitAll()
                 .and()
             .logout()

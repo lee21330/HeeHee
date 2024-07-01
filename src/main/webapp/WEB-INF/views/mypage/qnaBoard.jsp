@@ -31,42 +31,57 @@
 			</div>
 
 
-			<form id="qna" method="post" onsubmit="return false;"
+			<form id="qna" method="post"
+				action="${path}/mypage/qnaBoard/insertQna"
 				enctype="multipart/form-data">
 				<h1>1:1문의하기</h1>
 				<div class="qna_item">
 					<p>문의제목</p>
-					<input type="text" id="qna_title" name="QNA_TITLE">
+					<input type="text" id="qna_title" name="qnaTitle"
+						required="required">
 				</div>
 				<div class="qna_item">
 					<p>문의유형</p>
 					<div class="type">
-						<c:forEach var="op" items="${qnaOption}">
+						<c:forEach var="op" items="${qnaOption}" varStatus="loop">
 							<div class="radioContainer">
-								<input type="radio" id="${op.qnaOption}" name="SEQ_QNA_OPTION"
-									value="${op.seqQnaOption}"> <label
+								<input type="radio" id="${op.qnaOption}" name="seqQnaOption"
+									value="${op.seqQnaOption}"
+									onclick="showQnaOptionContent('${op.qnaOptionContent}')"
+									required="required" ${loop.first ? 'checked' : ''}> <label
 									for="${op.qnaOption}" class="radioLabel">${op.qnaOption}</label>
-									<p id="qnaOptionContent">${op.qnaOptionContent}</p>
 							</div>
 						</c:forEach>
+						<p id="qnaOptionContent"></p>
 					</div>
 				</div>
 				<div class="qna_item">
 					<p>문의내용</p>
-					<textarea name="QNA_CONTENT"></textarea>
+					<input type="text" name="qnaContent" required="required">
 				</div>
 				<div class="qna_item">
-					<p>첨부파일 최대(3개))</p>
-					<img id="img_preview"
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg">
-					<input type="file" id="input_file" name="imgName" multiple
-						accept="image/*" onchange="readURL(this);" />
-					<img id="preview">
-					
+					<p>사진첨부 최대(3개)</p>
+					<div>
+						<div>
+							<img id="img_preview1" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(1)"> 
+							<input type="file" class="input_file" id="input_file1" name="uploadImgs" accept="image/*" onchange="readURL(this,1);" /> 
+							<img id="preview1" class="preview">
+						</div>
+						<div>
+							<img id="img_preview2" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(2)"> 
+							<input type="file" class="input_file" id="input_file2" name="uploadImgs" accept="image/*" onchange="readURL(this,2);" /> 
+							<img id="preview2" class="preview">
+						</div>
+						<div>
+							<img id="img_preview3" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(3)"> 
+							<input type="file" class="input_file" id="input_file3" name="uploadImgs" accept="image/*" onchange="readURL(this,3);" /> 
+							<img id="preview3" class="preview">
+						</div>
+					</div>
 				</div>
 				<div class="btn">
 					<div id="cancel" class="btn_cancel">취소</div>
-					<div class="btn_submit">작성하기</div>
+					<button class="btn_submit">작성하기</button>
 				</div>
 			</form>
 		</div>

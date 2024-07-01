@@ -1,6 +1,7 @@
 $(function() {
 	changeStatus('all');
 	showUserInfo();
+	$("#deal_auc").hide();
 	$("#btn_search").on("click", show);
 	$(".mModal_close").on("click", hide);
 	$(".menu li").on("click", changeMenu);
@@ -21,10 +22,6 @@ function showUserInfo() {
 	for (var i = 0; i < userRating; i++) {
 		stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
 	}
-
-	//포인트 값 가독성 높이기
-	var userPoint = parseInt($('#userPoint').text(), 10);
-	$('#userPoint').text(userPoint.toLocaleString());
 }
 function changeMenu() {
 	$(".menu li").removeClass("select");
@@ -51,7 +48,7 @@ function changeStatus(status) {
 			} else {
 
 				data.forEach(function(sale) {
-					var detailUrl = sale.proStatus === '판매중' ? `/heehee/sell/productdetail/${sale.productSeq}` : `/heehee/mypage/saledetail/${sale.productSeq}`;
+					var detailUrl = (sale.proStatus === '판매중' || sale.proStatus === '판매보류') ? `/heehee/sell/productdetail/${sale.productSeq}` : `/heehee/mypage/saledetail/${sale.productSeq}`;
 					output += `							
                             <div class="product" onclick="location.href='${detailUrl}'">
                                 <div class="product_slider">
@@ -113,16 +110,15 @@ function showJjimList() {
 		success: function(data) {
 			var jjimlist = $('#jjimlist');
 			console.log(data);
-			var output = '<input type="submit" value="삭제" class="btn">';
+			var output = '<div id="deleteJjim"><input type="submit" value="삭제" class="btn"></div>';
 			if (data.length === 0) {
 				output = "<p class='message'>찜 내역이 없습니다.</p>";
 			} else {
 
 				data.forEach(function(jjim) {
 					output += `
-					<input type="checkbox" name="checkBno" value=""> 
-                            <div class="product"
-							onclick="location.href='/heehee/sell/productdetail/${jjim.productSeq}'">
+                            <div class="product" onclick="location.href='/heehee/sell/productdetail/${jjim.productSeq}'">
+							<input type="checkbox" name="checkBno" value="${jjim.productSeq}"> 
 							<img class="product_img"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${jjim.imgName}">
 							<p>${jjim.articleTitle}</p>
@@ -138,3 +134,12 @@ function showJjimList() {
 	});
 }
 
+function changeDeal(deal){
+	if(deal === '중고물품'){
+		$("#deal_sell").show();
+		$("#deal_auc").hide();
+	}else{
+		$("#deal_auc").show();
+		$("#deal_sell").hide();
+	}
+}

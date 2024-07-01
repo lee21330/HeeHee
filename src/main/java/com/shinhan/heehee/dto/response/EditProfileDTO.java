@@ -21,6 +21,9 @@ public class EditProfileDTO {
 	private String email;
 	private String phoneNum;
 	private String nickName;
+	private String bank;
+	private String accountNum;
+	private String userIntroduce;
 	private String address;
 	private Date modifyDate;
 }
