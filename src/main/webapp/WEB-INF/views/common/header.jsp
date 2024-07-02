@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-
+ 
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
 <!DOCTYPE html>
