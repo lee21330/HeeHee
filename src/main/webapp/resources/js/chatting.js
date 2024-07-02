@@ -284,23 +284,34 @@ function payment(payName, payInfo, payButton) {
 			    },
 			  }, function (rsp) {
 			    if(rsp.success) {
-			    	completePayment(payInfo.paySeq, payButton);
+			    	completePayment(payInfo, payButton);
 			    	return true;
 			    }
 			  }
 			);
 }
 
-function completePayment(paySeq, payButton) {
+function completePayment(payInfo, payButton) {
 	$.ajax({
         url: '/heehee/pay/complete',
         method: 'PUT',
         contentType: 'application/json',
-        data: JSON.stringify({ "paySeq": paySeq }),
+        data: JSON.stringify({ "paySeq": payInfo.paySeq }),
         success: function (data, status, xhr) {
             console.log(data);
             console.log(status);
             console.log(xhr);
+            fetch("/heehee/chatting/reserve",{
+                method : "POST",
+                headers : {"Content-Type": "application/json"},
+                body : JSON.stringify({
+                "buyerId" : selectReceiverId,
+                "productSeq" : payInfo.sellSeq
+                })
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
             payButton.disabled = true;
             return true;
         },

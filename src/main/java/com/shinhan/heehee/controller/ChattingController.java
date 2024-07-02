@@ -195,13 +195,7 @@ public class ChattingController {
 			message.setReadCheck("N");
 		}
 		
-		if (message.getImgs() != null && !message.getImgs().isEmpty()) {
-			System.out.println("이미지 확인");
-			cService.insertMsgImg(message);
-		} else {
-			System.out.println("텍스트 확인");
-			cService.insertMessage(message);
-		}
+		cService.saveMessage(message);
 
 		messagingTemplate.convertAndSend("/topic/chatroom/" + message.getRoomId(), message);
 	}
