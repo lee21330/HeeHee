@@ -6,5 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BankKindDTO {
+	private Integer bankSeq;
 	private String bank;
+	
 }

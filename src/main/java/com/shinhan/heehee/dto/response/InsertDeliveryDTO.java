@@ -11,4 +11,5 @@ public class InsertDeliveryDTO {
 	private String dNumber;
 	private String dStatus;
 	private String sSeq;
+	private String buyerId;
 }

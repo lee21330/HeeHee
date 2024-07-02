@@ -61,7 +61,7 @@
 				</div>
 				<div class="qna_item">
 					<p>사진첨부 최대(3개)</p>
-					<div>
+					<!-- <div>
 						<div>
 							<img id="img_preview1" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(1)"> 
 							<input type="file" class="input_file" id="input_file1" name="uploadImgs" accept="image/*" onchange="readURL(this,1);" /> 
@@ -77,7 +77,25 @@
 							<input type="file" class="input_file" id="input_file3" name="uploadImgs" accept="image/*" onchange="readURL(this,3);" /> 
 							<img id="preview3" class="preview">
 						</div>
+					</div> -->
+
+					<!-- <div id="regi_img">
+						<div class="img_container">
+							<img id="img_preview1" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(1)">
+							<h6 class="preview" id="prv_img1" style="cursor: pointer;">사진추가</h6>
+							<input type="file" id="input_file1" class="input_file" name="uploadImgs" accept="image/*" multiple>
+						</div>
+					</div> -->
+			
+					<!-- <div id="new_preview_container"></div> -->
+					
+					<div>
+						<!-- <input type="file" id="uploadImgs" name="uploadImgs" accept="image/*" multiple onchange="previewImages(event)"> -->
+						<input type="file" id="uploadImgs" name="uploadImgs" accept="image/*" multiple>
 					</div>
+					<div id="image_preview"></div>
+
+
 				</div>
 				<div class="btn">
 					<div id="cancel" class="btn_cancel">취소</div>

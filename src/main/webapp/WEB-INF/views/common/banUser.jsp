@@ -35,7 +35,7 @@
 	            <div>
 	            	<%-- BAN_HISTORY 컬럼명 임시로 적음 --%>
 	                <p>제재이유 : ${BAN_CONTENT}</p>
-	                <p>제재기간 : ${BAN_STR ~ BAN_END}</p>
+	                <p>제재기간 : ${BAN_STR} ~ ${BAN_END}</p>
 	            </div>
 	            <%-- 메인으로 redirect --%>
 	            <div id="banBtn" class="ban_btn">확인</div>
