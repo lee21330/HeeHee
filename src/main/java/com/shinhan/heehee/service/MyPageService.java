@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.MyPageDAO;
+import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
@@ -29,6 +32,13 @@ public class MyPageService {
 
 	@Autowired
 	MyPageDAO mypageDao;
+	
+	@Autowired
+	AlarmDAO alarmDao;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
+
 
 	public List<PurchaseListDTO> purchaseList(String userId) {
 		return mypageDao.purchaseList(userId);
@@ -50,8 +60,6 @@ public class MyPageService {
 //		return mypageDao.userIntroduce(intro, userId);
 //	}
 
-
-
 	public List<QnADTO> qnaOption() {
 		return mypageDao.qnaOption();
 	}
@@ -65,14 +73,13 @@ public class MyPageService {
 	}
 
 	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
-		return mypageDao.insertQna(qna,uploadImgs);
+		return mypageDao.insertQna(qna, uploadImgs);
 	}
 
 	// public int insertQnaImg(InsertQnAImgDTO qnaImg, ) {
 	// return mypageDao.insertQnaImg(qnaImg);
 	//
 	// }
-
 
 	public List<QnAImgDTO> myQnaImg(String userId, int seqQnaBno) {
 		return mypageDao.myQnaImg(userId, seqQnaBno);
@@ -96,7 +103,24 @@ public class MyPageService {
 	}
 
 	public int insertDelivery(InsertDeliveryDTO delivery) {
-		return mypageDao.insertDelivery(delivery);
+		int result = mypageDao.insertDelivery(delivery);
+		if(result==1) {
+			// 알림 insert
+    		AlarmDTO alarmDTO = new AlarmDTO();
+    		
+    		String buyerId = delivery.getBuyerId();
+    		
+    		alarmDTO.setId(buyerId);
+    		alarmDTO.setCateNum(1); // 알림 분류 코드 (채팅)
+    		alarmDTO.setReqSeq(delivery.getDSeq());
+    		alarmDTO.setAlContent("새로운 메시지가 있습니다.");
+    		
+    		alarmDao.alarmInsert(alarmDTO);
+    		
+    		int alarmCnt = alarmDao.alarmCount(buyerId);
+    		messagingTemplate.convertAndSend("/topic/alarm/" + buyerId, alarmCnt);
+		}
+		return result;
 	}
 
 	public int updateSCheck(int proSeq) {
@@ -128,22 +152,23 @@ public class MyPageService {
 	}
 
 	public Object editProfile(String nickName, String userIntroduce, String image, String userId) {
-		return mypageDao.editProfile(nickName,userIntroduce,image,userId);
-		
+		return mypageDao.editProfile(nickName, userIntroduce, image, userId);
+
 	}
+
 	public EditProfileDTO profile(String userId) {
 		return mypageDao.profile(userId);
 	}
 
 	public Object updateAcc(String userId, int bankSeq, String accountNum) {
-		return mypageDao.updateAcc(userId,bankSeq,accountNum);
-		
+		return mypageDao.updateAcc(userId, bankSeq, accountNum);
+
 	}
 
 	public Map<String, Object> dupNickCheck(String nickName) {
-		Map<String,Object> response = new HashMap<String,Object>();
+		Map<String, Object> response = new HashMap<String, Object>();
 		int result = mypageDao.dupNickCheck(nickName);
-		if(result == 0) {
+		if (result == 0) {
 			response.put("able", true);
 			response.put("message", "사용가능한 닉네임입니다.");
 		} else {
@@ -156,9 +181,7 @@ public class MyPageService {
 	public int currentPwCheck(String userId, String currentPw) {
 		String encPw = mypageDao.selectEncPw(userId);
 		return 0;
-		
+
 	}
-
-
 
 }

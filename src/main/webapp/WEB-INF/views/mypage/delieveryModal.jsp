@@ -43,7 +43,8 @@
 					<div class="Modal_delivery">
 						<input type="number" placeholder="운송장 번호 -없이 입력" name="dNumber">
 					</div>
-				</div>
+					<input type="hidden" name ="buyerId" value="${saleDetail.buyerId}">
+>				</div>
 				<input type="number" name="sSeq" value = "${saleDetail.SSeq}">
 				<div class="btn_modal" id="d_btn">
 					<button class="btn_submit" id="btn_delivery" >입력</button>

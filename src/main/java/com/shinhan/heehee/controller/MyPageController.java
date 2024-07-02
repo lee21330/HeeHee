@@ -165,7 +165,8 @@ public class MyPageController {
 
 	// 마이페이지 - 판매 상품 상세페이지_송장입력 모달
 	@PostMapping("/saledetail/{productSeq}/insertDelivery")
-	public String insertDelivery(InsertDeliveryDTO delivery, RedirectAttributes redirectAttr) {
+	public String insertDelivery(InsertDeliveryDTO delivery,String buyerId, RedirectAttributes redirectAttr) {
+		delivery.setBuyerId(buyerId);
 		int result = mypageservice.insertDelivery(delivery);
 		String message;
 		if (result > 0) {
