@@ -11,6 +11,10 @@
     font-family: 'SEBANG_Gothic_Bold';
 }
 
+body {
+    background-color: rgb(249, 249, 249);
+}
+
 .ban_container {
     width: 100%;
     height: auto;
@@ -25,7 +29,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    background-color: rgb(249, 249, 249);
+    /* background-color: rgb(249, 249, 249); */
+    background-color: white;
     border-radius: 20px;
     padding: 30px;
 }

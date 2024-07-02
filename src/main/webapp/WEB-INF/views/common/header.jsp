@@ -19,46 +19,45 @@
 <script src="/heehee/resources/js/common.js"></script>
 <script>
 $(document).ready(function() {
-	/* 로그인 여부 확인 */
+	// 로그인 여부 확인
 	beforeConnectCheck();
 });
 
 function beforeConnectCheck() {
-	/* 로그인 하면 소켓 연결 */
+	 // 로그인 하면 소켓 연결
 	if("${userId}" != "") connect();
 }
 
 function connect() {
-    var socket = new SockJS('/heehee/ws');
+    var socket = new SockJS('/heehee/ws'); // WebSocketConfig 설정에서 sockJS 연결 주소
     stompClient = Stomp.over(socket);
     
     stompClient.connect({}, function (frame) {
+    	// setConnected(true);
         console.log('Connected: ' + frame);
         
+        // topic/alarm/{userId} 구독
         stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
 			showResponse(JSON.parse(response.body));
         });
+        alarmUnck();
     });
 }
 
-/* 소켓 연결 후 실행 */
+// 소켓 연결 후 실행
 function showResponse(res) {
 	console.log(res);
-	
-	if (res.length > 0) {
-		
-	}
 
-	// 알림 올 경우 이미지 변경, 애니메이션 효과 추가
+	// 알림 올 경우 아이콘 변경, 애니메이션 효과 추가
 	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png");
 	$("#alarmImg").addClass("alarmImg");
 	$("#alarmCnt").text(res);
 }
 
-/* 알림 insert */
+// 웹소켓 연결 테스트
 function sendAlarm() {
     var userId = 'b';
-    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 202, 'alContent': "새로운 메시지가 있습니다."}));
+    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 210, 'alContent': "새로운 메시지가 있습니다."}));
 }
 
 </script>
@@ -113,9 +112,16 @@ function sendAlarm() {
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
-							<img id="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 아이콘">
-							<span>알림</span>
-							<span id="alarmCnt"></span>
+							<c:if test="${alarmCount > 0}">
+								<img id="alarmImg" class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 아이콘">
+								<span>알림</span>
+								<span id="alarmCnt">${alarmCount}</span>
+							</c:if>
+							<c:if test="${alarmCount == null || alarmCount == 0 }">
+								<img id="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 아이콘">
+								<span>알림</span>
+								<span id="alarmCnt"></span>
+							</c:if>
 						</div>
 						<div class="alarm_container">
 							<div>
