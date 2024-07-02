@@ -232,14 +232,24 @@
 	</insert>
 	
 	
-	<insert id="insertRecently" parameterType="com.shinhan.heehee.dto.request.RecentlyDTO">
+	<!-- <insert id="insertRecently" parameterType="com.shinhan.heehee.dto.request.RecentlyDTO">
 		INSERT INTO RECENTLY VALUES (#{productSeq}, #{ID})
-	</insert>
+	</insert> -->
 	
-	<select id="selectRecently" parameterType="String" resultType="com.shinhan.heehee.dto.response.RecentlyDTO">
-		SELECT * FROM RECENTLY
-		WHERE ID = #{ID}
-		AND ROWNUM <![CDATA[<]]> 3
+	
+	<select id="selectRecently" parameterType="String" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
+		SELECT *
+		FROM (SELECT *
+		FROM (
+		SELECT VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME, MAX(CREATE_DATE) CRE_DATE
+		  FROM VIEW_LOG VLOG, IMG_FILES IMG
+		 WHERE VLOG.PRODUCT_SEQ = IMG.TABLE_PK
+		   AND VLOG.ID = #{userId}
+		   AND IMG.IMG_CATE_SEQ = 2
+		   AND IMG.IMG_SEQ = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = VLOG.PRODUCT_SEQ AND IMG_CATE_SEQ = 2)
+		 GROUP BY VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME)
+		 ORDER BY CRE_DATE DESC)
+		 WHERE ROWNUM <![CDATA[<]]> 3
 	</select>
 	
 	
@@ -253,10 +263,9 @@
 		AND ID = #{id}
 	</delete>
 	
-	<select id="selectJjim" parameterType="com.shinhan.heehee.dto.response.JjimDTO" resultType="int">
-		SELECT COUNT(*)
+	<select id="selectJjim" parameterType="int" resultType="int">
+		SELECT COUNT(*) AS JJIM_CNT
 		FROM JJIM
-		WHERE ID = #{id} 
-		AND PRODUCT_SEQ = #{productSeq}
+		WHERE PRODUCT_SEQ = #{productSeq}
 	</select>
 </mapper>

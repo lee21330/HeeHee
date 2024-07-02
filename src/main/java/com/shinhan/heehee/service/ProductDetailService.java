@@ -82,6 +82,10 @@ public class ProductDetailService {
 		productDetailDao.insertViewLog(viewLogDTO);
 	}
 	
+	public List<ProdDetailDTO> selectRecently(String userId) {
+		return productDetailDao.selectRecently(userId);
+	}
+	
 	public int proStatusSelling(int productSeq) {
 		return productDetailDao.proStatusSelling(productSeq);
 	}
@@ -106,11 +110,12 @@ public class ProductDetailService {
 		return productDetailDao.deleteJjim(jjimDTO);
 	}
 	
-	public int selectJjim(JjimDTO jjimDTO) {
-		return productDetailDao.selectJjim(jjimDTO);
+	public int selectJjim(JjimDTO jjimDto) {
+		return productDetailDao.selectJjim(jjimDto);
 	}
 
-	public int insertRecently(RecentlyDTO recentlyDTO) {
-		return productDetailDao.insertRecently(recentlyDTO);
-	}
+	/*
+	 * public int insertRecently(RecentlyDTO recentlyDTO) { return
+	 * productDetailDao.insertRecently(recentlyDTO); }
+	 */
 }

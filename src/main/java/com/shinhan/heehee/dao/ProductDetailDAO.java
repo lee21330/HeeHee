@@ -65,6 +65,10 @@ public class ProductDetailDAO {
 		sqlSession.insert(namespace+"insertViewLog", viewLogDTO);
 	}
 	
+	public List<ProdDetailDTO> selectRecently(String userId) {
+		return sqlSession.selectList(namespace + "selectRecently", userId);
+	}
+	
 	public int proStatusReserve(int productSeq) {
 		return sqlSession.update(namespace + "proStatusReserve", productSeq);
 	}
@@ -86,16 +90,17 @@ public class ProductDetailDAO {
 	}
 	
 	public int deleteJjim(JjimDTO jjimDTO) {
-		return sqlSession.insert(namespace + "deleteJjim", jjimDTO);
+		return sqlSession.delete(namespace + "deleteJjim", jjimDTO);
 	}
 	
-	public int selectJjim(JjimDTO jjimDTO) {
-		return sqlSession.insert(namespace + "selectJjim", jjimDTO);
+	public int selectJjim(JjimDTO jjimDto) {
+		return sqlSession.selectOne(namespace + "selectJjim", jjimDto);
 	}
 
-	public int insertRecently(RecentlyDTO recentlyDTO) {
-		return sqlSession.insert(namespace + "insertRecently", recentlyDTO);
-	}
+	/*
+	 * public int insertRecently(RecentlyDTO recentlyDTO) { return
+	 * sqlSession.insert(namespace + "insertRecently", recentlyDTO); }
+	 */
 	
 	
 }

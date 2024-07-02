@@ -30,6 +30,7 @@ import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
+import com.shinhan.heehee.exception.ProductNotFoundException;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.ProductDetailService;
 import com.shinhan.heehee.service.ProductModifyService;
@@ -65,19 +66,19 @@ public class ProductController {
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
 		
 		ProdDetailDTO prodInfo = productservice.prodInfo(sampleDTO);
-		//System.out.println(prodInfo);
-		if(prodInfo == null) return "/";
+
+		if(prodInfo == null) throw new ProductNotFoundException();
 		model.addAttribute("userId", userId);
 		
 		model.addAttribute("info", prodInfo);
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
 		model.addAttribute("prodRecoList",productservice.prodReco(prodSeq));
+		model.addAttribute("recentlyList",productservice.selectRecently(userId));
+		
 		
 		ViewLogDTO viewLogDTO = new ViewLogDTO(prodSeq, userId);
-		RecentlyDTO recentlyDTO = new RecentlyDTO(prodSeq, userId);
 		
 		productservice.insertViewLog(viewLogDTO); // 해당 페이지 들어가면 view_log 테이블에 자동으로 삽입
-		productservice.insertRecently(recentlyDTO); // 해당 페이지 들어가면 recently 테이블에 자동으로 삽입
 		
 		return "/used/productdetail";
 	}
@@ -93,7 +94,7 @@ public class ProductController {
 
 		
 		ProdDetailDTO prodInfo = productservice.prodInfo(sampleDTO);
-		if(prodInfo == null) return "/";
+		/* if(prodInfo == null) return "/"; */
 		model.addAttribute("userId", userId);
 		
 		model.addAttribute("info", productmodifyservice.prodInfo(prodSeq));
@@ -102,6 +103,23 @@ public class ProductController {
 		
 		model.addAttribute("categoryList", productmodifyservice.category(prodSeq));
 		return "/used/productmodify";
+	}
+	
+	@PostMapping(value = "/productregi", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> productregi(@RequestBody JjimDTO jjimDto, Principal principal) {
+	    Map<String, Object> response = new HashMap<>();
+
+	    int result = productservice.insertJjim(jjimDto);
+
+	    if (result == 0) {
+	        response.put("success", false);
+	        response.put("message", "찜에 실패했습니다.");
+	    } else {
+	        response.put("success", true);
+	        response.put("message", "찜하였습니다.");
+	    }
+	    return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
 	
 	@GetMapping("/sellerProfile/{id}")
@@ -236,4 +254,32 @@ public class ProductController {
 	    }
 	    return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
+	
+	@GetMapping(value = "/LatestJjimCnt", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> latestJjim(@RequestParam("productSeq") int productSeq, Principal principal) {
+	    Map<String, Object> response = new HashMap<>();
+
+	    JjimDTO jjimDto = new JjimDTO();
+	    jjimDto.setProductSeq(productSeq);
+
+	    // 찜 개수 조회
+	    int jjimCount = productservice.selectJjim(jjimDto);
+
+	    // 찜 개수가 0이면 찜이 없는 것으로 간주
+	    if (jjimCount < 0) {
+	        response.put("success", false);
+	        response.put("message", "조회에 실패했습니다.");
+	        response.put("jjimCnt", jjimCount);  // 찜 개수를 응답에 포함
+	    } else {
+	        response.put("success", true);
+	        response.put("message", "조회에 성공했습니다.");
+	        response.put("jjimCnt", jjimCount);  // 찜 개수를 응답에 포함
+	    }
+
+	    return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
+	}
+
+
+
 }

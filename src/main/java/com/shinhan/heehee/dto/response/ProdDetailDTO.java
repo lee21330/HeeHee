@@ -36,4 +36,6 @@ public class ProdDetailDTO {
 	private String userIntroduce;
 	private int viewCnt;
 	private int specifiedJjimCnt;
+	private String userId;
+	
 }

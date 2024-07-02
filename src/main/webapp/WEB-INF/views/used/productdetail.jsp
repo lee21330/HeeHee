@@ -84,16 +84,20 @@
 					· 
 					조회 ${info.viewCnt}
 					· 
-					찜 ${info.jjimCnt} 
+					찜 <span id="jjim_Cnt">${info.jjimCnt}</span>
 					<c:if test="${userId == info.id}">
 						<span id="fullHeart" style="display: none">❤️</span>
 						<span id="emptyHeart" style="display: none">🤍</span>
 					</c:if>
-					<c:if test="${userId != info.id && info.specifiedJjimCnt >= 1}">
+					<c:if test="${userId == 'admin'}">
+						<span id="fullHeart" style="display: none">❤️</span>
+						<span id="emptyHeart" style="display: none">🤍</span>
+					</c:if>
+					<c:if test="${userId != 'admin' && userId != info.id && info.specifiedJjimCnt >= 1}">
 						<span id="fullHeart">❤️</span>
 						<span id="emptyHeart" style="display: none">🤍</span>
 					</c:if>
-					<c:if test="${userId != info.id && info.specifiedJjimCnt == 0}">
+					<c:if test="${userId != 'admin' && userId != info.id && info.specifiedJjimCnt == 0}">
 						<span id="fullHeart" style="display: none">❤️</span>
 						<span id="emptyHeart">🤍</span>
 					</c:if>
@@ -140,9 +144,11 @@
 				<div id="plusArea">
 					<p>최근 본 상품</p>
 					<div id="recentArea">
-						<c:if test="여기 하는중~">
-							<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
-							<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
+						<c:if test="${userId != 'admin'}">
+							<c:forEach var="recent" items="${recentlyList}">
+							<img class="recentimg" onclick="location.href='${path}/sell/productdetail/${recent.productSeq}'"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recent.imgName}" style="cursor: pointer">
+							</c:forEach>
 						</c:if>
 					</div>
 					<p id="gotop" style="cursor: pointer">TOP</p>
@@ -159,7 +165,8 @@
 					<hr>
 					<div id="seller_score">
 						<img id="sellerimg" onclick="location.href='${path}/sell/sellerProfile/${info.id}'" style="cursor: pointer"
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}">
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}" 
+						onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 						<div>
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
@@ -193,7 +200,10 @@
 		
 		var productSeq = ${info.productSeq};
         var id = "${userId}";
-    	$.ajax({
+
+        
+        
+    	/* $.ajax({
             url: '/heehee/sell/selectJjim',
             method: 'GET',
             contentType: 'application/json',
@@ -205,7 +215,7 @@
             error: function (data, status, err) {
                 console.log(err);
             }
-        });
+        }); */
 	});
 	
 	document.addEventListener('DOMContentLoaded', function () {
@@ -233,6 +243,8 @@
                 console.log(data);
                 if(data.success == true) {
                     showTost(data.message);
+                    $('#product_etc').val('${info.jjimCnt}');
+                    updateProduct();
                 } else {
                 	showTost(data.message);
                 }
@@ -241,6 +253,8 @@
                 console.log(err);
             }
         });
+    	
+    	
     }
         
     function deleteJjim() {
@@ -258,6 +272,8 @@
                 console.log(data);
                 if(data.success == true) {
                     showTost(data.message);
+                    $('#product_etc').val('${info.jjimCnt}');
+                    updateProduct();
                 } else {
                 	showTost(data.message);
                 }
@@ -268,25 +284,31 @@
         });
     }
     
-    function selectJjim() {
-        var productSeq = ${info.productSeq};
-        var id = "${userId}";
-    	$.ajax({
-            url: '/heehee/sell/selectJjim',
+    function updateProduct() {
+        var productSeq = ${info.productSeq};  // 현재 제품의 고유 번호
+
+        // AJAX 요청을 통해 서버로부터 최신 데이터 가져오기
+        $.ajax({
+            url: '/heehee/sell/LatestJjimCnt',
             method: 'GET',
-            contentType: 'application/json',
-            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
-            success: function (data, status, xhr) {
-                console.log(data);
-               
+            data: { "productSeq": productSeq },
+            success: function(data) {
+            	console.log(data);
+                if (data.success) {
+                    $('#jjim_Cnt').text(data.jjimCnt);
+                    console.log(data.jjimCnt);
+                } else {
+                    alert(data.message);
+                }
             },
-            error: function (data, status, err) {
-                console.log(err);
+            error: function(xhr, status, err) {
+                console.error('Error fetching latest jjim count:', err);
             }
         });
     }
-	
-	
+
+    
+    
 	</script>
 </body>
 </html>
