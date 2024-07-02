@@ -52,12 +52,13 @@ function showResponse(res) {
 	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png");
 	$("#alarmImg").addClass("alarmImg");
 	$("#alarmCnt").text(res);
+	showTost('📮 새로운 알림이 있습니다 ✨');
 }
 
 // 웹소켓 연결 테스트
 function sendAlarm() {
     var userId = 'b';
-    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 210, 'alContent': "새로운 메시지가 있습니다."}));
+    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 208, 'alContent': "새로운 메시지가 있습니다."}));
 }
 
 </script>
