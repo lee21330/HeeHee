@@ -126,44 +126,15 @@ public class ChattingController {
 	public void cancelReserve(@RequestBody Map<String, Object> map) {
 		cService.cancelReserve(map);
 	}
+    
+    //채팅방 생성: 판매자와 채팅 클릭 시
+    @PostMapping("/reserve/cancel")
+	public String insertChatRoom(@RequestBody Map<String, Object> map) {
+		cService.insertChatRoom(map);
+		return "chatting/chatting";
+    }
 
-	// 메시지(+이미지) insert
-	// (1) 메시지 전송
-	/*
-	 * @PostMapping("/message")
-	 * 
-	 * @ResponseBody public String insertMessage(@RequestBody ChatMessageDTO
-	 * messageDTO) throws IOException { System.out.println(messageDTO);
-	 * cService.insertMessage(messageDTO); return "test"; }
-	 */
-
-	// (2) 사진 전송
-	/*
-	 * @PostMapping("/image")
-	 * 
-	 * @ResponseBody public void insertImage(@RequestPart(required = false)
-	 * ChatMessageDTO messageDTO,
-	 * 
-	 * @RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
-	 * if(imgs!=null && !imgs.isEmpty()) { String filePath ="images/chat/";
-	 * s3Service.uploadObject(imgs, filePath); for(MultipartFile img : imgs) {
-	 * if(img!=null && !img.isEmpty()) {
-	 * System.out.println(img.getOriginalFilename());
-	 * cService.insertMsgImg(messageDTO, img); } } } }
-	 */
-
-	/*@PostMapping("/message")
-	@ResponseBody
-	public void insertMessage(@RequestPart(required = false) ChatMessageDTO messageDTO,
-			@RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
-		if (imgs != null && !imgs.isEmpty()) {
-			messageDTO.setImgs(imgs);
-			cService.insertMsgImg(messageDTO);
-		} else {
-			cService.insertMessage(messageDTO);
-		}
-	}*/
-
+    //이미지 업로드: js에서 사용
 	@PostMapping("/upload/image")
 	@ResponseBody
 	public List<String> uploadImages(@RequestPart List<MultipartFile> imgs) throws IOException {

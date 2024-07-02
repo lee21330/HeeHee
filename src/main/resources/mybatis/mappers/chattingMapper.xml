@@ -150,6 +150,12 @@
     where buyer_id=#{buyerId} and sell_seq=#{productSeq}
 </delete> 
 
+<!-- 판매자와 채팅 클릭 시 채팅방 생성 -->
+<insert id="insertChatRoom">
+    insert into chat_room
+    values(seq_room.nextval, #{loginUserId}, #{sellerId}, null, #{sellSeq});
+</insert>
+
 <!-- 이미지 없이 텍스트만 보낸 경우 -->
 <insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.ChatMessageDTO">
 	<selectKey keyProperty="msgId" order="BEFORE" resultType="int">

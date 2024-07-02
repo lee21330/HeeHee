@@ -79,4 +79,9 @@ public class ChattingDAO {
 		sqlSession.delete(namespace + "deleteDeal", map);
 	}
 
+	//채팅방 생성: 판매자와 채팅 클릭 시
+	public void insertChatRoom(Map<String, Object> map) {
+		sqlSession.insert(namespace + "insertChatRoom", map);
+	}
+
 }

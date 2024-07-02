@@ -385,7 +385,7 @@ function selectChattingFn(){
         
                 payButton.innerText = "결제하기";
             
-                //거래 내역 테이블에 동일 구매자id&제품 seq 데이터의 결제상태가 '완료'면 결제하기 버튼 비활성화
+                //결제 내역 테이블에 동일 구매자id&제품 seq 데이터의 결제상태가 '완료'면 결제하기 버튼 비활성화
                 if(payStatus == '완료'){
                     payButton.disabled = true;
                 }
