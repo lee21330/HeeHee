@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dto.response.AlarmChatDTO;
@@ -30,4 +31,14 @@ public class AlarmService {
 		return alarmDAO.alarmUpdate(alNum);
 	}
 	
+	// 알림 생성 (알림 insert 해야 하는 각각의 service 파일에 생성해야 함)
+	@Transactional
+	public int alarmInsert(AlarmDTO alarm) {
+		return alarmDAO.alarmInsert(alarm);
+	}
+	
+	// 미확인 알림 개수
+	public int alarmCount(String userId) {
+		return alarmDAO.alarmCount(userId);
+	}
 }

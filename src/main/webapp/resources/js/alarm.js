@@ -11,6 +11,8 @@ $(function () {
 	$("#alarmAll").on("click", alarmAll); // 전체 알림 보기
 	$("#alarmUnck").on("click", alarmUnck); // 미확인 알림 보기
 	
+	$("#alarmImg").on("click", alarmCheck); // 알림 아이콘 클릭 시 애니메이션 효과 제거
+	
 });
 
 // 클릭하면 알림 보여주거나 숨기기
@@ -106,10 +108,10 @@ function alarmAll() {
 	
 					} else if (item.alDate != null && item.cateNum == 4) {
 						// 문의
-                        // output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
-                        // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
-                        
-                        output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						// output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
+						// output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
+						
+						output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
 						output += "<li>" + item.alContent + "</li>";
@@ -120,9 +122,33 @@ function alarmAll() {
 						// output += "<ul onclick='urlClick(\"/heehee/purchasedetail/" + item.reqSeq + "\")'>";
 						// output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
 						
-                        output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						output += "<ul onclick='urlClick(\"/heehee/purchasedetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						output += "<li class='alarm_date'>" + item.alDate + "</li>";
 						output += "<li>" + item.sender + "</li>";
+						output += "<li>" + item.alContent + "</li>";
+						output += "</ul>";
+						
+					} else if (item.alDate != null && item.cateNum == 6) {
+						// 계정 정지
+						output += "<ul alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						output += "<li class='alarm_date'>" + item.alDate + "</li>";
+						output += "<li>" + item.sender + "</li>";
+						output += "<li>" + item.alContent + "</li>";
+						output += "</ul>";
+						
+					} else if (item.alDate != null && item.cateNum == 7) {
+						// 중고물품 판매중지 (마이페이지 경로로 수정 필)
+						output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						output += "<li class='alarm_date'>" + item.alDate + "</li>";
+						output += "<li>" + item.sender + "</li>";
+						output += "<li>" + item.alContent + "</li>";
+						output += "</ul>";
+						
+					} else if (item.alDate != null && item.cateNum == 8) {
+						// 경매물품 판매중지 (마이페이지 경로로 수정 필)
+						output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+						output += "<li class='alarm_date'>" + item.alDate + "</li>";
+						output += "<li>" + item.sender + "</li>"
 						output += "<li>" + item.alContent + "</li>";
 						output += "</ul>";
 					}
@@ -134,11 +160,11 @@ function alarmAll() {
 			// 알림 확인
 			$("ul").on("click", alarmRead);
 			
-            // 확인한 알림 색상 변경
+			// 확인한 알림 색상 변경
 			alarmVisited();
 		},
-        error : function(data) {
-            alert("알림 조회 오류 입니다");
+		error : function(data) {
+			alert("알림 조회 오류 입니다");
         }
     });
 }
@@ -147,9 +173,9 @@ function alarmAll() {
 function alarmUnck() {
     $.ajax({
         url : "/heehee/alarm/alarmUnck",
-		type : "GET",
-		success : function(responseData) {
-            console.log(responseData);
+        type : "GET",
+        success : function(responseData) {
+        	console.log(responseData);
 
             // 알림창 길이 원래대로
             $(".alarm_container").removeClass("none");
@@ -175,7 +201,7 @@ function alarmUnck() {
 
                     } else {
                     	// 알림 전체 리스트 반복문
-						$.each(responseData, function(index, item) {
+                    	$.each(responseData, function(index, item) {
 
                         if (item.alDate != null && item.cateNum == 1 && item.alCheck == "N") {
                             // 채팅
@@ -216,8 +242,8 @@ function alarmUnck() {
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\")'>";
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard/" + item.reqSeq + "\")'>";
                             // output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + ">";
-
-							output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+                            
+                            output += "<ul onclick='urlClick(\"/heehee/qnaBoard\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
@@ -233,18 +259,42 @@ function alarmUnck() {
                             output += "<li>" + item.sender + "</li>";
                             output += "<li>" + item.alContent + "</li>";
                             output += "</ul>";
+                            
+                        } else if (item.alDate != null && item.cateNum == 6) {
+                        	// 계정 정지
+                        	output += "<ul alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+                        	output += "<li class='alarm_date'>" + item.alDate + "</li>";
+                        	output += "<li>" + item.sender + "</li>";
+                        	output += "<li>" + item.alContent + "</li>";
+                        	output += "</ul>";
+							
+                        } else if (item.alDate != null && item.cateNum == 7) {
+                        	// 중고물품 판매중지 (마이페이지 경로로 수정 필)
+                        	output += "<ul onclick='urlClick(\"/heehee/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+                        	output += "<li class='alarm_date'>" + item.alDate + "</li>";
+                        	output += "<li>" + item.sender + "</li>";
+                        	output += "<li>" + item.alContent + "</li>";
+                        	output += "</ul>";
+							
+                        } else if (item.alDate != null && item.cateNum == 8) {
+                        	// 경매물품 판매중지 (마이페이지 경로로 수정 필)
+                        	output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
+                            output += "<li class='alarm_date'>" + item.alDate + "</li>";
+                            output += "<li>" + item.sender + "</li>"
+                            output += "<li>" + item.alContent + "</li>";
+                            output += "</ul>";
                         }
                     });
                 }
             }
-			output += "</div>";
-			$("#here").html(output);
-                
-			// 알림 확인
-			$("ul").on("click", alarmRead);
-			
-			// 확인한 알림 색상 변경
-			alarmVisited();
+            output += "</div>";
+            $("#here").html(output);
+            
+            // 알림 확인
+            $("ul").on("click", alarmRead);
+            
+            // 확인한 알림 색상 변경
+            alarmVisited();
         },
         error : function(data) {
             alert("알림 조회 오류 입니다");
@@ -283,7 +333,7 @@ function urlClick(url) {
 
 // 확인한 알림 색상 변경
 function alarmVisited() {
- 	var beforeCheck = $("#allAlarm").children("ul");
+	var beforeCheck = $("#allAlarm").children("ul");
 
     for (let i = 0; i < beforeCheck.length; i++) {
     	// console.log("몇번타? : " + i);
@@ -293,4 +343,10 @@ function alarmVisited() {
             beforeCheck.eq(i).addClass("visited");
         }
     }
+}
+
+// 알림 아이콘 클릭 시 애니메이션 효과 제거
+function alarmCheck() {
+	$("#alarmImg").removeClass("alarmImg");
+	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png");
 }
