@@ -244,7 +244,6 @@
 		// 로그인한 회원 번호 => 추후 수정
 		loginMemberNo = "${userId}";
 	</script>
-	<script type="text/javascript" src="/heehee/resources/js/common.js"></script>
 	<script type="text/javascript" src="/heehee/resources/js/chatting.js"></script>
 </body>
 </html>
