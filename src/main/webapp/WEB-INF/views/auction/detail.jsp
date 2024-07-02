@@ -17,26 +17,67 @@
 <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<link rel="stylesheet" href="/heehee/resources/css/auction/detail.css">
 </head>
 
 <body>
 	<%@ include file="../common/header.jsp" %>
-	<div id="mainContainer">
-		<div id="top_area">
-			<img id="aucProdImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${aucProdInfo.imgName}">
-		</div>
-		<input id = "aucPrice" type="number" value="${aucProdInfo.aucPrice}" disabled>
-		<button id="placeBidBtn">입찰하기</button>
-		<button id="paymentBtn">결제하기</button>
-		<button id="에러" onclick="error()"></button>
-		<div id="response"></div>
+	<script src="/heehee/resources/js/auction/auction.js"></script>
+	<div class="productDetail">
+		<main>
+			<div class="auction-container">
+            <div class="auction-item">
+                <div class="item-image product_slider">
+                	<c:forEach var="product" items="${aucImgs}">
+						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${product.imgName}">
+					</c:forEach>
+                </div>
+                <div class="item-info">
+                	<p class="time-left blue">
+                    	<span class="h"></span>:<span class="m"></span>:<span class="s"></span>
+                    </p>
+                    <h2>${aucProdInfo.auctionTitle}</h2>
+                    <p class="price">${aucProdInfo.aucPrice}원</p>
+                    <p class="bids">입찰자수: 5명</p>
+                    <p class="state">제품 상태: 거의 신품</p>
+                    
+                    <button>입찰하기</button>
+                </div>
+            </div>
+            <div class="item-details">
+                <div class="item-description">
+                    <h3>물품 정보</h3>
+                    <p>상태 깨끗한 품품푸린 인형 이에요...</p>
+                </div>
+                <div class="seller-info">
+                    <h3>판매자 정보</h3>
+                    <p>이두리</p>
+                    <p>안녕하세요 5조 프론트 총괄 담당 이두리입니다.</p>
+                </div>
+            </div>
+            <!-- <div class="related-items">
+                <h3>마감 임박 제품</h3>
+                <div class="items">
+                    <div class="item"><img src="item1.png" alt="item1"></div>
+                    <div class="item"><img src="item2.png" alt="item2"></div>
+                    <div class="item"><img src="item3.png" alt="item3"></div>
+                    <div class="item"><img src="item4.png" alt="item4"></div>
+                    <div class="item"><img src="item5.png" alt="item5"></div>
+                </div>
+            </div> -->
+        </div>
+		</main>
 	</div>
-    <footer>
-        <p>&copy; 2024 희희낙찰. All rights reserved.</p>
-    </footer>
 </body>
 <script>
 	$(document).ready(function() {
+		
+		var userRating = "${info.userRating}"; // EL문법때문에 js파일로 따로 못뺌
+	    var stars = document.querySelectorAll('#seller_score .star');
+
+	    for (var i = 0; i < userRating; i++) {
+	        stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
+	    }
 		
 	    connect();
 	    $('#placeBidBtn').click(function() {
@@ -46,6 +87,12 @@
 	    $('#paymentBtn').click(function() {
 	    	payForPoint("포인트:5000", 5000);
 	    });
+	    
+	    remaindTime();
+	    
+	    setInterval(function() {
+	    	remaindTime();
+		 },1000);
 	});
 	
 	
@@ -81,11 +128,11 @@
     	return num < 10 ? "0" + num : String(num);
 	}
 	
-	function remaindTime(seq, expDate, expTime) {
-		var expD = expDate;
+	function remaindTime() {
+		var expD = "${aucProdInfo.expDate}";
 		var dSplit = expD.split("/");
 		
-		var expT = expTime;
+		var expT = "${aucProdInfo.expTime}";
 		var tSplit = expT.split(":");
 		
 	    var now = new Date();
@@ -98,28 +145,14 @@
       	let SS = fGet2char(Math.floor((gap % 60000) / 1000));
       
 	    if((gap/60000) < 30) {
-	    	$(".c_" + seq).removeClass("blue");
-	    	$(".c_" + seq).addClass("red");
+	    	$(".time-left").removeClass("blue");
+	    	$(".time-left").addClass("red");
 	    }
 	    
-	    $(".h_" + seq).html(HH);
-	    $(".m_" + seq).html(MM);
-	    $(".s_" + seq).html(SS);
+	    $(".h").html(HH);
+	    $(".m").html(MM);
+	    $(".s").html(SS);
 	}
 	
-	function error() {
-		$.ajax({
-		    url: '/heehee/auc/detail/asdfasf',
-		    method: 'GET',
-		    success: function (data, status, xhr) {
-		    	console.log(data);
-		    	console.log(status);
-		    	console.log(xhr);
-		    },
-		    error: function (data, status, err) {
-		    	console.log(err);
-		    }
-		});
-	}
     </script>
 </html>

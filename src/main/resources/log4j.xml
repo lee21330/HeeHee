@@ -51,6 +51,10 @@
 	 <logger name="jdbc.audit" >
 	 	<level value="off"></level>
 	 </logger>
+	 
+	  <logger name="org.elasticsearch.client.RestClient" >
+	 	<level value="off"></level>
+	 </logger>
 	
 	<logger name="jdbc.connection" >
 	 	<level value="info"></level>

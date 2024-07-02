@@ -108,6 +108,7 @@ public class ChattingController {
 	public void reserve(@RequestBody Map<String, Object> map) {
 		cService.reserve(map);
 	}
+	
 
 	// 메시지(+이미지) insert
 	// (1) 메시지 전송

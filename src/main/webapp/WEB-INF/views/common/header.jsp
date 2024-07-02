@@ -20,11 +20,11 @@
 	$(document).ready(function() {
 	    $("#searchInput").on("input", function() {
 	        var keyword = $(this).val();
-	        if (keyword.length > 2) {
+	        if (keyword.length > 1) {
 	            $.ajax({
 	                url: "/heehee/search",
 	                method: "GET",
-	                data: { keyword: keyword },
+	                data: { "keyword": keyword },
 	                success: function(data) {
 	                    if (data.length > 0) {
 	                        $.each(data, function(index, result) {
