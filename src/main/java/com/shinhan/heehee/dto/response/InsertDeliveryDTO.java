@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class InsertDeliveryDTO {
-	private Integer dSeq;
-	private Integer dCompanySeq;
+	private int dSeq;
+	private int dCompanySeq;
 	private String dNumber;
 	private String dStatus;
 	private String sSeq;
