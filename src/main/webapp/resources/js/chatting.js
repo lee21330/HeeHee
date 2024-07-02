@@ -6,6 +6,7 @@ var stompClient = null; // stomp 소켓 클라이언트 전역 설정
 let selectedFiles = []; // 첨부한 이미지 파일 목록
 
 // 문서 로딩 완료 후 수행할 기능
+
 document.addEventListener("DOMContentLoaded", ()=>{
    
    // 채팅방 목록에 클릭 이벤트 추가
@@ -254,7 +255,7 @@ function selectChattingFn(){
         
         const receiverNickname = document.createElement("p");
         receiverNickname.classList.add("receiver-nickname");
-        receiverNickname.innerHTML = selectReceiverName;
+        receiverNickname.innerHTML = selectReceiverName ? selectReceiverName : "(알 수 없음)";
         
         const sellingInfo = document.createElement("div");
         sellingInfo.classList.add("selling-info");
@@ -262,7 +263,9 @@ function selectChattingFn(){
         const sellingImage = document.createElement("img");
         sellingImage.classList.add("selling-image");
         
-        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}`;
+        const imgName = roomDetail.roomProductDTO.productSeq ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
+        
+        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${imgName}`;
         sellingImage.setAttribute("src", imgUrl);
         
         const priceName = document.createElement("div");
@@ -270,13 +273,14 @@ function selectChattingFn(){
         
         const sellingPrice = document.createElement("p");
         sellingPrice.classList.add("selling-price");
-        const formatPrice = roomDetail.roomProductDTO.productPrice.toLocaleString('ko-KR')
+        const price = roomDetail.roomProductDTO.productPrice ? roomDetail.roomProductDTO.productPrice : 0;
+        const formatPrice = price.toLocaleString('ko-KR');
         //console.log(formatPrice);
         sellingPrice.innerText = formatPrice + '원';
         
         const sellingName = document.createElement("p");
         sellingName.classList.add("selling-name");
-        sellingName.innerHTML = roomDetail.roomProductDTO.productName;
+        sellingName.innerHTML = roomDetail.roomProductDTO.productName ? roomDetail.roomProductDTO.productName : "(삭제된 게시물)";
         
         priceName.append(sellingPrice, sellingName);
         
@@ -300,7 +304,10 @@ function selectChattingFn(){
             
             payButton.addEventListener("click", () => {
                 // 구매자 버튼 클릭 이벤트 처리
-                payment(roomDetail.roomProductDTO.productPrice);
+                const payName = roomDetail.roomProductDTO.productName;
+                const amount = roomDetail.roomProductDTO.productPrice;
+                const sellSeq = roomDetail.roomProductDTO.productSeq;
+                payForSell(payName, amount, sellSeq);
             });
             
             sellingInfo.append(payButton);
@@ -541,34 +548,6 @@ function selectChattingFn(){
 //모달 관련
 const chattingModal = document.querySelector(".chattingModal");
 
-//결제창 띄우는 함수
-//버튼 클릭하면 실행
-function payment(addPoint) {
-    IMP.init('imp41857573');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
-    IMP.request_pay({// param
-        pg: "html5_inicis", //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
-        pay_method: "card", //지불 방법
-        merchant_uid: 'merchant_'+new Date().getTime(), //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
-        name: "포인트", //결제창에 노출될 상품명
-        amount: addPoint, //금액
-        buyer : loginMemberNo
-    }, function (rsp) { // callback
-        if (rsp.success) {
-            alert("완료 -> imp_uid : "+rsp.imp_uid+" / merchant_uid(orderKey) : " +rsp.merchant_uid);
-            fetch("/heehee/chatting/point",{
-                method : "PUT",
-                headers : {"Content-Type": "application/json"},
-                body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
-            })
-            .then(resp => resp.text())
-            .then(result => console.log(result))
-            .catch(err => console.log(err));
-        } else {
-            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
-        }
-    });
-}
-
 //가격 수정하기 함수
 function editPrice(productPrice, productSeq){
     chattingModal.style.display='block';
@@ -728,6 +707,12 @@ function updateChatRoomList(data) {
         
         // 이미 있는 채팅방이면 unreadCount, sendTime, lastContent만 업데이트
         if (existingChatRoom) {
+            // receiverid가 null이면 "(알 수 없음)"으로 처리
+            if (room.receiverid === null) {
+                existingChatRoom.querySelector(".receiver-image").setAttribute("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg");
+                existingChatRoom.querySelector(".receiver-nickname").innerText = "(알 수 없음)";
+            }
+            
             const content = existingChatRoom.querySelector(".recent-message").innerHTML;
             //안 읽은 메시지가 있고 메시지가 새로 와서 업데이트해야하는 경우
             if(room.unreadcount>0 && content!=room.lastcontent){
@@ -768,11 +753,9 @@ function updateChatRoomList(data) {
             const receiverImage = document.createElement("img");
             receiverImage.classList.add("receiver-image");
 
-            // 프로필 사진 없는 경우 수정하기
-            const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverimg}`;
+            const imgName = room.receiverimg ? room.receiverimg : "logo_profile.jpg";
+            const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${imgName}`;
             receiverImage.setAttribute("src", imgUrl);
-            console.log(imgUrl);
-            console.log(receiverImage);
 
             itemHeader.append(receiverImage);
 
@@ -785,7 +768,7 @@ function updateChatRoomList(data) {
 
             const receiverNickname = document.createElement("p");
             receiverNickname.classList.add("receiver-nickname");
-            receiverNickname.innerText = room.receivernickname;
+            receiverNickname.innerText = room.receivernickname ? room.receivernickname : "(알 수 없음)";
 
             nameCount.append(receiverNickname);
 
