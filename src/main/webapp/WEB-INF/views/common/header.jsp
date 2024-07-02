@@ -12,34 +12,55 @@
 <title>header</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
 <script>
-	$(document).ready(function() {
-	    $("#searchInput").on("input", function() {
-	        var keyword = $(this).val();
-	        if (keyword.length > 2) {
-	            $.ajax({
-	                url: "/heehee/search",
-	                method: "GET",
-	                data: { keyword: keyword },
-	                success: function(data) {
-	                    if (data.length > 0) {
-	                        $.each(data, function(index, result) {
-	                            console.log(result);
-	                        });
-	                    } else {
-	                        console.log("데이터가 없습니다.");
-	                    }
-	                }
-	            });
-	        } else {
-	        	 console.log("데이터가 없습니다.");
-	        }
-	    });
-	});
+$(document).ready(function() {
+	/* 로그인 여부 확인 */
+	beforeConnectCheck();
+});
+
+function beforeConnectCheck() {
+	/* 로그인 하면 소켓 연결 */
+	if("${userId}" != "") connect();
+}
+
+function connect() {
+    var socket = new SockJS('/heehee/ws');
+    stompClient = Stomp.over(socket);
+    
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        
+        stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
+			showResponse(JSON.parse(response.body));
+        });
+    });
+}
+
+/* 소켓 연결 후 실행 */
+function showResponse(res) {
+	console.log(res);
+	
+	if (res.length > 0) {
+		
+	}
+
+	// 알림 올 경우 이미지 변경, 애니메이션 효과 추가
+	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png");
+	$("#alarmImg").addClass("alarmImg");
+	$("#alarmCnt").text(res);
+}
+
+/* 알림 insert */
+function sendAlarm() {
+    var userId = 'b';
+    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 202, 'alContent': "새로운 메시지가 있습니다."}));
+}
+
 </script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 </head>
@@ -51,6 +72,7 @@
 			<div class="login_container">
 				<div class="login_menu">
 					<%@ include file="/WEB-INF/views/common/loginCheck.jsp"%>
+					<button onclick="sendAlarm() ">소켓</button>
 				</div>
 			</div>
 			<div class="header_container">
@@ -70,7 +92,7 @@
 				</div>
 				<div class="search_container">
 					<div class="search_bar">
-						<input id="searchInput" placeholder="어떤 상품을 찾으시나요?">
+						<input placeholder="어떤 상품을 찾으시나요?">
 						<a href="">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
 						</a>
@@ -78,7 +100,7 @@
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="${path}/productregi">
+						<a href="${path}/sell/productregi">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
 							<span>물품등록</span>
 						</a>
@@ -91,29 +113,20 @@
 					</div>
 					<div id="alarmDiv" class="menu_div">
 						<div>
-							<%-- <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 없는 아이콘"> --%>
-							<img class="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png" alt="알림 있는 아이콘">
+							<img id="alarmImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_X.png" alt="알림 아이콘">
 							<span>알림</span>
+							<span id="alarmCnt"></span>
 						</div>
 						<div class="alarm_container">
 							<div>
 								<div id="alarmAll" class="alarm_type add">전체 알림</div>
 								<div id="alarmUnck" class="alarm_type add">미확인 알림</div>
 							</div>
-
-							<%-- 알림 없는 경우 --%>
-							<%--
-							<div id="none">
-								<p>최근 알림이 없습니다.</p>
-							</div>
-							--%>
-
-							<%-- 알림 있는 경우 --%>
+							<%-- 알림 찍어주는 위치 --%>
 							<div id="here" class="alarm_list"></div>
 						</div>
 					</div>
 				</div>
-
 				<%-- 카테고리 --%>
 				<div class="nav_container">
 					<div class="nav_menu">
@@ -122,20 +135,30 @@
 					</div>
 					<div class="nav_inner">
 						<div class="nav_title">
+							<%--
 							<div class="category_name">
 								<p>카테고리 이름</p>
-							</div>
-							<%-- 카테고리 대분류 --%>
+							</div> 
+							--%>
+							<%-- 카테고리 리스트 --%>
 							<div class="category_content">
 								<nav>
+									<%-- 
+									<div class="category_name">
+										<p>카테고리 이름</p>
+									</div>
+									--%>
 									<ul class="category_list">
 										<c:forEach var="mainCategory" items="${mainCateList}">
-											<li> ${mainCategory.category}
+											<li class="category_list_li">${mainCategory.category}
 												<ul class="sub-category-list">
 													<c:forEach var="subCategory" items="${mainCategory.subCategory}">
-														<li>${subCategory}</li>
+														<a>
+															<li>${subCategory}</li>
+														</a>
 													</c:forEach>
 												</ul>
+											</li>	
 										</c:forEach>
 									</ul>
 								</nav>
