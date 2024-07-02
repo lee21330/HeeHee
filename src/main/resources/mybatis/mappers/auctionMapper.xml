@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.auction">
+
+	<select id="aucProdAll" resultType="com.shinhan.heehee.dto.response.AuctionProdDTO">
+	  	SELECT PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
+		, AUCTION_TITLE, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
+       	, TO_CHAR(EXP_TIME, 'hh24:mi:ss') AS EXP_TIME, IMG.IMG_NAME
+  		FROM AUC_PRODUCT AUC, IMG_FILES IMG
+ 		WHERE IMG.TABLE_PK = AUC.PRODUCT_SEQ
+   		AND IMG.IMG_CATE_SEQ = 3
+   		AND AUC_STATUS = '입찰'
+  		AND ROWNUM  <![CDATA[<]]>  15
+ 		ORDER BY EXP_DATE, EXP_TIME
+	</select>
+	
 	<select id="aucProdList" resultType="com.shinhan.heehee.dto.response.AuctionProdDTO">
 		SELECT PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
 		, AUCTION_TITLE, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
