@@ -52,6 +52,10 @@ $(document).ready(function() {
 	// 수정 버튼 클릭 시
 	$('#editButton').click(function() {
 		var selected = getSelectedRow();
+		
+		if ($('.newRow').length > 0){
+			$('.newRow').remove();
+		}
 
 		if (selected.length === 1) {
 			var row = selected.closest('tr');

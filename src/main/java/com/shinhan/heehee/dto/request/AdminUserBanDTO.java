@@ -14,8 +14,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AdminUserBanDTO {
-	//상태 
-	private String status;
 	
 	//회원명 
 	private String name;
@@ -35,4 +33,12 @@ public class AdminUserBanDTO {
 	//페이징 처리를 위한 변수
 	private int size;
 	private int page;
+	
+	//신규추가/수정용 - 파라미터 4개 변수
+	public AdminUserBanDTO(String id, String banContent, Date banStr, Date banEnd) {
+		this.id = id;
+		this.banContent = banContent;
+		this.banStr = banStr;
+		this.banEnd = banEnd;
+	}
 }

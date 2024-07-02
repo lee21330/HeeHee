@@ -31,10 +31,13 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					console.log(item.qnaAns);
+					var ansStatus = (!item.qnaAns || item.qnaAns.trim() === '' ) ? '처리대기' : '답변완료';
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.seqQnaBno + "'></td>" + 
 							"<td>" + item.seqQnaBno + "</td>" + 
+							"<td>" + ansStatus + "</td>" + 
 							"<td>" + item.qnaOption + "</td>" + 
 							"<td>" + item.qnaTitle + "</td>" + 
 							"<td>" + item.id + "</td>" + 

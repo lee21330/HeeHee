@@ -327,37 +327,36 @@ table tbody tr td {
 .userBanTable table tbody tr td:nth-child(1) {
 	width: 4%;
 }
-	/* 상태 */
+
+	/* 회원명 */
 .userBanTable table thead tr th:nth-child(2),
 .userBanTable table tbody tr td:nth-child(2) {
-	width: 4%;
-	text-align: center;
-}
-	/* 회원명 */
-.userBanTable table thead tr th:nth-child(3),
-.userBanTable table tbody tr td:nth-child(3) {
 	width: 6%;
 	text-align: center;
 }
+
 	/* 아이디 */
-.userBanTable table thead tr th:nth-child(4),
-.userBanTable table tbody tr td:nth-child(4) {
+.userBanTable table thead tr th:nth-child(3),
+.userBanTable table tbody tr td:nth-child(3) {
 	width: 13%;
 }
+
 	/* 정지내용 */
+.userBanTable table thead tr th:nth-child(4),
+.userBanTable table tbody tr td:nth-child(4) {
+	width: 57%;
+}
+
+	/* 시작일 */
 .userBanTable table thead tr th:nth-child(5),
 .userBanTable table tbody tr td:nth-child(5) {
-	width: 53%;
-}
-	/* 시작일 */
-.userBanTable table thead tr th:nth-child(6),
-.userBanTable table tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
 }
+
 	/* 종료일 */
-.userBanTable table thead tr th:nth-child(7),
-.userBanTable table tbody tr td:nth-child(7) {
+.userBanTable table thead tr th:nth-child(6),
+.userBanTable table tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
 }
@@ -481,24 +480,32 @@ table tbody tr td {
 	width: 7%;
 	text-align: center;
 }
-	/* 유형 */
+
+	/* 처리현황 */
 .qnaTable table thead tr th:nth-child(3),
 .qnaTable table tbody tr td:nth-child(3) {
+	width: 8%;
+	text-align: center;
+}
+
+	/* 유형 */
+.qnaTable table thead tr th:nth-child(4),
+.qnaTable table tbody tr td:nth-child(4) {
 	width: 14%;
 }
 	/* 제목 */
-.qnaTable table thead tr th:nth-child(4),
-.qnaTable table tbody tr td:nth-child(4) {
-	width: 52%;
-}
-	/* 아이디 */
 .qnaTable table thead tr th:nth-child(5),
 .qnaTable table tbody tr td:nth-child(5) {
+	width: 44%;
+}
+	/* 아이디 */
+.qnaTable table thead tr th:nth-child(6),
+.qnaTable table tbody tr td:nth-child(6) {
 	width: 13%;
 }
 	/* 작성일 */
-.qnaTable table thead tr th:nth-child(6),
-.qnaTable table tbody tr td:nth-child(6) {
+.qnaTable table thead tr th:nth-child(7),
+.qnaTable table tbody tr td:nth-child(7) {
 	width: 10%;
 	text-align: center;
 }

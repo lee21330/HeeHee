@@ -1,6 +1,7 @@
 package com.shinhan.heehee.service;
 
 import java.awt.print.Pageable;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +50,14 @@ public class AdminService {
 	}
 	
     //회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯)
-
+	public void insertBanUser(String id, String BanContent, Date banStr, Date banEnd){
+		adminDAO.insertBanUser(id, BanContent, banStr, banEnd);
+	}
 	
     //회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정)
-
+	public void updateBanUser(String id, String banContent, Date banStr, Date banEnd) {
+		adminDAO.updateBanUser(id, banContent, banStr, banEnd);
+	}
 	
 	//회원정보 관리 끝
 	

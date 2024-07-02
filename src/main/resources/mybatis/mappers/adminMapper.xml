@@ -50,10 +50,11 @@
 	
 	<!-- 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능, 수정사항 : 시작일,종료일이 null 이거나 현재 날짜가 시작일과 종료일 사이에 포함되지 않는 회원은 조회되지 않도록 수정 예정) -->
 	<select id="userBanSearch" resultType="adminUserBanVO">
-		SELECT hh.NAME, hh.ID, bh.BAN_CONTENT, bh.BAN_STR , bh.BAN_END
-		FROM HH_USER hh
-		LEFT JOIN BAN_HISTORY bh ON hh.ID = bh.ID
-		WHERE 1=1
+		SELECT hh.NAME, hh.ID, bh.BAN_CONTENT, bh.BAN_STR, bh.BAN_END
+	    FROM HH_USER hh
+	    INNER JOIN BAN_HISTORY bh ON hh.ID = bh.ID
+		WHERE SYSDATE BETWEEN bh.BAN_STR AND bh.BAN_END
+				AND 1=1
         <if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
             <choose>
                 <when test="category == 'memberName'">
@@ -73,10 +74,19 @@
 	</select>
 	
 	<!-- 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯) -->
-	
+	<insert id="insertBanUser">
+		INSERT INTO BAN_HISTORY (ID, BAN_CONTENT, BAN_STR, BAN_END)
+		VALUES (#{id}, #{banContent}, #{banStr}, #{banEnd})
+	</insert>
 	
 	<!-- 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정) -->
-	
+	<update id="updateBanUser">
+		UPDATE BAN_HISTORY 
+		SET BAN_CONTENT = #{banContent}, 
+			BAN_STR = #{banStr},
+			BAN_END = #{banEnd}
+		WHERE ID = #{id}
+	</update>
 	
 	<!-- 회원정보 끝 -->
 	
@@ -253,7 +263,7 @@
 	
 	<!-- 고객 지원 - 1:1 상담문의 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
 	<select id="searchQnaAll" resultType="adminQnaManagerVO">
-		SELECT qb.SEQ_QNA_BNO , qo.QNA_OPTION , qb.QNA_TITLE , qb.ID , qb.QNA_TIME 
+		SELECT qb.SEQ_QNA_BNO , qo.QNA_OPTION , qb.QNA_TITLE , qb.ID , qb.QNA_TIME ,qb.QNA_ANS
 		FROM QNA_BOARD qb 
 		LEFT JOIN QNA_OPTION qo ON qb.SEQ_QNA_OPTION = qo.SEQ_QNA_OPTION
 		WHERE 1=1

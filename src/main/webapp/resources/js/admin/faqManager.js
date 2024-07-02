@@ -105,7 +105,7 @@ $(document).ready(function() {
 										"<div class='updateContainer'>" + 
 										"<p class='productUpdate'>FAQ내용<br>열람/수정</p>" + 
 										"</div>" + 
-										"<select id='editCategory" + id + "' class='doubleInputSmall' placeholder='수정할 유형 입력'></select>" + 
+										"<select id='editCategory" + id + "' class='doubleInputSmall'></select>" + 
 										"<input type='text' id='editTitleInput" + id + "' class='doubleInputBigger' placeholder='수정하실 제목을 입력하세요.'>" + 
 										"<br>" + 
 										"<input type='text' id='editContentInput" + id + "' class='doubleInputBigger' placeholder='수정하실 내용을 입력하세요.'>" + 

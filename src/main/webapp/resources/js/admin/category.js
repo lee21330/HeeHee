@@ -83,10 +83,14 @@ $(document).ready(function() {
 	// 수정 버튼 클릭 시
 	$('#editButton').click(function() {
 		var selected = getSelectedRow();
+		
+		if ($('.newRow').length > 0){
+			$('.newRow').remove();
+		}
 
 		if (selected.length === 1) {
 			var row = selected.closest('tr');
-			var id = selected.data('id');
+			var id = selected.attr('data-id');
 
 			// 수정할 내용 입력란을 추가
 			if (row.next().hasClass('editRow')) {
@@ -215,7 +219,9 @@ $(document).ready(function() {
 	};
 });
 
-/*    const products = [];
+/* 
+<script>
+   const products = [];
 
     // JSP에서 서버 데이터 받아오기
     <c:forEach var="product" items="${prodAllOrders}">
@@ -301,7 +307,9 @@ $(document).ready(function() {
     document.addEventListener('DOMContentLoaded', () => {
         renderProducts();
         renderPagination();
-    });*/
+    });
+</script>    
+*/
 
 
 

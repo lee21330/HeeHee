@@ -60,6 +60,7 @@
 		</div>
 		<div id="btmContainer">
 		<p class="detailTitle">상세 정보</p>
+		<button class="commonSmallBtn" id="addButton">정지 등록</button>
 		<button class="commonSmallBtn" id="editButton">수정</button>
 		</div>
 		<div class="userBanTable">
@@ -67,7 +68,6 @@
 				<thead>
 					<tr>
 						<th>선택</th>
-						<th>상태</th>
 						<th>회원명</th>
 						<th>아이디</th>
 						<th>정지내용</th>

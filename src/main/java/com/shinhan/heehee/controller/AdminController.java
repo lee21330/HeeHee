@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
+import java.sql.Date;
+
 import com.shinhan.heehee.dto.request.AdminAuctionDTO;
 import com.shinhan.heehee.dto.request.AdminCategoryDTO;
 import com.shinhan.heehee.dto.request.AdminFaqManagerDTO;
@@ -91,9 +93,40 @@ public class AdminController {
 
 	// 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를
 	// 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯)
+	@PostMapping("/insertBanUser")
+	@ResponseBody
+	public ResponseEntity<String> insertBanUser(String id, String banContent, Date banStr, Date banEnd){
+		System.out.println("Controller id : " + id);
+		System.out.println("Controller banContent : " + banContent);
+		System.out.println("Controller banStr : " + banStr);
+		System.out.println("Controller banEnd : " + banEnd);
+		try {
+			adminService.insertBanUser(id, banContent, banStr, banEnd);
+			return ResponseEntity.ok("정지 등록에 성공하였습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지 등록 진행 중 오류가 발생했습니다.");
+		}
+	}
 
 	// 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의
 	// 정지일을 변경할 수 있도록 구성 예정)
+	@PostMapping("/updateBanUser")
+	@ResponseBody
+	public ResponseEntity<String> updateBanUser (String id, String banContent, Date banStr, Date banEnd){
+		System.out.println("Controller id : " + id);
+		System.out.println("Controller banContent : " + banContent);
+		System.out.println("Controller banStr : " + banStr);
+		System.out.println("Controller banEnd : " + banEnd);
+		try {
+			adminService.updateBanUser(id, banContent, banStr, banEnd);
+			return ResponseEntity.ok("정지상태 수정에 성공하였습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지상태 수정 중 오류가 발생했습니다.");
+		}
+		
+	}
 
 	// 회원정보 끝
 
