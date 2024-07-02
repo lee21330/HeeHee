@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.AlarmDAO;
@@ -102,6 +103,7 @@ public class MyPageService {
 		return mypageDao.dcOption();
 	}
 
+	@Transactional
 	public int insertDelivery(InsertDeliveryDTO delivery) {
 		int result = mypageDao.insertDelivery(delivery);
 		if(result==1) {
@@ -111,9 +113,9 @@ public class MyPageService {
     		String buyerId = delivery.getBuyerId();
     		
     		alarmDTO.setId(buyerId);
-    		alarmDTO.setCateNum(1); // 알림 분류 코드 (채팅)
+    		alarmDTO.setCateNum(5); // 알림 분류 코드 (채팅)
     		alarmDTO.setReqSeq(delivery.getDSeq());
-    		alarmDTO.setAlContent("새로운 메시지가 있습니다.");
+    		alarmDTO.setAlContent("송장 번호가 입력되었습니다.");
     		
     		alarmDao.alarmInsert(alarmDTO);
     		
