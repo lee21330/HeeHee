@@ -18,8 +18,6 @@ public class MyPageHeaderDTO {
 	private String nickName;
 	private String userIntroduce;
 	private int userRating;
-	private String bank;
-	private String accountNum;
 	private int userPoint;
 	
 }

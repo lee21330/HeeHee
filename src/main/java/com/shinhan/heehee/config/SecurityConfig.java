@@ -111,6 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/auc").authenticated()
                 .antMatchers("/auc/**").authenticated()
+                .antMatchers("/mypage/**").authenticated()
                 .antMatchers("/user/**").permitAll()
                 .and()
             .logout()
@@ -138,5 +139,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web
             .ignoring()
             .antMatchers("/resources/css/**", "/resources/js/**", "/resources/images/**");
-    }
+    } 
 }

@@ -13,11 +13,33 @@
 		<if test="status!='all'">
 			AND SELL.PRO_STATUS = #{status}
 		</if>
+		<if test="status!='판매보류'">
+			AND SELL.PRO_STATUS != '판매보류'
+		</if>
+
 		AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
 		FROM IMG_FILES
 		WHERE
 		IMG_CATE_SEQ =
 		2
+		GROUP BY TABLE_PK)
+	</select>
+	<select id="saleListAuc" parameterType="map"
+		resultType="com.shinhan.heehee.dto.response.SaleListAucDTO">
+		SELECT *
+		FROM AUC_PRODUCT ap, IMG_FILES IMG
+		WHERE ap.PRODUCT_SEQ =
+		IMG.TABLE_PK
+		AND ap.SELLER_ID = #{userId}
+		AND IMG_CATE_SEQ = 3
+		<if test="status!='all'">
+			AND ap.AUC_STATUS = #{status}
+		</if>
+		AND IMG.IMG_SEQ IN
+		(SELECT MIN(IMG_SEQ)
+		FROM IMG_FILES
+		WHERE IMG_CATE_SEQ
+		= 3
 		GROUP BY TABLE_PK)
 	</select>
 	<select id="saleDetail" parameterType="int"
@@ -47,7 +69,24 @@
 		AND SELL.PRODUCT_SEQ =
 		#{proSeq}
 	</select>
-
+	<delete id="proStatusDelete"
+		parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+		DELETE FROM SELL_PRODUCT
+		WHERE PRODUCT_SEQ =
+		#{productSeq}
+	</delete>
+	<update id="updateStatus" parameterType="map">
+		UPDATE SELL_PRODUCT
+		<set>
+			<if test="proStatus == '판매중'">
+				PRO_STATUS = '판매보류'
+			</if>
+			<if test="proStatus == '판매보류'">
+				PRO_STATUS = '판매중'
+			</if>
+		</set>
+		WHERE PRODUCT_SEQ = #{productSeq}
+	</update>
 	<insert id="insertDelivery" parameterType="deliveryvo">
 		INSERT INTO DELIVERY
 		VALUES (DELIVERY_SEQ.nextval, #{dCompanySeq},
@@ -71,7 +110,7 @@
 		where dh.SELL_SEQ = sp.PRODUCT_SEQ
 		AND sp.PRODUCT_SEQ = img.TABLE_PK
 		AND img.IMG_CATE_SEQ = 2
-		AND BUYER_ID = #{USER_ID}
+		AND BUYER_ID = #{userId}
 		AND IMG.IMG_SEQ IN
 		(SELECT MIN(IMG_SEQ)
 		FROM IMG_FILES
@@ -79,6 +118,28 @@
 		GROUP BY
 		TABLE_PK)
 	</select>
+	<select id="purchaselistAuc" parameterType="string"
+		resultType="purchasevo">
+		SELECT *
+		FROM DEAL_HISTORY dh, AUC_PRODUCT ap, IMG_FILES img
+		where dh.AUC_SEQ
+		= ap.PRODUCT_SEQ
+		AND ap.PRODUCT_SEQ = img.TABLE_PK
+		AND
+		img.IMG_CATE_SEQ
+		= 3
+		AND BUYER_ID = #{userId}
+		AND IMG.IMG_SEQ IN
+		(SELECT
+		MIN(IMG_SEQ)
+		FROM
+		IMG_FILES
+		WHERE IMG_CATE_SEQ = 3
+		GROUP BY
+		TABLE_PK)
+	</select>
+
+
 	<select id="jjimList" parameterType="string" resultType="jjimvo">
 		SELECT *
 		FROM JJIM j, SELL_PRODUCT sp, IMG_FILES img
@@ -94,25 +155,55 @@
 		WHERE IMG_CATE_SEQ = 2
 		GROUP BY TABLE_PK)
 	</select>
+	<delete id="deleteJjim" parameterType="java.util.List">
+		DELETE FROM JJIM
+		WHERE PRODUCT_SEQ IN
+		<foreach collection="list" item="proSeq" open="("
+			separator="," close=")">
+			#{proSeq}
+		</foreach>
+		AND ID = #{userId}
+	</delete>
 	<select id="sellerInfo" parameterType="String"
 		resultType="myHeaderDTO">
 		SELECT *
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
+	<select id="bankList" resultType="com.shinhan.heehee.dto.response.BankKindDTO">
+		SELECT *
+		FROM BANK_KIND
+	</select>
 	<select id="profile" parameterType="String"
 		resultType="profilevo">
 		SELECT *
-		FROM HH_USER
-		WHERE HH_USER.ID = #{USER_ID}
+		FROM HH_USER hu ,BANK_KIND bk 
+		WHERE hu.BANK_SEQ = bk.BANK_SEQ 
+		AND hu.ID = #{USER_ID}
 	</select>
-	<update id="userIntroduce" parameterType="map">
+	<update id="editProfile" parameterType="map">
 		UPDATE HH_USER
 		SET
-		USER_INTRODUCE = #{introduce}
-		WHERE ID = #{userId}
+		PROFILE_IMG = #{profileImg},
+		NICK_NAME = #{nickName},
+		USER_INTRODUCE =
+		#{userIntroduce},
+		MODIFY_DATE = SYSDATE
+		WHERE ID = #{id}
 	</update>
-
+	<select id="dupNickCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM HH_USER 
+		WHERE NICK_NAME = #{nickName}
+	</select>
+	<update id="updateAcc" parameterType="map">
+		UPDATE HH_USER
+		SET
+		BANK_SEQ = #{bankSeq},
+		ACCOUNT_NUM = #{accountNum},
+		MODIFY_DATE = SYSDATE
+		WHERE ID = #{id}
+	</update>
 
 	<select id="qnaOption" resultType="qnavo">
 		SELECT * FROM QNA_OPTION
@@ -153,12 +244,17 @@
 		AND table_pk = #{seqQnaBno}
 	</delete>
 	<insert id="insertQna" parameterType="insertQnavo">
-		INSERT INTO QNA_BOARD
-		VALUES (SEQ_QNA_BNO.nextval, #{ID}, #{QNA_TITLE}, #{QNA_CONTENT},
-		#{QNA_FILE}, null, SYSDATE, #{SEQ_QNA_OPTION})
+		<selectKey keyProperty="tablePk" order="BEFORE"
+			resultType="int">
+			SELECT SEQ_QNA_BNO.nextval FROM dual
+		</selectKey>
+		 <![CDATA[
+		INSERT INTO QNA_BOARD VALUES (#{tablePk}, #{id}, #{qnaTitle}, #{qnaContent},null,SYSDATE,#{seqQnaOption});
+		INSERT INTO IMG_FILES VALUES (SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id});
+		 ]]>
 	</insert>
-	<insert id="insertQnaImg" parameterType="insertQnaImgvo">
-		INSERT INTO IMG_FILES
-		VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{ID})
-	</insert>
+
+	<!-- <insert id="insertQnaImg" parameterType="insertQnaImgvo"> INSERT INTO 
+		IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id}) 
+		</insert> -->
 </mapper>

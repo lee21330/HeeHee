@@ -1,6 +1,5 @@
 $(function() {
 	$(".content").hide();
-	$("#img_preview").on("click", change);
 	$(".header").on("click", show);
 	$("#myQna .header").each(function() {
 		var $ansStatus = $(this).find(".ansStatus");
@@ -15,11 +14,14 @@ $(function() {
 
 		}
 	});
-	$("#cancel").on("click",reset);
+	$("#cancel").on("click", reset);
+	$("#btn_submit").on("click", insertQna);
+
 });
 
-function change() {
-	$("#input_file").click();
+function selectFileInput(number) {
+	var inputId = "#input_file" + number;
+	$(inputId).click();
 }
 function show() {
 	if ($(this).next().css("display") != "none") {
@@ -32,18 +34,27 @@ function show() {
 		$(this).addClass("select");
 	}
 }
-function readURL(input) {
+function readURL(input, number) {
+	var previewId = "preview" + number;
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
 		reader.onload = function(e) {
-			$('#preview').attr('src', e.target.result);
+			$('#' + previewId).attr('src', e.target.result);
 		};
 		reader.readAsDataURL(input.files[0]);
 	} else {
-		$('#preview').attr('src', "");
+		$('#' + previewId).attr('src', "");
 	}
 }
-function reset(){
+function reset() {
 	$("#qna input, textarea").val("");
-	$("input:radio[name='SEQ_QNA_OPTION']").removeAttr("checked"); 
+	$("input:radio[name='SEQ_QNA_OPTION']").removeAttr("checked");
+}
+
+function showQnaOptionContent(optionContent) {
+	$('#qnaOptionContent').text(optionContent);
+}
+
+function insertQna() {
+
 }

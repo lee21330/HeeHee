@@ -6,16 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
-public class JjimDTO {
+public class SaleListAucDTO {
 	private int productSeq;
-	private String articleTitle;
-	private int productPrice;
-	private String deal;
-	private String id;
+	private int aucPrice;
+	private String auctionTitle;
+	private String expDate;
+	private String expTime;
 	private String imgName;
+	private String aucStatus;
 }

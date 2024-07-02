@@ -24,4 +24,5 @@ public class MainProdRecentlyDTO {
 	private int productSeq;
 	private int tablePk;
 	private int imgCateSeq;
+	private String proStatus;
 }

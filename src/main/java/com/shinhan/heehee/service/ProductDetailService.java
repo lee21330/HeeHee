@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.shinhan.heehee.dao.ProductDetailDAO;
 import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
@@ -46,8 +47,6 @@ public class ProductDetailService {
 		String filePath = "images/sell/";
 		List<MultipartFile> files = modiDTO.getUploadFiles();
 		
-		System.out.println("서비스: " + modiDTO);
-		
 		// 파일 업로드 전 기존 파일 삭제
 		if(modiDTO.getDelArr() != null) {
 			for(String delItem : modiDTO.getDelArr()) {
@@ -74,4 +73,26 @@ public class ProductDetailService {
 		productDetailDao.updateProduct(modiDTO);
 		
 	}
+	
+	public void insertViewLog(ViewLogDTO viewLogDTO) {
+		productDetailDao.insertViewLog(viewLogDTO);
+	}
+	
+	public int proStatusSelling(int productSeq) {
+		return productDetailDao.proStatusSelling(productSeq);
+	}
+	
+	public int proStatusReserve(int productSeq) {
+		return productDetailDao.proStatusReserve(productSeq);
+	}
+
+	public int proStatusPutOff(int productSeq) {
+		return productDetailDao.proStatusPutOff(productSeq);
+	}
+
+	public int proStatusDelete(int productSeq) {
+		return productDetailDao.proStatusDelete(productSeq);
+	}
+	
+	
 }
