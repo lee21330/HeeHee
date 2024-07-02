@@ -43,24 +43,33 @@
 							onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 					</div>
 					<input type="hidden" id="original" name="originalProfileImg"
-						value="${profile.profileImg}"> 
-						<input type="file"
+						value="${profile.profileImg}"> <input type="file"
 						id="fileInput" name="profileImg" accept="image/*"
 						style="display: none;">
 					<div class="btn_profile">
-						<input type="button" class="btn_image" id="btn_modify" value="사진변경"
-							onclick="chooseFile();"> <input type="button"
-							class="btn_image" id="btn_delete" value="삭제">
+						<input type="button" class="btn_image" id="btn_modify"
+							value="사진변경" onclick="chooseFile();"> <input
+							type="button" class="btn_image" id="btn_delete" value="삭제">
 					</div>
-					<div class="input_left">
-						<p>닉네임</p>
-						<input type="text" id="nickName" name="nickName" value="${profile.nickName}" required="required"> 
-						<input type="button" value="중복체크" class="btn" id="btn-nick" onclick="dupMyNickCheck(${profile.nickName})">
-						<div id="my_nick_dup_result" class="dup_result"></div>
-						<p>소개글</p>
-						<input type="text" id="userIntroduce" name="userIntroduce"
-							value="${profile.userIntroduce}">
-					</div>
+
+					<table class="input_left">
+						<tbody>
+							<tr>
+								<th>닉네임</th>
+								<td><input type="text" id="nickName" name="nickName"
+									value="${profile.nickName}" required="required" oninput="changeBtn()"> 
+									<input type="button" value="중복체크" class="btn" id="btn-nick" onclick="dupMyNickCheck()" style="display: none;">
+									<input type="button" value="중복체크" class="btn" id="btn-originalNick">
+									<div id="my_nick_dup_result" class="dup_result">중복 확인</div></td>
+							</tr>
+							<tr>
+								<th>소개글</th>
+								<td><input type="text" id="userIntroduce"
+									name="userIntroduce" value="${profile.userIntroduce}"></td>
+							</tr>
+						</tbody>
+					</table>
+
 					<div class="btn_profile">
 						<input type="button" id="btn_submit" value="적용"
 							onclick="updateProfile()">

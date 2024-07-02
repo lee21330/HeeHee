@@ -245,17 +245,14 @@
 		AND table_pk = #{seqQnaBno}
 	</delete>
 	<insert id="insertQna" parameterType="insertQnavo">
-		<selectKey keyProperty="tablePk" order="BEFORE"
-			resultType="int">
+		<selectKey keyProperty="seqQnaBno" order="BEFORE" resultType="int">
 			SELECT SEQ_QNA_BNO.nextval FROM dual
 		</selectKey>
-		 <![CDATA[
-		INSERT INTO QNA_BOARD VALUES (#{tablePk}, #{id}, #{qnaTitle}, #{qnaContent},null,SYSDATE,#{seqQnaOption});
-		INSERT INTO IMG_FILES VALUES (SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id});
-		 ]]>
+		INSERT INTO QNA_BOARD VALUES (#{seqQnaBno}, #{id}, #{qnaTitle}, #{qnaContent},null,SYSDATE,#{seqQnaOption})
+
 	</insert>
 
-	<!-- <insert id="insertQnaImg" parameterType="insertQnaImgvo"> INSERT INTO 
+	<insert id="insertQnaImg" parameterType="insertQnaImgvo"> INSERT INTO 
 		IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id}) 
-		</insert> -->
+	</insert> 
 </mapper>

@@ -1,5 +1,6 @@
 package com.shinhan.heehee.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
+import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
@@ -39,6 +41,9 @@ public class MyPageService {
 	
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
+	
+	@Autowired
+	AWSS3Service s3Service;
 
 
 	public List<PurchaseListDTO> purchaseList(String userId) {
@@ -73,8 +78,26 @@ public class MyPageService {
 		return mypageDao.myQna(userId);
 	}
 
+	@Transactional
 	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
-		return mypageDao.insertQna(qna, uploadImgs);
+		int result = mypageDao.insertQna(qna);
+		if(result == 1 && uploadImgs != null && !uploadImgs.isEmpty()) {
+			for (MultipartFile img : uploadImgs) {
+				try {
+					
+					String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaBoard/");
+					InsertQnAImgDTO qnaImg = new InsertQnAImgDTO();
+					qnaImg.setImgName(imgName);
+					qnaImg.setTablePk(qna.getSeqQnaBno());
+					qnaImg.setId(qna.getId());
+					mypageDao.insertQnaImg(qnaImg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		return result;
 	}
 
 	// public int insertQnaImg(InsertQnAImgDTO qnaImg, ) {

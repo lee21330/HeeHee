@@ -14,14 +14,12 @@ $(function() {
 
 		}
 	});
-	$("#cancel").on("click", reset);
 	$("#btn_submit").on("click", insertQna);
 
 });
 
-function selectFileInput(number) {
-	var inputId = "#input_file" + number;
-	$(inputId).click();
+function selectFileInput() {
+	$("#input_file").click();
 }
 function show() {
 	if ($(this).next().css("display") != "none") {
@@ -34,27 +32,53 @@ function show() {
 		$(this).addClass("select");
 	}
 }
-function readURL(input, number) {
-	var previewId = "preview" + number;
+function readURL(input) {
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
 		reader.onload = function(e) {
-			$('#' + previewId).attr('src', e.target.result);
+			$('#preview').attr('src', e.target.result);
 		};
 		reader.readAsDataURL(input.files[0]);
 	} else {
-		$('#' + previewId).attr('src', "");
+		$('#preview').attr('src', "");
 	}
-}
-function reset() {
-	$("#qna input, textarea").val("");
-	$("input:radio[name='SEQ_QNA_OPTION']").removeAttr("checked");
 }
 
 function showQnaOptionContent(optionContent) {
 	$('#qnaOptionContent').text(optionContent);
 }
 
-function insertQna() {
 
+function previewImages(event) {
+	var files = event.target.files;
+
+	// 이미 선택된 파일 수 체크
+	var selectedFiles = $('#preview_container').find('.preview_item').length;
+
+	// 최대 3개 제한
+	if (selectedFiles + files.length > 3) {
+		alert("최대 3개까지만 첨부할 수 있습니다.");
+		return;
+	}
+
+	// 미리보기 컨테이너 초기화
+	$('#preview_container').empty();
+
+	for (var i = 0; i < files.length; i++) {
+		var file = files[i];
+		var reader = new FileReader();
+
+		reader.onload = function(e) {
+			var img = $('<img>').attr('src', e.target.result);
+			var removeBtn = $('<button type="button" class="remove_img">x</button>')
+				.click(function() {
+					$(this).parent().remove();
+				});
+
+			var preview = $('<div class="preview_item">').append(img).append(removeBtn);
+			$('#preview_container').append(preview);
+		};
+
+		reader.readAsDataURL(file);
+	}
 }

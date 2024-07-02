@@ -2,6 +2,7 @@ package com.shinhan.heehee.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -333,15 +334,14 @@ public class MyPageController {
 //		return "redirect:/mypage/qnaBoard";
 //	}
 	@PostMapping("/qnaBoard/insertQna")
-	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, Principal principal,
+	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, InsertQnADTO qna, Principal principal,
 			RedirectAttributes redirectAttr) throws IOException {
 		String userId = principal.getName();
-		InsertQnADTO qna = new InsertQnADTO();
 		qna.setId(userId);
 		System.out.println(qna);
 		System.out.println(uploadImgs);
 		mypageservice.insertQna(qna, uploadImgs);
-		s3Service.uploadObject(uploadImgs, "images/mypage/qnaBoard/");
+
 
 		return "redirect:/mypage/qnaBoard";
 	}

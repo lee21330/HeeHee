@@ -73,11 +73,8 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "myQna", userId);
 	}
 
-	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("qna", qna);
-		params.put("uploadImgs", uploadImgs);
-		return sqlSession.insert(namespace + "insertQna", params);
+	public int insertQna(InsertQnADTO qna) {
+		return sqlSession.insert(namespace + "insertQna", qna);
 	}
 
 	public int insertQnaImg(InsertQnAImgDTO qnaImg) {

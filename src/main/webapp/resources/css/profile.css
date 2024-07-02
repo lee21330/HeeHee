@@ -32,7 +32,7 @@ form {
 	width: 210px;
 	height: 210px;
 	margin: 0 auto;
-	position: relative;	
+	position: relative;
 }
 
 .photo {
@@ -57,17 +57,19 @@ form {
 	width: 80px;
 	height: 30px;
 	margin: 0px 5px;
-	
 }
-#btn_modify{
+
+#btn_modify {
 	background: #3F51A1;
 	color: white;
 	border: none;
 }
-#btn_delete{
+
+#btn_delete {
 	background: #DCF343;
 	border: none;
 }
+
 .nickName {
 	font-size: 30px;
 	text-align: center;
@@ -96,19 +98,44 @@ form {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 20px 0px 0px;
+	margin: 10px 0px 20px;
 }
 
 .input_left {
 	text-align: center;
+	border-collapse: collapse;
+	box-sizing: border-box;
+	margin: 0 auto;
 }
-.input_left p{
-	display: inline-block;
+
+.input_left th, td {
 	border: 1px solid black;
+	padding: 20px 10px;
+}
+
+.input_left td {
+	width: 250px;
+	box-sizing: border-box;
+}
+
+#nickName {
+	width: 140px;
+	height: 30px;
+	box-sizing: border-box;
+}
+
+#btn-originalNick {
+	background-color: gray;
+}
+
+#my_nick_dup_result {
+	visibility: hidden;
 }
 
 #userIntroduce {
 	height: 100px;
+	width: 220px;
+	box-sizing: border-box;
 }
 
 #btn_submit {
@@ -146,9 +173,11 @@ form {
 	text-align: center;
 	padding: 40px 0px;
 }
+
 .right p {
 	margin: 0px 0px;
 }
+
 .right-box {
 	width: 80%;
 	border: solid 1px #e3e9ed;
@@ -157,22 +186,26 @@ form {
 	margin: 20px auto;
 	padding: 10px 15px;
 }
+
 .right-info {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #D9D9D9;
 	padding: 10px 10px;
-} 
-.photo-arrow{
+}
+
+.photo-arrow {
 	width: 25px;
 }
-.right-information{
+
+.right-information {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
-.right-information p{
+
+.right-information p {
 	color: #3F51A1;
 }
 /* .item {
@@ -181,7 +214,7 @@ form {
 	gap: 15px;
 	border: 1px solid pink;
 } */
-#modifyInfo{
+#modifyInfo {
 	display: none;
 }
 
@@ -216,20 +249,19 @@ form {
 
 /* ---- 내 계좌, 비밀번호 ---- */
 
-
 /* .bankImg {
 	width: 30px;
 	height: 30px;
 } */
-#acc-box,#pw-box{
+#acc-box, #pw-box {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
-#acc-box p,#pw-box p{
+
+#acc-box p, #pw-box p {
 	padding: 10px;
 }
-
 
 /* ---- 회원탈퇴 ---- */
 #drawal {

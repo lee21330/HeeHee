@@ -39,8 +39,13 @@ function chooseFile() {
 	$('#fileInput').click();
 }
 
-function dupMyNickCheck(String ) {
-	var nickName = $("#nickName").val()
+function changeBtn(){
+	$('#btn-originalNick').hide();
+	$('#btn-nick').show();
+}
+function dupMyNickCheck() {
+	var nickName = $("#nickName").val();
+
 	$.ajax({
 		url: '/heehee/mypage/profile/dupNickCheck',
 		method: 'GET',
@@ -59,37 +64,39 @@ function dupMyNickCheck(String ) {
 			console.log(err);
 		}
 	});
+
+
 }
 function updateProfile() {
 	var nick = $("#my_nick_dup_result").text();
 	if (nick === '') {
 		alert("닉네임 중복체크를 해주세요");
-	}else if(nick === ''){
-		
-	}else {
+	} else if (nick === '') {
+
+	} else {
 		$.ajax({
 			url: '/heehee/mypage/profile/updateProfile',
 			method: 'POST',
 			data: { "profileImages": profileImages, "originalProfileImg": originalProfileImg, 'nickName': nickName, 'userIntroduce': userIntroduce },
 			success: function(data) {
-				
+
 			}, error: function(data, status, err) {
 				console.log(err);
 			}
 		});
 	}
-} 
-function currentPwCheck(){
+}
+function currentPwCheck() {
 	var currentPw = $("#currentPw").val();
 	if (currentPw === '') {
 		$("#my_pw_check").text("비밀번호를 입력하세요.");
-	}else{
+	} else {
 		$.ajax({
 			url: '/heehee/mypage/profile/currentPwCheck',
 			method: 'POST',
-			data: { "currentPw": currentPw},
+			data: { "currentPw": currentPw },
 			success: function(data) {
-				location.href='';
+				location.href = '';
 			}, error: function(data, status, err) {
 				console.log(err);
 			}
