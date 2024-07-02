@@ -88,10 +88,11 @@
 		WHERE PRODUCT_SEQ = #{productSeq}
 	</update>
 	<insert id="insertDelivery" parameterType="deliveryvo">
+	<selectKey keyProperty="dSeq" order="BEFORE" resultType="int">
+         SELECT DELIVERY_SEQ.nextval FROM DUAL
+     </selectKey>
 		INSERT INTO DELIVERY
-		VALUES (DELIVERY_SEQ.nextval, #{dCompanySeq},
-		#{dNumber},
-		'발송완료',#{sSeq})
+		VALUES (#{dSeq}, #{dCompanySeq}, #{dNumber}, '발송완료', #{sSeq})
 	</insert>
 	<update id="updateSCheck" parameterType="int">
 		UPDATE DEAL_HISTORY
