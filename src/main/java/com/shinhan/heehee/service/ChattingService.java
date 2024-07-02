@@ -104,8 +104,8 @@ public class ChattingService {
 	}
 
 	//채팅방 생성: 판매자와 채팅 클릭 시
-	public void insertChatRoom(Map<String, Object> map) {
-		cDao.insertChatRoom(map);
+	public int insertChatRoom(Map<String, Object> map) {
+		return cDao.insertChatRoom(map);
 	}
 
 }

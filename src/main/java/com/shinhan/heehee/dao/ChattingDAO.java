@@ -80,8 +80,8 @@ public class ChattingDAO {
 	}
 
 	//채팅방 생성: 판매자와 채팅 클릭 시
-	public void insertChatRoom(Map<String, Object> map) {
-		sqlSession.insert(namespace + "insertChatRoom", map);
+	public int insertChatRoom(Map<String, Object> map) {
+		return sqlSession.insert(namespace + "insertChatRoom", map);
 	}
 
 }

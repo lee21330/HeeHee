@@ -151,9 +151,9 @@
 </delete> 
 
 <!-- 판매자와 채팅 클릭 시 채팅방 생성 -->
-<insert id="insertChatRoom">
+<insert id="insertChatRoom" parameterType="hashMap">
     insert into chat_room
-    values(seq_room.nextval, #{loginUserId}, #{sellerId}, null, #{sellSeq});
+    values(seq_room.nextval, #{loginUserId}, #{sellerId}, null, #{sellSeq})
 </insert>
 
 <!-- 이미지 없이 텍스트만 보낸 경우 -->

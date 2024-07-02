@@ -1,6 +1,15 @@
 $(document).ready(function() {
 	jQuery.noConflict();
 	
+
+	$("#gochat").on("click", function() {
+		const loginUserId = $("#gochat").attr("loginUserId");
+		const sellerId = $("#gochat").attr("sellerId");
+		const sellSeq = $("#gochat").attr("sellSeq");
+		
+		sellerChat(loginUserId, sellerId, sellSeq);
+	});
+	
 	$(document).ready(function() {
 	
 		$('.product_slider').slick({
@@ -106,4 +115,33 @@ $(function() {
 					"color" : "white"
 				});
 			});
-		});
+});
+		
+
+
+//판매자와 채팅하기
+function sellerChat(loginUserId, sellerId, sellSeq){
+     fetch("/heehee/chatting/seller",{
+             method : "POST",
+             headers : {"Content-Type": "application/json"},
+             body : JSON.stringify({"loginUserId" : loginUserId,
+                                    "sellerId" : sellerId,
+                                    "sellSeq" : sellSeq})
+            })
+            .then(resp => resp.text())
+            .then(result => {
+                console.log(result);
+                if (result === "1") {
+                    // 페이지 내용을 업데이트
+                    fetch("/heehee/chatting")
+                        .then(resp => resp.text())
+                        .then(html => {
+                            document.open();
+                            document.write(html);
+                            document.close();
+                        })
+                        .catch(err => console.log(err));
+                }
+            })
+            .catch(err => console.log(err));
+}

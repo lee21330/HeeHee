@@ -128,10 +128,10 @@ public class ChattingController {
 	}
     
     //채팅방 생성: 판매자와 채팅 클릭 시
-    @PostMapping("/reserve/cancel")
-	public String insertChatRoom(@RequestBody Map<String, Object> map) {
-		cService.insertChatRoom(map);
-		return "chatting/chatting";
+    @PostMapping("/seller")
+    @ResponseBody
+	public int insertChatRoom(@RequestBody Map<String, Object> map) {
+		return cService.insertChatRoom(map);
     }
 
     //이미지 업로드: js에서 사용
