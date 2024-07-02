@@ -49,17 +49,18 @@
 	border: 1px solid #CECECE;
 	border-radius: 10px;
 	height: 100px;
-	text-align: center;
+	/* text-align: center; */
+	padding: 10px 10px;
 	box-sizing: border-box;
 }
 
-textarea {
+/* textarea {
 	width: 95%;
 	height: 60px;
 	margin: 5px 0px 0px;
 	border: none;
 	resize: none;
-}
+} */
 
 #btn-intro {
 	float: right;
@@ -82,7 +83,7 @@ textarea {
 	width: 30px;
 }
 
-.account {
+/* .account {
 	width: 25%;
 	height: 100px;
 	margin-top: 100px;
@@ -110,7 +111,7 @@ textarea {
 
 #btn-account {
 	float: right;
-}
+} */
 
 .top-right {
 	width: 15%;

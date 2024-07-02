@@ -75,13 +75,16 @@ body {
 
 .product_slider {
 	width: 350px;
-	height: 325px;
+	height: 350px;
+}
+
+#product_item {
 	
 }
 
 .product_img {
     width: 350px;
-    height: 325px;
+    height: 350px;
 }
 
 .product-details {
@@ -98,7 +101,7 @@ body {
 }
 
 #gochat {
-	margin-top: 15px;
+	margin-top: 25px;
 	width: 200px;
 	height: 45px;
 	background: #3F51A1;
@@ -110,7 +113,7 @@ body {
 }
 
 #gobuy {
-	margin-top: 15px;
+	margin-top: 25px;
 	width: 200px;
 	height: 45px;
 	background: #dcf343;
@@ -119,6 +122,19 @@ body {
 	font-weight: normal;
 	border: none;
 	justify-content: left;
+}
+
+#disabled_btn {
+	margin-top: 25px;
+	width: 200px;
+	height: 45px;
+	background: #acacac;
+	color: #3F51A1;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+	cursor: default;
 }
 
 /* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 동희한테 물어보기 */
@@ -171,6 +187,19 @@ body {
 
 #product_etc {
 	font-size: 13px;
+	height: 22px;
+}
+
+#fullHeart {
+	cursor: pointer;
+	margin-left: 1ch;
+	font-size: 20px;
+}
+
+#emptyHeart {
+	cursor: pointer;
+	margin-left: 1ch;
+	font-size: 20px;
 }
 
 /* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 속성 추가함 */
@@ -186,6 +215,32 @@ body {
     gap: 5%; /* 버튼 사이의 간격 */
     width: 100%;
     justify-content: left;
+}
+
+#reserve_explanation {
+	font-size: 30px;
+	color: orangered;
+}
+
+#overlay {
+	position: absolute;
+	z-index: 1; /* 1px 대신 1을 사용하며, z-index는 정수 값만 유효 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+#postpone {
+	font-size: 28px;
+	color: orangered;
+	background-color: white;
+	padding: 10px 10px; /* 텍스트 주변에 여백 추가 */
+    border-radius: 10px; /* 테두리 둥글게 */
 }
 
 .info-container {
@@ -279,7 +334,7 @@ hr{
 #recommand_title {
 	text-align: center;
 	margin-top: 25px;
-	font-size: 22px;
+	font-size: 25px;
 	color: #3F51A1;
 }
 

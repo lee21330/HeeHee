@@ -5,7 +5,18 @@
 	margin: 0 auto;
 	/* border: 1px solid red; */
 }
-
+#deal{
+	border-top: 1px solid #C1C1C1;
+	display: flex;
+	
+}
+#deal li{
+	list-style: none;
+	width: 50%;
+	text-align: center;
+	cursor: pointer;
+	
+}
 /* ---------------nav--------------- */
 .menu {
 	height: 50px;
@@ -185,4 +196,8 @@ input[type="radio"] {
 	margin: 0px 5px 0px 5px;
 	font-size: 15px;
 	float: right;
+}
+/*찜내역 */
+#deleteJjim{
+	width: 100%;
 }

@@ -1,4 +1,4 @@
-package com.shinhan.heehee.dto.response;
+package com.shinhan.heehee.dto.request;
 
 import java.util.Date;
 
@@ -35,7 +35,5 @@ public class ProdDetailDTO {
 	private int userRating;
 	private String userIntroduce;
 	private int viewCnt;
-	private int specifiedJjimCnt;
 	private String userId;
-	
 }

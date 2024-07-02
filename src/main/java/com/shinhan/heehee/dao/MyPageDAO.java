@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
@@ -113,6 +114,10 @@ public class MyPageDAO {
 
 	public int updateSCheck(int proSeq) {
 		return sqlSession.update(namespace + "updateSCheck", proSeq);
+	}
+
+	public List<BankKindDTO> bankList() {
+		return sqlSession.selectList(namespace + "bankList");
 	}
 
 }

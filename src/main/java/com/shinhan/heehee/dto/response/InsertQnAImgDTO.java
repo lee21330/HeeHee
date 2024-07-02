@@ -14,5 +14,5 @@ import lombok.ToString;
 public class InsertQnAImgDTO {
 	private String imgName;
 	private int tablePk;
-	private String ID;
+	private String id;
 }

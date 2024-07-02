@@ -1,5 +1,7 @@
 package com.shinhan.heehee.dto.response;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +13,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCategoryDTO {
-	private int productCateSeq;
-	private String category;
-	private String detailCategory;
+public class RecentlyDTO {
+	private int productSeq;
+	private String id;
 }

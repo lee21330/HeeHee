@@ -20,6 +20,7 @@ public class SaleDetailDTO {
 	private String detailCategory;
 	private String prodName;
 	private String articleTitle;
+	private String introduce;
 	private int dCompanySeq;
 	private String dCompany;
 	private String dNumber;

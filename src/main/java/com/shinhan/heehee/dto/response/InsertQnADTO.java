@@ -13,9 +13,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class InsertQnADTO {
 	private int seqQnaBno;
-	private String ID;
-	private String QNA_TITLE;
-	private String QNA_CONTENT;
-	private String QNA_FILE;
-	private String SEQ_QNA_OPTION;
+	private String id;
+	private String qnaTitle;
+	private String qnaContent;
+	private String seqQnaOption;
 }

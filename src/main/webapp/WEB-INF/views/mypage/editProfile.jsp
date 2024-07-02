@@ -38,6 +38,21 @@
 					<p>${profile.email}</p>
 					<!-- 	<button id="btn_photo">저장</button> -->
 				</form>
+
+				<div class="account">
+					<p class=>내 계좌</p>
+					<p class="bankName">${profile.bank}</p>
+					<p class="accNum">${profile.accountNum}</p>
+					<div>
+						<%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%>
+						<button class="btn" id="btn-account">계좌 수정</button>
+					</div>
+				</div>
+				<form action="${path}/mypage/userIntroUpdate" method="post">
+					<textarea class="self-intro" name="intro">${profile.userIntroduce}</textarea>
+					<button class="btn" id="btn-intro" type="submit">소개글 수정</button>
+				</form>
+
 			</div>
 
 			<!-- 오른쪽 영역 -->

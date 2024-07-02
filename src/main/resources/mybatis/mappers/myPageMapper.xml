@@ -100,6 +100,10 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
+	<select id="bankList" resultType="bankvo">
+		SELECT *
+		FROM BANK_KIND
+	</select>
 	<select id="profile" parameterType="String"
 		resultType="profilevo">
 		SELECT *
@@ -154,11 +158,11 @@
 	</delete>
 	<insert id="insertQna" parameterType="insertQnavo">
 		INSERT INTO QNA_BOARD
-		VALUES (SEQ_QNA_BNO.nextval, #{ID}, #{QNA_TITLE}, #{QNA_CONTENT},
-		#{QNA_FILE}, null, SYSDATE, #{SEQ_QNA_OPTION})
+		VALUES (SEQ_QNA_BNO.nextval, #{id}, #{qnaTitle}, #{qnaContent},
+		null, SYSDATE, #{seqQnaOption})
 	</insert>
 	<insert id="insertQnaImg" parameterType="insertQnaImgvo">
 		INSERT INTO IMG_FILES
-		VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{ID})
+		VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id})
 	</insert>
 </mapper>

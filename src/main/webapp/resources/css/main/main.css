@@ -28,6 +28,14 @@
 	background: #ececec;
 }
 
+.product_img:hover {
+	cursor: pointer;
+}
+
+.rankProdTitle:hover {
+	cursor: pointer;
+}
+
 .rankProdDiv img {
 	width: 95%;
 	height: 160px;
