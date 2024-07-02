@@ -44,6 +44,10 @@ function connect() {
 /* 소켓 연결 후 실행 */
 function showResponse(res) {
 	console.log(res);
+	
+	if (res.length > 0) {
+		
+	}
 
 	// 알림 올 경우 이미지 변경, 애니메이션 효과 추가
 	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png");
@@ -53,8 +57,8 @@ function showResponse(res) {
 
 /* 알림 insert */
 function sendAlarm() {
-    var userId = 'sinsang';
-    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 3, 'reqSeq': 47, 'alContent': "낙찰되었습니다."}));
+    var userId = 'b';
+    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 202, 'alContent': "새로운 메시지가 있습니다."}));
 }
 
 </script>
@@ -96,7 +100,7 @@ function sendAlarm() {
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="${path}/productregi">
+						<a href="${path}/sell/productregi">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
 							<span>물품등록</span>
 						</a>

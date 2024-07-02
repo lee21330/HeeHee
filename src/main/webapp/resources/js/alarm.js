@@ -277,7 +277,7 @@ function alarmUnck() {
                         	output += "</ul>";
 							
                         } else if (item.alDate != null && item.cateNum == 8) {
-                        	// 경매물품 판매중지
+                        	// 경매물품 판매중지 (마이페이지 경로로 수정 필)
                         	output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                             output += "<li class='alarm_date'>" + item.alDate + "</li>";
                             output += "<li>" + item.sender + "</li>"

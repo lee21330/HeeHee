@@ -31,7 +31,7 @@ public class AlarmService {
 		return alarmDAO.alarmUpdate(alNum);
 	}
 	
-	// 알림 생성
+	// 알림 생성 (알림 insert 해야 하는 각각의 service 파일에 생성해야 함)
 	@Transactional
 	public int alarmInsert(AlarmDTO alarm) {
 		return alarmDAO.alarmInsert(alarm);
