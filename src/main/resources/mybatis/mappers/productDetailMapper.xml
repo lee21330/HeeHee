@@ -39,20 +39,6 @@
         AND IMG.TABLE_PK = #{PROD_SEQ}
 	</select>
 	
-	<!-- <insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.response.ViewLogDTO">
-		INSERT INTO VIEW_LOG
-		VALUES (#{PROD_SEQ}, #{ID}, SYSDATE)
-	</insert> -->
-	
-	<!-- <select id="selectViewLog" parameterType="com.shinhan.heehee.dto.response.InsertViewLogDTO">
-		SELECT *
-		FROM (SELECT PRODUCT_SEQ, ID
-		FROM VIEW_LOG
-		WHERE ID = #{id}
-		GROUP BY PRODUCT_SEQ, ID)
-		WHERE ROWNUM <![CDATA[<]]> 3
-	</select> -->
-	
 	<select id="prodrecoDetail" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT *
 		FROM (SELECT IMG.IMG_NAME, SELL.PRODUCT_SEQ
@@ -180,6 +166,16 @@
 		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName},#{prodSeq},2,#{userId})
 	</insert>
 	
+	<insert id="insertProduct" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		INSERT INTO SELL_PRODUCT
+		VALUES (SEQ_SELL_PROD.nextval, #{articleTitle}, #{productPrice}, #{introduce}, #{state}, '판매중', #{deal}, #{dCharge}, 5, #{userId}, SYSDATE, NULL)
+	</insert>
+	
+	<insert id="insertProductName" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		INSERT INTO PRODUCT_TYPE
+		VALUES (5, #{productName}, )
+	</insert>
+	
 	<update id="updateProduct" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
 		UPDATE SELL_PRODUCT
 		SET ARTICLE_TITLE = #{articleTitle}
@@ -198,12 +194,11 @@
 	</select>
 	
 	<select id="subCateList" parameterType="String" resultType="String">
-		SELECT DETAIL_CATEGORY
+		SELECT *
   		FROM PRODUCT_CATEGORY
 		WHERE CATEGORY = #{mainCate}
 	</select>
 	
-	<!-- 여기서부터 구현해야함 -->
 	<update id="proStatusSelling" parameterType="int">
 		UPDATE SELL_PRODUCT
 		SET PRO_STATUS = '판매중'

@@ -26,4 +26,5 @@ public class ProductModifyRequestDTO {
 	private String state;
 	private String deal;
 	private int dCharge;
+	private String userId;
 }
