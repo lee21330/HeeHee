@@ -1,9 +1,12 @@
 package com.shinhan.heehee.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.MyPageDAO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
@@ -12,7 +15,6 @@ import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
-import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
@@ -44,13 +46,11 @@ public class MyPageService {
 		return mypageDao.saleList(status, userId);
 	}
 
-	public int userIntroduce(String intro, String userId) {
-		return mypageDao.userIntroduce(intro, userId);
-	}
+//	public int userIntroduce(String intro, String userId) {
+//		return mypageDao.userIntroduce(intro, userId);
+//	}
 
-	public int editProfile(EditProfileDTO profile) {
-		return mypageDao.editProfile(profile);
-	}
+
 
 	public List<QnADTO> qnaOption() {
 		return mypageDao.qnaOption();
@@ -64,21 +64,18 @@ public class MyPageService {
 		return mypageDao.myQna(userId);
 	}
 
-	public int insertQna(InsertQnADTO qna) {
-		return mypageDao.insertQna(qna);
+	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
+		return mypageDao.insertQna(qna,uploadImgs);
 	}
 
-	public int insertQnaImg(InsertQnAImgDTO qnaImg) {
-		return mypageDao.insertQnaImg(qnaImg);
-		
-	}
+	// public int insertQnaImg(InsertQnAImgDTO qnaImg, ) {
+	// return mypageDao.insertQnaImg(qnaImg);
+	//
+	// }
 
-	public EditProfileDTO profile(String userId) {
-		return mypageDao.profile(userId);
-	}
 
 	public List<QnAImgDTO> myQnaImg(String userId, int seqQnaBno) {
-		return mypageDao.myQnaImg(userId,seqQnaBno);
+		return mypageDao.myQnaImg(userId, seqQnaBno);
 	}
 
 	public int deleteQna(Integer seqQnaBno) {
@@ -87,7 +84,7 @@ public class MyPageService {
 
 	public int deleteQnaImg(Integer seqQnaBno) {
 		return mypageDao.deleteQnaImg(seqQnaBno);
-		
+
 	}
 
 	public SaleDetailDTO saleDetail(int proSeq) {
@@ -111,15 +108,55 @@ public class MyPageService {
 	}
 
 	public int deleteJjim(List<Integer> seq, String userId) {
-		return mypageDao.deleteJjim(seq,userId);
+		return mypageDao.deleteJjim(seq, userId);
 	}
 
 	public List<SaleListAucDTO> saleListAuc(String status, String userId) {
-		return mypageDao.saleListAuc(status,userId);
+		return mypageDao.saleListAuc(status, userId);
 	}
 
 	public List<PurchaseListDTO> purchaselistAuc(String userId) {
 		return mypageDao.purchaselistAuc(userId);
+	}
+
+	public int proStatusDelete(int productSeq) {
+		return mypageDao.proStatusDelete(productSeq);
+	}
+
+	public int updateStatus(int productSeq, String proStatus) {
+		return mypageDao.updateStatus(productSeq, proStatus);
+	}
+
+	public Object editProfile(String nickName, String userIntroduce, String image, String userId) {
+		return mypageDao.editProfile(nickName,userIntroduce,image,userId);
+		
+	}
+	public EditProfileDTO profile(String userId) {
+		return mypageDao.profile(userId);
+	}
+
+	public Object updateAcc(String userId, int bankSeq, String accountNum) {
+		return mypageDao.updateAcc(userId,bankSeq,accountNum);
+		
+	}
+
+	public Map<String, Object> dupNickCheck(String nickName) {
+		Map<String,Object> response = new HashMap<String,Object>();
+		int result = mypageDao.dupNickCheck(nickName);
+		if(result == 0) {
+			response.put("able", true);
+			response.put("message", "사용가능한 닉네임입니다.");
+		} else {
+			response.put("able", false);
+			response.put("message", "중복된 닉네임이 존재합니다.");
+		}
+		return response;
+	}
+
+	public int currentPwCheck(String userId, String currentPw) {
+		String encPw = mypageDao.selectEncPw(userId);
+		return 0;
+		
 	}
 
 

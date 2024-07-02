@@ -69,7 +69,24 @@
 		AND SELL.PRODUCT_SEQ =
 		#{proSeq}
 	</select>
-
+	<delete id="proStatusDelete"
+		parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+		DELETE FROM SELL_PRODUCT
+		WHERE PRODUCT_SEQ =
+		#{productSeq}
+	</delete>
+	<update id="updateStatus" parameterType="map">
+		UPDATE SELL_PRODUCT
+		<set>
+			<if test="proStatus == '판매중'">
+				PRO_STATUS = '판매보류'
+			</if>
+			<if test="proStatus == '판매보류'">
+				PRO_STATUS = '판매중'
+			</if>
+		</set>
+		WHERE PRODUCT_SEQ = #{productSeq}
+	</update>
 	<insert id="insertDelivery" parameterType="deliveryvo">
 		INSERT INTO DELIVERY
 		VALUES (DELIVERY_SEQ.nextval, #{dCompanySeq},
@@ -153,23 +170,40 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
-	<select id="bankList" resultType="bankvo">
+	<select id="bankList" resultType="com.shinhan.heehee.dto.response.BankKindDTO">
 		SELECT *
 		FROM BANK_KIND
 	</select>
 	<select id="profile" parameterType="String"
 		resultType="profilevo">
 		SELECT *
-		FROM HH_USER
-		WHERE HH_USER.ID = #{USER_ID}
+		FROM HH_USER hu ,BANK_KIND bk 
+		WHERE hu.BANK_SEQ = bk.BANK_SEQ 
+		AND hu.ID = #{USER_ID}
 	</select>
-	<update id="userIntroduce" parameterType="map">
+	<update id="editProfile" parameterType="map">
 		UPDATE HH_USER
 		SET
-		USER_INTRODUCE = #{introduce}
-		WHERE ID = #{userId}
+		PROFILE_IMG = #{profileImg},
+		NICK_NAME = #{nickName},
+		USER_INTRODUCE =
+		#{userIntroduce},
+		MODIFY_DATE = SYSDATE
+		WHERE ID = #{id}
 	</update>
-
+	<select id="dupNickCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM HH_USER 
+		WHERE NICK_NAME = #{nickName}
+	</select>
+	<update id="updateAcc" parameterType="map">
+		UPDATE HH_USER
+		SET
+		BANK_SEQ = #{bankSeq},
+		ACCOUNT_NUM = #{accountNum},
+		MODIFY_DATE = SYSDATE
+		WHERE ID = #{id}
+	</update>
 
 	<select id="qnaOption" resultType="qnavo">
 		SELECT * FROM QNA_OPTION
@@ -209,9 +243,18 @@
 		WHERE img_cate_seq = 4
 		AND table_pk = #{seqQnaBno}
 	</delete>
-	<!-- <insert id="insertQna" parameterType="insertQnavo"> INSERT INTO QNA_BOARD 
-		VALUES (SEQ_QNA_BNO.nextval, #{id}, #{qnaTitle}, #{qnaContent}, null, SYSDATE, 
-		#{seqQnaOption}) </insert> <insert id="insertQnaImg" parameterType="insertQnaImgvo"> 
-		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 
-		4, #{id}) </insert> -->
+	<insert id="insertQna" parameterType="insertQnavo">
+		<selectKey keyProperty="tablePk" order="BEFORE"
+			resultType="int">
+			SELECT SEQ_QNA_BNO.nextval FROM dual
+		</selectKey>
+		 <![CDATA[
+		INSERT INTO QNA_BOARD VALUES (#{tablePk}, #{id}, #{qnaTitle}, #{qnaContent},null,SYSDATE,#{seqQnaOption});
+		INSERT INTO IMG_FILES VALUES (SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id});
+		 ]]>
+	</insert>
+
+	<!-- <insert id="insertQnaImg" parameterType="insertQnaImgvo"> INSERT INTO 
+		IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id}) 
+		</insert> -->
 </mapper>

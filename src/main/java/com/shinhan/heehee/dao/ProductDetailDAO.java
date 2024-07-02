@@ -74,7 +74,7 @@ public class ProductDetailDAO {
 	}
 
 	public int proStatusDelete(int productSeq) {
-		return sqlSession.update(namespace + "proStatusDelete", productSeq);
+		return sqlSession.delete(namespace + "proStatusDelete", productSeq);
 	}
 	
 	

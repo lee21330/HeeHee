@@ -214,6 +214,8 @@ input[type="radio"] {
 }
 
 #dropdown{
+	width: 70px;
+	height: 50px;
 	display: none;
 	list-style: none;
 	position: absolute;
@@ -221,8 +223,22 @@ input[type="radio"] {
 	background-color: white;
 }
 #dropdown li{
-	text-align: center;
+	width: 100%;
+}
+#dropdown li:hover{
+	background-color: lightgray;
+	cursor: pointer;
 }
 #sub_dropdown{
+	width: 70px;
+	height: 50px;
 	display: none;
+	list-style: none;
+	position: absolute;
+	z-index: 2;
+	background-color: white;
+}
+#sub_dropdown li:hover{
+	background-color: lightgray;
+	cursor: pointer;
 }

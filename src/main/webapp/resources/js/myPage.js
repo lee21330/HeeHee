@@ -49,7 +49,7 @@ function changeStatus(status) {
 			} else {
 				data.forEach(function(sale) {
 					var detailUrl = '';
-					
+
 					// 판매상태에 따라 페이지 다르게
 					if (sale.proStatus === '판매중') {
 						detailUrl = "/heehee/sell/productdetail/" + sale.productSeq;
@@ -58,27 +58,37 @@ function changeStatus(status) {
 					} else {
 						detailUrl = "/heehee/mypage/saledetail/" + sale.productSeq;
 					}
-					
-					
+
+
 					var statusChangeMenu = '';
-                    if (sale.proStatus === '판매중' || sale.proStatus === '판매보류') {
-                        statusChangeMenu = ` <img class="photo_status" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-status.png" 
+					if (sale.proStatus === '판매중') {
+						statusChangeMenu = ` <img class="photo_status" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-status.png" 
                                 	onclick="dropdown()">
                         					<ul id="dropdown">
                                 				<li onclick="location.href='/heehee/sell/productmodify/${sale.productSeq}'">상품수정</li>
-                                				<li onclick="sub_dropdown()">상태변경
-					                                <ul id="sub_dropdown">
-					                                    <li>취소</li>
-					                                    <li>판매중</li>
-					                                </ul>
-					                            </li>
-                                				<li onclick="location.href='/heehee/mypage/deleteSale/${sale.productSeq}'">상품삭제</li>
-                            				</ul>`;
-                    }
+                                				<li onclick="sub_dropdown()">상태변경 </li>
+                                				<li onclick="deleteSale(${sale.productSeq})">상품삭제</li>
+                            				</ul>
+                            				<ul id="sub_dropdown">
+                            					<li onclick="hideSubDropdown()">취소</li>
+                            					<li onclick="updateStatus(${sale.productSeq},'${sale.proStatus}')" id="statusDropdown">판매보류</li>
+					                        </ul>`;
+					} else if (sale.proStatus === '판매보류') {
+						statusChangeMenu = ` <img class="photo_status" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-status.png" 
+                                	onclick="dropdown()">
+                        					<ul id="dropdown">
+                                				<li onclick="sub_dropdown()">상태변경</li>
+                                				<li onclick="deleteSale(${sale.productSeq})">상품삭제</li>
+                            				</ul>
+                            				<ul id="sub_dropdown">
+                            					<li onclick="hideSubDropdown()">취소</li>
+                            					<li onclick="updateStatus(${sale.productSeq},'${sale.proStatus}')" id="statusDropdown">판매중</li>
+					                        </ul>`;
+					}
 
 					output += `				
                             <div class="product">
-                                ${statusChangeMenu}
+                                <div>${statusChangeMenu}</div>
                                 <div onclick="location.href='${detailUrl}'">
                                 	<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}" >
                                 	<p>${sale.articleTitle}</p>
@@ -96,14 +106,55 @@ function changeStatus(status) {
 	});
 }
 
-function dropdown(){
+function dropdown() {
 	$("#dropdown").show();
 }
 
-function sub_dropdown(){
+function sub_dropdown() {
 	$("#sub_dropdown").show();
 }
+function hideSubDropdown() {
+	$("#sub_dropdown").hide();
+}
 
+function deleteSale(productSeq) {
+	$.ajax({
+		url: '/heehee/mypage/main/deleteSale',
+		method: 'POST',
+		data: { 'productSeq': productSeq },
+		success: function(data, status, xhr) {
+			if (data.success) {
+				showTost(data.message); // 성공 메시지를 표시
+			} else {
+				showTost(data.message); // 실패 메시지를 표시
+			}
+
+		},
+		error: function(xhr, status, error) {
+			console.error('판매 삭제 오류:', error);
+
+		}
+	});
+}
+function updateStatus(productSeq, proStatus) {
+	$.ajax({
+		url: '/heehee/mypage/main/updateStatus',
+		method: 'POST',
+		data: { 'productSeq': productSeq, 'proStatus': proStatus },
+		success: function(data, status, xhr) {
+			if (data.success) {
+				showTost(data.message); // 성공 메시지를 표시
+			} else {
+				showTost(data.message); // 실패 메시지를 표시
+			}
+
+		},
+		error: function(xhr, status, error) {
+			console.error('판매상태 업데이트 오류:', error);
+
+		}
+	});
+}
 function showPurchaseList() {
 	$(".list").empty();
 	$(".sub_menu").hide();

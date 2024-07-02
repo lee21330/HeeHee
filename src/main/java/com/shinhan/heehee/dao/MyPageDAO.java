@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
@@ -51,16 +52,14 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "saleList", params);
 	}
 
-	public int userIntroduce(String intro, String userId) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("introduce", intro);
-		params.put("userId", userId);
-		return sqlSession.update(namespace + "userIntroduce", params);
-	}
+//	public int userIntroduce(String intro, String userId) {
+//		Map<String, Object> params = new HashMap<>();
+//		params.put("introduce", intro);
+//		params.put("userId", userId);
+//		return sqlSession.update(namespace + "userIntroduce", params);
+//	}
 
-	public int editProfile(EditProfileDTO profile) {
-		return sqlSession.selectOne(namespace + "editProfile", profile);
-	}
+
 
 	public List<QnADTO> qnaOption() {
 		return sqlSession.selectList(namespace + "qnaOption");
@@ -74,8 +73,11 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "myQna", userId);
 	}
 
-	public int insertQna(InsertQnADTO qna) {
-		return sqlSession.insert(namespace + "insertQna", qna);
+	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("qna", qna);
+		params.put("uploadImgs", uploadImgs);
+		return sqlSession.insert(namespace + "insertQna", params);
 	}
 
 	public int insertQnaImg(InsertQnAImgDTO qnaImg) {
@@ -137,6 +139,43 @@ public class MyPageDAO {
 
 	public List<PurchaseListDTO> purchaselistAuc(String userId) {
 		return sqlSession.selectList(namespace + "purchaselistAuc", userId);
+	}
+
+	public int proStatusDelete(int productSeq) {
+		return sqlSession.delete(namespace + "proStatusDelete", productSeq);
+	}
+
+	public int updateStatus(int productSeq, String proStatus) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("productSeq", productSeq);
+		params.put("proStatus", proStatus);
+		return sqlSession.update(namespace + "updateStatus", params);
+	}
+
+	public Object editProfile(String nickName, String userIntroduce, String image, String userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("nickName", nickName);
+		params.put("userIntroduce", userIntroduce);
+		params.put("profileImg", image);
+		params.put("id", userId);
+		return sqlSession.update(namespace + "editProfile", params);
+	}
+
+	public Object updateAcc(String userId, int bankSeq, String accountNum) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("bankSeq", bankSeq);
+		params.put("accountNum", accountNum);
+		params.put("id", userId);
+		return sqlSession.update(namespace + "updateAcc", params);
+	}
+
+	public int dupNickCheck(String nickName) {
+		return sqlSession.selectOne(namespace + "dupNickCheck", nickName);
+	}
+
+	public String selectEncPw(String userId) {
+		// 현재 암호화된 비밀번호 조회
+		return sqlSession.selectOne(namespace + "selectEncPw", userId);
 	}
 
 }
