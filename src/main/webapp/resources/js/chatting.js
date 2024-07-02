@@ -362,81 +362,89 @@ function selectChattingFn(){
         const payStatus = roomDetail.roomProductDTO.payStatus;
         //console.log(payStatus);
         
-        if (status == '구매자') {
-            const payButton = document.createElement("button");
-            payButton.classList.add("pay");
+        const buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("button-div");
         
-            payButton.innerText = "결제하기";
-            
-            //거래 내역 테이블에 동일 구매자id&제품 seq 데이터의 결제상태가 '완료'면 결제하기 버튼 비활성화
-            if(payStatus == '완료'){
-                payButton.disabled = true;
-            }
-            
-            payButton.addEventListener("click", () => {
-                // 구매자 버튼 클릭 이벤트 처리
-                const payName = roomDetail.roomProductDTO.productName;
-                const amount = roomDetail.roomProductDTO.productPrice;
-                const sellSeq = roomDetail.roomProductDTO.productSeq;
-                payForSell(payName, amount, sellSeq, payButton);
-            });
-            
-            sellingInfo.append(payButton);
-            
-        } else if(status == '판매자'){
-            if(roomDetail.roomProductDTO.productType=='sell'){
+        //중고 제품인 경우에만 버튼 추가
+        if(roomDetail.roomProductDTO.productType=='sell'){
+            if (status == '구매자') {
+                if(roomDetail.roomProductDTO.dealStatus == '택배' && roomDetail.roomProductDTO.sellProStatus=='판매중'){
                 const payButton = document.createElement("button");
-                payButton.classList.add("edit");
+                payButton.classList.add("pay");
+        
+                payButton.innerText = "결제하기";
             
-                payButton.innerText = "가격 수정하기";
-                
-                //sellingInfo.append(payButton);
+                //거래 내역 테이블에 동일 구매자id&제품 seq 데이터의 결제상태가 '완료'면 결제하기 버튼 비활성화
+                if(payStatus == '완료'){
+                    payButton.disabled = true;
+                }
             
                 payButton.addEventListener("click", () => {
-                    // 판매자 버튼 클릭 이벤트 처리
-                    editPrice(roomDetail.roomProductDTO.productPrice, roomDetail.roomProductDTO.productSeq);
+                    // 구매자 버튼 클릭 이벤트 처리
+                    const payName = roomDetail.roomProductDTO.productName;
+                    const amount = roomDetail.roomProductDTO.productPrice;
+                    const sellSeq = roomDetail.roomProductDTO.productSeq;
+                    payForSell(payName, amount, sellSeq, payButton);
                 });
-                
+            
+                buttonDiv.append(payButton);
+                }
+            
+            } else if(status == '판매자'){
                 //약속잡기 버튼
-                const rsvButton = document.createElement("button");
-                rsvButton.classList.add("reserve");
-                
+                if(roomDetail.roomProductDTO.dealStatus == '직거래'){
+                    if(roomDetail.roomProductDTO.sellProStatus=='판매중'){
+                        const rsvButton = document.createElement("button");
+                        rsvButton.classList.add("reserve");
+                        rsvButton.innerText = "약속 잡기";
+                        // 약속 잡기 버튼 클릭 이벤트 처리
+                        rsvButton.addEventListener("click", () => {
+                            if(rsvButton.innerText == "약속 잡기"){
+                                reserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 취소";
+                            }
+                            else if(rsvButton.innerText == "약속 취소"){
+                                cancelReserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 잡기";
+                            }
+                        });
+                        buttonDiv.append(rsvButton);
+                    }
+                    //판매 제품의 판매 상태가 예약중이면 약속 잡기 버튼 비활성화
+                    else if(roomDetail.roomProductDTO.sellProStatus=='예약중'){
+                        const rsvButton = document.createElement("button");
+                        rsvButton.classList.add("reserve");
+                        rsvButton.innerText = "약속 취소";
+                         // 약속 취소 버튼 클릭 이벤트 처리
+                        rsvButton.addEventListener("click", () => {
+                            if(rsvButton.innerText == "약속 잡기"){
+                                reserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 취소";
+                            }
+                            else if(rsvButton.innerText == "약속 취소"){
+                                cancelReserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 잡기";
+                            }
+                        });
+                        buttonDiv.append(rsvButton);
+                    }
+                }
                 if(roomDetail.roomProductDTO.sellProStatus=='판매중'){
-                    rsvButton.innerText = "약속 잡기";
-                    // 약속 잡기 버튼 클릭 이벤트 처리
-                    rsvButton.addEventListener("click", () => {
-                        if(rsvButton.innerText == "약속 잡기"){
-                            reserve(roomDetail.roomProductDTO.productSeq);
-                            rsvButton.innerText = "약속 취소";
-                        }
-                        else if(rsvButton.innerText == "약속 취소"){
-                            cancelReserve(roomDetail.roomProductDTO.productSeq);
-                            rsvButton.innerText = "약속 잡기";
-                        }
+                    const payButton = document.createElement("button");
+                    payButton.classList.add("edit");
+                
+                    payButton.innerText = "가격 수정하기";
+                
+                    payButton.addEventListener("click", () => {
+                        // 판매자 버튼 클릭 이벤트 처리
+                        editPrice(roomDetail.roomProductDTO.productPrice, roomDetail.roomProductDTO.productSeq);
                     });
+                    buttonDiv.append(payButton);
                 }
-                
-                //판매 제품의 판매 상태가 예약중이면 약속 잡기 버튼 비활성화
-                if(roomDetail.roomProductDTO.sellProStatus=='예약중'){
-                    rsvButton.innerText = "약속 취소";
-                    // 약속 취소 버튼 클릭 이벤트 처리
-                    rsvButton.addEventListener("click", () => {
-                        if(rsvButton.innerText == "약속 잡기"){
-                            reserve(roomDetail.roomProductDTO.productSeq);
-                            rsvButton.innerText = "약속 취소";
-                        }
-                        else if(rsvButton.innerText == "약속 취소"){
-                            cancelReserve(roomDetail.roomProductDTO.productSeq);
-                            rsvButton.innerText = "약속 잡기";
-                        }
-                    });
-                }
-                
-                
-                sellingInfo.append(rsvButton, payButton);
-                
-            } 
-        } 
+            }
+        }
+        
+        sellingInfo.append(buttonDiv);
         
         contentHeader.append(receiverNickname, sellingInfo);
         

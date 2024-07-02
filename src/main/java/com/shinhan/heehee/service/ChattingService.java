@@ -47,10 +47,12 @@ public class ChattingService {
 		return cDao.updatePoint(map);
 	}
 
+	@Transactional
 	public int insertMessage(ChatMessageDTO messageDTO) {
 		return cDao.insertMessage(messageDTO);
 	}
 
+	@Transactional
 	public void insertMsgImg(ChatMessageDTO messageDTO) throws IOException {
 		//String filePath = "images/chat/";
 		List<String> imgs = messageDTO.getImgs();
@@ -67,13 +69,15 @@ public class ChattingService {
         }
 	}
 	
-    //약속 잡기
+    //약속 잡기 / 결제
+	@Transactional
 	public void reserve(Map<String, Object> map) {
 		cDao.updateReserve(map);
 		cDao.insertDeal(map);
 	}
 
 	//약속 취소
+	@Transactional
 	public void cancelReserve(Map<String, Object> map) {
 		cDao.cancelReserve(map);
 		cDao.deleteDeal(map);

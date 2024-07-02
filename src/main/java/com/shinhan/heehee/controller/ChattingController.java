@@ -189,8 +189,6 @@ public class ChattingController {
 	public void sendMessage(ChatMessageDTO message) throws IOException {
 		int subscribeCount = webSocketEventListener.getSubscribersCount("/topic/chatroom/" + message.getRoomId());
 		
-		//System.out.println("******************구독자 수 : " + subscribeCount);
-		
 		if(subscribeCount>=2) {
 			message.setReadCheck("Y");
 		} else {
