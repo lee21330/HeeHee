@@ -1,7 +1,6 @@
 let selectRoomId; // 선택한 채팅방 번호
 let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
-var stompClient = null; // stomp 소켓 클라이언트 전역 설정
 
 let selectedFiles = []; // 첨부한 이미지 파일 목록
 
@@ -22,13 +21,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
 });
 
 // 채팅룸 커넥트
-function connect(chatRoomId) {
-	disconnect();
-	var socket = new SockJS('/heehee/ws');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.send("/app/joinRoom", {}, JSON.stringify({"userId": loginMemberNo, "roomId": chatRoomId}));
+function chatConnect(chatRoomId) {
+    stompClient.send("/app/joinRoom", {}, JSON.stringify({"userId": loginMemberNo, "roomId": chatRoomId}));
         stompClient.subscribe('/topic/chatroom/' + chatRoomId, function (chatMessage) {
         	var json = JSON.parse(chatMessage.body);
         	if(json.userId != null) {
@@ -37,7 +31,6 @@ function connect(chatRoomId) {
 	            showMessage(json);
             }
         });
-    });
 }
 
 // 연결 끊기
@@ -233,7 +226,7 @@ function roomListAddEvent(){
             .catch(err => console.log(err));
             
           //소켓 연결
-          connect(selectRoomId);
+          chatConnect(selectRoomId);
       });
       
    }
