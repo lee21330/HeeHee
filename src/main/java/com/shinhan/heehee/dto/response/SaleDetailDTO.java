@@ -32,4 +32,5 @@ public class SaleDetailDTO {
 	private int dCharge;
 	private String deal;
 	private String imgName;
+	private String buyerId;
 }

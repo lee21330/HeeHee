@@ -211,6 +211,11 @@
 		WHERE CATEGORY = #{mainCate}
 	</select>
 	
+	<select id="cateList" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
+		SELECT *
+	  	FROM PRODUCT_CATEGORY
+	</select>
+	
 	<update id="proStatusSelling" parameterType="int">
 		UPDATE SELL_PRODUCT
 		SET PRO_STATUS = '판매중'

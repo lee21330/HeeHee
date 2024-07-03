@@ -35,7 +35,7 @@ function show() {
 	}
 }
 function readURL(input, number) {
-	 var previewId = "preview" + number;
+	var previewId = "preview" + number;
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
 		reader.onload = function(e) {

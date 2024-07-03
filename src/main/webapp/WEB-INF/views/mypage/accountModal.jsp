@@ -29,30 +29,30 @@
 			<img
 				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
 				alt="로그인 창 닫기 아이콘" class="mModal_close">
-			<form class="modal_form">
+			<form class="modal_form" action="${path}/mypage/profile/updateAcc" method="post">
 
 				<p class="modal_info">현재 계좌:</p>
-				<p>${sellerInfo.bank}</p>
-				<p>${sellerInfo.accountNum}</p>
+				<p>${profile.bank}</p>
+				<p>${profile.accountNum}</p>
 
 				<div class="input">
 					<div class="Modal_bank">
-						<select>
-							<option>은행</option>
-							<c:forEach var="bank" items="${bankList}">
-								<option>${bank.bank}</option>
+						<select name="bankSeq" required>
+							<option value="">은행</option>
+							<c:forEach var="banklist" items="${bankList}">
+								<option value="${banklist.bankSeq}">${banklist.bank}</option>
 							</c:forEach>
 						</select>
 					</div>
 
 					<div class="Modal_bank">
-						<input type="text" placeholder="계좌번호를 입력하세요">
+						<input type="text" name="accountNum" placeholder="계좌번호를 입력하세요" required="required">
 					</div>
 				</div>
 
 				<div class="btn_modal">
 					<button type="submit" class="btn_submit">수정하기</button>
-					<button class="btn_cancel">취소하기</button>
+					<input type="button" class="btn_cancel" value="취소하기">
 				</div>
 			</form>
 		</div>

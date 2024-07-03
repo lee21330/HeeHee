@@ -26,7 +26,7 @@
 			<div class="top">
 				<div class="profileImg">
 					<img
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerInfo.profileImg}">
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerInfo.profileImg}" onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 				</div>
 				<div class="profile">
 					<div class="profileName">
@@ -91,7 +91,6 @@
 			<div id="dealContainer">
 				<%@include file="/WEB-INF/views/mypage/myPageSell.jsp"%>
 				<%@include file="/WEB-INF/views/mypage/myPageAuc.jsp"%>
-
 			</div>
 		</div>
 	</section>

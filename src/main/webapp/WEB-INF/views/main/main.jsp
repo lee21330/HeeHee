@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>희희낙찰 홈페이지</title>
+<link rel="icon" href="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png">
 <link rel="stylesheet" href="${path}/resources/css/main/main.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

@@ -26,7 +26,6 @@
         <typeAlias type="com.shinhan.heehee.dto.response.InsertQnAImgDTO" alias="insertQnaImgvo" />
         <typeAlias type="com.shinhan.heehee.dto.response.FaQDTO" alias="faqvo" />
         <typeAlias type="com.shinhan.heehee.dto.response.InsertDeliveryDTO" alias="deliveryvo" />
-        <typeAlias type="com.shinhan.heehee.dto.response.BankKindDTO" alias="bankvo" />
         <typeAlias type="com.shinhan.heehee.dto.request.AdminUserDTO" alias="adminUserVO"/>
         <typeAlias type="com.shinhan.heehee.dto.request.AdminUserBanDTO" alias="adminUserBanVO"/>
         <typeAlias type="com.shinhan.heehee.dto.request.AdminProductDTO" alias="adminProductVO"/>

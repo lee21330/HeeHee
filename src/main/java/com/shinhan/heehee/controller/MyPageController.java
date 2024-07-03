@@ -1,10 +1,17 @@
 package com.shinhan.heehee.controller;
 
+import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +27,16 @@ import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
-import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
+import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
 import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
+import com.shinhan.heehee.service.ProductDetailService;
 
 @Controller
 @RequestMapping("/mypage")
@@ -39,7 +47,10 @@ public class MyPageController {
 	@Autowired
 	MainService mainservice;
 	@Autowired
-	private AWSS3Service s3Service;
+	AWSS3Service s3Service;
+
+	@Autowired
+	ProductDetailService productservice;
 
 	// 마이페이지
 	@GetMapping("/main")
@@ -51,7 +62,24 @@ public class MyPageController {
 		return "/mypage/myPage";
 	}
 
-	// 마이페이지_판매상태에 따른 판매내역 조회
+	// 마이페이지-찜 삭제하기
+	@PostMapping("/main/deleteJjim")
+	public String deleteJjim(@RequestParam List<Integer> seq, Principal principal, RedirectAttributes redirectAttr) {
+		String userId = principal.getName();
+		System.out.println("=======================");
+		System.out.println(seq);
+		int result = mypageservice.deleteJjim(seq, userId);
+		String message;
+		if (result > 0) {
+			message = "delete success";
+		} else {
+			message = "delete fail";
+		}
+		redirectAttr.addFlashAttribute("result", message);
+		return "redirect:/mypage/main";
+	}
+
+	// 마이페이지_판매상태에 따른 판매내역 조회(중고)
 	@GetMapping("/main/searchSaleStatus")
 	@ResponseBody
 	public List<SaleListDTO> saleList(Principal principal, @RequestParam("status") String status) {
@@ -59,12 +87,64 @@ public class MyPageController {
 		return mypageservice.saleList(status, userId);
 	}
 
-	// 마이페이지_구매내역 조회
+	// 마이페이지_판매상태에 따른 판매내역 조회(중고)_상품 삭제
+	@PostMapping("/main/deleteSale")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> proStatusDelete(@RequestParam("productSeq") int productSeq,
+			RedirectAttributes redirectAttr) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result = mypageservice.proStatusDelete(productSeq);
+		if (result == 0) {
+			response.put("success", false);
+			response.put("message", "삭제에 실패했습니다.");
+		} else {
+			response.put("success", true);
+			response.put("message", "삭제에 성공했습니다.");
+		}
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
+	}
+
+	// 마이페이지_판매상태에 따른 판매내역 조회(중고)_상품상태 변경
+	@PostMapping("/main/updateStatus")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> updateStatus(int productSeq, String proStatus) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result = mypageservice.updateStatus(productSeq, proStatus);
+		if (result == 0) {
+			response.put("success", false);
+			response.put("message", "상태변경에 실패했습니다.");
+		} else {
+			response.put("success", true);
+			response.put("message", "상태변경에 성공했습니다.");
+		}
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
+	}
+
+	// 마이페이지_판매상태에 따른 판매내역 조회(경매)
+	@GetMapping("/main/searchSaleStatusAuc")
+	@ResponseBody
+	public List<SaleListAucDTO> saleListAuc(Principal principal, @RequestParam("status") String status) {
+		String userId = principal.getName();
+		System.out.println("=======================");
+		System.out.println(userId);
+		System.out.println(status);
+		return mypageservice.saleListAuc(status, userId);
+	}
+
+	// 마이페이지_구매내역 조회(중고)
 	@PostMapping("/main/purchaselist")
 	@ResponseBody
 	public List<PurchaseListDTO> purchaseList(Principal principal) {
 		String userId = principal.getName();
 		return mypageservice.purchaseList(userId);
+	}
+
+	// 마이페이지_구매내역 조회(경매)
+	@PostMapping("/main/purchaselistAuc")
+	@ResponseBody
+	public List<PurchaseListDTO> purchaselistAuc(Principal principal) {
+		String userId = principal.getName();
+		return mypageservice.purchaselistAuc(userId);
 	}
 
 	// 마이페이_찜내역 조회
@@ -85,7 +165,8 @@ public class MyPageController {
 
 	// 마이페이지 - 판매 상품 상세페이지_송장입력 모달
 	@PostMapping("/saledetail/{productSeq}/insertDelivery")
-	public String insertDelivery(InsertDeliveryDTO delivery, RedirectAttributes redirectAttr) {
+	public String insertDelivery(InsertDeliveryDTO delivery, String buyerId, RedirectAttributes redirectAttr) {
+		delivery.setBuyerId(buyerId);
 		int result = mypageservice.insertDelivery(delivery);
 		String message;
 		if (result > 0) {
@@ -118,22 +199,6 @@ public class MyPageController {
 		return "/mypage/purchaseDetail";
 	}
 
-	// 마이페이지_소개글 수정
-	@PostMapping("/userIntroUpdate")
-	public String updateUserIntro(@RequestParam("intro") String intro, Principal principal,
-			RedirectAttributes redirectAttr) {
-		String userId = principal.getName();
-		int result = mypageservice.userIntroduce(intro, userId);
-		String message;
-		if (result > 0) {
-			message = "update success";
-		} else {
-			message = "update fail";
-		}
-		redirectAttr.addFlashAttribute("result", message);
-		return "redirect:/mypage/main";
-	}
-
 	// 마이페이지-프로필 수정 페이지 이동
 	@GetMapping("/profile")
 	public String profile(Principal principal, Model model) {
@@ -143,33 +208,57 @@ public class MyPageController {
 		return "/mypage/editProfile";
 	}
 
-//	// 마이페이지_프로필 수정
-//	@PostMapping("/profile/updateProfile")
-//	public String editProfile(EditProfileDTO profile, Principal principal, HttpServletResponse response, RedirectAttributes redirectAttr) {
-//		String userId = principal.getName();
-//		profile.setId(userId);
-//		int result = mypageservice.editProfile(profile);
-//		String message;
-//		if (result > 0) {
-//			message = "update success";
-//		} else {
-//			message = "update fail";
-//		}
-//		
-//		response.setContentType("text/html;charset=UTF-8");
-//		if (!userDto.getPassword().equals(null)) {
-//			
-//			// BCryptPasswordEncoder 생성
-//			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//		String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-//			userDto.setPassword(encodedPassword);
-//		}
-//		
-//	redirectAttr.addFlashAttribute("result", message);
-//		return "redirect:/mypage";
-//	}
+	// 마이페이지_프로필 수정 페이지:프로필 수정
+	@PostMapping("/profile/updateProfile")
+	public String editProfile(@RequestParam("profileImg") MultipartFile profileImages,
+			@RequestParam("originalProfileImg") String originalProfileImg, @RequestParam("nickName") String nickName,
+			@RequestParam("userIntroduce") String userIntroduce, Principal principal, RedirectAttributes redirectAttr) {
+		String userId = principal.getName();
+		String image = "";
+		try {
+			if (profileImages != null && !profileImages.isEmpty()) {
+				// AWS S3에 이미지 업로드
+				image = s3Service.uploadOneObject(profileImages, "images/mypage/");
+			} else if (originalProfileImg != null) {
+				image = originalProfileImg;
+			}
 
-	// 마이페이지-프로필 수정 페이지_프로필 사진 수정 /editProfile/updateProfileImg
+			// 데이터베이스에 프로필 정보 저장
+			mypageservice.editProfile(nickName, userIntroduce, image, userId);
+
+		} catch (IOException e) {
+			// 업로드 실패 시 처리할 로직
+			e.printStackTrace();
+
+		}
+		return "redirect:/mypage/profile";
+
+	}
+
+	// 마이페이지_프로필 수정 페이지:계좌 수정
+	@PostMapping("/profile/updateAcc")
+	public String updateAcc(Integer bankSeq, String accountNum, Principal principal, RedirectAttributes redirectAttr) {
+		String userId = principal.getName();
+		mypageservice.updateAcc(userId, bankSeq, accountNum);
+		return "redirect:/mypage/profile";
+
+	}
+
+	// 마이페이지_프로필 수정 페이지:아이디 중복체크
+	@GetMapping("/profile/dupNickCheck")
+	@ResponseBody
+	public Map<String, Object> dupNickCheck(@RequestParam String nickName) {
+		return mypageservice.dupNickCheck(nickName);
+	}
+
+	// 마이페이지_프로필 수정 페이지:현재 비밀번호 체크
+	@GetMapping("/profile/currentPwCheck")
+	@ResponseBody
+	public void currentPwCheck(Principal principal, String currentPw) {
+		String userId = principal.getName();
+		
+		mypageservice.currentPwCheck(userId, currentPw);
+	}
 
 	// 마이페이지-QnA
 	@GetMapping("/qnaBoard")
@@ -212,38 +301,51 @@ public class MyPageController {
 		return "redirect:/mypage/qnaBoard";
 	}
 
-	// 마이페이지_QnA 1:1문의하기
+//	@PostMapping("/qnaBoard/insertQna")
+//	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs,
+//			Principal principal, RedirectAttributes redirectAttr) {
+//		String userId = principal.getName();
+//		InsertQnADTO qna = new InsertQnADTO();
+//		qna.setId(userId);
+//
+//		// qna 데이터 삽입
+//		int result = mypageservice.insertQna(qna);
+//		if (result > 0) {
+//			// qna 객체에 삽입된 seqQnaBno 값을 qnaImg의 tablePk로 설정
+//			if (uploadImgs != null && !uploadImgs.isEmpty()) {
+//				for (MultipartFile img : uploadImgs) {
+//					InsertQnAImgDTO qnaImg = new InsertQnAImgDTO(); // 매 반복마다 새로운 객체 생성
+//					qnaImg.setTablePk(qna.getSeqQnaBno());
+//					qnaImg.setId(userId);
+//					try {
+//						String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaboard/");
+//						qnaImg.setImgName(imgName);
+//						mypageservice.insertQnaImg(qnaImg);
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		} else {
+//			redirectAttr.addFlashAttribute("result", "insert fail");
+//		}
+//
+//		return "redirect:/mypage/qnaBoard";
+//	}
 	@PostMapping("/qnaBoard/insertQna")
-	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, InsertQnADTO qna, InsertQnAImgDTO qnaImg, Principal principal,
-			RedirectAttributes redirectAttr) {
+	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, Principal principal,
+			RedirectAttributes redirectAttr) throws IOException {
 		String userId = principal.getName();
+		InsertQnADTO qna = new InsertQnADTO();
 		qna.setId(userId);
-		
-		 // 이미지 업로드 관련 처리
-	    List<QnAImgDTO> imgList = new ArrayList<>();
-	    for (MultipartFile file : uploadImgs) {
-	        // 각 파일을 처리하여 imgList에 추가하는 로직
-	        // 예: 파일을 S3에 업로드하고, 업로드된 파일의 경로를 DTO에 추가하는 등의 작업
-	        // QnAImgDTO 객체를 생성하여 imgList에 추가
-	    }
-		
-		// 이미지 업로드 3장으로 제한
-		qnaImg.setTablePk(qna.getSeqQnaBno());
-		qnaImg.setId(userId);
-	    
-		int result = mypageservice.insertQna(qna);
-		int imageResult = mypageservice.insertQnaImg(qnaImg);
+		System.out.println(qna);
+		System.out.println(uploadImgs);
+		mypageservice.insertQna(qna, uploadImgs);
+		s3Service.uploadObject(uploadImgs, "images/mypage/qnaBoard/");
 
-		String message;
-		if (result > 0) {
-			message = "insert success";
-		} else {
-			message = "insert fail";
-		}
-		redirectAttr.addFlashAttribute("result", message);
 		return "redirect:/mypage/qnaBoard";
-	}	
-	
+	}
+
 	// 마이페이지-FAQ
 	@GetMapping("/faqBoard")
 	public String faqBoard(Model model) {
