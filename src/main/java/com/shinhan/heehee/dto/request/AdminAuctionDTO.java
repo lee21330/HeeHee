@@ -38,6 +38,10 @@ public class AdminAuctionDTO {
 	//정지사유 - AUC_PRODUCT
 	private String aucBanReason;
 	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
+	
 	//삭제 - 파라미터 1개 
 	public AdminAuctionDTO (int productSeq) {
 		this.productSeq = productSeq;

@@ -1,5 +1,7 @@
 package com.shinhan.heehee.service;
 
+import java.awt.print.Pageable;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,14 @@ public class AdminService {
 	}
 	
     //회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯)
-
+	public void insertBanUser(String id, String BanContent, Date banStr, Date banEnd){
+		adminDAO.insertBanUser(id, BanContent, banStr, banEnd);
+	}
 	
     //회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정)
-
+	public void updateBanUser(String id, String banContent, Date banStr, Date banEnd) {
+		adminDAO.updateBanUser(id, banContent, banStr, banEnd);
+	}
 	
 	//회원정보 관리 끝
 	
@@ -101,21 +107,25 @@ public class AdminService {
 	public List<AdminCategoryDTO> searchCategoryInfo(String category, String keyword) {
 		return adminDAO.searchCategoryInfo(category, keyword);
 	}
-	
+
 	//상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
-	public void insertCategory(String category, String detailCategory) {
-		adminDAO.insertCategory(category, detailCategory);
+	public void insertCategory(String category, String detailCategory, String id) {
+		adminDAO.insertCategory(category, detailCategory, id);
 	}
 	
 	//상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
-	public void updateCategory (int productCateSeq, String category, String detailCategory) {
-		adminDAO.updateCategory(productCateSeq, category, detailCategory);
+	public void updateCategory (int productCateSeq, String category, String detailCategory, String id) {
+		adminDAO.updateCategory(productCateSeq, category, detailCategory, id);
 	}
 	
 	//상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
 	public void deleteCategory (int productCateSeq) {
 		adminDAO.deleteCategory(productCateSeq);
 	}
+	
+	/* 데이터 한번에 넣기용
+	 * public void dbset (int productCateSeq) { adminDAO.dbset(productCateSeq); }
+	 */
 	
 	//상품 관리 끝
 	
@@ -149,7 +159,9 @@ public class AdminService {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select하여 선택된 유형과, 수기 입력받은 FAQ 제목, 내용을 Insert 함)
-	
+	public void insertFaq (int seqQnaOption, String faqContent, String faqAns, String id) {
+		adminDAO.insertFaq(seqQnaOption, faqContent, faqAns, id);
+	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
 	public List<AdminFaqManagerDTO> getFaqContent(int id) {
@@ -157,8 +169,8 @@ public class AdminService {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 선택된 항목에 대한 세부내용 작성 및 Update 가능)
-	public void updateFaq (int seqFaqBno, int seqQnaOption, String faqContent, String faqAns) {
-		adminDAO.updateFaq(seqFaqBno, seqQnaOption, faqContent, faqAns);
+	public void updateFaq (int seqFaqBno, int seqQnaOption, String faqContent, String faqAns, String id) {
+		adminDAO.updateFaq(seqFaqBno, seqQnaOption, faqContent, faqAns, id);
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌)
@@ -177,13 +189,13 @@ public class AdminService {
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 신규 등록 (기능 : 수기 입력받은 유형과 내용을 Insert 함)
-	public void insertQnaOption (String qnaOption, String qnaOptionContent) {
-		adminDAO.insertQnaOption(qnaOption, qnaOptionContent);
+	public void insertQnaOption (String qnaOption, String qnaOptionContent, String id) {
+		adminDAO.insertQnaOption(qnaOption, qnaOptionContent, id);
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 수정 기능 (기능 : 수기 입력받은 유형과 내용을 Update 함)
-	public void updateQnaOption(int seqQnaBno, String qnaOption, String qnaOptionContent) {
-		adminDAO.updateQnaOption(seqQnaBno, qnaOption, qnaOptionContent);
+	public void updateQnaOption(int seqQnaBno, String qnaOption, String qnaOptionContent, String id) {
+		adminDAO.updateQnaOption(seqQnaBno, qnaOption, qnaOptionContent, id);
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)

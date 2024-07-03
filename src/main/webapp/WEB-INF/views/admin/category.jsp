@@ -45,12 +45,15 @@
 						<th>번호</th>
 						<th>카테고리</th>
 						<th>세부 카테고리</th>
+						<th>작성자ID</th>
+						<th>작성일</th>
 					</tr>
 				</thead>
 				<tbody id="tableBody">
 					<!-- Ajax로 동적 업데이트 -->
 				</tbody>
 			</table>
+			<div id="pagination"></div> <!-- 페이징 버튼 영역 -->
 		</div>
 	</div>
 	</div>

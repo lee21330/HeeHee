@@ -1,9 +1,11 @@
 package com.shinhan.heehee.dao;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -63,10 +65,16 @@ public class AdminDAO {
 	}
 	
     //회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯)
-	
+	public void insertBanUser(String id, String BanContent, Date banStr, Date banEnd){
+		AdminUserBanDTO dto = new AdminUserBanDTO(id, BanContent, banStr, banEnd);
+		sqlSession.insert("insertBanUser", dto);
+	}
 	
     //회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정)
-
+	public void updateBanUser(String id, String banContent, Date banStr, Date banEnd) {
+		AdminUserBanDTO dto = new AdminUserBanDTO(id, banContent, banStr, banEnd);
+		sqlSession.update("updateBanUser", dto);
+	}
 	
 	//회원정보 관리 끝
 	
@@ -133,14 +141,14 @@ public class AdminDAO {
 	}
 	
 	//상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
-	public void insertCategory(String category, String detailCategory) {
-		AdminCategoryDTO dto = new AdminCategoryDTO(category, detailCategory);
+	public void insertCategory(String category, String detailCategory, String id) {
+		AdminCategoryDTO dto = new AdminCategoryDTO(category, detailCategory, id);
 		sqlSession.insert("insertCategory", dto);
 	}
 	
 	//상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
-	public void updateCategory (int productCateSeq, String category, String detailCategory) {
-		AdminCategoryDTO dto = new AdminCategoryDTO(productCateSeq, category, detailCategory);
+	public void updateCategory (int productCateSeq, String category, String detailCategory, String id) {
+		AdminCategoryDTO dto = new AdminCategoryDTO(productCateSeq, category, detailCategory, id);
 		sqlSession.update("updateCategory", dto);
 	}
 	
@@ -149,6 +157,11 @@ public class AdminDAO {
 		AdminCategoryDTO dto = new AdminCategoryDTO(productCateSeq);
 		sqlSession.delete("deleteCategory", dto);
 	}
+	
+	/* 데이터 한번에 넣기용
+	 * public void dbset(int productCateSeq) { sqlSession.update("dbset",
+	 * productCateSeq); }
+	 */
 	
 	//상품 관리 끝
 	
@@ -189,7 +202,10 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select하여 선택된 유형과, 수기 입력받은 FAQ 제목, 내용을 Insert 함)
-	
+	public void insertFaq (int seqQnaOption, String faqContent, String faqAns, String id) {
+		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seqQnaOption, faqContent, faqAns, id);
+		sqlSession.insert("insertFaq", dto);
+	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
 	public List<AdminFaqManagerDTO> getFaqContent(int id) {
@@ -197,8 +213,8 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 선택된 항목에 대한 세부내용 작성 및 Update 가능)
-	public void updateFaq (int seqFaqBno, int seqQnaOption, String faqContent, String faqAns) {
-		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seqFaqBno, seqQnaOption, faqContent, faqAns);
+	public void updateFaq (int seqFaqBno, int seqQnaOption, String faqContent, String faqAns, String id) {
+		AdminFaqManagerDTO dto = new AdminFaqManagerDTO(seqFaqBno, seqQnaOption, faqContent, faqAns, id);
 		sqlSession.update("updateFaq", dto);
 	}
 	
@@ -222,14 +238,14 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 신규 등록 (기능 : 수기 입력받은 유형과 내용을 Insert 함)
-	public void insertQnaOption (String qnaOption, String qnaOptionContent) {
-		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(qnaOption, qnaOptionContent);
+	public void insertQnaOption (String qnaOption, String qnaOptionContent, String id) {
+		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(qnaOption, qnaOptionContent, id);
 		sqlSession.insert("insertQnaOption", dto);
 	}
 	
 	//고객 지원 - 문의 유형 관리 - 수정 기능 (기능 : 수기 입력받은 유형과 내용을 Update 함)
-	public void updateQnaOption(int seqQnaBno, String qnaOption, String qnaOptionContent) {
-		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(seqQnaBno, qnaOption, qnaOptionContent);
+	public void updateQnaOption(int seqQnaBno, String qnaOption, String qnaOptionContent, String id) {
+		adminQuestionManagerDTO dto = new adminQuestionManagerDTO(seqQnaBno, qnaOption, qnaOptionContent, id);
 		sqlSession.update("updateQnaOption", dto);
 	}
 	

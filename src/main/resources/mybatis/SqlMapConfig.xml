@@ -3,13 +3,13 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	<settings>
-		<setting name="logImpl" value="LOG4J" />
-		<setting name="jdbcTypeForNull" value="NULL" />
-		<setting name="mapUnderscoreToCamelCase" value="true" />
-	</settings>
+<settings>
+  <setting name="logImpl" value="LOG4J"/>
+  <setting name="jdbcTypeForNull" value="NULL"/>
+  <setting name="mapUnderscoreToCamelCase" value="true"/>
+</settings>
 	<typeAliases>
-		<typeAlias type="com.shinhan.heehee.dto.response.SaleListDTO" alias="salevo" />
+	<typeAlias type="com.shinhan.heehee.dto.response.SaleListDTO" alias="salevo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.PurchaseListDTO" alias="purchasevo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.JjimDTO" alias="jjimvo" />
 		<typeAlias type="com.shinhan.heehee.dto.response.AlarmDTO" alias="alarmDTO" />
@@ -34,7 +34,5 @@
         <typeAlias type="com.shinhan.heehee.dto.request.AdminQnaManagerDTO" alias="adminQnaManagerVO"/>
         <typeAlias type="com.shinhan.heehee.dto.request.AdminFaqManagerDTO" alias="adminFaqManagerVO"/>
         <typeAlias type="com.shinhan.heehee.dto.request.adminQuestionManagerDTO" alias="adminQuestionManagerVO"/>
-		<typeAlias type="java.util.Map" alias="map" />
-		<typeAlias type="java.util.HashMap" alias="hashMap" />
 	</typeAliases>
 </configuration>

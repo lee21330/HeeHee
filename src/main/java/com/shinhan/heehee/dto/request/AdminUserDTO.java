@@ -14,10 +14,26 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AdminUserDTO {
+	
+	//
 	private String name;
+	
+	//
 	private String id;
+	
+	//
 	private String email;
+	
+	//
 	private String phoneNum;
+	
+	//
 	private String address;
+	
+	//
 	private Date createDate;
+	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
 }

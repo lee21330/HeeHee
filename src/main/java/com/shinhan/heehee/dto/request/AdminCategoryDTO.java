@@ -30,21 +30,27 @@ public class AdminCategoryDTO {
 	//작성일 - PRODUCT_CATEGORY
 	private Date createDate;
 	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
+	
 	//삭제용 - 파라미터 1개 생성자 추가
 	public AdminCategoryDTO(int productCateSeq) {
 		this.productCateSeq = productCateSeq;
 	}
 	
-	//신규등록용 - 파라미터 2개 생성자 추가
-	public AdminCategoryDTO(String category, String detailCategory) {
+	//신규등록용 - 파라미터 3개 생성자 추가
+	public AdminCategoryDTO(String category, String detailCategory, String id) {
 		this.category = category;
 		this.detailCategory = detailCategory;
+		this.id = id;
 	}
 	
-	//수정용 - 파라미터 3개 생성자 추가
-	public AdminCategoryDTO(int productCateSeq, String category, String detailCategory) {
+	//수정용 - 파라미터 4개 생성자 추가
+	public AdminCategoryDTO(int productCateSeq, String category, String detailCategory, String id) {
 		this.productCateSeq = productCateSeq;
 		this.category = category;
 		this.detailCategory = detailCategory;
+		this.id = id;
 	}
 }
