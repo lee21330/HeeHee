@@ -158,7 +158,7 @@ function alarmAll() {
 			$("#here").html(output);
 			
 			// 알림 확인
-			$("ul").on("click", alarmRead);
+			$("#allAlarm ul").on("click", alarmRead);
 			
 			// 확인한 알림 색상 변경
 			alarmVisited();
@@ -291,7 +291,7 @@ function alarmUnck() {
             $("#here").html(output);
             
             // 알림 확인
-            $("ul").on("click", alarmRead);
+            $("#allAlarm ul").on("click", alarmRead);
             
             // 확인한 알림 색상 변경
             alarmVisited();
