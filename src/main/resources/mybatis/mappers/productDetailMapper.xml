@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.productDetail">
 	<select id="productInfo" parameterType="com.shinhan.heehee.dto.request.ProductDetailRequestDTO" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
-	    SELECT 
-		    SELL.*, 
-		    CATE.*, 
+	    SELECT
+		    SELL.*,
+		    CATE.*,
 		    TYPE.PROD_NAME,
 		    JJIM_CNT.COUNT AS JJIM_CNT,
 		    USER_INFO.PROFILE_IMG,
@@ -15,17 +15,17 @@
 		    (SELECT COUNT(*) FROM VIEW_LOG WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS VIEW_CNT,
 		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT,
 		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ} AND ID = #{userId}) AS specifiedJjimCnt
-		FROM 
+		FROM
 		    SELL_PRODUCT SELL
-		INNER JOIN 
+		INNER JOIN
 		    PRODUCT_TYPE TYPE ON SELL.SELECT_SEQ = TYPE.PRODUCT_SEQ
-		INNER JOIN 
+		INNER JOIN
 		    PRODUCT_CATEGORY CATE ON TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
-		LEFT JOIN 
+		LEFT JOIN
 		    (SELECT PRODUCT_SEQ, COUNT(*) AS COUNT FROM JJIM GROUP BY PRODUCT_SEQ) JJIM_CNT ON SELL.PRODUCT_SEQ = JJIM_CNT.PRODUCT_SEQ
-		LEFT JOIN 
+		LEFT JOIN
 		    (SELECT ID, PROFILE_IMG, NICK_NAME, USER_RATING, USER_INTRODUCE FROM HH_USER) USER_INFO ON SELL.ID = USER_INFO.ID
-		WHERE 
+		WHERE
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
 		AND
 			SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
@@ -110,7 +110,7 @@
 	   WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
 	   AND SELL.ID = #{id}
 	   AND IMG_CATE_SEQ = 2
-	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ) 
+	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
 	                    FROM IMG_FILES
 	                    WHERE IMG_CATE_SEQ = 2
 	                    GROUP BY TABLE_PK)
@@ -156,8 +156,8 @@
 	</select>
 	
 	<delete id="deleteImgFiles" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
-		DELETE FROM IMG_FILES 
-		WHERE IMG_CATE_SEQ = 2 
+		DELETE FROM IMG_FILES
+		WHERE IMG_CATE_SEQ = 2
 		AND TABLE_PK = #{tablePk}
 		AND IMG_SEQ = #{imgSeq}
 	</delete>
@@ -254,7 +254,7 @@
 	
 	<delete id="deleteJjim" parameterType="com.shinhan.heehee.dto.request.JjimDTO">
 		DELETE FROM JJIM
-		WHERE product_seq = #{productSeq} 
+		WHERE product_seq = #{productSeq}
 		AND ID = #{id}
 	</delete>
 	
