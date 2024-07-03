@@ -66,12 +66,27 @@
 				<li class="chatting-item" room-id="${room.id}" receiver-id="${room.receiverid}">
 					<!-- 왼쪽 상대방 사진 부분 -->
 					<div class="item-header">
-						<img class="receiver-image"
+					    <c:choose>
+                            <c:when test="${not empty room.receivernickname}">
+                                <img class="receiver-image"
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverimg}">
+                            </c:when>
+                            <c:otherwise>
+                                <img class="receiver-image"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg"">
+                            </c:otherwise>
+                            </c:choose>
 					</div> <!-- 오른쪽 상대방 닉네임, 안 읽은 메세지 수, 최근 메세지 내용, 최근 메시지 보낸 날짜 -->
 					<div class="item-body">
 						<div class="name-count">
-							<p class="receiver-nickname">${room.receivernickname}</p>
+							<c:choose>
+                            <c:when test="${not empty room.receivernickname}">
+                                <p class="receiver-nickname">${room.receivernickname}</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="receiver-nickname">(알 수 없음)</p>
+                            </c:otherwise>
+                            </c:choose>
 							<c:if test="${room.unreadcount > 0}">
 								<p class="unread-count">${room.unreadcount}</p>
 							</c:if>

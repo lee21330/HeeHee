@@ -15,5 +15,8 @@ public class RoomProductDTO {
 	private String productImg;
 	private int productPrice;
 	private String productName;
+	private String sellProStatus;
+	private String payStatus;
+	private String dealStatus;
 	private String status;
 }

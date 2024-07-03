@@ -1,11 +1,12 @@
 let selectRoomId; // 선택한 채팅방 번호
 let selectReceiverId; // 채팅방 상대 Id
 let selectReceiverName; // 채팅방 상대 닉네임
-var stompClient = null; // stomp 소켓 클라이언트 전역 설정
+var ChatStompClient = null; // stomp 소켓 클라이언트 전역 설정
 
 let selectedFiles = []; // 첨부한 이미지 파일 목록
 
 // 문서 로딩 완료 후 수행할 기능
+
 document.addEventListener("DOMContentLoaded", ()=>{
    
    // 채팅방 목록에 클릭 이벤트 추가
@@ -15,27 +16,33 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	fetchChatRoomList();
 	setInterval(function() {
 		fetchChatRoomList();
+		//selectChattingFn();
 	}, 1500);
 	
 });
 
 // 채팅룸 커넥트
-function connect(chatRoomId) {
+function chatConnect(chatRoomId) {
 	disconnect();
-	var socket = new SockJS('/heehee/ws');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/chatroom/' + chatRoomId, function (chatMessage) {
-            console.log(chatMessage);
-            showMessage(JSON.parse(chatMessage.body));
+	var ChatSocket = new SockJS('/heehee/chatws');
+	ChatStompClient = Stomp.over(ChatSocket);
+	ChatStompClient.connect({}, function (frame) {
+	    ChatStompClient.send("/app/joinRoom", {}, JSON.stringify({"userId": loginMemberNo, "roomId": chatRoomId}));
+	        ChatStompClient.subscribe('/topic/chatroom/' + chatRoomId, function (chatMessage) {
+	        	var json = JSON.parse(chatMessage.body);
+	        	if(json.userId != null) {
+					selectChattingFn();
+	        	} else {
+		            showMessage(json);
+	            }
+	        });
         });
-    });
 }
 
+// 연결 끊기
 function disconnect() {
-    if (stompClient !== null) {
-        stompClient.disconnect();
+    if (ChatStompClient !== null) {
+        ChatStompClient.disconnect();
     }
     console.log("Disconnected");
 }
@@ -48,12 +55,18 @@ function showMessage(chatMessage){
     
     if(chatMessage.sender == loginMemberNo){
     
-        const myChat = document.createElement("div");
+            const myChat = document.createElement("div");
             myChat.classList.add("my-chat");
             
             const chatDate = document.createElement("span");
             chatDate.classList.add("chatDate");
-            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
+            let read = '안 읽음';
+                    
+            if(chatMessage.readCheck == 'Y'){
+                read = '읽음';
+            }
+                    
+            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + read;
         
         if(chatMessage.imgs.length == 0){
                     
@@ -88,26 +101,18 @@ function showMessage(chatMessage){
         }
     }
     else if(chatMessage.sender != loginMemberNo){
-      
           const targetChat = document.createElement("div");
           targetChat.classList.add("target-chat");
           
           const chatDate = document.createElement("span");
           chatDate.classList.add("chatDate");
-                    
-          let read = '안 읽음';
-                    
-          if(message.readCheck == 'Y'){
-              read = '읽음';
-          }
-                    
-          chatDate.innerHTML = message.sendTime + ' ' + read;
+          chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
     
          if(chatMessage.imgs.length == 0){
                     
             const chat = document.createElement("p");
             chat.classList.add("chat");
-            chat.innerHTML = message.content;
+            chat.innerHTML = chatMessage.content;
                     
             targetChat.append(chat, chatDate);
                     
@@ -117,21 +122,23 @@ function showMessage(chatMessage){
     
             contentBody.scrollTop = contentBody.scrollHeight;
           } else{
-              const chatImage = document.createElement("img");
-              chatImage.classList.add("chat-image");
+              chatMessage.imgs.forEach(img => {
+                  const chatImage = document.createElement("img");
+                  chatImage.classList.add("chat-image");
                         
-              const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${img}`;
-                        
-              chatImage.setAttribute("src", imgUrl);
-              chatImage.setAttribute("alt", "image");
+                  const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/${img}`;
+                         
+                  chatImage.setAttribute("src", imgUrl);
+                  chatImage.setAttribute("alt", "image");
               
-              targetChat.append(chat, chatDate);
+                  targetChat.append(chatImage, chatDate);
                     
-              messageList.append(targetChat);
+                  messageList.append(targetChat);
             
-              contentBody.append(messageList);
+                  contentBody.append(messageList);
             
-              contentBody.scrollTop = contentBody.scrollHeight;
+                  contentBody.scrollTop = contentBody.scrollHeight;
+              });
           }
      }
     
@@ -205,12 +212,13 @@ function roomListAddEvent(){
                 unreadCountElem.remove();
             }
 
-         // 모든 채팅방에서 selecㅉt 클래스를 제거
+         // 모든 채팅방에서 select 클래스를 제거
          for(let it of chattingItemList) it.classList.remove("select")
    
          // 현재 클릭한 채팅방에 select 클래스 추가
          item.classList.add("select");
-   
+         
+         // 채팅 메시지가 있는 경우
          // 비동기로 메시지 목록을 조회하는 함수 호출
          selectChattingFn();
          
@@ -222,9 +230,94 @@ function roomListAddEvent(){
             .then(resp => resp.text())
             .then(result => console.log(result))
             .catch(err => console.log(err));
+            
+          //소켓 연결
+          chatConnect(selectRoomId);
       });
       
    }
+}
+
+function payForSell(payName, amount, sellSeq, payButton) {
+	$.ajax({
+	    url: '/heehee/pay/before',
+	    method: 'POST',
+	    data: {
+	    	"payName" : payName,
+	    	"amount" : amount,
+	    	"sellSeq" : sellSeq
+	    	},
+	    success: function (data, status, xhr) {
+	    	payment(payName,data, payButton);
+	    },
+	    error: function (data, status, err) {
+	    	console.log(err);
+	    }
+	});
+}
+
+function payment(payName, payInfo, payButton) {
+	IMP.init("imp22447463");
+	IMP.request_pay(
+			  {
+			    pg: "html5_inicis.INIpayTest", //테스트 시 html5_inicis.INIpayTest 기재
+			    pay_method: "card",
+			    merchant_uid: payInfo.paySeq, //상점에서 생성한 고유 주문번호
+			    name: payName,
+			    amount: 1,
+			    buyer_email: payInfo.buyerEmail,
+			    buyer_name: payInfo.buyerId,
+			    buyer_tel: payInfo.buyerTel, //필수 파라미터 입니다.
+			    buyer_addr: payInfo.buyerTel,
+			    buyer_postcode: "123-456",
+			    m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}",
+			    escrow: true, //에스크로 결제인 경우 설정
+			    vbank_due: "20240725",
+			    bypass: {
+			      acceptmethod: "noeasypay", // 간편결제 버튼을 통합결제창에서 제외(PC)
+			      P_RESERVED: "noeasypay=Y", // 간편결제 버튼을 통합결제창에서 제외(모바일)
+			    },
+			    period: {
+			      from: "20240101", //YYYYMMDD
+			      to: "20241231", //YYYYMMDD
+			    },
+			  }, function (rsp) {
+			    if(rsp.success) {
+			    	completePayment(payInfo, payButton);
+			    	return true;
+			    }
+			  }
+			);
+}
+
+function completePayment(payInfo, payButton) {
+	$.ajax({
+        url: '/heehee/pay/complete',
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ "paySeq": payInfo.paySeq }),
+        success: function (data, status, xhr) {
+            console.log(data);
+            console.log(status);
+            console.log(xhr);
+            fetch("/heehee/chatting/reserve",{
+                method : "POST",
+                headers : {"Content-Type": "application/json"},
+                body : JSON.stringify({
+                "buyerId" : selectReceiverId,
+                "productSeq" : payInfo.sellSeq
+                })
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+            payButton.disabled = true;
+            return true;
+        },
+        error: function (data, status, err) {
+            console.log(err);
+        }
+    });
 }
 
 // 비동기로 메시지 목록을 조회하는 함수
@@ -234,6 +327,7 @@ function selectChattingFn(){
     .then(roomDetail => {
         
         const chattingContent = document.querySelector(".chatting-content");
+        
         chattingContent.innerHTML="";
     
         //채팅 메세지 위 영역: 상대방 닉네임, 판매 물품 정보(이미지, 가격, 제품명)
@@ -242,7 +336,7 @@ function selectChattingFn(){
         
         const receiverNickname = document.createElement("p");
         receiverNickname.classList.add("receiver-nickname");
-        receiverNickname.innerHTML = selectReceiverName;
+        receiverNickname.innerHTML = selectReceiverName ? selectReceiverName : "(알 수 없음)";
         
         const sellingInfo = document.createElement("div");
         sellingInfo.classList.add("selling-info");
@@ -250,7 +344,9 @@ function selectChattingFn(){
         const sellingImage = document.createElement("img");
         sellingImage.classList.add("selling-image");
         
-        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}`;
+        const imgName = roomDetail.roomProductDTO.productSeq ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
+        
+        const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${imgName}`;
         sellingImage.setAttribute("src", imgUrl);
         
         const priceName = document.createElement("div");
@@ -258,13 +354,14 @@ function selectChattingFn(){
         
         const sellingPrice = document.createElement("p");
         sellingPrice.classList.add("selling-price");
-        const formatPrice = roomDetail.roomProductDTO.productPrice.toLocaleString('ko-KR')
+        const price = roomDetail.roomProductDTO.productPrice ? roomDetail.roomProductDTO.productPrice : 0;
+        const formatPrice = price.toLocaleString('ko-KR');
         //console.log(formatPrice);
         sellingPrice.innerText = formatPrice + '원';
         
         const sellingName = document.createElement("p");
         sellingName.classList.add("selling-name");
-        sellingName.innerHTML = roomDetail.roomProductDTO.productName;
+        sellingName.innerHTML = roomDetail.roomProductDTO.productName ? roomDetail.roomProductDTO.productName : "(삭제된 게시물)";
         
         priceName.append(sellingPrice, sellingName);
         
@@ -272,52 +369,92 @@ function selectChattingFn(){
         
         // 버튼 생성 및 판매자/구매자별로 내용 다르게 설정
         const status = roomDetail.roomProductDTO.status;
+        const payStatus = roomDetail.roomProductDTO.payStatus;
+        //console.log(payStatus);
         
+        const buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("button-div");
         
-        //추후 결제 비활성화 조건 체크
-        if (status == '구매자') {
-            const payButton = document.createElement("button");
-            payButton.classList.add("pay");
-        
-            payButton.innerText = "결제하기";
-            
-            sellingInfo.append(payButton);
-            
-            payButton.addEventListener("click", () => {
-                // 구매자 버튼 클릭 이벤트 처리
-                pay(roomDetail.roomUserDTO.accountNum, roomDetail.roomUserDTO.bank, roomDetail.roomUserDTO.userPoint, roomDetail.roomProductDTO.productPrice);
-            });
-            
-        //추후 약속잡기 비활성화 조건 체크
-        } else if(status == '판매자'){
-            if(roomDetail.roomProductDTO.productType=='sell'){
+        //중고 제품인 경우에만 버튼 추가
+        if(roomDetail.roomProductDTO.productType=='sell'){
+            if (status == '구매자') {
+                if(roomDetail.roomProductDTO.dealStatus == '택배' && roomDetail.roomProductDTO.sellProStatus=='판매중'){
                 const payButton = document.createElement("button");
-                payButton.classList.add("edit");
+                payButton.classList.add("pay");
+        
+                payButton.innerText = "결제하기";
             
-                payButton.innerText = "가격 수정하기";
-                
-                //sellingInfo.append(payButton);
+                //결제 내역 테이블에 동일 구매자id&제품 seq 데이터의 결제상태가 '완료'면 결제하기 버튼 비활성화
+                if(payStatus == '완료'){
+                    payButton.disabled = true;
+                }
             
                 payButton.addEventListener("click", () => {
-                    // 판매자 버튼 클릭 이벤트 처리
-                    editPrice(roomDetail.roomProductDTO.productPrice, roomDetail.roomProductDTO.productSeq);
+                    // 구매자 버튼 클릭 이벤트 처리
+                    const payName = roomDetail.roomProductDTO.productName;
+                    const amount = roomDetail.roomProductDTO.productPrice;
+                    const sellSeq = roomDetail.roomProductDTO.productSeq;
+                    payForSell(payName, amount, sellSeq, payButton);
                 });
-                
-                //약속잡기 버튼
-                const rsvButton = document.createElement("button");
-                rsvButton.classList.add("reserve");
             
-                rsvButton.innerText = "약속 잡기";
+                buttonDiv.append(payButton);
+                }
+            
+            } else if(status == '판매자'){
+                //약속잡기 버튼
+                if(roomDetail.roomProductDTO.dealStatus == '직거래'){
+                    if(roomDetail.roomProductDTO.sellProStatus=='판매중'){
+                        const rsvButton = document.createElement("button");
+                        rsvButton.classList.add("reserve");
+                        rsvButton.innerText = "약속 잡기";
+                        // 약속 잡기 버튼 클릭 이벤트 처리
+                        rsvButton.addEventListener("click", () => {
+                            if(rsvButton.innerText == "약속 잡기"){
+                                reserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 취소";
+                            }
+                            else if(rsvButton.innerText == "약속 취소"){
+                                cancelReserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 잡기";
+                            }
+                        });
+                        buttonDiv.append(rsvButton);
+                    }
+                    //판매 제품의 판매 상태가 예약중이면 약속 잡기 버튼 비활성화
+                    else if(roomDetail.roomProductDTO.sellProStatus=='예약중'){
+                        const rsvButton = document.createElement("button");
+                        rsvButton.classList.add("reserve");
+                        rsvButton.innerText = "약속 취소";
+                         // 약속 취소 버튼 클릭 이벤트 처리
+                        rsvButton.addEventListener("click", () => {
+                            if(rsvButton.innerText == "약속 잡기"){
+                                reserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 취소";
+                            }
+                            else if(rsvButton.innerText == "약속 취소"){
+                                cancelReserve(roomDetail.roomProductDTO.productSeq);
+                                rsvButton.innerText = "약속 잡기";
+                            }
+                        });
+                        buttonDiv.append(rsvButton);
+                    }
+                }
+                if(roomDetail.roomProductDTO.sellProStatus=='판매중'){
+                    const payButton = document.createElement("button");
+                    payButton.classList.add("edit");
                 
-                // 약속잡기 버튼 클릭 이벤트 처리
-                rsvButton.addEventListener("click", () => {
-                    reserve(roomDetail.roomProductDTO.productSeq);
-                });
+                    payButton.innerText = "가격 수정하기";
                 
-                sellingInfo.append(rsvButton, payButton);
-                
-            } 
-        } 
+                    payButton.addEventListener("click", () => {
+                        // 판매자 버튼 클릭 이벤트 처리
+                        editPrice(roomDetail.roomProductDTO.productPrice, roomDetail.roomProductDTO.productSeq);
+                    });
+                    buttonDiv.append(payButton);
+                }
+            }
+        }
+        
+        sellingInfo.append(buttonDiv);
         
         contentHeader.append(receiverNickname, sellingInfo);
         
@@ -337,7 +474,14 @@ function selectChattingFn(){
                     
                     const chatDate = document.createElement("span");
                     chatDate.classList.add("chatDate");
-                    chatDate.innerHTML = message.sendTime + ' 읽음';
+                    
+                    let read = '안 읽음';
+                    
+                    if(message.readCheck == 'Y'){
+                        read = '읽음';
+                    }
+                    
+                    chatDate.innerHTML = message.sendTime + ' ' + read;
                     
                     const chat = document.createElement("p");
                     chat.classList.add("chat");
@@ -354,7 +498,14 @@ function selectChattingFn(){
                     
                         const chatDate = document.createElement("span");
                         chatDate.classList.add("chatDate");
-                        chatDate.innerHTML = message.sendTime + ' 읽음';
+                        
+                        let read = '안 읽음';
+                    
+                        if(message.readCheck == 'Y'){
+                            read = '읽음';
+                        }
+                    
+                        chatDate.innerHTML = message.sendTime + ' ' + read;
                     
                         const chatImage = document.createElement("img");
                         chatImage.classList.add("chat-image");
@@ -470,10 +621,19 @@ function selectChattingFn(){
         const inputSend = document.createElement("img");
         inputSend.classList.add("input-send");
         
+        // 전송 버튼 클릭 시 이벤트 추가
         inputSend.addEventListener('click', ()=>{
             sendMessage(inputElement.value);
             //console.log(inputElement.value);
             inputElement.value='';
+        });
+        
+        // 엔터 키 입력 시 이벤트 추가
+        inputElement.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage(inputElement.value);
+                inputElement.value = '';
+            }
         });
         
         const imgUrl2 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/send.png";
@@ -486,133 +646,10 @@ function selectChattingFn(){
         contentBody.scrollTop = contentBody.scrollHeight; //스크롤 최하단으로 이동
     })
     .catch(err => console.log(err));
-    
-    connect(selectRoomId);
 }
 
 //모달 관련
 const chattingModal = document.querySelector(".chattingModal");
-
-//결제하기 함수
-function pay(accountNum, bank, userPoint, productPrice){
-    chattingModal.style.display='block';
-    chattingModal.innerHTML="";
-    
-    //결제에 성공한 경우
-    if(userPoint>=productPrice){
-        const button = document.querySelector(".payEdit");
-        //console.log(payButton);
-        button.disabled = true;
-        
-        const modalContent2 = document.createElement("div");
-        modalContent2.classList.add("modal-content2");
-    
-        const Info2 = document.createElement("div");
-        Info2.innerText='결제에 성공하였습니다!';
-    
-        modalContent2.append(Info2);
-    
-        chattingModal.append(modalContent2);
-        
-        setTimeout(()=>{
-            chattingModal.style.display='none';
-        }, 3000);
-    }
-    //결제에 실패한 경우
-    else if(userPoint<productPrice){
-        const modalContent = document.createElement("div");
-        modalContent.classList.add("modal-content");
-    
-        const Info = document.createElement("div");
-        Info.classList.add("info");
-        Info.innerText='포인트가 부족합니다.';
-    
-        const currentAccount = document.createElement("div");
-        currentAccount.classList.add("current-account");
-        currentAccount.innerText='현재 계좌 : ' + accountNum + ' (' + bank + ')';
-    
-        const currentInput3 = document.createElement("div");
-        currentInput3.classList.add("current-input3");
-    
-        const ciElement3 = document.createElement('input');
-        ciElement3.className = 'add-point';
-        ciElement3.type = 'number';
-        ciElement3.placeholder = '충전할 금액을 입력해주세요. (원)';
-    
-        currentInput3.append(ciElement3);
-    
-        const chModalBtn3 = document.createElement("div");
-        chModalBtn3.classList.add("chModalBtn3");
-    
-        const submitPrice = document.createElement("button");
-        submitPrice.classList.add("submit-price");
-        submitPrice.innerText='충전하기';
-    
-        //결제하기 클릭했을때 => 유저 포인트 바로 반영 어떻게 하지..
-        submitPrice.addEventListener('click', ()=>{
-            chattingModal.style.display='none';
-        
-            const addPoint=document.querySelector('.add-point').value;
-            const newPoint=Number(userPoint) + Number(addPoint);
-            //console.log(newPoint);
-            
-            payment(addPoint);
-            
-            //fetch("/heehee/chatting/point",{
-            // method : "PUT",
-            // headers : {"Content-Type": "application/json"},
-            // body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
-            //})
-           // .then(resp => resp.text())
-           // .then(result => console.log(result))
-           // .catch(err => console.log(err));
-            
-            });
-    
-        //취소하기 클릭했을때
-        const cancel = document.createElement("button");
-        cancel.classList.add("cancel");
-        cancel.innerText='취소하기';
-    
-        cancel.addEventListener('click', ()=>{
-            chattingModal.style.display='none';
-        });
-    
-        chModalBtn3.append(submitPrice, cancel);
-    
-        modalContent.append(Info, currentAccount, currentInput3, chModalBtn3);
-    
-        chattingModal.append(modalContent);
-    }
-}
-
-//결제창 띄우는 함수
-//버튼 클릭하면 실행
-function payment(addPoint) {
-    IMP.init('imp41857573');//아임포트 관리자 콘솔에서 확인한 '가맹점 식별코드' 입력
-    IMP.request_pay({// param
-        pg: "html5_inicis", //pg사명 or pg사명.CID (잘못 입력할 경우, 기본 PG사가 띄워짐)
-        pay_method: "card", //지불 방법
-        merchant_uid: 'merchant_'+new Date().getTime(), //가맹점 주문번호 (아임포트를 사용하는 가맹점에서 중복되지 않은 임의의 문자열을 입력)
-        name: "포인트", //결제창에 노출될 상품명
-        amount: addPoint, //금액
-        buyer : loginMemberNo
-    }, function (rsp) { // callback
-        if (rsp.success) {
-            alert("완료 -> imp_uid : "+rsp.imp_uid+" / merchant_uid(orderKey) : " +rsp.merchant_uid);
-            fetch("/heehee/chatting/point",{
-                method : "PUT",
-                headers : {"Content-Type": "application/json"},
-                body : JSON.stringify({"newPoint" : newPoint, "loginUserId" : loginMemberNo})
-            })
-            .then(resp => resp.text())
-            .then(result => console.log(result))
-            .catch(err => console.log(err));
-        } else {
-            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
-        }
-    });
-}
 
 //가격 수정하기 함수
 function editPrice(productPrice, productSeq){
@@ -688,9 +725,7 @@ function reserve(productSeq){
             .then(result => console.log(result))
             .catch(err => console.log(err));
         
-     //비활성화 왜 안되는고야...
      const button = document.querySelector(".reserve");
-     button.disabled = true;
      
      chattingModal.style.display='block';
      chattingModal.innerHTML="";
@@ -700,6 +735,41 @@ function reserve(productSeq){
     
      const Info2 = document.createElement("div");
      Info2.innerText='약속 잡기에 성공하였습니다!';
+    
+     modalContent2.append(Info2);
+    
+     chattingModal.append(modalContent2);
+        
+     setTimeout(()=>{
+         chattingModal.style.display='none';
+     }, 3000);
+     
+}
+
+//약속 취소 함수
+function cancelReserve(productSeq){
+    fetch("/heehee/chatting/reserve/cancel",{
+             method : "POST",
+             headers : {"Content-Type": "application/json"},
+             body : JSON.stringify({
+             "buyerId" : selectReceiverId,
+             "productSeq" : productSeq
+             })
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        
+     const button = document.querySelector(".reserve");
+     
+     chattingModal.style.display='block';
+     chattingModal.innerHTML="";
+        
+     const modalContent2 = document.createElement("div");
+     modalContent2.classList.add("modal-content2");
+    
+     const Info2 = document.createElement("div");
+     Info2.innerText='약속 취소에 성공하였습니다!';
     
      modalContent2.append(Info2);
     
@@ -736,20 +806,37 @@ function updateChatRoomList(data) {
 
         // 채팅방 아이템을 찾기
         const existingChatRoom = chattingList.querySelector(`li[room-id="${room.id}"]`);
+        //console.log(chattingList.querySelector(`li[room-id="${room.id}"]`));
         
         // 이미 있는 채팅방이면 unreadCount, sendTime, lastContent만 업데이트
         if (existingChatRoom) {
-            const content = existingChatRoom.querySelector(".recent-message").innerHTML;
-             let unreadCount = 0;
-             if(existingChatRoom.querySelector(".unread-count")){
-                 unreadCount = existingChatRoom.querySelector(".unread-count").value;
-             }
+            // receiverid가 null이면 "(알 수 없음)"으로 처리
+            if (room.receiverid === null) {
+                existingChatRoom.querySelector(".receiver-image").setAttribute("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg");
+                existingChatRoom.querySelector(".receiver-nickname").innerText = "(알 수 없음)";
+            }
             
+            const content = existingChatRoom.querySelector(".recent-message").innerHTML;
             //안 읽은 메시지가 있고 메시지가 새로 와서 업데이트해야하는 경우
-            if(unreadCount>0 && content!=room.lastcontent){
-                existingChatRoom.querySelector(".unread-count").innerText = room.unreadcount;
-          	    existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
-          	    existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+            if(room.unreadcount>0 && content!=room.lastcontent){
+                //기존 unread-count div가 있는 경우
+                if(existingChatRoom.querySelector(".unread-count")){
+                    existingChatRoom.querySelector(".unread-count").innerText = room.unreadcount;
+          	        existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
+          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+                }
+                //기존 unread-count div가 없는 경우
+                else{
+                    const unreadCount = document.createElement("p");
+                    unreadCount.classList.add("unread-count");
+                    unreadCount.innerText = room.unreadcount;
+                    
+                    const nameCount = document.querySelector(".name-count");
+                   	nameCount.append(unreadCount);
+                   	
+                    existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
+          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+                }
           	    
           	    //업데이트 후 목록 맨 위로 이동
           	    chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
@@ -766,14 +853,14 @@ function updateChatRoomList(data) {
             const itemHeader = document.createElement("div");
             itemHeader.classList.add("item-header");
 
-            const listProfile = document.createElement("img");
-            listProfile.classList.add("receiver-image");
+            const receiverImage = document.createElement("img");
+            receiverImage.classList.add("receiver-image");
 
-            // 프로필 사진 없는 경우 수정하기
-            const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverImg}`;
-            listProfile.setAttribute("src", imgUrl);
+            const imgName = room.receiverimg ? room.receiverimg : "logo_profile.jpg";
+            const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${imgName}`;
+            receiverImage.setAttribute("src", imgUrl);
 
-            itemHeader.append(listProfile);
+            itemHeader.append(receiverImage);
 
             // item-body 부분
             const itemBody = document.createElement("div");
@@ -784,7 +871,7 @@ function updateChatRoomList(data) {
 
             const receiverNickname = document.createElement("p");
             receiverNickname.classList.add("receiver-nickname");
-            receiverNickname.innerText = room.receivernickname;
+            receiverNickname.innerText = room.receivernickname ? room.receivernickname : "(알 수 없음)";
 
             nameCount.append(receiverNickname);
 
@@ -804,7 +891,7 @@ function updateChatRoomList(data) {
             itemBody.append(nameCount, messageContainer);
 
             // 현재 채팅방을 보고 있지 않고, 읽지 않은 메시지 개수가 0개 이상인 경우 -> 읽지 않은 메시지 개수 표시
-            if(room.notReadCount > 0 && room.id != selectRoomId){
+            if(room.unreadcount > 0 && room.id != selectRoomId){
                 const unreadCount = document.createElement("p");
                 unreadCount.classList.add("unread-count");
                 unreadCount.innerText = room.unreadcount;
@@ -812,6 +899,40 @@ function updateChatRoomList(data) {
            }
 
             li.append(itemHeader, itemBody);
+            
+            //클릭 이벤트 추가
+            li.addEventListener("click", e => {
+            // 전역변수에 채팅방 번호, 상대 id, 상대 닉네임 저장
+            selectRoomId = li.getAttribute("room-id");
+            selectReceiverId = li.getAttribute("receiver-id");
+
+            selectReceiverName = li.children[1].children[0].children[0].innerText;
+
+            const unreadCountElem = li.querySelector(".unread-count");
+            if (unreadCountElem) {
+                unreadCountElem.remove();
+            }
+
+            // 모든 채팅방에서 select 클래스를 제거
+            const chattingItemList = chattingList.querySelectorAll(".chatting-item");
+            chattingItemList.forEach(item => item.classList.remove("select"));
+
+            // 현재 클릭한 채팅방에 select 클래스 추가
+            li.classList.add("select");
+
+            // 채팅 메시지가 있는 경우
+            // 비동기로 메시지 목록을 조회하는 함수 호출
+            selectChattingFn();
+
+            fetch("/heehee/chatting/read", {
+                method : "PUT",
+                headers : {"Content-Type": "application/json"},
+                body : JSON.stringify({"chatRoomId" : selectRoomId, "loginUserId" : loginMemberNo})
+            })
+            .then(resp => resp.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+        });
 
             // 새로운 채팅방을 목록의 맨 위에 추가
             chattingList.insertBefore(li, chattingList.children[1]);

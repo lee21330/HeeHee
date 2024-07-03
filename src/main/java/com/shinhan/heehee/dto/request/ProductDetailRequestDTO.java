@@ -13,9 +13,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class JjimDTO {
-	private int productSeq;
-	private String id;
+public class ProductDetailRequestDTO {
+	private int PROD_SEQ;
 	private String userId;
-	private int JJIM_CNT;
 }
