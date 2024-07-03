@@ -58,6 +58,10 @@ public class ProductDetailDAO {
 	public int updateProduct(ProductModifyRequestDTO modiDTO) {
 		return sqlSession.update(namespace + "updateProduct", modiDTO);
 	}
+	
+	public int insertProduct(ProductModifyRequestDTO regiDTO) {
+		return sqlSession.insert(namespace + "insertProduct", regiDTO);
+	}
 
 
 	public void insertViewLog(ViewLogDTO viewLogDTO) {
@@ -95,6 +99,8 @@ public class ProductDetailDAO {
 	public int selectJjim(JjimDTO jjimDto) {
 		return sqlSession.selectOne(namespace + "selectJjim", jjimDto);
 	}
+
+	
 
 	/*
 	 * public int insertRecently(RecentlyDTO recentlyDTO) { return
