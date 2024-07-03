@@ -59,6 +59,7 @@ public class MyPageController {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
+		model.addAttribute("userId",userId);
 		return "/mypage/myPage";
 	}
 
