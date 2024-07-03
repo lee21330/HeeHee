@@ -83,9 +83,12 @@ public class ProductController {
 		return "/used/productdetail";
 	}
 	
+	// 수정하기 페이지
 	@GetMapping("/productmodify/{prod_seq}")
 	public String modify(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
+		
+		if(principal == null) throw new ProductNotFoundException();
 		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
 		
@@ -93,33 +96,62 @@ public class ProductController {
 		model.addAttribute("mainCateList", mainCateList);
 
 		
-		ProdDetailDTO prodInfo = productservice.prodInfo(sampleDTO);
+		
 		/* if(prodInfo == null) return "/"; */
 		model.addAttribute("userId", userId);
 		
-		model.addAttribute("info", productmodifyservice.prodInfo(prodSeq));
+		model.addAttribute("info", productmodifyservice.prodInfo(sampleDTO));
 		
 		model.addAttribute("prodImgList", productmodifyservice.prodImg(prodSeq));
 		
-		model.addAttribute("categoryList", productmodifyservice.category(prodSeq));
+		model.addAttribute("categoryList", productmodifyservice.category());
 		return "/used/productmodify";
 	}
+	// 수정하는거
+	@PostMapping("/productModify")
+	public String prodModify(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
+							,ProductModifyRequestDTO modiDTO, Model model) throws IOException {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		
+		modiDTO.setUploadFiles(uploadImgs);
+		productservice.prodModify(modiDTO);
+		return "redirect:/sell/productdetail/" + modiDTO.getProdSeq();
+	}
 	
-	@PostMapping(value = "/productregi", produces = "application/json; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<Map<String, Object>> productregi(@RequestBody JjimDTO jjimDto, Principal principal) {
-	    Map<String, Object> response = new HashMap<>();
+	// 등록하기 페이지
+	@GetMapping("/productregi")
+	public String registry(Model model, Principal principal) {
+		if(principal == null) throw new ProductNotFoundException();
+		
+		String userId = principal.getName();
+		
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 
-	    int result = productservice.insertJjim(jjimDto);
-
-	    if (result == 0) {
-	        response.put("success", false);
-	        response.put("message", "찜에 실패했습니다.");
-	    } else {
-	        response.put("success", true);
-	        response.put("message", "찜하였습니다.");
-	    }
-	    return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
+		/* if(prodInfo == null) return "/"; */
+		model.addAttribute("userId", userId);
+		
+		model.addAttribute("categoryList", productmodifyservice.category());
+		/* return "/used/productregi"; */
+		return "/used/productregi";
+	}
+	// 등록하는거
+	@PostMapping("/productRegistry")
+	public String prodRegistry(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
+							,ProductModifyRequestDTO regiDTO, Model model, Principal principal) throws IOException {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		
+		
+		String userId = principal.getName();
+		
+		model.addAttribute("userId", userId);
+		
+		regiDTO.setUploadFiles(uploadImgs);
+		productservice.prodRegistry(regiDTO, userId);
+		
+		return "redirect:/mypage/main";
 	}
 	
 	@GetMapping("/sellerProfile/{id}")
@@ -139,16 +171,7 @@ public class ProductController {
 		return productmodifyservice.detailCategory(category);
 	}
 	
-	@PostMapping("/productModify")
-	public String prodModify(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
-							,ProductModifyRequestDTO modiDTO, Model model) throws IOException {
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
-		
-		modiDTO.setUploadFiles(uploadImgs);
-		productservice.prodModify(modiDTO);
-		return "redirect:/sell/productdetail/" + modiDTO.getProdSeq();
-	}
+	
 	
 	@PutMapping(value="/reserve", produces = "text/plain; charset=UTF-8") 
 	@ResponseBody

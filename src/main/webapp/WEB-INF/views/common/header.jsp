@@ -15,6 +15,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/heehee/resources/js/headerCategory.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
 <script>
@@ -57,10 +58,12 @@ function showResponse(res) {
 }
 
 // 웹소켓 연결 테스트
+/*
 function sendAlarm() {
     var userId = 'b';
     stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 208, 'alContent': "새로운 메시지가 있습니다."}));
 }
+*/
 
 </script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">

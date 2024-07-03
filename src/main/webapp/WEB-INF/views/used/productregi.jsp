@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>판매 물품 등록 페이지</title>
+<title>물품 등록 페이지</title>
 <link rel="stylesheet" href="/heehee/resources/css/productregiModi.css">
 </head>
 <%@ include file="../common/header.jsp" %>
@@ -15,7 +15,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/product.js"></script> <!-- 이미지파일 업로드때문에 필요 -->
 	<script src="/heehee/resources/js/productregiCategory.js"></script>
-	<form action="#" method="GET">
+	<form action="/heehee/sell/productRegistry" method="POST" enctype="multipart/form-data">
 	<div class="productRegistrate">
 	<div id="test">
 		<main>
@@ -25,11 +25,22 @@
     <div id="regi_img">
         <div class="img_container">
             <h6 class="preview" id="prv_img1" style="cursor: pointer;">사진 추가</h6>
-            <input type="file" id="input_file1" class="input_file" accept="image/*" multiple>
+            <input type="file" id="input_file1" class="input_file" name="uploadImgs" accept="image/*" multiple>
         </div>
     </div>
-    <div id="preview_container"></div>
+    <div id="preview_container">
+    	<c:forEach var="img" items="${prodImgList}">
+            <div class="img_container" data="${img.imgSeq}">
+                <img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${img.imgName}" alt="Product Image">
+                <button type="button" class="remove_img">x</button>
+            </div>
+        </c:forEach>
+    </div>
+    <div id = "new_preview_container">
+    
+    </div>
 	</div>
+	<input type="hidden" id="delArr" name="delArr" value="">
 				<p id="cate">카테고리</p>
 				<div id="elementColumn">
 			    <div class="nav_inner1">
@@ -57,17 +68,18 @@
 	                         <ul class="content_list1" id="subCategoryList">
 	                             <!-- 여기에 소분류 항목들 추가됨 -->
 	                         </ul>
+	                         <input id="selCateSeq" type="hidden" value="" name="cateSeq">
                         </div>
 			        </div>
 			    </div>
 			</div>
 	<div class="regi_item">
 		<p class="setmargin">글 제목</p>
-		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요.">
+		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." name="articleTitle">
 	</div>
 	<div class="regi_item">
 		<p>상품 이름</p>
-		<input type="text" class="input_name" placeholder="상품명을 입력해주세요.">
+		<input type="text" class="input_name" placeholder="상품명을 입력해주세요." name="prodName">
 	</div>
 	<div class="regi_item">
 		<p>상품 상태</p>
@@ -87,25 +99,25 @@
 	</div>
 	<div class="regi_item">
 		<p>상품 설명</p>
-		<textarea id="introduce_box" class="input_name1" placeholder="설명을 입력해주세요."></textarea>
+		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요."></textarea>
 	</div>
 	<div class="regi_item">
 		<p>상품 가격</p>
-		<input type="number" class="input_name" placeholder="가격을 입력해주세요.">
+		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요.">
 	</div>
 	<div class="regi_item">
     <p>거래 유형</p>
     <div class="state_radio1">
-        <input type="radio" id="package" name="deal_type" class="radio_order" value="택배" checked="checked">
+        <input type="radio" id="package" name="deal" class="radio_order" value="택배" checked="checked">
         <label for="package">택배</label>
 
-        <input type="radio" id="direct" name="deal_type" class="radio_order" value="직거래">
+        <input type="radio" id="direct" name="deal" class="radio_order" value="직거래">
         <label for="direct">직거래</label>
     </div>
 	</div>
 	<div class="regi_item">
 	    <p class="setmargin">배송비</p>
-	    <input id="d_charge" type="number" class="input_name" placeholder="배송비를 입력해주세요." disabled>
+	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." disabled>
 	</div>
 		</main>
 		</div>
@@ -118,6 +130,7 @@
 	
 	<script>
 	$(document).ready(function() {
+		var delArr = [];
 		
 		var selectedStatus = "${info.condition}";
         if (selectedStatus === "신품") {
@@ -148,7 +161,7 @@
 	    });
 
 	    $('.radio_order').on('click', function() {
-	        var valueCheck = $('input[name="deal_type"]:checked').attr('id');
+	        var valueCheck = $('input[name="deal"]:checked').attr('id');
 	        if (valueCheck === 'package') {
 	            $('#d_charge').attr('disabled', false);
 	            $('#d_charge').focus();
@@ -169,34 +182,55 @@
 	    });
 
 	    $("#input_file1").on('change', function() {
-	        // 파일 선택 시 실행되는 함수
-	        $('#preview_container').empty(); // 미리보기 컨테이너 초기화
-
+	    	$("#new_preview_container").empty();
 	        if (this.files.length > 5) {
 	            alert('최대 5개의 이미지만 선택 가능합니다.');
 	            this.value = ''; // 선택된 파일들 초기화
 	            return; // 초과 선택 시 더 이상 진행하지 않음
 	        }
 
-	        // 선택된 모든 파일에 대해 루프
 	        for (var i = 0; i < this.files.length; i++) {
 	            var file = this.files[i];
 
-	            // 파일이 이미지인지 확인
 	            if (file.type.startsWith('image/')) {
 	                var reader = new FileReader();
 
-	                // 파일 읽기가 완료되면 실행
+	                var temp = 0;
 	                reader.onload = function(e) {
-	                    var imgHtml = '<img src="' + e.target.result + '" style="width:125px; height:125px; object-fit: contain; margin: 10px; border: 1px solid #acacac; border-radius: 10px;">';
-	                    $('#preview_container').append(imgHtml); // 생성된 이미지 태그를 미리보기 컨테이너에 추가
+	                    var imgHtml = '<div class="img_container" newIdx="' + temp++ + '"><img src="' + e.target.result + '" alt="Selected Image"><button type="button" class="remove_img">x</button></div>';
+	                    $('#new_preview_container').append(imgHtml); // 생성된 이미지 태그를 미리보기 컨테이너에 추가
 	                };
 
-	                // 파일 읽기 시작
 	                reader.readAsDataURL(file);
 	            }
 	        }
+	        
 	    });
+
+	    // 이미지 삭제 기능 추가
+	    $(document).on('click', '.remove_img', function() {
+	    	var imgSeq = $(this).closest('.img_container').attr('data');
+	    	var newIdx = $(this).closest('.img_container').attr('newIdx');
+
+	    	if(imgSeq != undefined) delArr.push(imgSeq);
+	    	if(newIdx != undefined) removeFile(newIdx);
+	    	$("#delArr").val(delArr);
+	    	console.log(imgSeq);
+	        $(this).closest('.img_container').remove();
+	    });
+	    
+	    function removeFile(index) {
+            var inputFile = $('#input_file1')[0];
+            var files = Array.from(inputFile.files); // FileList를 배열로 변환
+            files.splice(index, 1); // 배열에서 파일 삭제
+            updateFileInput(files);
+        }
+	    
+	    function updateFileInput(files) {
+            var dataTransfer = new DataTransfer(); // DataTransfer 객체 생성 (크롬, 파이어폭스 등 최신 브라우저에서 지원)
+            files.forEach(file => dataTransfer.items.add(file)); // DataTransfer 객체에 파일 추가
+            $('#input_file1')[0].files = dataTransfer.files; // 파일 입력 요소에 업데이트된 파일 목록 설정
+        }
 
 	    function showSubCategories(category) {
 	        $('#subCategoryList').empty(); // 기존의 소분류 항목을 비움
@@ -207,7 +241,7 @@
 	            success: function(data) {
 	                data.forEach(function(detailCategory) {
 	                    var li = $('<li>');
-	                    li.html('<p style="cursor: pointer">' + detailCategory.detailCategory + '</p>');
+	                    li.html('<p style="cursor: pointer" data="' + detailCategory.productCateSeq + '">' + detailCategory.detailCategory + '</p>');
 	                    $('#subCategoryList').append(li);
 	                });
 	            },
@@ -227,8 +261,14 @@
 	    $(document).on('click', '#subCategoryList p', function() {
 	        $('#subCategoryList p').css('color', ''); // 기존 모든 p 태그의 색상 초기화
 	        $(this).css('color', '#abc3ff'); // 클릭한 p 태그의 색상 변경
+	        
+	        var cateSeq = $(this).attr('data');
+	        $("#selCateSeq").val(cateSeq);
+	        console.log(cateSeq);
 	    });
 	});
+	
+	
 
 </script>
 </body>

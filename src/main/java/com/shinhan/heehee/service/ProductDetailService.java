@@ -78,6 +78,46 @@ public class ProductDetailService {
 		
 	}
 	
+	@Transactional
+	public void prodRegistry(ProductModifyRequestDTO regiDTO, String userId) throws IOException { // userId 받아와서
+		regiDTO.setUserId(userId); // regiDTO에다가 userId 세팅해주기
+		
+		String filePath = "images/sell/";
+		List<MultipartFile> files = regiDTO.getUploadFiles();
+		
+		// 파일 업로드 전 기존 파일 삭제
+		if(regiDTO.getDelArr() != null) {
+			for(String delItem : regiDTO.getDelArr()) {
+				ImageFileDTO imgDTO= new ImageFileDTO();
+				imgDTO.setImgSeq(Integer.parseInt(delItem));
+				imgDTO.setTablePk(regiDTO.getProdSeq());
+				productDetailDao.deleteImgFiles(imgDTO);
+			}
+		}
+		
+		// SELL_PRODUCT 테이블 Insert
+		productDetailDao.insertProduct(regiDTO);
+		productDetailDao.insertProductCategory(regiDTO);
+		
+		Integer prodseq = regiDTO.getProdSeq();
+		
+		// 파일 업로드 로직
+		for(MultipartFile file : files) {
+			if(file.getSize() != 0) {
+				ImageFileDTO imgfile = new ImageFileDTO();
+				String fileName = fileUploadService.uploadOneObject(file, filePath);
+				imgfile.setImgName(fileName);
+				imgfile.setUserId(userId);
+				
+				imgfile.setTablePk(prodseq);
+				
+				productDetailDao.insertImgFile(imgfile);
+			}
+		}
+		
+		
+	}
+	
 	public void insertViewLog(ViewLogDTO viewLogDTO) {
 		productDetailDao.insertViewLog(viewLogDTO);
 	}

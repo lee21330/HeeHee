@@ -54,7 +54,9 @@ function showMessage(chatMessage){
     const contentBody = document.querySelector(".content-body");
     
     if(chatMessage.sender == loginMemberNo){
-    
+        
+        if(chatMessage.imgs.length == 0){
+        
             const myChat = document.createElement("div");
             myChat.classList.add("my-chat");
             
@@ -67,8 +69,6 @@ function showMessage(chatMessage){
             }
                     
             chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + read;
-        
-        if(chatMessage.imgs.length == 0){
                     
             const chat = document.createElement("p");
             chat.classList.add("chat");
@@ -82,6 +82,20 @@ function showMessage(chatMessage){
         }
         else{
             chatMessage.imgs.forEach(img => {
+            
+                    const myChat = document.createElement("div");
+                    myChat.classList.add("my-chat");
+            
+                    const chatDate = document.createElement("span");
+                    chatDate.classList.add("chatDate");
+                    let read = '안 읽음';
+                    
+                    if(chatMessage.readCheck == 'Y'){
+                        read = '읽음';
+                    }
+                    
+                    chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + read;
+                    
                     const chatImage = document.createElement("img");
                     chatImage.classList.add("chat-image");
                         
@@ -101,15 +115,14 @@ function showMessage(chatMessage){
         }
     }
     else if(chatMessage.sender != loginMemberNo){
-          const targetChat = document.createElement("div");
-          targetChat.classList.add("target-chat");
-          
-          const chatDate = document.createElement("span");
-          chatDate.classList.add("chatDate");
-          chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
-    
          if(chatMessage.imgs.length == 0){
-                    
+            const targetChat = document.createElement("div");
+            targetChat.classList.add("target-chat");
+          
+            const chatDate = document.createElement("span");
+            chatDate.classList.add("chatDate");
+            chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
+            
             const chat = document.createElement("p");
             chat.classList.add("chat");
             chat.innerHTML = chatMessage.content;
@@ -123,6 +136,12 @@ function showMessage(chatMessage){
             contentBody.scrollTop = contentBody.scrollHeight;
           } else{
               chatMessage.imgs.forEach(img => {
+                  const targetChat = document.createElement("div");
+                  targetChat.classList.add("target-chat");
+          
+                  const chatDate = document.createElement("span");
+                  chatDate.classList.add("chatDate");
+                  chatDate.innerHTML = chatMessage.sendTime.substr(11,5) + ' 읽음';
                   const chatImage = document.createElement("img");
                   chatImage.classList.add("chat-image");
                         
@@ -582,9 +601,12 @@ function selectChattingFn(){
             contentBody.append(messageList);
         }
         
-       // else if(roomDetail.roomMessageDTO.length == 0){
-          
-       // }
+        else if(roomDetail.roomMessageDTO.length == 0){
+            const noneRoomChat = document.createElement("div");
+            noneRoomChat.classList.add("noneRoomChat");
+            noneRoomChat.innerHTML = "채팅을 시작해보세요💭";
+            contentBody.append(noneRoomChat);
+        }
         
         const chattingInput = document.createElement("div");
         chattingInput.classList.add("chatting-input");
@@ -621,20 +643,22 @@ function selectChattingFn(){
         const inputSend = document.createElement("img");
         inputSend.classList.add("input-send");
         
-        // 전송 버튼 클릭 시 이벤트 추가
-        inputSend.addEventListener('click', ()=>{
-            sendMessage(inputElement.value);
-            //console.log(inputElement.value);
-            inputElement.value='';
-        });
-        
-        // 엔터 키 입력 시 이벤트 추가
-        inputElement.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
+        if(receiverNickname.innerHTML != "(알 수 없음)" && sellingName.innerHTML != "(삭제된 게시물)"){
+            // 전송 버튼 클릭 시 이벤트 추가
+            inputSend.addEventListener('click', ()=>{
                 sendMessage(inputElement.value);
-                inputElement.value = '';
-            }
-        });
+                //console.log(inputElement.value);
+                inputElement.value='';
+            });
+        
+            // 엔터 키 입력 시 이벤트 추가
+            inputElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    sendMessage(inputElement.value);
+                    inputElement.value = '';
+                }
+            });
+        }
         
         const imgUrl2 = "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/chat/send.png";
         inputSend.setAttribute("src", imgUrl2);
@@ -787,6 +811,7 @@ function fetchChatRoomList() {
     .then(response => response.json())
     .then(data => {
         	console.log(data);
+        	if(data.length>0) $(".noneRoom").hide();
             updateChatRoomList(data);
     })
     .catch(err => console.log(err));
@@ -817,25 +842,27 @@ function updateChatRoomList(data) {
             }
             
             const content = existingChatRoom.querySelector(".recent-message").innerHTML;
-            //안 읽은 메시지가 있고 메시지가 새로 와서 업데이트해야하는 경우
-            if(room.unreadcount>0 && content!=room.lastcontent){
+            //안 읽은 메시지가 있거나 메시지가 새로 와서 업데이트해야하는 경우
+            if(room.unreadcount>0 || content!=room.lastcontent){
                 //기존 unread-count div가 있는 경우
                 if(existingChatRoom.querySelector(".unread-count")){
                     existingChatRoom.querySelector(".unread-count").innerText = room.unreadcount;
           	        existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
-          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent.startsWith("[img_asdfzv]") ? "사진" : room.lastcontent;
                 }
                 //기존 unread-count div가 없는 경우
                 else{
-                    const unreadCount = document.createElement("p");
-                    unreadCount.classList.add("unread-count");
-                    unreadCount.innerText = room.unreadcount;
+                    if(room.unreadcount>0){
+                        const unreadCount = document.createElement("p");
+                        unreadCount.classList.add("unread-count");
+                        unreadCount.innerText = room.unreadcount;
                     
-                    const nameCount = document.querySelector(".name-count");
-                   	nameCount.append(unreadCount);
+                        const nameCount = document.querySelector(".name-count");
+                       	nameCount.append(unreadCount);
+                    }
                    	
                     existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
-          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent;
+          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent.startsWith("[img_asdfzv]") ? "사진" : room.lastcontent;
                 }
           	    
           	    //업데이트 후 목록 맨 위로 이동
@@ -880,8 +907,9 @@ function updateChatRoomList(data) {
 
             const recentMessage = document.createElement("span");
             recentMessage.classList.add("recent-message");
-            recentMessage.innerHTML = room.lastcontent;
-
+            if(room.lastContent!=null){
+                existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent.startsWith("[img_asdfzv]") ? "사진" : room.lastcontent;
+            }
             const sendTime = document.createElement("span");
             sendTime.classList.add("send-time");
             sendTime.innerText = room.sendtime;

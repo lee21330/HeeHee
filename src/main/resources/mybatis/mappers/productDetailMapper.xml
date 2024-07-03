@@ -39,20 +39,6 @@
         AND IMG.TABLE_PK = #{PROD_SEQ}
 	</select>
 	
-	<!-- <insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.response.ViewLogDTO">
-		INSERT INTO VIEW_LOG
-		VALUES (#{PROD_SEQ}, #{ID}, SYSDATE)
-	</insert> -->
-	
-	<!-- <select id="selectViewLog" parameterType="com.shinhan.heehee.dto.response.InsertViewLogDTO">
-		SELECT *
-		FROM (SELECT PRODUCT_SEQ, ID
-		FROM VIEW_LOG
-		WHERE ID = #{id}
-		GROUP BY PRODUCT_SEQ, ID)
-		WHERE ROWNUM <![CDATA[<]]> 3
-	</select> -->
-	
 	<select id="prodrecoDetail" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT *
 		FROM (SELECT IMG.IMG_NAME, SELL.PRODUCT_SEQ
@@ -68,14 +54,17 @@
 	
 	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
-		    SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
-		FROM SELL_PRODUCT SELL
-		INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
-		WHERE IMG.IMG_CATE_SEQ = 2
+            SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
+        FROM SELL_PRODUCT SELL
+        INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
+        WHERE IMG.IMG_SEQ IN ( SELECT MIN(IMG_SEQ)
+                                FROM IMG_FILES
+                                WHERE IMG_CATE_SEQ = 2
+                                GROUP BY TABLE_PK)
         AND ROWNUM <![CDATA[<]]> 13
         AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
-		GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
-		ORDER BY IMG_SEQ
+        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
+        ORDER BY IMG_SEQ
 	</select>
 	
 	<select id="prodreco" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
@@ -127,6 +116,7 @@
 	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ) 
 	                    FROM IMG_FILES
 	                    WHERE IMG_CATE_SEQ = 2
+	                    AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
 	                    GROUP BY TABLE_PK)
 	   <!-- AND ROWNUM <![CDATA[<]]> 6 -->
 	   ORDER BY DBMS_RANDOM.RANDOM
@@ -177,7 +167,25 @@
 	</delete>
 	
 	<insert id="insertImgFile" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
-		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName},#{prodSeq},2,#{userId})
+		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName},#{tablePk},2,#{userId})
+	</insert>
+	
+	<insert id="insertProduct" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		<selectKey keyProperty="prodSeq" order="BEFORE" resultType="int">
+         	SELECT SEQ_SELL_PROD.NEXTVAL FROM DUAL
+     	</selectKey>
+		INSERT INTO SELL_PRODUCT
+		VALUES (#{prodSeq}, #{articleTitle}, #{productPrice}, #{introduce}, #{state}, '판매중', #{deal}, #{dCharge}, 5, #{userId}, SYSDATE, NULL)
+	</insert>
+	
+	<insert id="insertProductCategory" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		INSERT INTO PRODUCT_TYPE
+		VALUES (SEQ_PROD_TYPE.nextval, #{cateSeq}, #{prodName})
+	</insert>
+	
+	<insert id="insertProductName" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		INSERT INTO PRODUCT_TYPE
+		VALUES (5, #{productName}, )
 	</insert>
 	
 	<update id="updateProduct" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
@@ -191,18 +199,23 @@
 		WHERE PRODUCT_SEQ = #{prodSeq}
 	</update>
 	
+	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
+		SELECT CATEGORY
+	  	FROM PRODUCT_CATEGORY
+	 	GROUP BY CATEGORY
+	</select>
+	
+	<select id="subCateList" parameterType="String" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
+		SELECT *
+  		FROM PRODUCT_CATEGORY
+		WHERE CATEGORY = #{mainCate}
+	</select>
+	
 	<select id="cateList" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
 		SELECT *
 	  	FROM PRODUCT_CATEGORY
 	</select>
 	
-	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
-		SELECT CATEGORY
-		FROM PRODUCT_CATEGORY
-		GROUP BY CATEGORY
-	</select>
-	
-	<!-- 여기서부터 구현해야함 -->
 	<update id="proStatusSelling" parameterType="int">
 		UPDATE SELL_PRODUCT
 		SET PRO_STATUS = '판매중'

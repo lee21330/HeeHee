@@ -25,7 +25,6 @@
 
 .chatting-list {
 	width: 40%;
-	/* border: 1px solid black; */
 	list-style: none;
 	overflow: auto;
 	align-items: center;
@@ -34,8 +33,7 @@
 .chatting-item {
 	width: 90%;
 	display: flex;
-	padding: 10px 10px; /*위아래, 왼쪽오른쪽 */
-	/* border: 1px solid blue; */
+	padding: 10px 10px;
 	cursor: pointer;
 }
 
@@ -126,6 +124,26 @@
 	color: gray;
 	white-space: nowrap;
 	margin-left:auto;
+}
+
+.noneRoom{
+	margin: 150px 50px 50px 50px;
+	text-align: center;
+}
+
+.noneRoom span{
+	font-size: 20px;
+	margin-bottom: 100px;
+}
+
+.noneRoom p{
+	margin: 10px;
+}
+
+.noneRoomChat{
+	font-size: 20px;
+	margin: 120px 50px 50px 50px;
+	text-align: center;
 }
 
 .chatting-content {

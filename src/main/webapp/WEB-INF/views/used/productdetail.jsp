@@ -122,7 +122,12 @@
 							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.proStatus == '예약중'}">
+					<c:if test="${userId != info.id && info.deal == '택배' && info.proStatus == '예약중'}">
+						<div class="button-container">
+							
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.deal == '직거래' && info.proStatus == '예약중'}">
 						<div class="button-container">
 							<button loginUserId="${userId}" sellerId = "${info.id}" sellSeq = "${info.productSeq}" id="gochat" class="seller-chat" style="cursor: pointer">판매자와 채팅하기</button>
 						</div>
@@ -130,7 +135,7 @@
 					<c:if test="${userId != info.id && info.deal == '택배' && info.proStatus != '예약중'}">
 						<div class="button-container">
 							<button loginUserId="${userId}" sellerId = "${info.id}" sellSeq = "${info.productSeq}" id="gochat" class="seller-chat" style="cursor: pointer">판매자와 채팅하기</button>
-							<button id="gobuy" style="cursor: pointer">즉시구매</button>
+							<button id="gobuy" style="cursor: pointer" prodSeq = "${info.productSeq}" alarmId="${info.id}" onclick='payForSell("${info.prodName}",${info.productPrice},${info.productSeq}, "${info.id}")'>즉시구매</button>
 						</div>
 					</c:if>
 					<c:if test="${userId != info.id && info.deal == '직거래' && info.proStatus != '예약중'}">

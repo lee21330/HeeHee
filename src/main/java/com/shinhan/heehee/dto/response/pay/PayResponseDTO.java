@@ -17,6 +17,7 @@ public class PayResponseDTO {
 	private int paySeq;
 	private int amount;
 	private String buyerId;
+	private String sellerId;
 	private Integer aucSeq;
 	private Integer sellSeq;
 	private String buyerEmail;
@@ -27,6 +28,7 @@ public class PayResponseDTO {
 		this.paySeq = reqDto.getPaySeq();
 		this.amount = reqDto.getAmount();
 		this.buyerId = reqDto.getBuyerId();
+		this.sellerId = reqDto.getSellerId();
 		this.aucSeq = reqDto.getAucSeq();
 		this.sellSeq = reqDto.getSellSeq();
 	}
