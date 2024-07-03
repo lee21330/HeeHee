@@ -167,7 +167,7 @@ public class AdminService {
 
 	// 고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능)
 	@Transactional
-	public void updateQnaAns(int seqQnaBno, String newValue, String id) {
+	public int updateQnaAns(int seqQnaBno, String newValue, String id) {
 		int result = adminDAO.updateQnaAns(seqQnaBno, newValue); 
 		if(result == 1) { 
 			AlarmDTO alarmDTO = new AlarmDTO();
@@ -182,7 +182,8 @@ public class AdminService {
 		 int alarmCnt = alarmDAO.alarmCount(id);
 		 messagingTemplate.convertAndSend("/topic/alarm/" + id, alarmCnt);
 		 }
-		 
+		return result;
+		//adminDAO.updateQnaAns(seqQnaBno, newValue);
 	}
 
 	// 고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)

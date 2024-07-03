@@ -188,9 +188,10 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능)
-	public void updateQnaAns(int seqQnaBno, String newValue) {
+	public int updateQnaAns(int seqQnaBno, String newValue) {
 		AdminQnaManagerDTO dto = new AdminQnaManagerDTO(seqQnaBno, newValue);
-		sqlSession.update("updateQnaAns", dto);
+		int result = sqlSession.update("updateQnaAns", dto);
+		return result;
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
