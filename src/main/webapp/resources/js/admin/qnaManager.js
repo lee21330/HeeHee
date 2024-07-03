@@ -158,12 +158,14 @@ $(document).ready(function() {
 	$(document).on('click', '.saveEditButton', function() {
 		var seqQnaBno = $('.saveEditButton').attr("data-id");
 		var newValue = $("#editInput" + seqQnaBno).val();
-
+		var id = getSelectedRow().closest('tr').find('td').eq(5).text();
+		
 		$.ajax({
 			url: '/heehee/admin/updateQnaAns',
 			method: 'post',
 			data: { 'seqQnaBno': seqQnaBno , 
-					'newValue': newValue 
+					'newValue': newValue, 
+					'id': id 
 					},
 			success: function() {
 				loadTable();

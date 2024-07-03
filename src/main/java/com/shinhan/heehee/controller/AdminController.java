@@ -374,11 +374,12 @@ public class AdminController {
 	// 고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능)
 	@PostMapping("/updateQnaAns")
 	@ResponseBody
-	public ResponseEntity<String> updateQnaAns(Integer seqQnaBno, String newValue) {
+	public ResponseEntity<String> updateQnaAns(Integer seqQnaBno, String newValue, String id) {
 		System.out.println("Controller seqQnaBno : " + seqQnaBno);
 		System.out.println("Controller newValue : " + newValue);
+		System.out.println("Controller id : " + id);
 		try {
-			adminService.updateQnaAns(seqQnaBno, newValue);
+			adminService.updateQnaAns(seqQnaBno, newValue, id);
 			return ResponseEntity.ok("문의 답변이 성공적으로 업데이트되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
