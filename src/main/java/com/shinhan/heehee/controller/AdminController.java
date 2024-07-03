@@ -1,6 +1,9 @@
 package com.shinhan.heehee.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -340,7 +343,7 @@ public class AdminController {
 		return filterSearch;
 	}
 
-	// 고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
+	//고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능)
 	@GetMapping("/getQnaContent")
 	@ResponseBody
 	public ResponseEntity<?> getQnaContent(@RequestParam("seqQnaBno") String bnoStr) {
@@ -359,7 +362,15 @@ public class AdminController {
 			return ResponseEntity.badRequest().body("Invalid id format: " + bnoStr);
 		}
 	}
-
+	
+	//고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 이미지 불러오기 (기능 : 선택된 항목의 문의 상세내용 열람 가능 - 이미지 불러오기 기능)
+	@GetMapping("/getQnaImage")
+	@ResponseBody
+	public ResponseEntity<List<AdminQnaManagerDTO>> getQnaImage(@RequestParam("seqQnaBno") Integer seqQnaBno) {
+		List<AdminQnaManagerDTO> images = adminService.getQnaImage(seqQnaBno);
+		return ResponseEntity.ok(images);
+	}
+	
 	// 고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능)
 	@PostMapping("/updateQnaAns")
 	@ResponseBody
@@ -464,7 +475,7 @@ public class AdminController {
 		}
 	}
 
-	// 고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌)
+	// 고객 지원 - FAQ 내용관리 - 열람/수정 중 수정(문의유형 선택) 기능 (기능 : 문의유형을 동적으로 받아와 줌)
 	@GetMapping("/getQnaOptions")
 	@ResponseBody
 	public List<adminQuestionManagerDTO> getQnaOptions() {

@@ -58,7 +58,9 @@ $(document).ready(function() {
 
 		if (selected.length === 1) {
 			var row = selected.closest('tr');
-			var seqQnaBno = selected.data('id');
+			var seqQnaBno = selected.attr('data-id');
+			
+			console.log("seqQnaBno : " + seqQnaBno);
 
 			//숫자가 아닌 id를 거르기
 			if (isNaN(seqQnaBno)) {
@@ -74,9 +76,11 @@ $(document).ready(function() {
 					$.ajax({
 						url: '/heehee/admin/getQnaContent',
 						method: 'GET',
-						data: {'seqQnaBno': seqQnaBno, 
+						data: { 'seqQnaBno': seqQnaBno, 
 								},
 						success: function(contentData){
+							console.log("success에서 응답확인", contentData.qnaContent);
+							
 							var editRow = 
 								"<tr class='editRow'>" + 
 									"<td colspan='6'>" + 
@@ -87,6 +91,7 @@ $(document).ready(function() {
 										"<button class='saveEditButton' data-id='" + contentData.seqQnaBno + "'>답변 등록</button>" + 
 									"</td>" + 
 								"</tr>";
+
 							var qnaContentRow = 
 								"<tr class='qnaContentRow'>" + 
 									"<td colspan='6'>" + 
@@ -95,6 +100,9 @@ $(document).ready(function() {
 												"<p class='productUpdate'>문의내용</p>" + 
 												"<br>" + 
 												"<p>" + contentData.qnaContent + "</p>" + 
+												"<br>" + 
+												"<p class='productUpdate'>첨부 이미지</p>" + 
+												"<div id='qnaImages'></div>" + 
 											"</div>" + 
 											"<br>" + 
 											"<div class='qnaAnsText'>" + 
@@ -107,6 +115,9 @@ $(document).ready(function() {
 								"</tr>";
 								row.after(editRow);
 								row.after(qnaContentRow);
+
+								//이미지 동적 추가
+								loadQnaImages(seqQnaBno);
 							},
 							error: function(xhr, status, error){
 								alert('문의 내용을 가져오는 중 오류가 발생했습니다.');
@@ -119,6 +130,29 @@ $(document).ready(function() {
 					alert('열람할 항목을 하나만 선택해주세요');
 				}
 	});
+	
+	//이미지를 동적으로 가져오기
+	function loadQnaImages(seqQnaBno){
+		$.ajax({
+			url: '/heehee/admin/getQnaImage', 
+			method: 'GET', 
+			data: { 'seqQnaBno': seqQnaBno
+					},
+			success: function(getImages){
+				var qnaImagesDiv = $('#qnaImages');
+				qnaImagesDiv.empty();
+
+				getImages.forEach(function(getImage){
+					var image = "<img class='qnaImageSize' src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/qnaBoard/" + getImage.imgName + "' alt='image'>" 
+					qnaImagesDiv.append(image);
+					console.log('loadQnaImages 함수 : ' + image)
+				});
+			},
+			error: function(xhr, status, error){
+				alert('이미지 데이터를 가져오는 중 오류가 발생했습니다.');
+			}
+		});
+	};
 
 	// 저장 버튼 클릭 시
 	$(document).on('click', '.saveEditButton', function() {
@@ -153,7 +187,7 @@ $(document).ready(function() {
 					$.ajax({
 						url: '/heehee/admin/deleteQna',
 						method: 'POST',
-						data:{'seqQnaBno': seqQnaBno
+						data:{ 'seqQnaBno': seqQnaBno
 								},
 						success: function() {
 							loadTable();
@@ -173,3 +207,5 @@ $(document).ready(function() {
 		return $('input.rowCheckbox:checked');
 	};
 });
+
+/* https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/ */

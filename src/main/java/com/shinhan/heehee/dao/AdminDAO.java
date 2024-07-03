@@ -1,6 +1,8 @@
 package com.shinhan.heehee.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,6 +182,11 @@ public class AdminDAO {
 		return sqlSession.selectList(namespace + "getQnaContent", seqQnaBno);
 	}
 	
+	//고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 이미지 불러오기 (기능 : 선택된 항목의 문의 상세내용 열람 가능 - 이미지 불러오기 기능)
+	public List<AdminQnaManagerDTO> getQnaImage(int seqQnaBno) {
+		return sqlSession.selectList(namespace + "getQnaImage", seqQnaBno);
+	}
+	
 	//고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능)
 	public void updateQnaAns(int seqQnaBno, String newValue) {
 		AdminQnaManagerDTO dto = new AdminQnaManagerDTO(seqQnaBno, newValue);
@@ -218,7 +225,7 @@ public class AdminDAO {
 		sqlSession.update("updateFaq", dto);
 	}
 	
-	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌)
+	//고객 지원 - FAQ 내용관리 - 열람/수정 중 수정(문의유형 선택) 기능 (기능 : 문의유형을 동적으로 받아와 줌)
 	public List<adminQuestionManagerDTO> getQnaOptions(){
 		return sqlSession.selectList(namespace + "getQnaOptions");
 	}
