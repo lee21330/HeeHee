@@ -1,14 +1,12 @@
 $(document).ready(function() {
-	jQuery.noConflict();
+	jQuery.noConflict(); // 충돌 방지
 	
-	$(document).ready(function() {
 	
-		$('.product_slider').slick({
-			  infinite: true,
-			  slidesToShow: 1,
-			  slidesToScroll: 1
-			});
-	});
+	$('.product_slider').slick({
+		  infinite: true,
+		  slidesToShow: 1,
+		  slidesToScroll: 1
+		});
 
     // URL을 클립보드에 복사하는 함수
     function copyToClipboard(text) {

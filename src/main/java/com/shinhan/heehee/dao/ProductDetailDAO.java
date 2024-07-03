@@ -63,6 +63,10 @@ public class ProductDetailDAO {
 	public int insertProduct(ProductModifyRequestDTO regiDTO) {
 		return sqlSession.insert(namespace + "insertProduct", regiDTO);
 	}
+	
+	public int insertProductCategory(ProductModifyRequestDTO regiDTO) {
+		return sqlSession.insert(namespace + "insertProductCategory", regiDTO);
+	}
 
 
 	public void insertViewLog(ViewLogDTO viewLogDTO) {

@@ -18,13 +18,21 @@ public class ExceptionHandlerController {
 	Logger logger = LoggerFactory.getLogger("ExceptionHandlerController.class");
 
 	
-	@ExceptionHandler(ProductNotFoundException.class)
+	@ExceptionHandler(NoHandlerFoundException.class)
     public String product404(HttpServletRequest request, ProductNotFoundException ex) {
         logger.warn("=====제품정보가 존재하지 않습니다.======");
         logger.warn("요청 URL: " + request.getRequestURL());
         logger.warn(ex.getMessage());
         return "error/404error";
     }
+	/*
+	@ExceptionHandler(ProductNotFoundException.class)
+    public String product404(HttpServletRequest request, ProductNotFoundException ex) {
+        logger.warn("=====제품정보가 존재하지 않습니다.======");
+        logger.warn("요청 URL: " + request.getRequestURL());
+        logger.warn(ex.getMessage());
+        return "error/404error";
+    }*/
 	
 	@ExceptionHandler(Exception.class)
 	public String errorProcess500(HttpServletRequest request,Exception ex) {

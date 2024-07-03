@@ -15,7 +15,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/product.js"></script> <!-- 이미지파일 업로드때문에 필요 -->
 	<script src="/heehee/resources/js/productregiCategory.js"></script>
-	<form action="/heehee/sell/productModify" method="POST" enctype="multipart/form-data">
+	<form action="/heehee/sell/productRegistry" method="POST" enctype="multipart/form-data">
 	<div class="productRegistrate">
 	<div id="test">
 		<main>
@@ -123,7 +123,7 @@
 		</div>
 	</div>
 	<div id="sub_button">
-		<input type="submit" value="수정하기">
+		<input type="submit" value="등록하기">
 	</div>
 	
 	</form>
@@ -264,6 +264,7 @@
 	        
 	        var cateSeq = $(this).attr('data');
 	        $("#selCateSeq").val(cateSeq);
+	        console.log(cateSeq);
 	    });
 	});
 	
