@@ -39,6 +39,10 @@ public class AdminProductDTO {
 	//정지사유 - SELL_PRODUCT
 	private String productBanReason;
 	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
+	
 	//삭제용 - 파라미터 1개 생성자 추가
 	public AdminProductDTO(int productSeq) {
 		this.productSeq = productSeq;

@@ -36,16 +36,29 @@ public class AdminFaqManagerDTO {
 	//수정용 임시 변수 - QNA_OPTION
 	private int seqQnaOption;
 	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
+	
 	//삭제용 - 파라미터 1개 생성자 추가
 	public AdminFaqManagerDTO(int seqFaqBno) {
 		this.seqFaqBno = seqFaqBno;
 	}
 	
-	//수정용 - 파라미터 4개 생성자 추가
-	public AdminFaqManagerDTO(int seqFaqBno, int seqQnaOption, String faqContent, String faqAns) {
+	//신규등록용 - 파라미터 4개 생성자 추가
+	public AdminFaqManagerDTO(int seqQnaOption, String faqContent, String faqAns, String id) {
+		this.seqQnaOption = seqQnaOption;
+		this.faqContent = faqContent;
+		this.faqAns = faqAns;
+		this.id = id;
+	}
+	
+	//수정용 - 파라미터 5개 생성자 추가
+	public AdminFaqManagerDTO(int seqFaqBno, int seqQnaOption, String faqContent, String faqAns, String id) {
 		this.seqFaqBno = seqFaqBno;
 		this.seqQnaOption = seqQnaOption;
 		this.faqContent = faqContent;
 		this.faqAns = faqAns;
+		this.id = id;
 	}
 }

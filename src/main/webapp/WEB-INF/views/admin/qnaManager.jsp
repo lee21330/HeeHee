@@ -43,6 +43,7 @@
 					<tr>
 						<th>선택</th>
 						<th>번호</th>
+						<th>처리현황</th>
 						<th>유형</th>
 						<th>제목</th>
 						<th>작성자ID</th>
