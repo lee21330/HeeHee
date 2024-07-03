@@ -47,7 +47,7 @@ public class ProductDetailService {
 	}
 	
 	@Transactional
-	public void prodModify(ProductModifyRequestDTO modiDTO) throws IOException {
+	public void prodModify(ProductModifyRequestDTO modiDTO, String userId) throws IOException {
 		String filePath = "images/sell/";
 		List<MultipartFile> files = modiDTO.getUploadFiles();
 		
@@ -68,7 +68,7 @@ public class ProductDetailService {
 				String fileName = fileUploadService.uploadOneObject(file, filePath);
 				imgfile.setImgName(fileName);
 				imgfile.setProdSeq(modiDTO.getProdSeq());
-				imgfile.setUserId("a");
+				imgfile.setUserId(userId);
 				productDetailDao.insertImgFile(imgfile);
 			}
 		}
