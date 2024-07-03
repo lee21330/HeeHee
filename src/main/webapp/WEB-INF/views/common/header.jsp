@@ -40,7 +40,6 @@ function connect() {
         stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
 			showResponse(JSON.parse(response.body));
         });
-        alarmUnck();
     });
 }
 
