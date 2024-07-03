@@ -187,17 +187,22 @@
 		WHERE PRODUCT_SEQ = #{prodSeq}
 	</update>
 	
-	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
-		SELECT CATEGORY
+	<select id="cateList" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
+		SELECT *
 	  	FROM PRODUCT_CATEGORY
-	 	GROUP BY CATEGORY
 	</select>
 	
-	<select id="subCateList" parameterType="String" resultType="String">
+	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
+		SELECT CATEGORY
+		FROM PRODUCT_CATEGORY
+		GROUP BY CATEGORY
+	</select>
+	
+<!-- 	<select id="subCateList" parameterType="String" resultType="String">
 		SELECT *
   		FROM PRODUCT_CATEGORY
 		WHERE CATEGORY = #{mainCate}
-	</select>
+	</select> -->
 	
 	<update id="proStatusSelling" parameterType="int">
 		UPDATE SELL_PRODUCT

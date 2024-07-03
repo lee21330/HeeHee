@@ -1,5 +1,6 @@
 package com.shinhan.heehee.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.MainProdRankDTO;
 import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
 import com.shinhan.heehee.dto.response.MainProdRecoDTO;
+import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 
 @Service
 public class MainService {
@@ -30,10 +32,15 @@ public class MainService {
 	}
 	
 	public List<CategoryDTO> mainCateList() {
-		List<CategoryDTO> categoryList = mainDao.mainCateList();
-		for(CategoryDTO cate: categoryList) {
-			cate.setSubCategory(mainDao.subCateList(cate.getCategory()));
+		List<ProductCategoryDTO> categoryList = mainDao.cateList();
+		List<CategoryDTO> mainCateList= mainDao.mainCateList();
+		for(CategoryDTO mainCate: mainCateList) {
+			List<String> subcateList = new ArrayList<String>();
+			for(ProductCategoryDTO subcate:categoryList) {
+				if(mainCate.getCategory().equals(subcate.getCategory()))subcateList.add(subcate.getDetailCategory());
+			}
+			mainCate.setSubCategory(subcateList);
 		}
-		return categoryList;
+		return mainCateList;
 	}
 }

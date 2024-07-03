@@ -42,10 +42,8 @@
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${profile.profileImg}"
 							onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 					</div>
-					<input type="hidden" id="original" name="originalProfileImg"
-						value="${profile.profileImg}" required="required"> <input type="file"
-						id="fileInput" name="profileImg" accept="image/*"
-						style="display: none;">
+					<input type="hidden" id="original" name="originalProfileImg" value="${profile.profileImg}" required="required"> 
+					<input type="file" id="fileInput" name="profileImg" accept="image/*" style="display: none;">
 					<div class="btn_profile">
 						<input type="button" class="btn_image" id="btn_modify"
 							value="사진변경" onclick="chooseFile();"> <input
@@ -71,8 +69,7 @@
 					</table>
 
 					<div class="btn_profile">
-						<input type="button" id="btn_submit" value="적용"
-							onclick="updateProfile('${profile.nickName}')">
+						<input type="submit" id="btn_submit" value="적용">
 						<p id="btn_cancel"
 							onclick="location.href='${path}/mypage/profile'">취소</p>
 					</div>

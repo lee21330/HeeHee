@@ -48,8 +48,8 @@ function dupMyNickCheck(originalNick) {
 	if (nickName === "") {
 		$("#my_nick_dup_result").css("visibility", "visible");
 		$("#my_nick_dup_result").text("닉네임을 입력해주세요");
-	} else if (originalNick===nickName) {
-		
+	} else if (originalNick === nickName) {
+
 	} else {
 		$.ajax({
 			url: '/heehee/mypage/profile/dupNickCheck',
@@ -70,28 +70,8 @@ function dupMyNickCheck(originalNick) {
 			}
 		});
 	}
-
-
-
 }
-function updateProfile(originalNick) {
-	var nick = $("#my_nick_dup_result").text();
-	var newNick = $("#nickName").val();
-	if (nick != "중복 확인") {
-		alert("닉네임 중복체크를 해주세요");
-	} else {
-		$.ajax({
-			url: '/heehee/mypage/profile/updateProfile',
-			method: 'POST',
-			data: { "profileImages": profileImages, "originalProfileImg": originalProfileImg, 'nickName': nickName, 'userIntroduce': userIntroduce },
-			success: function(data) {
 
-			}, error: function(data, status, err) {
-				console.log(err);
-			}
-		});
-	}
-}
 function currentPwCheck() {
 	var currentPw = $("#currentPw").val();
 	if (currentPw === '') {
