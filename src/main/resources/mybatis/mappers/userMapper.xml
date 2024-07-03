@@ -15,6 +15,12 @@
         WHERE ID = #{userId}
     </select>
     
+    <select id="findByUserEmail" parameterType="string" resultType="com.shinhan.heehee.dto.response.UserDTO">
+        SELECT ID username, NAME realName, PW password, ROLE role
+        FROM HH_USER
+        WHERE EMAIL = #{email}
+    </select>
+    
     <select id="findNickName" parameterType="string" resultType="map">
         SELECT NVL(NICK_NAME, '손님') AS nickName
         FROM HH_USER
@@ -22,7 +28,25 @@
     </select>
     
     <insert id="signup" parameterType="com.shinhan.heehee.dto.response.UserDTO">
-        INSERT INTO HH_USER (ID, PW, NAME, EMAIL, PHONE_NUM, ROLE)
-        VALUES ( #{username}, #{password}, #{realName}, #{email}, #{phone_num}, 'ROLE_USER' )
+        INSERT INTO HH_USER (ID, PW, NAME, EMAIL, PHONE_NUM, ROLE, NICK_NAME, ADDRESS, DETAIL_ADDRESS)
+        VALUES ( #{username}, #{password}, #{realName}, #{email}, #{phoneNum}, 'ROLE_USER', #{nickName}, #{address}, #{detailAddress})
     </insert>
+    
+    <select id="getBuyerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.UserDTO">
+    	SELECT *
+    	FROM HH_USER
+    	WHERE ID = #{buyerId}
+    </select>
+    
+    <select id="dupIdCheck" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM HH_USER WHERE ID = #{id}
+    </select>
+    
+    <select id="dupNickCheck" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM HH_USER WHERE NICK_NAME = #{nickName}
+    </select>
+    
+    <select id="dupEmailCheck" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM HH_USER WHERE EMAIL = #{email}
+    </select>
 </mapper>
