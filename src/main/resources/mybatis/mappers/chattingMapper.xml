@@ -101,6 +101,13 @@
     where id=#{loginUserId}
 </select>
 
+<!-- 구매자 id & 판매물품 시퀀스와 일치하는 채팅방이 있는지 확인-->
+<select id="checkSellerChat" parameterType="hashMap" resultType="int">
+	select count(*)
+	from chat_room
+	where seller=#{sellerId} and sell_seq=#{sellSeq}
+</select>
+
 <!-- 메시지 읽음 체크 -->
 <update id="updateReadCheck">
 	update chat_message
@@ -153,7 +160,7 @@
 <!-- 판매자와 채팅 클릭 시 채팅방 생성 -->
 <insert id="insertChatRoom" parameterType="hashMap">
     insert into chat_room
-    values(seq_room.nextval, #{loginUserId}, #{sellerId}, null, #{sellSeq})
+    values(seq_room.nextval, #{sellerId}, #{loginUserId}, null, #{sellSeq})
 </insert>
 
 <!-- 이미지 없이 텍스트만 보낸 경우 -->

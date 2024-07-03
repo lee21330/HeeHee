@@ -78,6 +78,11 @@ public class ChattingDAO {
 	public void deleteDeal(Map<String, Object> map) {
 		sqlSession.delete(namespace + "deleteDeal", map);
 	}
+	
+	//채팅방 생성 전 채팅방 유무 확인
+	public int checkSellerChat(Map<String, Object> map) {
+		return sqlSession.selectOne(namespace + "checkSellerChat", map);
+	}
 
 	//채팅방 생성: 판매자와 채팅 클릭 시
 	public int insertChatRoom(Map<String, Object> map) {

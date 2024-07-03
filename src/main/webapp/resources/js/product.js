@@ -2,10 +2,10 @@ $(document).ready(function() {
 	jQuery.noConflict();
 	
 
-	$("#gochat").on("click", function() {
-		const loginUserId = $("#gochat").attr("loginUserId");
-		const sellerId = $("#gochat").attr("sellerId");
-		const sellSeq = $("#gochat").attr("sellSeq");
+	$(".seller-chat").on("click", function() {
+		const loginUserId = $(".seller-chat").attr("loginUserId");
+		const sellerId = $(".seller-chat").attr("sellerId");
+		const sellSeq = $(".seller-chat").attr("sellSeq");
 		
 		sellerChat(loginUserId, sellerId, sellSeq);
 	});
@@ -131,16 +131,8 @@ function sellerChat(loginUserId, sellerId, sellSeq){
             .then(resp => resp.text())
             .then(result => {
                 console.log(result);
-                if (result === "1") {
-                    // 페이지 내용을 업데이트
-                    fetch("/heehee/chatting")
-                        .then(resp => resp.text())
-                        .then(html => {
-                            document.open();
-                            document.write(html);
-                            document.close();
-                        })
-                        .catch(err => console.log(err));
+                if (result > 0) {
+                    window.location.href = "/heehee/chatting";
                 }
             })
             .catch(err => console.log(err));
