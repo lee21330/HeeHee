@@ -159,7 +159,6 @@ table thead tr th {
 	padding: 5px 5px 5px 5px;
 	border: 1px solid rgb(233, 233, 233);
 	font-size: 14px;
-
 }
 
 table tbody tr td {
@@ -291,67 +290,176 @@ table tbody tr td {
 	width: 100%;
 }
 
+/* 전체 주문통계 */
 	/* 총 주문건수 */
-.totalOrderTable table thead tr th:nth-child(1),
-.totalOrderTable table thead tr td:nth-child(1) {
-	width: 50%;
+table.totalOrderTable thead tr th:nth-child(1),
+table.totalOrderTable tbody tr td:nth-child(1) {
+	width: 60%;
 }
 
 	/* 총 주문액 */
-.totalOrderTable table thead tr th:nth-child(2),
-.totalOrderTable table thead tr td:nth-child(2) {
-	width: 50%;
+table.totalOrderTable thead tr th:nth-child(2),
+table.totalOrderTable tbody tr td:nth-child(2) {
+	width: 40%;
 }
 
 	/* 상품 - 판매중 */
-.proStatusTable table thead tr th:nth-child(1),
-.proStatusTable table thead tr td:nth-child(1) {
-	width: 25%;
+table.proStatusTable thead tr th:nth-child(1),
+table.proStatusTable tbody tr td:nth-child(1) {
+	width: 20%;
 }
 
 	/* 상품 - 예약중 */
-.proStatusTable table thead tr th:nth-child(2),
-.proStatusTable table thead tr td:nth-child(2) {
-	width: 25%;
+table.proStatusTable thead tr th:nth-child(2),
+table.proStatusTable tbody tr td:nth-child(2) {
+	width: 20%;
 }
 
 	/* 상품 - 거래완료 */
-.proStatusTable table thead tr th:nth-child(3),
-.proStatusTable table thead tr td:nth-child(3) {
-	width: 25%;
+table.proStatusTable thead tr th:nth-child(3),
+table.proStatusTable tbody tr td:nth-child(3) {
+	width: 30%;
 }
 
 	/* 상품 - 판매중지 */
-.proStatusTable table thead tr th:nth-child(4),
-.proStatusTable table thead tr td:nth-child(4) {
-	width: 25%;
+table.proStatusTable thead tr th:nth-child(4),
+table.proStatusTable tbody tr td:nth-child(4) {
+	width: 30%;
 }
 
 	/* 경매 - 입찰 */
-.aucStatusTable table thead tr th:nth-child(1),
-.aucStatusTable table thead tr td:nth-child(1) {
-	width: 25%;
+table.aucStatusTable thead tr th:nth-child(1),
+table.aucStatusTable tbody tr td:nth-child(1) {
+	width: 15%;
 }
 
 	/* 경매 - 낙찰 */
-.aucStatusTable table thead tr th:nth-child(2),
-.aucStatusTable table thead tr td:nth-child(2) {
-	width: 25%;
+table.aucStatusTable thead tr th:nth-child(2),
+table.aucStatusTable tbody tr td:nth-child(2) {
+	width: 15%;
 }
 
 	/* 경매 - 거래완료 */
-.aucStatusTable table thead tr th:nth-child(3),
-.aucStatusTable table thead tr td:nth-child(3) {
-	width: 25%;
+table.aucStatusTable thead tr th:nth-child(3),
+table.aucStatusTable tbody tr td:nth-child(3) {
+	width: 35%;
 }
 
 	/* 경매 - 판매중지 */
-.aucStatusTable table thead tr th:nth-child(4),
-.aucStatusTable table thead tr td:nth-child(4) {
-	width: 25%;
+table.aucStatusTable thead tr th:nth-child(4),
+table.aucStatusTable tbody tr td:nth-child(4) {
+	width: 35%;
+}
+/* 전체 주문통계 끝 */
+
+/* 최근 주문내역 */
+	/* 주문번호 */
+table.recentOrderTable thead tr th:nth-child(1),
+table.recentOrderTable tbody tr td:nth-child(1) {
+	width: 10%;
 }
 
+	/* 구매자명 */
+table.recentOrderTable thead tr th:nth-child(2),
+table.recentOrderTable tbody tr td:nth-child(2) {
+	width: 8%;
+}
 
+	/* 판매자명 */
+table.recentOrderTable thead tr th:nth-child(3),
+table.recentOrderTable tbody tr td:nth-child(3) {
+	width: 8%;
+}
+
+	/* 품목명 */
+table.recentOrderTable thead tr th:nth-child(4),
+table.recentOrderTable tbody tr td:nth-child(4) {
+	width: 43%;
+}
+
+	/* 거래방식 */
+table.recentOrderTable thead tr th:nth-child(5),
+table.recentOrderTable tbody tr td:nth-child(5) {
+	width: 10%;
+}
+
+	/* 거래금액 */
+table.recentOrderTable thead tr th:nth-child(6),
+table.recentOrderTable tbody tr td:nth-child(6) {
+	width: 11%;
+}
+
+	/* 거래일 */
+table.recentOrderTable thead tr th:nth-child(7),
+table.recentOrderTable tbody tr td:nth-child(7) {
+	width: 10%;
+}
+/* 최근 주문내역 끝 */
+
+/* 최근 문의내역 */
+	/* 작성자ID */
+table.recentQuestionTable thead tr th:nth-child(1),
+table.recentQuestionTable tbody tr td:nth-child(1) {
+	width: 13%;
+}
+
+	/* 회원명 */
+table.recentQuestionTable thead tr th:nth-child(2),
+table.recentQuestionTable tbody tr td:nth-child(2) {
+	width: 6%;
+}
+
+	/* 처리현황 */
+table.recentQuestionTable thead tr th:nth-child(3),
+table.recentQuestionTable tbody tr td:nth-child(3) {
+	width: 20%;
+}
+
+	/* 제목 */
+table.recentQuestionTable thead tr th:nth-child(4),
+table.recentQuestionTable tbody tr td:nth-child(4) {
+	width: 51%;
+}
+
+	/* 작성일 */
+table.recentQuestionTable thead tr th:nth-child(5),
+table.recentQuestionTable tbody tr td:nth-child(5) {
+	width: 10%;
+}
+/* 최근 문의내역 끝 */
+
+/* 최근 회원가입 */
+	/* 회원명 */
+table.recentJoinTable thead tr th:nth-child(1),
+table.recentJoinTable tbody tr td:nth-child(1) {
+	width: 6%;
+}
+
+	/* 아이디 */
+table.recentJoinTable thead tr th:nth-child(2),
+table.recentJoinTable tbody tr td:nth-child(2) {
+	width: 13%;
+	text-align: center;
+}
+
+	/* 이메일 */
+table.recentJoinTable thead tr th:nth-child(3),
+table.recentJoinTable tbody tr td:nth-child(3) {
+	width: 58%;
+}
+
+	/* 전화번호 */
+table.recentJoinTable thead tr th:nth-child(4),
+table.recentJoinTable tbody tr td:nth-child(4) {
+	width: 13%;
+}
+
+	/* 가입일 */
+.recentJoinTable table thead tr th:nth-child(5),
+.recentJoinTable table tbody tr td:nth-child(5) {
+	width: 10%;
+}
+/* 최근 회원가입 끝 */
 
 /* main.jsp 끝 */
 
@@ -678,6 +786,4 @@ table tbody tr td {
 .qnaManagerTable table tbody tr td:nth-child(6) {
 	width: 10%;
 }
-
-
 /* questiomManager.jsp 끝 */

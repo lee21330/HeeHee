@@ -27,12 +27,16 @@
 				</thead>
 				<tbody id="totalOrderBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td>값1</td>
+						<td>값2</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
 
 			<div class="proStatusDiv">
-			<p class="tableSubTitle">주문상태 현황</p>
+			<p class="tableSubTitle">일반상품 주문현황</p>
 			<table class="proStatusTable">
 				<thead>
 					<tr>
@@ -44,23 +48,35 @@
 				</thead>
 				<tbody id="proStatusTableBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td>값1</td>
+						<td>값2</td>
+						<td>값3</td>
+						<td>값4</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
 
 			<div class="aucStatusDiv">
-			<p class="tableSubTitle">구매확정/클래임 현황</p>
+			<p class="tableSubTitle">경매상품 주문현황</p>
 			<table class="aucStatusTable">
 				<thead>
 					<tr>
 						<th>입찰</th>
 						<th>낙찰</th>
-						<th>거래완료<th>
+						<th>거래완료</th>
 						<th>판매중지</th>
 					</tr>
 				</thead>
 				<tbody id="aucStatusTableBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td>값1</td>
+						<td>값2</td>
+						<td>값3</td>
+						<td>값4</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
@@ -83,6 +99,15 @@
 				</thead>
 				<tbody id="recentOrderTableBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td>값1</td>
+						<td>값2</td>
+						<td>값3</td>
+						<td>값4</td>
+						<td>값5</td>
+						<td>값6</td>
+						<td>값7</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
@@ -103,6 +128,13 @@
 				</thead>
 				<tbody id="recentQuestionTableBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td>값1</td>
+						<td>값2</td>
+						<td>값3</td>
+						<td>값4</td>
+						<td>값5</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
@@ -121,8 +153,15 @@
 						<th>가입일</th>
 					</tr>
 				</thead>
-				<tbody id="recentQuestionTableBody">
+				<tbody id="recentJoinTableBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td>값1</td>
+						<td>값2</td>
+						<td>값3</td>
+						<td>값4</td>
+						<td>값5</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
