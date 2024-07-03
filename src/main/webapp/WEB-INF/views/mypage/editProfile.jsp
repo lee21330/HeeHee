@@ -43,7 +43,7 @@
 							onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 					</div>
 					<input type="hidden" id="original" name="originalProfileImg"
-						value="${profile.profileImg}"> <input type="file"
+						value="${profile.profileImg}" required="required"> <input type="file"
 						id="fileInput" name="profileImg" accept="image/*"
 						style="display: none;">
 					<div class="btn_profile">
@@ -58,7 +58,7 @@
 								<th>닉네임</th>
 								<td><input type="text" id="nickName" name="nickName"
 									value="${profile.nickName}" required="required" oninput="changeBtn()"> 
-									<input type="button" value="중복체크" class="btn" id="btn-nick" onclick="dupMyNickCheck()" style="display: none;">
+									<input type="button" value="중복체크" class="btn" id="btn-nick" onclick="dupMyNickCheck('${profile.nickName}')" style="display: none;">
 									<input type="button" value="중복체크" class="btn" id="btn-originalNick">
 									<div id="my_nick_dup_result" class="dup_result">중복 확인</div></td>
 							</tr>
@@ -72,7 +72,7 @@
 
 					<div class="btn_profile">
 						<input type="button" id="btn_submit" value="적용"
-							onclick="updateProfile()">
+							onclick="updateProfile('${profile.nickName}')">
 						<p id="btn_cancel"
 							onclick="location.href='${path}/mypage/profile'">취소</p>
 					</div>

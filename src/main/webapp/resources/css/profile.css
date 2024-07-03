@@ -171,7 +171,8 @@ form {
 	width: 60%;
 	height: 100%;
 	text-align: center;
-	padding: 40px 0px;
+	padding: 40px 0px 0px;
+	box-sizing: border-box;
 }
 
 .right p {

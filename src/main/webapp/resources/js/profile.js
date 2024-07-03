@@ -39,40 +39,46 @@ function chooseFile() {
 	$('#fileInput').click();
 }
 
-function changeBtn(){
+function changeBtn() {
 	$('#btn-originalNick').hide();
 	$('#btn-nick').show();
 }
-function dupMyNickCheck() {
+function dupMyNickCheck(originalNick) {
 	var nickName = $("#nickName").val();
-
-	$.ajax({
-		url: '/heehee/mypage/profile/dupNickCheck',
-		method: 'GET',
-		data: { "nickName": nickName },
-		success: function(data) {
-			$("#my_nick_dup_result").attr("style", "display: block");
-			if (data.able == true) {
-				$("#my_nick_dup_result").removeClass("red");
-				$("#my_nick_dup_result").addClass("green");
-			} else {
-				$("#my_nick_dup_result").removeClass("green");
-				$("#my_nick_dup_result").addClass("red");
+	if (nickName === "") {
+		$("#my_nick_dup_result").css("visibility", "visible");
+		$("#my_nick_dup_result").text("닉네임을 입력해주세요");
+	} else if (originalNick===nickName) {
+		
+	} else {
+		$.ajax({
+			url: '/heehee/mypage/profile/dupNickCheck',
+			method: 'GET',
+			data: { "nickName": nickName },
+			success: function(data) {
+				$("#my_nick_dup_result").css("visibility", "visible");
+				if (data.able == true) {
+					$("#my_nick_dup_result").removeClass("red");
+					$("#my_nick_dup_result").addClass("green");
+				} else {
+					$("#my_nick_dup_result").removeClass("green");
+					$("#my_nick_dup_result").addClass("red");
+				}
+				$("#my_nick_dup_result").text(data.message);
+			}, error: function(data, status, err) {
+				console.log(err);
 			}
-			$("#my_nick_dup_result").text(data.message);
-		}, error: function(data, status, err) {
-			console.log(err);
-		}
-	});
+		});
+	}
+
 
 
 }
-function updateProfile() {
+function updateProfile(originalNick) {
 	var nick = $("#my_nick_dup_result").text();
-	if (nick === '') {
+	var newNick = $("#nickName").val();
+	if (nick != "중복 확인") {
 		alert("닉네임 중복체크를 해주세요");
-	} else if (nick === '') {
-
 	} else {
 		$.ajax({
 			url: '/heehee/mypage/profile/updateProfile',

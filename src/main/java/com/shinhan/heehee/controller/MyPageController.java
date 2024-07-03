@@ -161,6 +161,8 @@ public class MyPageController {
 	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		model.addAttribute("dcOption", mypageservice.dcOption());
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		return "/mypage/saleDetail";
 	}
 
@@ -197,6 +199,8 @@ public class MyPageController {
 	@GetMapping("/purchasedetail/{productSeq}")
 	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		return "/mypage/purchaseDetail";
 	}
 
@@ -206,6 +210,8 @@ public class MyPageController {
 		String userId = principal.getName();
 		model.addAttribute("profile", mypageservice.profile(userId));
 		model.addAttribute("bankList", mypageservice.bankList());
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		return "/mypage/editProfile";
 	}
 
@@ -265,6 +271,9 @@ public class MyPageController {
 	@GetMapping("/qnaBoard")
 	public String qnaBoard(Principal principal, Model model) {
 		String userId = principal.getName();
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
 
@@ -349,6 +358,8 @@ public class MyPageController {
 	// 마이페이지-FAQ
 	@GetMapping("/faqBoard")
 	public String faqBoard(Model model) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
 		return "/mypage/faqBoard";
@@ -366,6 +377,8 @@ public class MyPageController {
 	// 포인트 내역
 	@GetMapping("/pointlist")
 	public String pointlist(Principal principal, Model model) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		String userId = principal.getName();
 //		model.addAttribute("point", mypageservice.searchPoint(userId));
 		return "/mypage/pointList";
