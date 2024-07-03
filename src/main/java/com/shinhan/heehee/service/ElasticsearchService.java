@@ -52,7 +52,7 @@ public class ElasticsearchService {
             .put("index.analysis.filter.ngram_filter.type", "ngram")
             .put("index.analysis.filter.ngram_filter.min_gram", 1)		// 최소글자
             .put("index.analysis.filter.ngram_filter.max_gram", 25)	// 최대 글자
-            .put("index.max_ngram_diff", 24)  // max_ngram_diff 설정 추가
+            .put("index.max_ngram_diff", 24)  // 최대 최소 글자 차이
         );
 
         // 매핑 설정

@@ -15,4 +15,6 @@ public class AuctionHistoryDTO {
 	private int aucProdSeq;
 	private String userId;
 	private int bidPrice;
+	private String userNickName;
+	private int joinCount;
 }
