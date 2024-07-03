@@ -165,10 +165,10 @@ public class AdminController {
 	// 텍스트) 될 것임)
 	@PostMapping("/updateProductStatus")
 	@ResponseBody
-	public ResponseEntity<String> updateProductStatus(Integer productSeq, String proStatus, String productBanReason) {
+	public ResponseEntity<String> updateProductStatus(Integer productSeq, String proStatus, String productBanReason, String id) {
 		System.out.println("Controller" + productSeq);
 		try {
-			adminService.updateProductStatus(productSeq, proStatus, productBanReason);
+			adminService.updateProductStatus(productSeq, proStatus, productBanReason, id);
 			return ResponseEntity.ok("수정 등록에 성공하였습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -220,10 +220,10 @@ public class AdminController {
 	// 것임)
 	@PostMapping("/updateAucStatus")
 	@ResponseBody
-	public ResponseEntity<String> updateAucStatus(Integer productSeq, String aucStatus, String aucBanReason) {
+	public ResponseEntity<String> updateAucStatus(Integer productSeq, String aucStatus, String aucBanReason, String id) {
 		System.out.println("Controller" + productSeq);
 		try {
-			adminService.updateAucStatus(productSeq, aucStatus, aucBanReason);
+			adminService.updateAucStatus(productSeq, aucStatus, aucBanReason, id);
 			return ResponseEntity.ok("수정 등록에 성공하였습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

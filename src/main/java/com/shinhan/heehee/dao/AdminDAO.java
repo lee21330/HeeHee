@@ -67,15 +67,17 @@ public class AdminDAO {
 	}
 	
     //회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯)
-	public void insertBanUser(String id, String BanContent, Date banStr, Date banEnd){
+	public int insertBanUser(String id, String BanContent, Date banStr, Date banEnd){
 		AdminUserBanDTO dto = new AdminUserBanDTO(id, BanContent, banStr, banEnd);
-		sqlSession.insert("insertBanUser", dto);
+		int result = sqlSession.insert("insertBanUser", dto);
+		return result;
 	}
 	
     //회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정)
-	public void updateBanUser(String id, String banContent, Date banStr, Date banEnd) {
+	public int updateBanUser(String id, String banContent, Date banStr, Date banEnd) {
 		AdminUserBanDTO dto = new AdminUserBanDTO(id, banContent, banStr, banEnd);
-		sqlSession.update("updateBanUser", dto);
+		int result = sqlSession.update("updateBanUser", dto);
+		return result;
 	}
 	
 	//회원정보 관리 끝
@@ -97,9 +99,10 @@ public class AdminDAO {
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
-	public void updateProductStatus (int productSeq, String proStatus, String productBanReason) {
+	public int updateProductStatus (int productSeq, String proStatus, String productBanReason) {
 		AdminProductDTO dto = new AdminProductDTO(productSeq, proStatus, productBanReason);
-		sqlSession.update("updateProductStatus", dto);
+		int result = sqlSession.update("updateProductStatus", dto);
+		return result;
 	}
 	
 	//상품 관리 - 일반상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
@@ -123,9 +126,10 @@ public class AdminDAO {
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임)
-	public void updateAucStatus (int productSeq, String aucStatus, String aucBanReason) {
+	public int updateAucStatus (int productSeq, String aucStatus, String aucBanReason) {
 		AdminAuctionDTO dto = new AdminAuctionDTO(productSeq, aucStatus, aucBanReason);
-		sqlSession.update("updateAucStatus", dto);
+		int result = sqlSession.update("updateAucStatus", dto);
+		return result;
 	}
 	
 	//상품 관리 - 경매상품 상세조회 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)

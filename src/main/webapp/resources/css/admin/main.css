@@ -171,6 +171,12 @@ table tbody tr td {
 
 /* table 하위 수정시 메뉴 css */
 
+.tableSubTitle {
+	font-size: 15px;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
 .updateContainer {
     display: inline-block;
 	margin: 2.5px 5px 2.5px 5px;
@@ -272,30 +278,78 @@ table tbody tr td {
 	margin:0px 0px 5px 0px;
 }
 
-.mainTopTables {
+.mainTopTableContainer {
 	display: inline-flex;
+	justify-content: space-between;
 }
 
-.totalOrderDiv {
-	display: flex;
+.totalOrderDiv, .proStatusDiv, .aucStatusDiv {
+	width: 33%;
+}
+
+.totalOrderTable, .proStatusTable, .aucStatusTable  {
+	width: 100%;
 }
 
 	/* 총 주문건수 */
-.totalOrderTable {
-	width: 30%;
-}
-
 .totalOrderTable table thead tr th:nth-child(1),
 .totalOrderTable table thead tr td:nth-child(1) {
-	width: 20px;
+	width: 50%;
 }
 
 	/* 총 주문액 */
-.totalOrderTable table thead tr th:nth-child(1),
-.totalOrderTable table thead tr td:nth-child(1) {
-	width: 20px;
+.totalOrderTable table thead tr th:nth-child(2),
+.totalOrderTable table thead tr td:nth-child(2) {
+	width: 50%;
 }
 
+	/* 상품 - 판매중 */
+.proStatusTable table thead tr th:nth-child(1),
+.proStatusTable table thead tr td:nth-child(1) {
+	width: 25%;
+}
+
+	/* 상품 - 예약중 */
+.proStatusTable table thead tr th:nth-child(2),
+.proStatusTable table thead tr td:nth-child(2) {
+	width: 25%;
+}
+
+	/* 상품 - 거래완료 */
+.proStatusTable table thead tr th:nth-child(3),
+.proStatusTable table thead tr td:nth-child(3) {
+	width: 25%;
+}
+
+	/* 상품 - 판매중지 */
+.proStatusTable table thead tr th:nth-child(4),
+.proStatusTable table thead tr td:nth-child(4) {
+	width: 25%;
+}
+
+	/* 경매 - 입찰 */
+.aucStatusTable table thead tr th:nth-child(1),
+.aucStatusTable table thead tr td:nth-child(1) {
+	width: 25%;
+}
+
+	/* 경매 - 낙찰 */
+.aucStatusTable table thead tr th:nth-child(2),
+.aucStatusTable table thead tr td:nth-child(2) {
+	width: 25%;
+}
+
+	/* 경매 - 거래완료 */
+.aucStatusTable table thead tr th:nth-child(3),
+.aucStatusTable table thead tr td:nth-child(3) {
+	width: 25%;
+}
+
+	/* 경매 - 판매중지 */
+.aucStatusTable table thead tr th:nth-child(4),
+.aucStatusTable table thead tr td:nth-child(4) {
+	width: 25%;
+}
 
 
 

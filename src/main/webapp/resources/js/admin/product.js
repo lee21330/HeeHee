@@ -59,6 +59,7 @@ $(document).ready(function() {
 			var row = selected.closest('tr');
 			var id = selected.data('id');
 
+
 			// 수정할 내용 입력란을 추가
 			if (row.next().hasClass('banReason')) {
 				row.next().next().remove();
@@ -67,7 +68,7 @@ $(document).ready(function() {
 					$.ajax({
 						url:'/heehee/admin/getProductBanReason',
 						method:'GET',
-						data:{ 'productSeq': id 
+						data:{ 'productSeq': id,
 								},
 						success: function(contentData)	{
 							var editRow = 
@@ -115,6 +116,7 @@ $(document).ready(function() {
 		var proStatus = $("#editStatus" + productSeq).val();
 		var productBanReason = $("#editInput" + productSeq).val();
 		var currProStatus = getSelectedRow().closest('tr').find('td').eq(7).text();
+		var userid = getSelectedRow().closest('tr').find('td').eq(4).text();
 
 		if(currProStatus == '예약중' || currProStatus == '거래완료'){
 			alert('거래상태를 변경할 수 없습니다.');
@@ -124,7 +126,8 @@ $(document).ready(function() {
 					method: 'POST',
 					data: { 'productSeq': productSeq, 
 							'proStatus': proStatus, 
-							'productBanReason': productBanReason
+							'productBanReason': productBanReason, 
+							'id': userid
 							},
 					success: function() {
 						loadTable();

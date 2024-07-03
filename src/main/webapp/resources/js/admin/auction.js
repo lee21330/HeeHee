@@ -115,6 +115,7 @@ $(document).ready(function() {
 		var aucStatus = $("#editStatus" + productSeq).val();
 		var aucBanReason = $("#editInput" + productSeq).val();
 		var currAucStatus = getSelectedRow().closest('tr').find('td').eq(7).text();
+		var userid = getSelectedRow().closest('tr').find('td').eq(4).text();
 		
 		if (currAucStatus == '낙찰' || currAucStatus == '거래완료'){
 			alert('거래상태를 변경할 수 없습니다.');
@@ -124,7 +125,8 @@ $(document).ready(function() {
 					method: 'POST',
 					data: { 'productSeq': productSeq, 
 							'aucStatus': aucStatus, 
-							'aucBanReason':aucBanReason  
+							'aucBanReason': aucBanReason, 
+							'id': userid
 							},
 					success: function() {
 						loadTable();
