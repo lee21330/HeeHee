@@ -67,13 +67,13 @@
 					<!-- 왼쪽 상대방 사진 부분 -->
 					<div class="item-header">
 					    <c:choose>
-                            <c:when test="${not empty room.receivernickname}">
+                            <c:when test="${not empty room.receiverimg}">
                                 <img class="receiver-image"
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverimg}">
                             </c:when>
                             <c:otherwise>
                                 <img class="receiver-image"
-							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg"">
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg">
                             </c:otherwise>
                             </c:choose>
 					</div> <!-- 오른쪽 상대방 닉네임, 안 읽은 메세지 수, 최근 메세지 내용, 최근 메시지 보낸 날짜 -->

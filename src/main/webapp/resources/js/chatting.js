@@ -602,10 +602,10 @@ function selectChattingFn(){
         }
         
         else if(roomDetail.roomMessageDTO.length == 0){
-            const noneRoomChat = document.createElement("div");
-            noneRoomChat.classList.add("noneRoomChat");
-            noneRoomChat.innerHTML = "채팅을 시작해보세요💭";
-            contentBody.append(noneRoomChat);
+            //const noneRoomChat = document.createElement("div");
+            //noneRoomChat.classList.add("noneRoomChat");
+            //noneRoomChat.innerHTML = "채팅을 시작해보세요💭";
+            //contentBody.append(noneRoomChat);
         }
         
         const chattingInput = document.createElement("div");
