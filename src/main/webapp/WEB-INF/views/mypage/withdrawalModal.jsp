@@ -32,7 +32,7 @@
 			<p class="wModal_p">계정의 모든 정보는 삭제되며 복구되지 않습니다.</p>
 			<div class="btn_modal">
 				<button class="btn_cancel">아니요</button>
-				<button type="submit" class="btn_submit">네</button>				
+				<button class="btn_submit" onclick="location.href='${path}/userWithdrawal'">네</button>				
 			</div>
 		</div>
 	</div>

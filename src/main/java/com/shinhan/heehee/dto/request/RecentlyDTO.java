@@ -1,19 +1,19 @@
 package com.shinhan.heehee.dto.request;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@ToString
 @AllArgsConstructor
-public class MessageDTO {
-	private int msgId;
-	private int imgId;
-	private int roomId;
-	private String sender;
-	private String receiver;
-	private String content;
+@NoArgsConstructor
+public class RecentlyDTO {
+	private int productSeq;
+	private String ID;
 }

@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'SEBANG_Gothic_Bold';
+}
+
+body {
+    background-color: rgb(249, 249, 249);
+}
+
+.ban_container {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.ban_inner_container {
+    width: 800px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    /* background-color: rgb(249, 249, 249); */
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.ban_inner_container div {
+    margin-bottom: 50px;
+}
+
+.ban_inner_container h1 {
+    color: rgb(63, 81, 161);
+}
+
+.ban_inner_container h3 {
+    color: gray;
+}
+
+.ban_title {
+    width: 170px;
+    height: 70px;
+    margin: 0 auto;
+}
+
+.ban_title img {
+    width: 100%;
+    height: 100%;
+}
+
+.ban_btn {
+    width: 200px;
+    height: 50px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(63, 81, 161);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.ban_btn:hover {
+    transform: translateY(-2px);
+    color: rgb(210,223,81);
+}

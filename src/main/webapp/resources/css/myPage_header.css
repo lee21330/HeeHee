@@ -32,7 +32,7 @@
 	width: 150px;
 	height: 150px;
 	margin-top: 50px;
-	object-fit: cover;
+	object-fit: contain;
 	border-radius: 15%;
 }
 
@@ -49,16 +49,18 @@
 	border: 1px solid #CECECE;
 	border-radius: 10px;
 	height: 100px;
-	text-align: center;
+	/* text-align: center; */
+	padding: 10px 10px;
+	box-sizing: border-box;
 }
 
-textarea {
+/* textarea {
 	width: 95%;
 	height: 60px;
 	margin: 5px 0px 0px;
 	border: none;
 	resize: none;
-}
+} */
 
 #btn-intro {
 	float: right;
@@ -70,6 +72,7 @@ textarea {
 	margin-top: 100px;
 	border: 1px solid #CECECE;
 	border-radius: 10px;
+	box-sizing: border-box;
 }
 
 .rating p {
@@ -80,34 +83,7 @@ textarea {
 	width: 30px;
 }
 
-.account {
-	width: 25%;
-	height: 100px;
-	margin-top: 100px;
-	border: 1px solid #CECECE;
-	border-radius: 10px;
-}
-
-.account p {
-	margin: 5px 0px;
-}
-
-.bankImg {
-	width: 30px;
-	height: 30px;
-}
-
-.bankName {
-	display: inline-block;
-}
-
-.accNum {
-	display: inline-block;
-}
-
-#btn-account {
-	float: right;
-}
+/*  */
 
 .top-right {
 	width: 15%;
@@ -126,6 +102,7 @@ textarea {
 	height: 100px;
 	border: 1px solid #CECECE;
 	border-radius: 10px;
+	box-sizing: border-box;
 }
 
 .point p {

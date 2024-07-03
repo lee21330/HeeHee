@@ -7,6 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.request.ImageFileDTO;
+import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
@@ -32,14 +35,49 @@ public class ProductDetailDAO {
 	 * sqlSession.selectOne(namespace + "userIntroduce", prodSeq); }
 	 */
 
-	public List<ProdDetailRecoDTO> prodReco() {
-		return sqlSession.selectList(namespace + "prodrecoDetail");
+	public List<ProdDetailRecoDTO> prodReco(Integer prodSeq) {
+		return sqlSession.selectList(namespace + "prodrecoDetail", prodSeq);
 	}
 	
 	/*
 	 * public int viewLog(Integer prodSeq, String id) { return
 	 * sqlSession.insert(viewLog(prodSeq, id)); }
 	 */
+	
+	public int deleteImgFiles(ImageFileDTO imgDTO) {
+		return sqlSession.delete(namespace + "deleteImgFiles", imgDTO);
+	}
+	
+	public int insertImgFile(ImageFileDTO imgDTO) {
+		return sqlSession.insert(namespace + "insertImgFile", imgDTO);
+	}
+	
+	public int updateProduct(ProductModifyRequestDTO modiDTO) {
+		return sqlSession.update(namespace + "updateProduct", modiDTO);
+	}
+
+
+	public void insertViewLog(ViewLogDTO viewLogDTO) {
+		sqlSession.insert(namespace+"insertViewLog", viewLogDTO);
+	}
+	
+	public int proStatusReserve(int productSeq) {
+		return sqlSession.update(namespace + "proStatusReserve", productSeq);
+	}
+	
+	public int proStatusSelling(int productSeq) {
+		return sqlSession.update(namespace + "proStatusSelling", productSeq);
+	}
+
+	public int proStatusPutOff(int productSeq) {
+		return sqlSession.update(namespace + "proStatusPutoff", productSeq);
+	}
+
+	public int proStatusDelete(int productSeq) {
+		return sqlSession.delete(namespace + "proStatusDelete", productSeq);
+	}
+	
+	
 	
 	
 }

@@ -14,6 +14,7 @@
 	<header>
 		<%@include file="../common/header.jsp"%>
 	</header>
+	<main>
 	<section>
 	<div class="mypage_container">
 			<div class="top">
@@ -28,7 +29,7 @@
 					</div>
 				</div>
 				<div id="rating">
-					<p>평점</p>
+					<p id="rating_title">평점</p>
 					<div class="ratingImg">
 						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
 						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
@@ -36,10 +37,21 @@
 						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
 						<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png"> 
 					</div>
+					<div id="summing_container">
+						<div class="summing">
+							<p class="summing_title">가입한지</p>
+							<p class="summing_body">${sellerinfo.createDiff}일</p>
+						</div>
+						<div class="summing">
+							<p class="summing_title">판매횟수</p>
+							<p class="summing_body">${dealComplete.counting}회</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+	
 	<section>
 		<div class="mypage_container">
 			<p id="sellprodtitle">판매중인 제품목록</p>
@@ -48,9 +60,9 @@
 				<c:forEach var="sellerprod" items="${sellerprodList}">
 					<div class="product">
 						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sellerprod.imgName}"
-						onclick="location.href='${path}/productdetail/${sellerprod.productSeq}'"
+						onclick="location.href='${path}/sell/productdetail/${sellerprod.productSeq}'"
 						style="cursor: pointer;">
-						<p class="sellerprodintro" onclick="location.href='${path}/productdetail/${sellerprod.productSeq}'"
+						<p class="sellerprodintro" onclick="location.href='${path}/sell/productdetail/${sellerprod.productSeq}'"
 						style="cursor: pointer;">
 						${sellerprod.articleTitle}
 						</p>
@@ -60,7 +72,8 @@
 			</form>
 		</div>
 	</section>
-	
+	</main>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var userRating = ${sellerinfo.userRating};

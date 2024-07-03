@@ -22,4 +22,8 @@ public class SellerProfileService {
 	public List<SellerProfileDTO> sellerprod(String id) {
 		return SellerProfileDao.sellerprod(id);
 	}
+	
+	public SellerProfileDTO dealComplete(String id) {
+		return SellerProfileDao.dealComplete(id);
+	}
 }

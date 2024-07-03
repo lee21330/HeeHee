@@ -20,4 +20,6 @@ public class MainProdRankDTO {
 	private int productPrice;
 	private int tablePk;
 	private int imgCateSeq;
+	private int productSeq;
+	private String proStatus;
 }

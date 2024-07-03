@@ -13,12 +13,24 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaleDetailDTO {
-	private String pro_status;
-	private Date ps_date;
+	private int productSeq;
+	private String proStatus;
+	private Date psDate;
+	private String category;
+	private String detailCategory;
+	private String prodName;
 	private String articleTitle;
+	private String introduce;
+	private int dCompanySeq;
+	private String dCompany;
+	private String dNumber;
+	private String dStatus;
+	private int sSeq;
+	private Date pCheck;
+	private Date sCheck;
 	private int productPrice;
-	private int d_charge;
+	private int dCharge;
 	private String deal;
-	private String id;
 	private String imgName;
+	private String buyerId;
 }

@@ -33,20 +33,51 @@ $(document).ready(function() {
         $('html, body').animate({scrollTop: 0}, 500);
     });
     
-    $("#regi_img").on("change", function(e) {
-        var file = e.target.files[0];
-        if (isImageFile(file)) {
+    
+    $('.input_file').on('change', function() {
+        var input = this;
+        var index = $('.input_file').index(this) + 1;
+        var file = input.files[0];
+        
+        if (file) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                $("#preview").attr("src", e.target.result);
+                $('#prv_img' + index).attr('src', e.target.result);
             }
             reader.readAsDataURL(file);
-        } else {
-            alert("이미지 파일만 첨부 가능합니다.");
-            $("#regi_img").val("");
-            $("#preview").attr("src", "");
         }
     });
+    
+    $('.input_file').on('change', function() {
+        var input = this;
+        var index = $('.input_file').index(this) + 1;
+        var file = input.files[0];
+        
+        if (file) {
+            var fileType = file.type;
+            var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/jpg"];
+            if ($.inArray(fileType, validImageTypes) < 0) {
+                // 파일 타입이 이미지가 아닌 경우
+                alert('이미지 파일만 선택 가능합니다.');
+                resetInput(input, index);
+            } else {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#prv_img' + index).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        } else {
+            // 파일 선택이 취소된 경우
+            resetInput(input, index);
+        }
+    });
+
+    function resetInput(input, index) {
+        $(input).val(''); // 선택한 파일 초기화
+        $('#prv_img' + index).attr('src', '/heehee/resources/images/picture.png'); // 기본 이미지로 되돌림
+    }
+    
     
     $("img[id='preview']").click(function () {
         $("#input_file").click();
@@ -60,20 +91,6 @@ $(document).ready(function() {
     });
 });
 
-
-function isImageFile(file, imgElement, fileInput) {
-    var ext = file.name.split(".").pop().toLowerCase();
-    if ($.inArray(ext, ["jpg", "jpeg", "gif", "png"]) === -1) {
-        // 이미지 파일이 아닐 경우 alert를 띄우고 src를 지정된 이미지로 변경
-        alert("이미지 파일만 선택 가능합니다.");
-        imgElement.src = "/heehee/resources/images/picture.png";
-        // 파일 입력 요소의 값을 초기화
-        fileInput.value = "";
-        return false;
-    } else {
-        return true;
-    }
-}
 
 $(function() {
 			$(".category_list li").mouseenter(function() {
