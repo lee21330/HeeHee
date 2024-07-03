@@ -15,9 +15,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,6 +63,7 @@ public class MyPageController {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
+		model.addAttribute("userId", userId);
 		return "/mypage/myPage";
 	}
 
@@ -158,11 +162,13 @@ public class MyPageController {
 
 	// 마이페이지 - 판매 상품 상세페이지
 	@GetMapping("/saledetail/{productSeq}")
-	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model) {
+	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		model.addAttribute("dcOption", mypageservice.dcOption());
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
+		String userId = principal.getName();
+		model.addAttribute("userId", userId);
 		return "/mypage/saleDetail";
 	}
 
@@ -197,10 +203,12 @@ public class MyPageController {
 
 	// 마이페이지 - 구매 상품 상세페이지
 	@GetMapping("/purchasedetail/{productSeq}")
-	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model) {
+	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
+		String userId = principal.getName();
+		model.addAttribute("userId", userId);
 		return "/mypage/purchaseDetail";
 	}
 
@@ -212,6 +220,7 @@ public class MyPageController {
 		model.addAttribute("bankList", mypageservice.bankList());
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("userId", userId);
 		return "/mypage/editProfile";
 	}
 
@@ -222,6 +231,11 @@ public class MyPageController {
 			@RequestParam("userIntroduce") String userIntroduce, Principal principal, RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
 		String image = "";
+		System.out.println("================================");
+		System.out.println(originalProfileImg);
+		System.out.println(nickName);
+		System.out.println(userIntroduce);
+		System.out.println("================================");
 		try {
 			if (profileImages != null && !profileImages.isEmpty()) {
 				// AWS S3에 이미지 업로드
@@ -263,8 +277,24 @@ public class MyPageController {
 	@ResponseBody
 	public void currentPwCheck(Principal principal, String currentPw) {
 		String userId = principal.getName();
-		
+
 		mypageservice.currentPwCheck(userId, currentPw);
+	}
+
+	// 마이페이지_프로필 수정 페이지:회원 탈퇴
+	@DeleteMapping("/profile/deleteUser")
+	@ResponseBody
+	public ResponseEntity<Map<String,Object>> deleteUser(Principal principal) {
+		Map<String,Object> response = new HashMap<String,Object>();
+		String userId = principal.getName();
+		int result = mypageservice.deleteUser(userId);
+		
+		if(result > 0) {
+			response.put("success", true);
+		} else {
+			response.put("success", false);
+		}
+		return ResponseEntity.ok(response);
 	}
 
 	// 마이페이지-QnA
@@ -273,7 +303,8 @@ public class MyPageController {
 		String userId = principal.getName();
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
-		
+		model.addAttribute("userId", userId);
+
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
 
@@ -292,7 +323,7 @@ public class MyPageController {
 	}
 
 	// 마이페이지-QnA-나의 문의 삭제하기
-	@GetMapping("/qnaBoard/deleteQna")
+	@DeleteMapping("/qnaBoard/deleteQna")
 	public String deleteQna(Integer seqQnaBno, Principal principal, RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
 		int result = mypageservice.deleteQna(seqQnaBno);
@@ -311,46 +342,15 @@ public class MyPageController {
 		return "redirect:/mypage/qnaBoard";
 	}
 
-//	@PostMapping("/qnaBoard/insertQna")
-//	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs,
-//			Principal principal, RedirectAttributes redirectAttr) {
-//		String userId = principal.getName();
-//		InsertQnADTO qna = new InsertQnADTO();
-//		qna.setId(userId);
-//
-//		// qna 데이터 삽입
-//		int result = mypageservice.insertQna(qna);
-//		if (result > 0) {
-//			// qna 객체에 삽입된 seqQnaBno 값을 qnaImg의 tablePk로 설정
-//			if (uploadImgs != null && !uploadImgs.isEmpty()) {
-//				for (MultipartFile img : uploadImgs) {
-//					InsertQnAImgDTO qnaImg = new InsertQnAImgDTO(); // 매 반복마다 새로운 객체 생성
-//					qnaImg.setTablePk(qna.getSeqQnaBno());
-//					qnaImg.setId(userId);
-//					try {
-//						String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaboard/");
-//						qnaImg.setImgName(imgName);
-//						mypageservice.insertQnaImg(qnaImg);
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//		} else {
-//			redirectAttr.addFlashAttribute("result", "insert fail");
-//		}
-//
-//		return "redirect:/mypage/qnaBoard";
-//	}
 	@PostMapping("/qnaBoard/insertQna")
-	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, InsertQnADTO qna, Principal principal,
-			RedirectAttributes redirectAttr) throws IOException {
+	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, InsertQnADTO qna,
+			Principal principal, RedirectAttributes redirectAttr, Model model) throws IOException {
 		String userId = principal.getName();
+		model.addAttribute("userId", userId);
 		qna.setId(userId);
 		System.out.println(qna);
 		System.out.println(uploadImgs);
 		mypageservice.insertQna(qna, uploadImgs);
-
 
 		return "redirect:/mypage/qnaBoard";
 	}
@@ -380,14 +380,20 @@ public class MyPageController {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		String userId = principal.getName();
+		model.addAttribute("userId", userId);
 //		model.addAttribute("point", mypageservice.searchPoint(userId));
 		return "/mypage/pointList";
 	}
 
-	// 회원 탈퇴
-	@PostMapping("/userWithdrawal")
-	public String withdrawal() {
-		return "/main";
+	// 포인트 충전
+	@PutMapping("/chargePoint")
+	@ResponseBody
+	public void chargePoint(Principal principal, @RequestBody Map<String, Integer> map) {	
+		String userId = principal.getName();
+		Integer newPoint = map.get("point") + map.get("userPoint");
+
+		mypageservice.chargePoint(userId, newPoint);
 	}
+
 
 }

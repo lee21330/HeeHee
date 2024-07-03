@@ -130,7 +130,8 @@ form {
 
 #my_nick_dup_result {
 	visibility: hidden;
-}
+	color: red;
+} 
 
 #userIntroduce {
 	height: 100px;

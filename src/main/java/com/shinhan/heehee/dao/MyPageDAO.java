@@ -115,6 +115,9 @@ public class MyPageDAO {
 	public int updateSCheck(int proSeq) {
 		return sqlSession.update(namespace + "updateSCheck", proSeq);
 	}
+	public int updatePCheck(int proSeq) {
+		return sqlSession.update(namespace + "updatePCheck", proSeq);
+	}
 
 	public List<BankKindDTO> bankList() {
 		return sqlSession.selectList(namespace + "bankList");
@@ -174,5 +177,32 @@ public class MyPageDAO {
 		// 현재 암호화된 비밀번호 조회
 		return sqlSession.selectOne(namespace + "selectEncPw", userId);
 	}
+
+	public int deleteUser(String userId) {
+		return sqlSession.delete(namespace + "deleteUser", userId);
+	}
+	public int deleteAucId(String userId) {
+		return sqlSession.update(namespace + "deleteAucId", userId);
+	}
+	public int deleteId(String userId) {
+		return sqlSession.update(namespace + "deleteId", userId);
+	}
+	public int deleteChatBySeller(String userId) {
+		return sqlSession.update(namespace + "deleteChatBySeller", userId);
+	}
+
+	public int deleteChatByBuyer(String userId) {
+		return sqlSession.update(namespace + "deleteChatByBuyer", userId);
+	}
+	
+	
+	public int chargePoint(String userId, Integer userPoint) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("userPoint", userPoint);
+		return sqlSession.update(namespace + "chargePoint", params);
+	}
+
+	
 
 }

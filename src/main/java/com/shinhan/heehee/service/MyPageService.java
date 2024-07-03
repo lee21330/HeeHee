@@ -35,16 +35,15 @@ public class MyPageService {
 
 	@Autowired
 	MyPageDAO mypageDao;
-	
+
 	@Autowired
 	AlarmDAO alarmDao;
-	
+
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
-	
+
 	@Autowired
 	AWSS3Service s3Service;
-
 
 	public List<PurchaseListDTO> purchaseList(String userId) {
 		return mypageDao.purchaseList(userId);
@@ -81,10 +80,10 @@ public class MyPageService {
 	@Transactional
 	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
 		int result = mypageDao.insertQna(qna);
-		if(result == 1 && uploadImgs != null && !uploadImgs.isEmpty()) {
+		if (result == 1 && uploadImgs != null && !uploadImgs.isEmpty()) {
 			for (MultipartFile img : uploadImgs) {
 				try {
-					
+
 					String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaBoard/");
 					InsertQnAImgDTO qnaImg = new InsertQnAImgDTO();
 					qnaImg.setImgName(imgName);
@@ -95,7 +94,7 @@ public class MyPageService {
 					e.printStackTrace();
 				}
 			}
-			
+
 		}
 		return result;
 	}
@@ -129,27 +128,36 @@ public class MyPageService {
 	@Transactional
 	public int insertDelivery(InsertDeliveryDTO delivery) {
 		int result = mypageDao.insertDelivery(delivery);
-		if(result==1) {
+		if (result == 1) {
 			// 알림 insert
-    		AlarmDTO alarmDTO = new AlarmDTO();
-    		
-    		String buyerId = delivery.getBuyerId();
-    		
-    		alarmDTO.setId(buyerId);
-    		alarmDTO.setCateNum(5); // 알림 분류 코드 (채팅)
-    		alarmDTO.setReqSeq(delivery.getDSeq());
-    		alarmDTO.setAlContent("송장 번호가 입력되었습니다.");
-    		
-    		alarmDao.alarmInsert(alarmDTO);
-    		
-    		int alarmCnt = alarmDao.alarmCount(buyerId);
-    		messagingTemplate.convertAndSend("/topic/alarm/" + buyerId, alarmCnt);
+			AlarmDTO alarmDTO = new AlarmDTO();
+
+			String buyerId = delivery.getBuyerId();
+
+			alarmDTO.setId(buyerId);
+			alarmDTO.setCateNum(5); // 알림 분류 코드 (채팅)
+			alarmDTO.setReqSeq(delivery.getDSeq());
+			alarmDTO.setAlContent("송장 번호가 입력되었습니다.");
+
+			alarmDao.alarmInsert(alarmDTO);
+
+			int alarmCnt = alarmDao.alarmCount(buyerId);
+			messagingTemplate.convertAndSend("/topic/alarm/" + buyerId, alarmCnt);
 		}
 		return result;
 	}
 
 	public int updateSCheck(int proSeq) {
-		return mypageDao.updateSCheck(proSeq);
+		int result = mypageDao.updateSCheck(proSeq);
+//		int check = mypageDao.searchDeal(proSeq);
+//		if()
+		return result;
+
+	}
+
+	public int updatePCheck(int proSeq) {
+		return mypageDao.updatePCheck(proSeq);
+
 	}
 
 	public List<BankKindDTO> bankList() {
@@ -207,6 +215,22 @@ public class MyPageService {
 		String encPw = mypageDao.selectEncPw(userId);
 		return 0;
 
+	}
+
+	@Transactional
+	public int deleteUser(String userId) {
+		int result = mypageDao.deleteUser(userId);
+		if (result == 1) {
+			mypageDao.deleteAucId(userId);
+			mypageDao.deleteId(userId);
+			mypageDao.deleteChatByBuyer(userId);
+			mypageDao.deleteChatBySeller(userId);
+		}
+		return result;
+	}
+
+	public int chargePoint(String userId, Integer chargePoint) {
+		return mypageDao.chargePoint(userId, chargePoint);
 	}
 
 }

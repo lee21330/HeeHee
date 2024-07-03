@@ -140,7 +140,11 @@
 		    	location.reload();
 		    },
 		    error: function (data, status, err) {
-		    	showTost("존재하지 않는 계정입니다.");
+		    	if (xhr.status === 404) {
+	                showTost("존재하지 않는 계정입니다.");
+	            } else {
+	                showTost("로그인 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	            }
 		    }
 		});
 	}
@@ -156,11 +160,7 @@
 		    	loginCheck();
 		    	location.reload();
 		    },error: function (xhr, status, err) {
-		    	if (xhr.status === 404) {
-	                showTost("존재하지 않는 계정입니다.");
-	            } else {
-	                showTost("로그인 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	            }
+		    	showTost("로그아웃에 실패했습니다. 다시 시도해 주세요.")
 		    }
 		});
 	}

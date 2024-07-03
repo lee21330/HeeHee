@@ -35,10 +35,5 @@ public class MainController {
 		model.addAttribute("recentprodList", mainservice.recentprodList());
 		return "/main/main";
 	}
-	
-	@GetMapping("/auc")
-	public String auction(Model model) {
-		model.addAttribute("aucList", auctionService.aucProdList());
-		return "/main/auction";
-	}
+
 }

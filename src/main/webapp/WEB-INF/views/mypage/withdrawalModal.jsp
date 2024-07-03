@@ -20,6 +20,20 @@
 				$("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
 			}
 		});
+
+		function deleteUser() {
+			$.ajax({
+				url : "/heehee/mypage/profile/deleteUser",
+				method : "DELETE",
+				success : function(data) {
+					console.log(data);
+					logout();
+				},
+				error : function(err) {
+					console.log(err)
+				}
+			});
+		}
 	</script>
 
 	<div class="mModal">
@@ -32,7 +46,7 @@
 			<p class="wModal_p">계정의 모든 정보는 삭제되며 복구되지 않습니다.</p>
 			<div class="btn_modal">
 				<button class="btn_cancel">아니요</button>
-				<button class="btn_submit" onclick="location.href='${path}/userWithdrawal'">네</button>				
+				<button class="btn_submit" onclick="deleteUser()">네</button>
 			</div>
 		</div>
 	</div>
