@@ -16,6 +16,7 @@ public class PayRequestDTO {
 	private String payName;
 	private int amount;
 	private String buyerId;
+	private String sellerId;
 	private Integer aucSeq;
 	private Integer sellSeq;
 }

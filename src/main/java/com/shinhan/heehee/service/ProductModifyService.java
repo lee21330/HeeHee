@@ -13,7 +13,9 @@ import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 
 @Service
 public class ProductModifyService {
-
+	
+	/* 이미지파일 삽입, 카테고리 삽입, 제품명 삽입, 판매제품 테이블 삽입은 ProductDetailService에 있음 */
+	
 	@Autowired
 	ProductModifyDAO productModifyDao;
 	

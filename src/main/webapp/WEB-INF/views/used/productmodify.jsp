@@ -184,8 +184,8 @@
 
 	    $("#input_file1").on('change', function() {
 	    	$("#new_preview_container").empty();
-	        if (this.files.length > 5) {
-	            alert('최대 5개의 이미지만 선택 가능합니다.');
+	        if (this.files.length + ${prodImgList.size()} > 5 || this.files.length + ${prodImgList.size()} < 1) {
+	            alert('이미지는 1개에서 5개 사이로만 선택 가능합니다.');
 	            this.value = ''; // 선택된 파일들 초기화
 	            return; // 초과 선택 시 더 이상 진행하지 않음
 	        }
