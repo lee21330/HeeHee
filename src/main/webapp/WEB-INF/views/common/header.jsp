@@ -18,20 +18,22 @@
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
 <script>
+var socket = new SockJS('/heehee/ws'); // WebSocketConfig 설정에서 sockJS 연결 주소
+stompClient = Stomp.over(socket);
+
 $(document).ready(function() {
 	// 로그인 여부 확인
 	beforeConnectCheck();
 });
 
 function beforeConnectCheck() {
+	console.log("타는거야?");
 	 // 로그인 하면 소켓 연결
-	if("${userId}" != "") connect();
+	if("${userId}" != "") alarmConnect();
 }
 
-function connect() {
-    var socket = new SockJS('/heehee/ws'); // WebSocketConfig 설정에서 sockJS 연결 주소
-    stompClient = Stomp.over(socket);
-    
+function alarmConnect() {
+	console.log("알람 커넥트 이벤트");
     stompClient.connect({}, function (frame) {
     	// setConnected(true);
         console.log('Connected: ' + frame);
@@ -40,6 +42,7 @@ function connect() {
         stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
 			showResponse(JSON.parse(response.body));
         });
+        //alarmUnck();
     });
 }
 

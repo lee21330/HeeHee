@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.productDetail">
-	<select id="productInfo" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
+	<select id="productInfo" parameterType="com.shinhan.heehee.dto.request.ProductDetailRequestDTO" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
 	    SELECT 
 		    SELL.*, 
 		    CATE.*, 
@@ -13,7 +13,8 @@
 		    USER_INFO.USER_RATING AS USER_RATING,
 		    USER_INFO.USER_INTRODUCE,
 		    (SELECT COUNT(*) FROM VIEW_LOG WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS VIEW_CNT,
-		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT
+		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT,
+		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ} AND ID = #{userId}) AS specifiedJjimCnt
 		FROM 
 		    SELL_PRODUCT SELL
 		INNER JOIN 
@@ -230,25 +231,40 @@
 	</insert>
 	
 	
-	<insert id="insertRecently" parameterType="com.shinhan.heehee.dto.request.RecentlyDTO">
-		INSERT INTO RECENTLY VALUES (#{PROD_SEQ}, #{ID})
-	</insert>
+	<!-- <insert id="insertRecently" parameterType="com.shinhan.heehee.dto.request.RecentlyDTO">
+		INSERT INTO RECENTLY VALUES (#{productSeq}, #{ID})
+	</insert> -->
 	
-	<select id="selectRecently" resultType="com.shinhan.heehee.dto.response.RecentlyDTO">
-		SELECT * FROM RECENTLY
-		WHERE ID = #{ID}
-		AND ROWNUM <![CDATA[<]]> 3
+	
+	<select id="selectRecently" parameterType="String" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
+		SELECT *
+		FROM (SELECT *
+		FROM (
+		SELECT VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME, MAX(CREATE_DATE) CRE_DATE
+		  FROM VIEW_LOG VLOG, IMG_FILES IMG
+		 WHERE VLOG.PRODUCT_SEQ = IMG.TABLE_PK
+		   AND VLOG.ID = #{userId}
+		   AND IMG.IMG_CATE_SEQ = 2
+		   AND IMG.IMG_SEQ = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = VLOG.PRODUCT_SEQ AND IMG_CATE_SEQ = 2)
+		 GROUP BY VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME)
+		 ORDER BY CRE_DATE DESC)
+		 WHERE ROWNUM <![CDATA[<]]> 3
 	</select>
 	
 	
 	<insert id="insertJjim" parameterType="com.shinhan.heehee.dto.request.JjimDTO">
-		INSERT INTO JJIM VALUES (#{PROD_SEQ}, #{ID})
+		INSERT INTO JJIM VALUES (#{productSeq}, #{id})
 	</insert>
-	
 	
 	<delete id="deleteJjim" parameterType="com.shinhan.heehee.dto.request.JjimDTO">
 		DELETE FROM JJIM
-		WHERE product_seq = #{PROD_SEQ} 
-		AND ID = #{ID}
+		WHERE product_seq = #{productSeq} 
+		AND ID = #{id}
 	</delete>
+	
+	<select id="selectJjim" parameterType="int" resultType="int">
+		SELECT COUNT(*) AS JJIM_CNT
+		FROM JJIM
+		WHERE PRODUCT_SEQ = #{productSeq}
+	</select>
 </mapper>

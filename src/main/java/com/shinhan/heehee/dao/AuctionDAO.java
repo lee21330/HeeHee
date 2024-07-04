@@ -33,4 +33,8 @@ public class AuctionDAO {
 	public AuctionProdInfoDTO aucProdInfo(int aucSeq) {
 		return sqlSession.selectOne(namespace + "aucProdInfo", aucSeq);
 	}
+	
+	public List<AuctionProdDTO> aucProdAll() {
+		return sqlSession.selectList(namespace + "aucProdAll");
+	}
 }

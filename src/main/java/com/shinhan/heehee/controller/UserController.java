@@ -56,12 +56,6 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<?> singUp(UserDTO userDto, HttpServletResponse response) throws Exception {
 		response.setContentType("text/plain;charset=UTF-8");
-		if (!userDto.getPassword().equals(null)) {
-			// BCryptPasswordEncoder 생성
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-			userDto.setPassword(encodedPassword);
-		}
 		return userService.signup(userDto);
 	}
 
@@ -73,8 +67,7 @@ public class UserController {
 
 		UserDTO user = userService.login(userId, userPw);
 
-		if (user == null)
-			throw new UserNotFoundException();
+		if (user == null) throw new UserNotFoundException();
 
 		try {
 			// 사용자 인증을 위한 UsernamePasswordAuthenticationToken 객체 생성
@@ -108,11 +101,21 @@ public class UserController {
 		return "/common/loginCheck";
 	}
 	
-	@GetMapping("/duplicateCheck")
+	@GetMapping("/dupIdCheck")
 	@ResponseBody
-	public ResponseEntity<?> duplicateCheck(@RequestParam String id) {
-		Map<String,Object> response = new HashMap<String,Object>();
-		UserDTO user = new UserDTO();
-		return ResponseEntity.ok("");
+	public Map<String,Object> dupIdCheck(@RequestParam String id) {
+		return userService.dupIdCheck(id);
+	}
+	
+	@GetMapping("/dupNickCheck")
+	@ResponseBody
+	public Map<String,Object> dupNickCheck(@RequestParam String nickName) {
+		return userService.dupNickCheck(nickName);
+	}
+	
+	@GetMapping("/dupEmailCheck")
+	@ResponseBody
+	public Map<String,Object> dupEmailCheck(@RequestParam String email) {
+		return userService.dupEmailCheck(email);
 	}
 }

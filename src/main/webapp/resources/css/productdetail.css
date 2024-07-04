@@ -125,7 +125,7 @@ body {
 }
 
 #disabled_btn {
-	margin-top: 15px;
+	margin-top: 25px;
 	width: 200px;
 	height: 45px;
 	background: #acacac;
@@ -187,11 +187,11 @@ body {
 
 #product_etc {
 	font-size: 13px;
+	height: 22px;
 }
 
 #fullHeart {
 	cursor: pointer;
-	display: none;
 	margin-left: 1ch;
 	font-size: 20px;
 }
