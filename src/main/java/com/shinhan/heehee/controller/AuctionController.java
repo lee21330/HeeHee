@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
+import com.shinhan.heehee.dto.response.auction.SellerInfoResponseDTO;
 import com.shinhan.heehee.service.AuctionService;
 
 @Controller
@@ -44,11 +45,15 @@ public class AuctionController {
 	@GetMapping("/detail/{aucSeq}")
 	public String detail(@PathVariable("aucSeq") int aucSeq, Model model, Principal principal) {
 		AuctionProdInfoDTO aucProdInfo = auctionService.aucProdInfo(aucSeq);
-		
 		if(aucProdInfo == null) return "redirect:/auc";
+		
+		if(principal != null) model.addAttribute("userId", principal.getName());
+		
+		SellerInfoResponseDTO sellerInfo = auctionService.sellerInfo(aucProdInfo.getSellerId());
 		
 		model.addAttribute("aucProdInfo", aucProdInfo);
 		model.addAttribute("aucImgs", auctionService.aucProdImgList(aucSeq));
+		model.addAttribute("sellerInfo", sellerInfo);
 		return "/auction/detail";
 	}
 
@@ -65,6 +70,7 @@ public class AuctionController {
 		bidLock.lock();
 		try {
 			auctionService.insertAucHistory(aucHistory);
+			aucHistory = auctionService.joinCount(aucHistory);
 			messagingTemplate.convertAndSend("/topic/auction/" + aucSeq, aucHistory);
 		} finally {
 			bidLock.unlock();

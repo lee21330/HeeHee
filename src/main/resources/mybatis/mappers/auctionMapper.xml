@@ -52,18 +52,31 @@
 	
 	<select id="aucProdInfo" parameterType="int"
 		resultType="com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO">
+		SELECT A.*, U.NICK_NAME AS CURRENT_NICK FROM
+		(SELECT * FROM(
 		SELECT PRODUCT_SEQ
 	    , NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
 	    , INCREASE_PRICE
 	    , AUCTION_TITLE
 	    , INTRODUCE
+        , CONDITION
 	    , TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
 	    , TO_CHAR(EXP_TIME, 'hh24:mi:ss') AS EXP_TIME
 	    , AUC_STATUS
 	    , AUCTION_SEQ
+        , CATE.CATEGORY
+        , CATE.DETAIL_CATEGORY
 	    , SELLER_ID
-		FROM AUC_PRODUCT AUC 
-		WHERE PRODUCT_SEQ = #{aucSeq}
+        , (SELECT COUNT(DISTINCT(USER_ID)) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ) AS JOIN_COUNT
+        , HIS. USER_ID AS CURRENT_ID
+		FROM AUC_PRODUCT AUC , PRODUCT_CATEGORY CATE , AUCTION_HISTORY HIS
+		WHERE AUC.AUCTION_SEQ  = CATE.PRODUCT_CATE_SEQ
+        AND HIS.AUC_PROD_SEQ(+) = AUC.PRODUCT_SEQ
+        AND PRODUCT_SEQ = #{aucSeq}
+        ORDER BY BID_PRICE DESC)
+		WHERE ROWNUM = 1) A,
+		HH_USER U
+		WHERE A.CURRENT_ID = U.ID(+)
 	</select>
 	
 	<select id="aucProdImgList" parameterType="int" resultType="com.shinhan.heehee.dto.response.auction.AuctionImgsDTO">
@@ -71,5 +84,13 @@
 		FROM IMG_FILES
 		WHERE TABLE_PK = #{aucSeq}
 		AND IMG_CATE_SEQ = 3
+	</select>
+	
+	<select id="sellerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.auction.SellerInfoResponseDTO">
+		SELECT ID, NICK_NAME, PROFILE_IMG, USER_INTRODUCE, USER_RATING FROM HH_USER WHERE ID = #{userId}
+	</select>
+	
+	<select id="joinCount" parameterType="int" resultType="int">
+		SELECT COUNT(DISTINCT(USER_ID)) AS JOIN_COUNT FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = #{aucSeq}
 	</select>
 </mapper>

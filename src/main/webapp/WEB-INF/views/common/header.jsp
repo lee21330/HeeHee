@@ -92,7 +92,7 @@ function sendAlarm() {
 					</div>
 					<div class="div_line"></div>
 					<div>
-						<a class="a_color" href="/heehee/auc">경매물품</a>
+						<a class="a_color" onclick="beforeCheckLocation('/heehee/auc')">경매물품</a>
 					</div>
 				</div>
 				<div class="search_container">

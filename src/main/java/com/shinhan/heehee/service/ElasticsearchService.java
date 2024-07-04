@@ -10,6 +10,9 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentType;
 import org.slf4j.Logger;
@@ -52,7 +55,7 @@ public class ElasticsearchService {
             .put("index.analysis.filter.ngram_filter.type", "ngram")
             .put("index.analysis.filter.ngram_filter.min_gram", 1)		// 최소글자
             .put("index.analysis.filter.ngram_filter.max_gram", 25)	// 최대 글자
-            .put("index.max_ngram_diff", 24)  // max_ngram_diff 설정 추가
+            .put("index.max_ngram_diff", 24)  // 최대 최소 글자 차이
         );
 
         // 매핑 설정
@@ -99,7 +102,7 @@ public class ElasticsearchService {
             jsonMap.put("aucPrice", data.getAucPrice());
             jsonMap.put("auctionTitle", data.getAuctionTitle());
 
-            // expDate를 yyyy-MM-dd 형식으로 변환 (변환 안하니까 오류 뜸..)
+            // expDate를 yyyy/MM/dd 형식으로 변환 (변환 안하니까 오류 뜸..)
             String expDateStr = data.getExpDate();
             LocalDate date = LocalDate.parse(expDateStr, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
             String formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
@@ -116,6 +119,7 @@ public class ElasticsearchService {
         logger.info("Elasticsearch 서버에 데이터 동기화 메소드 실행");
     }
 
+    // 모든 데이터 검색
     public List<AuctionProdDTO> search(String keyword) throws IOException {
         SearchRequest searchRequest = new SearchRequest("auction_index");
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -137,6 +141,32 @@ public class ElasticsearchService {
             );
             results.add(prod);
         });
+
+        return results;
+    }
+    
+    // 비슷한 title 그룹화
+    public List<Map<String, Object>> grouppingSearch(String keyword) throws IOException {
+        SearchRequest searchRequest = new SearchRequest("auction_index");
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        
+        sourceBuilder.query(QueryBuilders.matchQuery("auctionTitle", keyword).analyzer("standard"))
+                     .aggregation(AggregationBuilders.terms("group_by_title").field("auctionTitle.keyword"));
+        
+        searchRequest.source(sourceBuilder);
+
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+        
+        List<Map<String, Object>> results = new ArrayList<>();
+        Aggregations aggregations = searchResponse.getAggregations();
+        Terms terms = aggregations.get("group_by_title");
+        
+        for (Terms.Bucket bucket : terms.getBuckets()) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("title", bucket.getKeyAsString());
+            result.put("count", bucket.getDocCount());
+            results.add(result);
+        }
 
         return results;
     }

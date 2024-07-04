@@ -3,18 +3,11 @@
 <link rel="stylesheet" href="${path}/resources/css/loginModal.css">
 
 <script>
-
 	var idFlag = false;
 	var nickNameFlag = false;
 	var emailFlag = false;
 	var authFlag = false;
-	
-	$(window).on('unload', function() {
-	    var cookieName = 'Authorization';
-	    document.cookie = encodeURIComponent(cookieName) + "=deleted; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-	});
-	
-	
+	var checkNick = "${userNickName}";
 	
 	$(function() {
 		$("#loginBtn").on("click", openLogin);
@@ -136,7 +129,6 @@
 		    	console.log(xhr.getResponseHeader('Authorization'))// 헤더에 있는 토큰을 받아와서
 		    	localStorage.setItem('accessToken', xhr.getResponseHeader('Authorization')) // 로컬스토리지
 		    	closeLogin();
-		    	loginCheck();
 		    	location.reload();
 		    },
 		    error: function (data, status, err) {
@@ -157,10 +149,9 @@
 		    	console.log(data);
 		    	console.log(status);
 		    	console.log(xhr);
-		    	loginCheck();
 		    	location.reload();
 		    },error: function (xhr, status, err) {
-		    	showTost("로그아웃에 실패했습니다. 다시 시도해 주세요.")
+		    	showTost("로그아웃 중 오류가 발생했습니다. 다시 시도해 주세요.");
 		    }
 		});
 	}

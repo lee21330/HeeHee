@@ -10,6 +10,7 @@ import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
+import com.shinhan.heehee.dto.response.auction.SellerInfoResponseDTO;
 
 @Repository
 public class AuctionDAO {
@@ -41,5 +42,13 @@ public class AuctionDAO {
 	
 	public List<AuctionImgsDTO> aucProdImgList(int aucSeq) {
 		return sqlSession.selectList(namespace + "aucProdImgList", aucSeq);
+	}
+	
+	public SellerInfoResponseDTO sellerInfo(String userId) {
+		return sqlSession.selectOne(namespace + "sellerInfo", userId);
+	}
+	
+	public int joinCount(int aucSeq) {
+		return sqlSession.selectOne(namespace + "joinCount", aucSeq);
 	}
 }
