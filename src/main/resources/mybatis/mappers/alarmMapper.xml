@@ -94,11 +94,10 @@
 								A.AL_NUM alNum,
 								A.AL_CHECK alCheck
 					FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
-											JOIN DEAL_HISTORY DH ON (A.ID = DH.BUYER_ID)
-											JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = DH.SELL_SEQ)
+											JOIN SELL_PRODUCT S ON (A.AL_REQ_SEQ = S.PRODUCT_SEQ)
 					WHERE A.ID = #{userId}
 								AND A.CATE_NUM = 2 -- 판매
-								AND A.AL_REQ_SEQ = DH.S_SEQ
+								AND A.AL_REQ_SEQ = S.PRODUCT_SEQ
 					UNION ALL
 					SELECT NVL(CM.SENDER, '📢 From. 희희낙찰') sender,
 								A.AL_CONTENT alContent,
@@ -182,10 +181,9 @@
 							MAX(A.AL_NUM) alNum,
 							MAX(A.AL_CHECK) alCheck
 				FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
-										JOIN DEAL_HISTORY DH ON (A.ID = DH.BUYER_ID)
-										JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = DH.SELL_SEQ)
+										JOIN SELL_PRODUCT S ON (A.AL_REQ_SEQ = S.PRODUCT_SEQ)
 				WHERE A.CATE_NUM = 2 -- 판매
-							AND A.AL_REQ_SEQ = DH.S_SEQ
+							AND A.AL_REQ_SEQ = S.PRODUCT_SEQ
 							AND AL_CHECK = 'N'
 							AND A.ID = #{userId}
 				UNION ALL
