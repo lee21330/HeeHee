@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	setInterval(function() {
 		fetchChatRoomList();
 		//selectChattingFn();
-	}, 10000);
+	}, 1500);
 	
 });
 
@@ -825,6 +825,7 @@ function updateChatRoomList(data) {
     
     // 조회한 채팅방 목록을 순회
     for (let room of data) {
+    	
         console.log("room:", `"${room.id}"]`);
         // 채팅방 아이템을 찾기
         const existingChatRoom = chattingList.querySelector(`li[room-id="${room.id}"]`);
@@ -865,7 +866,7 @@ function updateChatRoomList(data) {
                 }
           	    
           	    //업데이트 후 목록 맨 위로 이동
-          	    chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
+          	    //chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
             }
             
         } else {
