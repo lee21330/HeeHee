@@ -18,7 +18,7 @@ public class ExceptionHandlerController {
 	Logger logger = LoggerFactory.getLogger("ExceptionHandlerController.class");
 
 	
-	@ExceptionHandler(NoHandlerFoundException.class)
+	@ExceptionHandler(ProductNotFoundException.class)
     public String product404(HttpServletRequest request, ProductNotFoundException ex) {
         logger.warn("=====제품정보가 존재하지 않습니다.======");
         logger.warn("요청 URL: " + request.getRequestURL());
