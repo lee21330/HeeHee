@@ -19,5 +19,6 @@ public class MyPageHeaderDTO {
 	private String userIntroduce;
 	private int userRating;
 	private int userPoint;
+	private String PW;
 	
 }

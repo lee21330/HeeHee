@@ -114,7 +114,7 @@
 						<p>내 계좌</p>
 						<div class="right-information" id="btn-account">
 							<p>${profile.bank}${profile.accountNum}</p>
-							<%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%>
+							<%-- <%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%> --%>
 							<img class="photo-arrow"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
 						</div>
@@ -157,13 +157,13 @@
 				<div class="right-box" id="pw-box">
 					<p>비밀번호</p>
 					<button id="btn-pw" class="btn">수정</button>
-					<%-- <%@include file="/WEB-INF/views/mypage/pwModal.jsp"%> --%>
+				<%-- 	 <%@include file="/WEB-INF/views/mypage/pwModal.jsp"%>  --%>
 				</div>
 
 				<div class="right-box">
 
 					<p id="drawal">회원 탈퇴</p>
-					<%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%>
+					<%-- <%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%> --%>
 				</div>
 			</div>
 		</div>

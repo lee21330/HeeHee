@@ -315,14 +315,24 @@
 		SELECT * FROM DEAL_HISTORY
 		WHERE #{id}
 	</select>
-	<select id="searchPoint" parameterType="String"
+	<select id="searchPoint" parameterType="map"
 		resultType="com.shinhan.heehee.dto.response.PointListDTO">
-		SELECT *
+
+		SELECT PAY_DATE, AMOUNT
 		FROM PAY_HISTORY
-		WHERE AUC_SEQ IS NULL
+		WHERE TO_CHAR(PAY_DATE, 'YYYY') = #{YEAR}
+		AND TO_CHAR(PAY_DATE, 'MM') =
+		#{MONTH}
+		AND BUYER_ID = #{userId}
+		AND AUC_SEQ IS NULL
 		AND SELL_SEQ IS NULL
-		AND PAY_HISTORY.BUYER_ID = #{id}
-		AND MONTH(PAY_DATE) = #{month}
-		AND YEAR(PAY_DATE) = #{year}
+
+		ORDER BY PAY_DATE
 	</select>
+	<update id="updatePw" parameterType="map">
+		UPDATE HH_USER
+		SET
+		PW = #{pw}
+		WHERE ID = #{userId}
+	</update>
 </mapper>

@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
@@ -195,8 +194,12 @@ public class MyPageDAO {
 		return sqlSession.update(namespace + "chargePoint", params);
 	}
 
-	public List<PointListDTO> searchPoint(String userId) {
-		return sqlSession.selectList(namespace + "searchPoint", userId);
+	public List<PointListDTO> searchPoint(String userId, String year, String monthPart) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("YEAR", year);
+		params.put("MONTH", monthPart);
+		return sqlSession.selectList(namespace + "searchPoint", params);
 	}
 
 	public int updatePhone(String userId, String phone) {
@@ -212,6 +215,13 @@ public class MyPageDAO {
 		params.put("address", address);
 		params.put("detailAddress", detailAddress);
 		return sqlSession.update(namespace + "updateAddress", params);
+	}
+
+	public int updatePw(String userId, String pw) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("pw", pw);
+		return sqlSession.update(namespace + "updatePw", params);
 	}
 
 	

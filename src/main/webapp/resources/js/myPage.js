@@ -51,11 +51,14 @@ function changeStatus(status) {
 					var detailUrl = '';
 
 					// 판매상태에 따라 페이지 다르게
-					if (sale.proStatus === '판매중') {
+					if (sale.proStatus === '판매중' ||sale.proStatus === '판매보류' || sale.proStatus === '판매중지') {
 						detailUrl = "/heehee/sell/productdetail/" + sale.productSeq;
-					} else if (sale.proStatus === '판매보류' || sale.proStatus === '판매중지') {
-						detailUrl = 'javascript:void(0);'; // 판매보류일 경우, 클릭 이벤트를 비활성화
-					} else {
+					}
+					 //else if (sale.proStatus === '판매보류' || sale.proStatus === '판매중지') {
+						//detailUrl = 'javascript:void(0);'; // 판매보류일 경우, 클릭 이벤트를 비활성화
+						//} 
+					
+					else {
 						detailUrl = "/heehee/mypage/saledetail/" + sale.productSeq;
 					}
 

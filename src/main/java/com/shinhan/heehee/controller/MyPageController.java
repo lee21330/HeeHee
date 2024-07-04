@@ -24,11 +24,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
+import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
@@ -300,35 +302,20 @@ public class MyPageController {
 		return "redirect:/mypage/profile";
 	}
 
-//	// 마이페이지_프로필 수정 페이지:비밀번호 수정
-//	@PostMapping("/profile/updatePw")
-//	public String updatePw(Principal principal, UserDTO userDto, String currentPassword, String password, String confirmPassword, Model model) {
-//		String userId = principal.getName();
-//		
-//		 // 현재 비밀번호 확인 로직
-//	    if (!passwordEncoder.matches(currentPassword,userId)) {
-//	        model.addAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다.");
-//	        return "/mypage/profile";
-//	    }
-//
-//	    // 새 비밀번호와 비밀번호 확인 일치 여부 확인 로직
-//	    if (password != null && !password.isEmpty()) {
-//	        if (!password.equals(confirmPassword)) {
-//	            model.addAttribute("errorMessage", "새 비밀번호가 일치하지 않습니다.");
-//	            return "/mypage/profile";
-//	        }
-//	        String encodedPassword = passwordEncoder.encode(password);
-//	        userDto.setPassword(encodedPassword);
-//	    }
-//
-//	    try {
-//	    	mypageservice.updatePw(userDto);
-//	    } catch (IllegalArgumentException e) {
-//	        model.addAttribute("errorMessage", e.getMessage());
-//	        return "/mypage/profile";
-//	    }
-//	    return "redirect:/mypage/profile";
-//	}
+	// 마이페이지_프로필 수정 페이지:비밀번호 수정
+	@PutMapping("/profile/updatePw")
+	@ResponseBody
+	public Map<String, Object> updatePw(Principal principal, @RequestBody Map<String, String> passwordData) {
+		String userId = principal.getName();
+		String currentPassword = passwordData.get("currentPassword");
+		String password = passwordData.get("password");
+		String confirmPassword = passwordData.get("confirmPassword");
+		System.out.println("=========================");
+		System.out.println(currentPassword);
+		System.out.println(password);
+		System.out.println(confirmPassword);
+		return mypageservice.updatePw(userId, currentPassword, password, confirmPassword);
+	}
 
 	// 마이페이지_프로필 수정 페이지:회원 탈퇴
 	@DeleteMapping("/profile/deleteUser")
@@ -423,18 +410,31 @@ public class MyPageController {
 		return mypageservice.faqOption(option);
 	}
 
-	// 포인트 내역
+	// 포인트 내역 페이지 
 	@GetMapping("/pointlist")
-	public String pointlist(Principal principal, Model model) {
+	public String pointlist(Principal principal,  Model model) {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		String userId = principal.getName();
 		model.addAttribute("userId", userId);
 
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
-		// model.addAttribute("point", mypageservice.searchPoint(userId));
+
 		return "/mypage/pointList";
 	}
+	
+	// 포인트 내역 페이지: 월별조회
+		@GetMapping(value="/pointlist/searchPoint", produces="application/json")	
+		public @ResponseBody List<PointListDTO> searchPoint(Principal principal, @RequestParam String month) {
+			String userId = principal.getName();
+			String[] parts = month.split("-");
+	        String year = parts[0];
+	        String monthPart = parts[1];
+	        List<PointListDTO> result =  mypageservice.searchPoint(userId,year,monthPart);
+	        System.out.println("============");
+	        System.out.println(result);
+			return result;
+		}
 
 	// 포인트 충전
 	@PutMapping("/chargePoint")

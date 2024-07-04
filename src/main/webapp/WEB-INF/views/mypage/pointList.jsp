@@ -29,33 +29,18 @@
 		<div id="point_box">
 			<div id="point_box_text">
 				<div id="month">
-					<p id="month">5월</p>
-					<img id="month_list" src="${path}/resources/images/month_list.png">
-					<div id="month_dropdown">
-						<input type="month" id="month_option">
-					</div>
+					<!-- <p id="month">5월</p>
+					<img id="month_list" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow2.png"> -->
+					
+						<input type="month" id="month_option" onchange="searchPointList()" >
+				
 				</div>
 			</div>
-			<div>
+<!-- 			<div>
 				<p id="date">2024.05.01 ~ 05.31</p>
-			</div>
+			</div> -->
 			<div id="point_history">
-				<div class="detail">
-					<p class="detail_date">2024.05.28</p>
-					<p class="detail_point">+ 1000원</p>
-				</div>
-				<div class="detail">
-					<p class="detail_date">2024.05.16</p>
-					<p class="detail_point">+ 5000원</p>
-				</div>
-				<div class="detail">
-					<p class="detail_date">2024.05.16</p>
-					<p class="detail_point">+ 3000원</p>
-				</div>
-				<div class="detail">
-					<p class="detail_date">2024.05.16</p>
-					<p class="detail_point">+ 2000원</p>
-				</div>
+			
 			</div>
 		</div>
 	</div>

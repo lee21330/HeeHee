@@ -4,30 +4,36 @@
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
 <link rel="stylesheet" href="${path}/resources/css/myPageModal.css">
-
 <body>
+	<!-- <button id="phoneNum">전화번호 수정하기</button> -->
+
+	<div id="phoneModal" class="myModal">
+		<div class="myModal_body">
+			<img
+				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
+				alt="전화번호 수정 창 닫기 아이콘" id="phone_close">
+			<div class="btn_modal">
+				<button type="submit" id="phone_submit">수정하기</button>
+				<input type="button" id="phone_cancel" value="취소하기">
+			</div>
+		</div>
+	</div>
+
 	<script>
 		$(function() {
-			$("#phoneNum").on("click", show);
-			$("#phModal_close").on("click", hide);
-			$(".btn_cancel").on("click", hide);
-			function show() {
-				$("#phModal").addClass("show");
-				$("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
-			}
-			function hide() {
-				$("#phModal").removeClass("show");
-				$("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
-			}
+			$("#phoneModal").hide();
+
+			$("#phoneNum").on("click", function() {
+				$("#phoneModal").show();
+				$("body").css("overflow", "hidden"); // 모달이 열렸을 때 스크롤 금지
+			});
+
+			$("#phone_close").on("click", function() {
+				alert("aaaa");
+				$("#phoneModal").hide();
+				$("body").css("overflow", "auto"); // 모달이 닫혔을 때 스크롤 가능
+			});
 		});
 	</script>
 
-	<div class="mModal" id="phModal">
-		<div class="mModal_body">
-			<img
-				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
-				alt="로그인 창 닫기 아이콘" id="phModal_close">
-			
-		</div>
-	</div>
 </body>

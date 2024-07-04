@@ -7,12 +7,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.MyPageDAO;
+import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
@@ -47,6 +49,12 @@ public class MyPageService {
 	@Autowired
 	AWSS3Service s3Service;
 
+	@Autowired
+	UserDAO userDao;
+
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+
 	public List<PurchaseListDTO> purchaseList(String userId) {
 		return mypageDao.purchaseList(userId);
 	}
@@ -62,10 +70,6 @@ public class MyPageService {
 	public List<SaleListDTO> saleList(String status, String userId) {
 		return mypageDao.saleList(status, userId);
 	}
-
-//	public int userIntroduce(String intro, String userId) {
-//		return mypageDao.userIntroduce(intro, userId);
-//	}
 
 	public List<QnADTO> qnaOption() {
 		return mypageDao.qnaOption();
@@ -100,11 +104,6 @@ public class MyPageService {
 		}
 		return result;
 	}
-
-	// public int insertQnaImg(InsertQnAImgDTO qnaImg, ) {
-	// return mypageDao.insertQnaImg(qnaImg);
-	//
-	// }
 
 	public List<QnAImgDTO> myQnaImg(String userId, int seqQnaBno) {
 		return mypageDao.myQnaImg(userId, seqQnaBno);
@@ -211,12 +210,6 @@ public class MyPageService {
 		return response;
 	}
 
-	public int currentPwCheck(String userId, String currentPw) {
-		String encPw = mypageDao.selectEncPw(userId);
-		return 0;
-
-	}
-
 	@Transactional
 	public int deleteUser(String userId) {
 		int result = mypageDao.deleteUser(userId);
@@ -233,23 +226,48 @@ public class MyPageService {
 		return mypageDao.chargePoint(userId, chargePoint);
 	}
 
-	public List<PointListDTO> searchPoint(String userId) {
-		return mypageDao.searchPoint(userId);
+	public List<PointListDTO> searchPoint(String userId, String year, String monthPart) {
+		return mypageDao.searchPoint(userId,year,monthPart);
 	}
 
 	public int updatePhone(String userId, String phone) {
 		return mypageDao.updatePhone(userId, phone);
-		
+
 	}
 
 	public int updateAddress(String userId, String address, String detailAddress) {
 		return mypageDao.updateAddress(userId, address, detailAddress);
-		
+
 	}
 
-//	public void updatePw(UserDTO userDto) {
-//	eturn mypageDao.updatePhone(userId, phone);
-//		
-//	}
+	public Map<String, Object> updatePw(String userId, String currentPassword, String password,
+			String confirmPassword) {
+		Map<String, Object> response = new HashMap<>();
+		UserDTO user = userDao.findUserByUsername(userId);
+
+		if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+			response.put("able", false);
+			response.put("message", "현재 비밀번호와 다릅니다.");
+			return response;
+		}
+
+		if (!password.equals(confirmPassword)) {
+			response.put("able", false);
+			response.put("message", "새 비밀번호가 서로 다릅니다.");
+			return response;
+		}
+
+		String encodedPassword = passwordEncoder.encode(password);
+		int result = mypageDao.updatePw(userId, encodedPassword);
+		if (result == 1) {
+			response.put("able", true);
+			response.put("message", "비밀번호 변경에 성공했습니다.");
+		} else {
+			response.put("able", false);
+			response.put("message", "비밀번호 변경에 실패했습니다.");
+		}
+
+		return response;
+	}
 
 }
