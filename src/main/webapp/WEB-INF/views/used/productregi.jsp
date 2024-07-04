@@ -15,7 +15,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/product.js"></script> <!-- 이미지파일 업로드때문에 필요 -->
 	<script src="/heehee/resources/js/productregiCategory.js"></script>
-	<form action="/heehee/sell/productRegistry" method="POST" enctype="multipart/form-data">
+	<form onsubmit="return false" action="/heehee/sell/productRegistry" method="POST" enctype="multipart/form-data">
 	<div class="productRegistrate">
 	<div id="test">
 		<main>
@@ -123,13 +123,16 @@
 		</div>
 	</div>
 	<div id="sub_button">
-		<input type="submit" value="등록하기">
+		<input id="prodForm"  type="submit" value="등록하기">
 	</div>
 	
 	</form>
 	
 	<script>
 	$(document).ready(function() {
+		
+		$("#prodForm").on("click", submitCheck);
+		
 		var delArr = [];
 		
 		var selectedStatus = "${info.condition}";
@@ -267,7 +270,6 @@
 	        console.log(cateSeq);
 	    });
 	});
-	
 	
 
 </script>
