@@ -31,7 +31,6 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
-					console.log(item.qnaAns);
 					var ansStatus = (!item.qnaAns || item.qnaAns.trim() === '' ) ? '처리대기' : '답변완료';
 					var row = 
 						"<tr>" + 
@@ -187,7 +186,7 @@ $(document).ready(function() {
 					var seqQnaBno = $(this).attr("data-id");
 
 					$.ajax({
-						url: '/heehee/admin/deleteQna',
+						url: '/heehee/admin/deleteQnaContent',
 						method: 'POST',
 						data:{ 'seqQnaBno': seqQnaBno
 								},

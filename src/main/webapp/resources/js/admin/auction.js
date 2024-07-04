@@ -117,7 +117,7 @@ $(document).ready(function() {
 		var currAucStatus = getSelectedRow().closest('tr').find('td').eq(7).text();
 		var userid = getSelectedRow().closest('tr').find('td').eq(4).text();
 		
-		if (currAucStatus == '낙찰' || currAucStatus == '거래완료'){
+		if (currAucStatus == '낙찰' || currAucStatus == '유찰' || currAucStatus == '거래완료'){
 			alert('거래상태를 변경할 수 없습니다.');
 			} else {
 				$.ajax({

@@ -190,6 +190,7 @@ $(document).ready(function() {
 		return $('input.rowCheckbox:checked');
 	}
 
+	/* 기능 이상으로 인한 삭제 고려
 	// 라디오 버튼 클릭 시 날짜 필터 설정
 	$('input[name="dateSelect"]').click(function() {
 		var today = new Date();
@@ -216,5 +217,5 @@ $(document).ready(function() {
 		$('#startDate').val(startDate);
 		$('#endDate').val(endDate);
 			loadTable();
-	});
+	});*/
  });

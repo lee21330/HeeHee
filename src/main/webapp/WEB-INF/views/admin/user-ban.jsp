@@ -27,6 +27,8 @@
 		<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>
 		<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
 		</div>
+
+		<!-- 기능 이상으로 인한 삭제 고려
 		<div id="btmContainer">
 		<p class="searchContext">기간검색</p>
 		<select id="dateCategory">
@@ -57,6 +59,8 @@
 			<label for="threeMonth" class="radioLabel">3개월</label>
 		</div>
 		</div>
+		 -->
+
 		</div>
 		<div id="btmContainer">
 		<p class="detailTitle">상세 정보</p>

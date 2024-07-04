@@ -17,19 +17,23 @@
 		<div id="mainTitleContainerTop"><p class="mainTitle">전체 주문통계</p></div>
 		<div class="mainTopTableContainer">
 			<div class="totalOrderDiv">
-			<p class="tableSubTitle">전체 주문현황</p>
+			<p class="tableSubTitle">전체 주문현황(일반/경매)</p>
 			<table class="totalOrderTable">
 				<thead>
 					<tr>
-						<th>총 주문건수</th>
-						<th>총 주문액</th>
+						<th>일반 주문건수</th>
+						<th>일반 주문액</th>
+						<th>경매 주문건수</th>
+						<th>경매 주문액</th>
 					</tr>
 				</thead>
 				<tbody id="totalOrderBody">
 				<!-- Ajax로 동적 업데이트 -->
 					<tr>
-						<td>값1</td>
-						<td>값2</td>
+						<td id="sellProCtn"></td>
+						<td id="sellProPriceSum"></td>
+						<td id="aucProCtn"></td>
+						<td id="aucProPriceSum"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -49,10 +53,10 @@
 				<tbody id="proStatusTableBody">
 				<!-- Ajax로 동적 업데이트 -->
 					<tr>
-						<td>값1</td>
-						<td>값2</td>
-						<td>값3</td>
-						<td>값4</td>
+						<td id="sellIng"></td>
+						<td id="sellRes"></td>
+						<td id="sellEnd"></td>
+						<td id="sellStop"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -72,55 +76,45 @@
 				<tbody id="aucStatusTableBody">
 				<!-- Ajax로 동적 업데이트 -->
 					<tr>
-						<td>값1</td>
-						<td>값2</td>
-						<td>값3</td>
-						<td>값4</td>
+						<td id="aucIng"></td>
+						<td id="aucRes"></td>
+						<td id="aucEnd"></td>
+						<td id="aucStop"></td>
 					</tr>
 				</tbody>
 			</table>
 			</div>
 		</div>
 		
-		<div id="recentOrderContainer">
-			<div id="mainTitleContainer"><p class="mainTitle">최근 주문내역</p><button class="productDetailBtn" onclick="location.href='${path}/admin/product'">상세정보 바로가기</button></div>
-			<div class="recentOrderDiv">
-			<table class="recentOrderTable">
+		<div id="recentProductContainer">
+			<div id="mainTitleContainer"><p class="mainTitle">최근 등록내역</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/product'">상세정보 바로가기</button></div>
+			<div class="recentProductDiv">
+			<table class="recentProductTable">
 				<thead>
 					<tr>
-						<th>주문번호</th>
-						<th>구매자명</th>
-						<th>판매자명</th>
+						<th>등록번호</th> <!-- AdminProductDTO -->
+						<th>구매자ID</th>
+						<th>판매자ID</th>
 						<th>품목명</th>
-						<th>거래방식</th>
+						<th>거래상태</th>
 						<th>거래금액</th>
-						<th>거래일</th>
+						<th>등록일</th>
 					</tr>
 				</thead>
-				<tbody id="recentOrderTableBody">
+				<tbody id="recentProductTableBody">
 				<!-- Ajax로 동적 업데이트 -->
-					<tr>
-						<td>값1</td>
-						<td>값2</td>
-						<td>값3</td>
-						<td>값4</td>
-						<td>값5</td>
-						<td>값6</td>
-						<td>값7</td>
-					</tr>
 				</tbody>
 			</table>
 			</div>
 		</div> <!-- recentOrder -->
 		
 		<div id="recentQuestionContainer">
-			<div id="mainTitleContainer"><p class="mainTitle">최근 문의내역</p><button class="questionsBtn" onclick="location.href='${path}/admin/qnaManager'">1:1문의 바로가기</button></div>
+			<div id="mainTitleContainer"><p class="mainTitle">최근 문의내역</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/qnaManager'">1:1문의 바로가기</button></div>
 			<div id="recentQuestionDiv">
 			<table class="recentQuestionTable">
 				<thead>
 					<tr>
-						<th>작성자ID</th>
-						<th>회원명</th>
+						<th>작성자ID</th> <!-- AdminQnaManagerDTO -->
 						<th>처리현황</th>
 						<th>제목</th>
 						<th>작성일</th>
@@ -128,25 +122,18 @@
 				</thead>
 				<tbody id="recentQuestionTableBody">
 				<!-- Ajax로 동적 업데이트 -->
-					<tr>
-						<td>값1</td>
-						<td>값2</td>
-						<td>값3</td>
-						<td>값4</td>
-						<td>값5</td>
-					</tr>
 				</tbody>
 			</table>
 			</div>
 		</div> <!-- recentQuestion -->
 		
 		<div id="recentJoinContainer">
-		<div id="mainTitleContainer"><p class="mainTitle">최근 회원가입</p><button class="questionsBtn" onclick="location.href='${path}/admin/user'">회원정보 관리 바로가기</button></div>
+		<div id="mainTitleContainer"><p class="mainTitle">최근 회원가입</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/user'">회원정보 관리 바로가기</button></div>
 			<div id="recentJoinDiv">
 			<table class="recentJoinTable">
 				<thead>
 					<tr>
-						<th>회원ID</th>
+						<th>회원ID</th> <!-- AdminUserDTO -->
 						<th>회원명</th>
 						<th>이메일</th>
 						<th>전화번호</th>
@@ -155,13 +142,6 @@
 				</thead>
 				<tbody id="recentJoinTableBody">
 				<!-- Ajax로 동적 업데이트 -->
-					<tr>
-						<td>값1</td>
-						<td>값2</td>
-						<td>값3</td>
-						<td>값4</td>
-						<td>값5</td>
-					</tr>
 				</tbody>
 			</table>
 			</div>
