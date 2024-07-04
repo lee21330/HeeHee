@@ -35,6 +35,7 @@
 	display: flex;
 	padding: 10px 10px;
 	cursor: pointer;
+	overflow-y: scroll;
 }
 
 .chatting-item:hover {
@@ -149,7 +150,7 @@
 .chatting-content {
 	width: 60%;
 	/* border: 1px solid gray; */
-	overflow: auto;
+	/* overflow: auto; */
 	display: flex;
 	flex-direction: column;
 	font-family: 'SEBANG_Gothic_Bold';
@@ -266,7 +267,7 @@
 	border-top: 1px solid #D3D3D3;
 	border-bottom: 1px solid #D3D3D3;
 	overflow-x:hidden;
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 
 .message-list{

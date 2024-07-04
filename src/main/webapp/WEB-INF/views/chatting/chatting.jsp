@@ -201,11 +201,6 @@
 			</div>
 			<!-- 채팅 메시지 내역 -->
 			<div class="content-body">
-			<c:if test="${fn:length(roomList) == 0}">
-		    	<div class = "noneRoomChat">
-              	  <span>대화방을 선택해주세요💭</span>
-          	  </div>
-            </c:if>
 				<%-- <div class="message-list">
 				    <!-- 내 메세지 -->
 					<div class="my-chat">
