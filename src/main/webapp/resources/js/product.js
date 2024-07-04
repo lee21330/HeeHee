@@ -173,7 +173,7 @@ function completePayment(payInfo) {
                 })
             })
             .then(resp => resp.text())
-            .then(result => payAlarm(payInfo.sellerId, payInfo.prodlSeq))
+            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq))
             .catch(err => console.log(err));
             
             return true;
@@ -206,12 +206,9 @@ function sellerChat(loginUserId, sellerId, sellSeq){
             .catch(err => console.log(err));
 }
 
-function payAlarm(userId, prodlSeq) {
-	// var userId = $("#gobuy").attr("alarmId");
-	// var prodlSeq = $("#gobuy").attr("prodlSeq");
-	
-	alert("아이디 : " + userId + "상품번호 : " + prodlSeq);
-    stompClient.send("/app/alarm/"+ userId, {}, JSON.stringify({'cateNum': 2, 'reqSeq': prodlSeq, 'alContent': "등록하신 중고물품이 판매되었습니다."}));
+// 구매자가 결제 완료 시 판매자에게 알림 보내기 
+function payAlarm(userId, prodSeq) {
+    stompClient.send("/app/alarm/"+ userId, {}, JSON.stringify({'cateNum': 2, 'reqSeq': prodSeq, 'alContent': "등록하신 중고물품이 판매되었습니다."}));
 }
 
 
