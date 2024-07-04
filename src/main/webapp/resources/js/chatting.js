@@ -866,7 +866,7 @@ function updateChatRoomList(data) {
                 }
           	    
           	    //업데이트 후 목록 맨 위로 이동
-          	    chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
+          	    //chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
             }
             
         } else {
