@@ -1,7 +1,7 @@
 
+
 package com.shinhan.heehee.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,9 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.JjimDTO;
-import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
-import com.shinhan.heehee.dto.request.RecentlyDTO;
 import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
+import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
 import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
@@ -59,6 +58,10 @@ public class ProductDetailDAO {
 	public int updateProduct(ProductModifyRequestDTO modiDTO) {
 		return sqlSession.update(namespace + "updateProduct", modiDTO);
 	}
+	
+	public int insertProduct(ProductModifyRequestDTO regiDTO) {
+		return sqlSession.insert(namespace + "insertProduct", regiDTO);
+	}
 
 
 	public void insertViewLog(ViewLogDTO viewLogDTO) {
@@ -96,6 +99,8 @@ public class ProductDetailDAO {
 	public int selectJjim(JjimDTO jjimDto) {
 		return sqlSession.selectOne(namespace + "selectJjim", jjimDto);
 	}
+
+	
 
 	/*
 	 * public int insertRecently(RecentlyDTO recentlyDTO) { return

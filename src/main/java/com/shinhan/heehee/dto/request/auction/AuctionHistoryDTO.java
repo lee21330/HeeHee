@@ -1,16 +1,18 @@
-package com.shinhan.heehee.dto.response;
+package com.shinhan.heehee.dto.request.auction;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCategoryDTO {
-	private int productCateSeq;
-	private String category;
-	private String detailCategory;
+@ToString
+public class AuctionHistoryDTO {
+	private int aucProdSeq;
+	private String userId;
+	private int bidPrice;
 }

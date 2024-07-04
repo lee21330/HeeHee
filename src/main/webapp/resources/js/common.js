@@ -11,41 +11,6 @@ function showTost(txt) {
 	// throw new Error("stopExecution");
 }
 
-function payForAuc(payName, amount, aucSeq) {
-	$.ajax({
-	    url: '/heehee/pay/before',
-	    method: 'POST',
-	    data: {
-	    	"payName" : payName,
-	    	"amount" : amount,
-	    	"aucSeq" : aucSeq
-	    	},
-	    success: function (data, status, xhr) {
-	    	payment(payName,data);
-	    },
-	    error: function (data, status, err) {
-	    	console.log(err);
-	    }
-	});
-}
-
-function payForPoint(payName, amount) {
-	$.ajax({
-	    url: '/heehee/pay/before',
-	    method: 'POST',
-	    data: {
-	    	"payName" : payName,
-	    	"amount" : amount
-	    	},
-	    success: function (data, status, xhr) {
-	    	payment(payName,data);
-	    	return true;
-	    },
-	    error: function (data, status, err) {
-	    	console.log(err);
-	    }
-	});
-}
 
 function inputPhoneNumber( phone ) {
     if( event.keyCode != 8 ) {

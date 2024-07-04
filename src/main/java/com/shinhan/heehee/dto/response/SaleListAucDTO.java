@@ -19,4 +19,5 @@ public class SaleListAucDTO {
 	private String expTime;
 	private String imgName;
 	private String aucStatus;
+	private String accBanReason;
 }

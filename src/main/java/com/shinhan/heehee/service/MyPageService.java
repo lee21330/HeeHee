@@ -1,5 +1,6 @@
 package com.shinhan.heehee.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +20,32 @@ import com.shinhan.heehee.dto.response.EditProfileDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
+import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
+import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleDetailDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
+import com.shinhan.heehee.dto.response.UserDTO;
 
 @Service
 public class MyPageService {
 
 	@Autowired
 	MyPageDAO mypageDao;
-	
+
 	@Autowired
 	AlarmDAO alarmDao;
-	
+
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 
+	@Autowired
+	AWSS3Service s3Service;
 
 	public List<PurchaseListDTO> purchaseList(String userId) {
 		return mypageDao.purchaseList(userId);
@@ -73,8 +79,26 @@ public class MyPageService {
 		return mypageDao.myQna(userId);
 	}
 
+	@Transactional
 	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
-		return mypageDao.insertQna(qna, uploadImgs);
+		int result = mypageDao.insertQna(qna);
+		if (result == 1 && uploadImgs != null && !uploadImgs.isEmpty()) {
+			for (MultipartFile img : uploadImgs) {
+				try {
+
+					String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaBoard/");
+					InsertQnAImgDTO qnaImg = new InsertQnAImgDTO();
+					qnaImg.setImgName(imgName);
+					qnaImg.setTablePk(qna.getSeqQnaBno());
+					qnaImg.setId(qna.getId());
+					mypageDao.insertQnaImg(qnaImg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return result;
 	}
 
 	// public int insertQnaImg(InsertQnAImgDTO qnaImg, ) {
@@ -106,29 +130,34 @@ public class MyPageService {
 	@Transactional
 	public int insertDelivery(InsertDeliveryDTO delivery) {
 		int result = mypageDao.insertDelivery(delivery);
-		Integer dSeq = delivery.getDSeq();
-		System.out.println(dSeq);
-		if(result==1) {
+		if (result == 1) {
 			// 알림 insert
-    		AlarmDTO alarmDTO = new AlarmDTO();
-    		
-    		String buyerId = delivery.getBuyerId();
-    		
-    		alarmDTO.setId(buyerId);
-    		alarmDTO.setCateNum(5); // 알림 분류 코드 (배송)
-    		alarmDTO.setReqSeq(dSeq);
-    		alarmDTO.setAlContent("송장 번호가 입력되었습니다.");
-    		
-    		alarmDao.alarmInsert(alarmDTO);
-    		
-    		int alarmCnt = alarmDao.alarmCount(buyerId);
-    		messagingTemplate.convertAndSend("/topic/alarm/" + buyerId, alarmCnt);
+			AlarmDTO alarmDTO = new AlarmDTO();
+
+			String buyerId = delivery.getBuyerId();
+
+			alarmDTO.setId(buyerId);
+			alarmDTO.setCateNum(5); // 알림 분류 코드 (채팅)
+			alarmDTO.setReqSeq(delivery.getDSeq());
+			alarmDTO.setAlContent("송장 번호가 입력되었습니다.");
+
+			alarmDao.alarmInsert(alarmDTO);
+
+			int alarmCnt = alarmDao.alarmCount(buyerId);
+			messagingTemplate.convertAndSend("/topic/alarm/" + buyerId, alarmCnt);
 		}
 		return result;
 	}
 
 	public int updateSCheck(int proSeq) {
-		return mypageDao.updateSCheck(proSeq);
+		int result = mypageDao.updateSCheck(proSeq);
+		return result;
+
+	}
+
+	public int updatePCheck(int proSeq) {
+		return mypageDao.updatePCheck(proSeq);
+
 	}
 
 	public List<BankKindDTO> bankList() {
@@ -187,5 +216,40 @@ public class MyPageService {
 		return 0;
 
 	}
+
+	@Transactional
+	public int deleteUser(String userId) {
+		int result = mypageDao.deleteUser(userId);
+		if (result == 1) {
+			mypageDao.deleteAucId(userId);
+			mypageDao.deleteId(userId);
+			mypageDao.deleteChatByBuyer(userId);
+			mypageDao.deleteChatBySeller(userId);
+		}
+		return result;
+	}
+
+	public int chargePoint(String userId, Integer chargePoint) {
+		return mypageDao.chargePoint(userId, chargePoint);
+	}
+
+	public List<PointListDTO> searchPoint(String userId) {
+		return mypageDao.searchPoint(userId);
+	}
+
+	public int updatePhone(String userId, String phone) {
+		return mypageDao.updatePhone(userId, phone);
+		
+	}
+
+	public int updateAddress(String userId, String address, String detailAddress) {
+		return mypageDao.updateAddress(userId, address, detailAddress);
+		
+	}
+
+//	public void updatePw(UserDTO userDto) {
+//	eturn mypageDao.updatePhone(userId, phone);
+//		
+//	}
 
 }

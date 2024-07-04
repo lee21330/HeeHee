@@ -24,9 +24,7 @@
 			<div class="title-container">
 				<p id="product_category">${saleDetail.category}>
 					${saleDetail.detailCategory} (${saleDetail.prodName})</p>
-				<img id="url_copy"
-					src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/linkcopy.png"
-					alt="Copy URL" style="cursor: pointer">
+
 				<!-- </div>
 				<div class="title-container"> -->
 				<p id="date">${saleDetail.psDate}</p>

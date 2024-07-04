@@ -1,18 +1,15 @@
-package com.shinhan.heehee.dto.request;
+package com.shinhan.heehee.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class AuctionHistoryDTO {
-	private int aucProdSeq;
-	private String userId;
-	private int bidPrice;
+public class PointListDTO {
+	private int amount;
 }

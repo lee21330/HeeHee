@@ -6,9 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.shinhan.heehee.dto.request.AuctionHistoryDTO;
-import com.shinhan.heehee.dto.response.AuctionProdDTO;
-import com.shinhan.heehee.dto.response.AuctionProdInfoDTO;
+import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
 
 @Repository
 public class AuctionDAO {
@@ -36,5 +37,9 @@ public class AuctionDAO {
 	
 	public List<AuctionProdDTO> aucProdAll() {
 		return sqlSession.selectList(namespace + "aucProdAll");
+	}
+	
+	public List<AuctionImgsDTO> aucProdImgList(int aucSeq) {
+		return sqlSession.selectList(namespace + "aucProdImgList", aucSeq);
 	}
 }

@@ -12,6 +12,7 @@
 </head>
 <%@ include file="../common/header.jsp"%>
 <body>
+<script src="/heehee/resources/js/purchaseDetail.js"></script>
 	<div class="purchaseDetail">
 		<p id="title">${saleDetail.proStatus}</p>
 
@@ -27,7 +28,7 @@
 		</div>
 
 		<p id="progress">진행상황</p>
-		<button id="complete">거래완료</button>
+		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
 		<progress id="graph" value="0" max="100"></progress>
 		<div id="progress_ing">
 			<p>결제대기</p>

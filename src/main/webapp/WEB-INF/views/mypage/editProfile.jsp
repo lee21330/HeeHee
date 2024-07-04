@@ -36,34 +36,46 @@
 			<!-- 왼쪽 영역 form -->
 			<div class="left" id="editProfile">
 				<p>프로필 수정</p>
-				<form enctype="multipart/form-data">
+				<form action="${path}/mypage/profile/updateProfile" method="post"
+					enctype="multipart/form-data">
 					<div class="profileImg">
 						<img id="previewImage" class="photo"
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${profile.profileImg}"
 							onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 					</div>
 					<input type="hidden" id="original" name="originalProfileImg"
-						value="${profile.profileImg}"> 
-						<input type="file"
-						id="fileInput" name="profileImg" accept="image/*"
+						value="${profile.profileImg}" required="required"> <input
+						type="file" id="fileInput" name="profileImg" accept="image/*"
 						style="display: none;">
 					<div class="btn_profile">
-						<input type="button" class="btn_image" id="btn_modify" value="사진변경"
-							onclick="chooseFile();"> <input type="button"
-							class="btn_image" id="btn_delete" value="삭제">
+						<input type="button" class="btn_image" id="btn_modify"
+							value="사진변경" onclick="chooseFile();"> <input
+							type="button" class="btn_image" id="btn_delete" value="삭제">
 					</div>
-					<div class="input_left">
-						<p>닉네임</p>
-						<input type="text" id="nickName" name="nickName" value="${profile.nickName}" required="required"> 
-						<input type="button" value="중복체크" class="btn" id="btn-nick" onclick="dupMyNickCheck(${profile.nickName})">
-						<div id="my_nick_dup_result" class="dup_result"></div>
-						<p>소개글</p>
-						<input type="text" id="userIntroduce" name="userIntroduce"
-							value="${profile.userIntroduce}">
-					</div>
+
+					<table class="input_left">
+						<tbody>
+							<tr>
+								<th>닉네임</th>
+								<td><input type="text" id="nickName" name="nickName"
+									value="${profile.nickName}" required="required"
+									oninput="changeBtn(${profile.nickName})"> <input
+									type="button" value="중복체크" class="btn" id="btn-nick"
+									onclick="dupMyNickCheck('${profile.nickName}')"
+									style="display: none;"> <input type="button"
+									value="중복체크" class="btn" id="btn-originalNick">
+									<div id="my_nick_dup_result" class="my_dup_result">중복 확인</div></td>
+							</tr>
+							<tr>
+								<th>소개글</th>
+								<td><input type="text" id="userIntroduce"
+									name="userIntroduce" value="${profile.userIntroduce}"></td>
+							</tr>
+						</tbody>
+					</table>
+
 					<div class="btn_profile">
-						<input type="button" id="btn_submit" value="적용"
-							onclick="updateProfile()">
+						<input type="submit" id="btn_submit" value="적용">
 						<p id="btn_cancel"
 							onclick="location.href='${path}/mypage/profile'">취소</p>
 					</div>
@@ -145,12 +157,13 @@
 				<div class="right-box" id="pw-box">
 					<p>비밀번호</p>
 					<button id="btn-pw" class="btn">수정</button>
-					<%@include file="/WEB-INF/views/mypage/pwModal.jsp"%>
+					<%-- <%@include file="/WEB-INF/views/mypage/pwModal.jsp"%> --%>
 				</div>
 
 				<div class="right-box">
-					<%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%>
+
 					<p id="drawal">회원 탈퇴</p>
+					<%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%>
 				</div>
 			</div>
 		</div>

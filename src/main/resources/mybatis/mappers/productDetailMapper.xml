@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.productDetail">
 	<select id="productInfo" parameterType="com.shinhan.heehee.dto.request.ProductDetailRequestDTO" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
-	    SELECT 
-		    SELL.*, 
-		    CATE.*, 
+	    SELECT
+		    SELL.*,
+		    CATE.*,
 		    TYPE.PROD_NAME,
 		    JJIM_CNT.COUNT AS JJIM_CNT,
 		    USER_INFO.PROFILE_IMG,
@@ -15,17 +15,17 @@
 		    (SELECT COUNT(*) FROM VIEW_LOG WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS VIEW_CNT,
 		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT,
 		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ} AND ID = #{userId}) AS specifiedJjimCnt
-		FROM 
+		FROM
 		    SELL_PRODUCT SELL
-		INNER JOIN 
+		INNER JOIN
 		    PRODUCT_TYPE TYPE ON SELL.SELECT_SEQ = TYPE.PRODUCT_SEQ
-		INNER JOIN 
+		INNER JOIN
 		    PRODUCT_CATEGORY CATE ON TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
-		LEFT JOIN 
+		LEFT JOIN
 		    (SELECT PRODUCT_SEQ, COUNT(*) AS COUNT FROM JJIM GROUP BY PRODUCT_SEQ) JJIM_CNT ON SELL.PRODUCT_SEQ = JJIM_CNT.PRODUCT_SEQ
-		LEFT JOIN 
+		LEFT JOIN
 		    (SELECT ID, PROFILE_IMG, NICK_NAME, USER_RATING, USER_INTRODUCE FROM HH_USER) USER_INFO ON SELL.ID = USER_INFO.ID
-		WHERE 
+		WHERE
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
 		AND
 			SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
@@ -38,20 +38,6 @@
         AND IMG.IMG_CATE_SEQ = 2
         AND IMG.TABLE_PK = #{PROD_SEQ}
 	</select>
-	
-	<!-- <insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.response.ViewLogDTO">
-		INSERT INTO VIEW_LOG
-		VALUES (#{PROD_SEQ}, #{ID}, SYSDATE)
-	</insert> -->
-	
-	<!-- <select id="selectViewLog" parameterType="com.shinhan.heehee.dto.response.InsertViewLogDTO">
-		SELECT *
-		FROM (SELECT PRODUCT_SEQ, ID
-		FROM VIEW_LOG
-		WHERE ID = #{id}
-		GROUP BY PRODUCT_SEQ, ID)
-		WHERE ROWNUM <![CDATA[<]]> 3
-	</select> -->
 	
 	<select id="prodrecoDetail" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT *
@@ -124,7 +110,7 @@
 	   WHERE SELL.PRODUCT_SEQ = IMG.TABLE_PK
 	   AND SELL.ID = #{id}
 	   AND IMG_CATE_SEQ = 2
-	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ) 
+	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ)
 	                    FROM IMG_FILES
 	                    WHERE IMG_CATE_SEQ = 2
 	                    GROUP BY TABLE_PK)
@@ -170,14 +156,24 @@
 	</select>
 	
 	<delete id="deleteImgFiles" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
-		DELETE FROM IMG_FILES 
-		WHERE IMG_CATE_SEQ = 2 
+		DELETE FROM IMG_FILES
+		WHERE IMG_CATE_SEQ = 2
 		AND TABLE_PK = #{tablePk}
 		AND IMG_SEQ = #{imgSeq}
 	</delete>
 	
 	<insert id="insertImgFile" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
 		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName},#{prodSeq},2,#{userId})
+	</insert>
+	
+	<insert id="insertProduct" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		INSERT INTO SELL_PRODUCT
+		VALUES (SEQ_SELL_PROD.nextval, #{articleTitle}, #{productPrice}, #{introduce}, #{state}, '판매중', #{deal}, #{dCharge}, 5, #{userId}, SYSDATE, NULL)
+	</insert>
+	
+	<insert id="insertProductName" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		INSERT INTO PRODUCT_TYPE
+		VALUES (5, #{productName}, )
 	</insert>
 	
 	<update id="updateProduct" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
@@ -201,8 +197,6 @@
 		FROM PRODUCT_CATEGORY
 		GROUP BY CATEGORY
 	</select>
-	
-	<!-- 여기서부터 구현해야함 -->
 	<update id="proStatusSelling" parameterType="int">
 		UPDATE SELL_PRODUCT
 		SET PRO_STATUS = '판매중'
@@ -258,7 +252,7 @@
 	
 	<delete id="deleteJjim" parameterType="com.shinhan.heehee.dto.request.JjimDTO">
 		DELETE FROM JJIM
-		WHERE product_seq = #{productSeq} 
+		WHERE product_seq = #{productSeq}
 		AND ID = #{id}
 	</delete>
 	
