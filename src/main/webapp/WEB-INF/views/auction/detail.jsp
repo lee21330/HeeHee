@@ -53,8 +53,11 @@
                     <button id="place_bid_btn">입찰하기</button>
                     <div id="my_point_area">
                     	<p class="my_point_text">나의 보유 포인트</p>
-                    	<p class="my_point_amount_area"><span class="my_point_amount">5,000</span>P</p>
-                    	<button id="charge_point_btn">포인트 충전</button>
+                    	<p class="my_point_amount_area"><span class="my_point_amount">
+                    	<fmt:formatNumber value="${userInfo.userPoint}" pattern="#,###" var="formatPoint"/>
+                    	${formatPoint}
+                    	</span>P</p>
+                    	<button id="btn-point">포인트 충전</button>
                     </div>
                 </div>
             </div>
@@ -95,6 +98,7 @@
         </div>
 		</main>
 	</div>
+	<%@ include file="pointModal.jsp" %>
 </body>
 <script>
 	var expT = "${aucProdInfo.expTime}";
@@ -152,14 +156,15 @@
 
     function sendBid() {
     	var now = new Date();
-
+		var currentPrice = $('#auc_price').val();
+		var bidPrice = parseInt(currentPrice) + ${aucProdInfo.increasePrice};
       	let gap = Math.max(exp.getTime() - now.getTime(), 0);
     	if(gap == 0) {
     		showTost("종료된 경매입니다.");
     		return false;
     	}
+    	if(bidPrice > point) {showTost("포인트가 부족합니다. 충전 후 이용 가능합니다."); return false;}
         var userId = "${userId}";
-        var bidPrice = parseInt($('#auc_price').val()) + ${aucProdInfo.increasePrice};
         AucStompClient.send("/app/bid/"+aucSeq, {}, JSON.stringify({"aucProdSeq": aucSeq, "userId": userId, "bidPrice": bidPrice,"userNickName": "${userNickName}"}));
     }
 

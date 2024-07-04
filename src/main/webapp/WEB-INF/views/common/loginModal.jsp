@@ -131,7 +131,7 @@
 		    	closeLogin();
 		    	location.reload();
 		    },
-		    error: function (data, status, err) {
+		    error: function (xhr, status, err) {
 		    	if (xhr.status === 404) {
 	                showTost("존재하지 않는 계정입니다.");
 	            } else {

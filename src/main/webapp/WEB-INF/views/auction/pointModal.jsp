@@ -7,6 +7,7 @@
 
         <body>
             <script>
+            var point = "${userInfo.userPoint}";
                 $(function () {
                     $("#btn-point").on("click", show);
                     $(".mModal_close").on("click", hide);
@@ -117,11 +118,11 @@
                         alt="로그인 창 닫기 아이콘" class="mModal_close">
                     <div class="modal_form">
                         <p class="modal_info">현재 포인트: </p>
-                        <fmt:formatNumber value="${sellerInfo.userPoint}" pattern="#,###" var="formattedPoint"/>
+                        <fmt:formatNumber value="${userInfo.userPoint}" pattern="#,###" var="formattedPoint"/>
                         <p>${formattedPoint}원</p>
                         <input type="number" id="charge" placeholder="충전할 금액을 입력해 주세요.">
                         <div class="btn_modal">
-                            <button class="btn_submit" onclick="chargePoint(${sellerInfo.userPoint})">충전하기</button>
+                            <button class="btn_submit" onclick="chargePoint(${userInfo.userPoint})">충전하기</button>
                             <button class="btn_cancel">취소하기</button>
                         </div>
                     </div>

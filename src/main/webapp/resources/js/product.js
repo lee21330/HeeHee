@@ -173,7 +173,7 @@ function completePayment(payInfo) {
                 })
             })
             .then(resp => resp.text())
-            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq))
+            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq), window.location.reload())
             .catch(err => console.log(err));
             
             return true;
@@ -182,7 +182,6 @@ function completePayment(payInfo) {
             console.log(err);
         }
     });
-    window.location.reload();
     
 }
 

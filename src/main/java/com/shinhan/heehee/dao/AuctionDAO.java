@@ -10,6 +10,7 @@ import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
+import com.shinhan.heehee.dto.response.auction.SchedulerBidDTO;
 import com.shinhan.heehee.dto.response.auction.SellerInfoResponseDTO;
 
 @Repository
@@ -50,5 +51,21 @@ public class AuctionDAO {
 	
 	public int joinCount(int aucSeq) {
 		return sqlSession.selectOne(namespace + "joinCount", aucSeq);
+	}
+	
+	public List<SchedulerBidDTO> bidSuccessList() {
+		return sqlSession.selectList(namespace + "bidSuccessList");
+	}
+	
+	public List<SchedulerBidDTO> bidFailList() {
+		return sqlSession.selectList(namespace + "bidFailList");
+	}
+	
+	public int updateBidSuccess(List<Integer> seqArr) {
+		return sqlSession.update(namespace + "updateBidSuccess", seqArr);
+	}
+	
+	public int updateBidFail(List<Integer> seqArr) {
+		return sqlSession.update(namespace + "updateBidFail", seqArr);
 	}
 }

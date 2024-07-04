@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.shinhan.heehee.dto.response.CategoryDTO;
-import com.shinhan.heehee.service.AuctionService;
+import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.MainService;
 
 @Controller
@@ -19,7 +19,7 @@ public class MainController {
 	MainService mainservice;
 	
 	@Autowired
-	AuctionService auctionService;
+	AlarmService alarmService;
 	
 	@GetMapping("/main")
 	public String main(Model model, Principal principal) {
@@ -27,13 +27,14 @@ public class MainController {
 		model.addAttribute("mainCateList", mainCateList); // 카테고리 서비스 호출
 		
 		if(principal != null) {
-			System.out.println("아이디: " + principal.getName());
+			model.addAttribute("userId",principal.getName());
+			int alarmCount = alarmService.alarmCount(principal.getName());
+			model.addAttribute("alarmCount",alarmCount);
 		}
-		
 		model.addAttribute("rankProdList", mainservice.rankProdList());
 		model.addAttribute("recommandList", mainservice.recommandList());
 		model.addAttribute("recentprodList", mainservice.recentprodList());
 		return "/main/main";
 	}
-
+	
 }

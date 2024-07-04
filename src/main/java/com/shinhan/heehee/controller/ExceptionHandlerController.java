@@ -5,18 +5,25 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.shinhan.heehee.exception.ProductNotFoundException;
+import com.shinhan.heehee.exception.UserNotFoundException;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
 
 	Logger logger = LoggerFactory.getLogger("ExceptionHandlerController.class");
 
+	
+	@ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 	
 	@ExceptionHandler(ProductNotFoundException.class)
     public String product404(HttpServletRequest request, ProductNotFoundException ex) {

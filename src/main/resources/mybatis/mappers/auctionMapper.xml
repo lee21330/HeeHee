@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.auction">
-
 	<select id="aucProdAll" resultType="com.shinhan.heehee.dto.response.auction.AuctionProdDTO">
 	  	SELECT PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
 		, AUCTION_TITLE, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
@@ -93,4 +92,45 @@
 	<select id="joinCount" parameterType="int" resultType="int">
 		SELECT COUNT(DISTINCT(USER_ID)) AS JOIN_COUNT FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = #{aucSeq}
 	</select>
+	
+	<select id="bidSuccessList" resultType="com.shinhan.heehee.dto.response.auction.SchedulerBidDTO">
+		SELECT AUC.PRODUCT_SEQ
+		,AUC.EXP_TIME
+		,AUC.AUC_STATUS
+		,AUC.SELLER_ID
+		,HIS.USER_ID AS BUYER_ID
+		,HIS.BID_PRICE
+		FROM AUC_PRODUCT AUC, AUCTION_HISTORY HIS
+		WHERE AUC.PRODUCT_SEQ = HIS.AUC_PROD_SEQ
+		AND EXP_TIME <![CDATA[<]]> SYSDATE
+		AND AUC_STATUS = '입찰'
+		AND HIS.BID_PRICE = (SELECT MAX(INH.BID_PRICE) FROM AUCTION_HISTORY INH WHERE INH.AUC_PROD_SEQ = AUC.PRODUCT_SEQ)
+		AND PRODUCT_SEQ IN (SELECT AUC_PROD_SEQ FROM AUCTION_HISTORY GROUP BY AUC_PROD_SEQ)
+	</select>
+	
+	<select id="bidFailList" resultType="com.shinhan.heehee.dto.response.auction.SchedulerBidDTO">
+		SELECT *
+		FROM AUC_PRODUCT
+		WHERE EXP_TIME <![CDATA[<]]> SYSDATE
+		AND AUC_STATUS = '입찰'
+		AND PRODUCT_SEQ NOT IN (SELECT AUC_PROD_SEQ FROM AUCTION_HISTORY GROUP BY AUC_PROD_SEQ)
+	</select>
+	
+	<update id="updateBidSuccess" parameterType="java.util.List">
+		UPDATE AUC_PRODUCT 
+		SET AUC_STATUS = '낙찰' 
+		WHERE PRODUCT_SEQ IN
+		<foreach item="seqArr" collection="list" open="(" close=")" separator=",">
+        	#{seqArr}
+		</foreach>
+	</update>
+	
+	<update id="updateBidFail" parameterType="java.util.List">
+		UPDATE AUC_PRODUCT 
+		SET AUC_STATUS = '유찰' 
+		WHERE PRODUCT_SEQ IN
+		<foreach item="seqArr" collection="list" open="(" close=")" separator=",">
+        	#{seqArr}
+		</foreach>
+	</update>
 </mapper>

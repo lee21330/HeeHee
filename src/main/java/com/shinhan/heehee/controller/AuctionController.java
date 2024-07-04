@@ -22,6 +22,7 @@ import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
 import com.shinhan.heehee.dto.response.auction.SellerInfoResponseDTO;
 import com.shinhan.heehee.service.AuctionService;
+import com.shinhan.heehee.service.MyPageService;
 
 @Controller
 @RequestMapping("/auc")
@@ -29,6 +30,9 @@ public class AuctionController {
 
 	@Autowired
 	AuctionService auctionService;
+	
+	@Autowired
+	MyPageService myPageService;
 	
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
@@ -47,7 +51,10 @@ public class AuctionController {
 		AuctionProdInfoDTO aucProdInfo = auctionService.aucProdInfo(aucSeq);
 		if(aucProdInfo == null) return "redirect:/auc";
 		
-		if(principal != null) model.addAttribute("userId", principal.getName());
+		if(principal != null) {
+			model.addAttribute("userId", principal.getName());
+			model.addAttribute("userInfo", myPageService.sellerInfo(principal.getName()));
+		}
 		
 		SellerInfoResponseDTO sellerInfo = auctionService.sellerInfo(aucProdInfo.getSellerId());
 		

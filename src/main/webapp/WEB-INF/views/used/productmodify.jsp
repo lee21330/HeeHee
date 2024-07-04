@@ -131,6 +131,12 @@
 	
 	<script>
 	$(document).ready(function() {
+		$('form').on('submit', function(e) {
+	        if (!validateForm()) {
+	            e.preventDefault(); // 유효성 검사를 통과하지 못하면 폼 제출을 막음
+	        }
+	    });
+		
 		var delArr = [];
 		
 		var selectedStatus = "${info.condition}";
@@ -268,7 +274,35 @@
 	    });
 	});
 	
-	
+	function validateForm() {
+	    // 이미지 파일 검사
+	    var inputFile = $('#input_file1')[0];
+	    var existingImages = ${prodImgList.size()};
+	    var newImages = inputFile.files.length;
+	    if (existingImages + newImages < 1) {
+	        alert('적어도 하나의 이미지를 추가해주세요.');
+	        return false;
+	    }
+
+	    // 이미지 파일 타입 검사
+	    var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/jpg"];
+	    for (var i = 0; i < inputFile.files.length; i++) {
+	        var file = inputFile.files[i];
+	        if ($.inArray(file.type, validImageTypes) === -1) {
+	            alert('올바른 이미지 파일 형식이 아닙니다.');
+	            return false;
+	        }
+	    }
+
+	    // 카테고리 검사
+	    var selectedCategory = $("#selCateSeq").val();
+	    if (!selectedCategory) {
+	        alert('카테고리를 선택해주세요.');
+	        return false;
+	    }
+
+	    return true;
+	}
 
 </script>
 </body>
