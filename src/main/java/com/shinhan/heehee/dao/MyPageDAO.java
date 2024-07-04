@@ -18,6 +18,7 @@ import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
+import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
@@ -51,15 +52,6 @@ public class MyPageDAO {
 		params.put("userId", userId);
 		return sqlSession.selectList(namespace + "saleList", params);
 	}
-
-//	public int userIntroduce(String intro, String userId) {
-//		Map<String, Object> params = new HashMap<>();
-//		params.put("introduce", intro);
-//		params.put("userId", userId);
-//		return sqlSession.update(namespace + "userIntroduce", params);
-//	}
-
-
 
 	public List<QnADTO> qnaOption() {
 		return sqlSession.selectList(namespace + "qnaOption");
@@ -201,6 +193,25 @@ public class MyPageDAO {
 		params.put("userId", userId);
 		params.put("userPoint", userPoint);
 		return sqlSession.update(namespace + "chargePoint", params);
+	}
+
+	public List<PointListDTO> searchPoint(String userId) {
+		return sqlSession.selectList(namespace + "searchPoint", userId);
+	}
+
+	public int updatePhone(String userId, String phone) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("phone", phone);
+		return sqlSession.update(namespace + "updatePhone", params);
+	}
+
+	public int updateAddress(String userId, String address, String detailAddress) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("address", address);
+		params.put("detailAddress", detailAddress);
+		return sqlSession.update(namespace + "updateAddress", params);
 	}
 
 	

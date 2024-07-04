@@ -108,6 +108,8 @@
 		S_CHECK = SYSDATE
 		WHERE SELL_SEQ = #{proSeq}
 	</update>
+	<!-- <update id="updatePCheck" parameterType="int"> UPDATE DEAL_HISTORY 
+		SET P_CHECK = SYSDATE WHERE SELL_SEQ = #{proSeq} </update> -->
 	<select id="dcOption" resultType="dcvo">
 		SELECT * FROM DELIVERY_COMPANY
 	</select>
@@ -217,6 +219,20 @@
 		WHERE ID =
 		#{id}
 	</update>
+	<update id="updatePhone" parameterType="map">
+		UPDATE HH_USER
+		SET
+		PHONE_NUM = #{phone}
+		WHERE ID = #{userId}
+	</update>
+	<update id="updateAddress" parameterType="map">
+		UPDATE HH_USER
+		SET
+		ADDRESS = #{address},
+		DETAIL_ADDRESS = #{detailAddress}
+		WHERE ID =
+		#{userId}
+	</update>
 	<delete id="deleteUser" parameterType="string">
 		DELETE FROM HH_USER WHERE
 		ID = #{userId}
@@ -298,5 +314,15 @@
 	<select id="searchDeal" parameterType="String">
 		SELECT * FROM DEAL_HISTORY
 		WHERE #{id}
+	</select>
+	<select id="searchPoint" parameterType="String"
+		resultType="com.shinhan.heehee.dto.response.PointListDTO">
+		SELECT *
+		FROM PAY_HISTORY
+		WHERE AUC_SEQ IS NULL
+		AND SELL_SEQ IS NULL
+		AND PAY_HISTORY.BUYER_ID = #{id}
+		AND MONTH(PAY_DATE) = #{month}
+		AND YEAR(PAY_DATE) = #{year}
 	</select>
 </mapper>

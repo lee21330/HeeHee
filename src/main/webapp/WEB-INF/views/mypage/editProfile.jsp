@@ -36,14 +36,17 @@
 			<!-- 왼쪽 영역 form -->
 			<div class="left" id="editProfile">
 				<p>프로필 수정</p>
-				<form action="${path}/mypage/profile/updateProfile" method="post" enctype="multipart/form-data">
+				<form action="${path}/mypage/profile/updateProfile" method="post"
+					enctype="multipart/form-data">
 					<div class="profileImg">
 						<img id="previewImage" class="photo"
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${profile.profileImg}"
 							onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 					</div>
-					<input type="hidden" id="original" name="originalProfileImg" value="${profile.profileImg}" required="required"> 
-					<input type="file" id="fileInput" name="profileImg" accept="image/*" style="display: none;">
+					<input type="hidden" id="original" name="originalProfileImg"
+						value="${profile.profileImg}" required="required"> <input
+						type="file" id="fileInput" name="profileImg" accept="image/*"
+						style="display: none;">
 					<div class="btn_profile">
 						<input type="button" class="btn_image" id="btn_modify"
 							value="사진변경" onclick="chooseFile();"> <input
@@ -55,9 +58,12 @@
 							<tr>
 								<th>닉네임</th>
 								<td><input type="text" id="nickName" name="nickName"
-									value="${profile.nickName}" required="required" oninput="changeBtn(${profile.nickName})"> 
-									<input type="button" value="중복체크" class="btn" id="btn-nick" onclick="dupMyNickCheck('${profile.nickName}')" style="display: none;">
-									<input type="button" value="중복체크" class="btn" id="btn-originalNick">
+									value="${profile.nickName}" required="required"
+									oninput="changeBtn(${profile.nickName})"> <input
+									type="button" value="중복체크" class="btn" id="btn-nick"
+									onclick="dupMyNickCheck('${profile.nickName}')"
+									style="display: none;"> <input type="button"
+									value="중복체크" class="btn" id="btn-originalNick">
 									<div id="my_nick_dup_result" class="my_dup_result">중복 확인</div></td>
 							</tr>
 							<tr>
@@ -70,7 +76,8 @@
 
 					<div class="btn_profile">
 						<input type="submit" id="btn_submit" value="적용">
-						<p id="btn_cancel" onclick="location.href='${path}/mypage/profile'">취소</p>
+						<p id="btn_cancel"
+							onclick="location.href='${path}/mypage/profile'">취소</p>
 					</div>
 				</form>
 
@@ -100,14 +107,14 @@
 							<p>${profile.phoneNum}</p>
 							<img class="photo-arrow"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
-							<%-- <%@include file="/WEB-INF/views/mypage/phoneModal.jsp"%> --%>
+							<%@include file="/WEB-INF/views/mypage/phoneModal.jsp"%>
 						</div>
 					</div>
 					<div class="right-info">
 						<p>내 계좌</p>
 						<div class="right-information" id="btn-account">
 							<p>${profile.bank}${profile.accountNum}</p>
-							<%-- <%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%> --%>
+							<%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%>
 							<img class="photo-arrow"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
 						</div>
@@ -154,7 +161,7 @@
 				</div>
 
 				<div class="right-box">
-					
+
 					<p id="drawal">회원 탈퇴</p>
 					<%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%>
 				</div>

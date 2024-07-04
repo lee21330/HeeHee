@@ -2,17 +2,14 @@ package com.shinhan.heehee.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,6 +34,7 @@ import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
+import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
@@ -55,6 +53,9 @@ public class MyPageController {
 
 	@Autowired
 	ProductDetailService productservice;
+
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	// 마이페이지
 	@GetMapping("/main")
@@ -187,7 +188,7 @@ public class MyPageController {
 		return "redirect:/mypage/saledetail/{productSeq}";
 	}
 
-	// 마이페이지 - 판매 상품 상세페이지_update deal_history(거래완료 버튼)
+	// 마이페이지 - 판매 상품 상세페이지:거래완료 버튼
 	@PostMapping("/saledetail/{productSeq}/updateSCheck")
 	public String updateSCheck(@RequestParam("proSeq") int proSeq, RedirectAttributes redirectAttr) {
 		int result = mypageservice.updateSCheck(proSeq);
@@ -212,6 +213,20 @@ public class MyPageController {
 		return "/mypage/purchaseDetail";
 	}
 
+	// 마이페이지 - 구매 상품 상세페이지:거래완료 버튼
+	@PostMapping("/purchasedetail/{productSeq}/updatePCheck")
+	public String updatePCheck(@RequestParam("proSeq") int proSeq, RedirectAttributes redirectAttr) {
+		int result = mypageservice.updatePCheck(proSeq);
+		String message;
+		if (result > 0) {
+			message = "insert success";
+		} else {
+			message = "insert fail";
+		}
+		redirectAttr.addFlashAttribute("result", message);
+		return "redirect:/mypage/purchaseDetail/{productSeq}";
+	}
+
 	// 마이페이지-프로필 수정 페이지 이동
 	@GetMapping("/profile")
 	public String profile(Principal principal, Model model) {
@@ -231,11 +246,6 @@ public class MyPageController {
 			@RequestParam("userIntroduce") String userIntroduce, Principal principal, RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
 		String image = "";
-		System.out.println("================================");
-		System.out.println(originalProfileImg);
-		System.out.println(nickName);
-		System.out.println(userIntroduce);
-		System.out.println("================================");
 		try {
 			if (profileImages != null && !profileImages.isEmpty()) {
 				// AWS S3에 이미지 업로드
@@ -272,24 +282,63 @@ public class MyPageController {
 		return mypageservice.dupNickCheck(nickName);
 	}
 
-	// 마이페이지_프로필 수정 페이지:현재 비밀번호 체크
-	@GetMapping("/profile/currentPwCheck")
-	@ResponseBody
-	public void currentPwCheck(Principal principal, String currentPw) {
+	// 마이페이지_프로필 수정 페이지: 전화번호 수정
+	@PutMapping("/profile/updatePhone")
+	public String updatePhone(Principal principal, String phone) {
 		String userId = principal.getName();
 
-		mypageservice.currentPwCheck(userId, currentPw);
+		mypageservice.updatePhone(userId, phone);
+		return "redirect:/mypage/profile";
 	}
+
+	// 마이페이지_프로필 수정 페이지: 주소 수정
+	@PutMapping("/profile/updateAddress")
+	public String updateAddress(Principal principal, String address, String detailAddress) {
+		String userId = principal.getName();
+
+		mypageservice.updateAddress(userId, address, detailAddress);
+		return "redirect:/mypage/profile";
+	}
+
+//	// 마이페이지_프로필 수정 페이지:비밀번호 수정
+//	@PostMapping("/profile/updatePw")
+//	public String updatePw(Principal principal, UserDTO userDto, String currentPassword, String password, String confirmPassword, Model model) {
+//		String userId = principal.getName();
+//		
+//		 // 현재 비밀번호 확인 로직
+//	    if (!passwordEncoder.matches(currentPassword,userId)) {
+//	        model.addAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다.");
+//	        return "/mypage/profile";
+//	    }
+//
+//	    // 새 비밀번호와 비밀번호 확인 일치 여부 확인 로직
+//	    if (password != null && !password.isEmpty()) {
+//	        if (!password.equals(confirmPassword)) {
+//	            model.addAttribute("errorMessage", "새 비밀번호가 일치하지 않습니다.");
+//	            return "/mypage/profile";
+//	        }
+//	        String encodedPassword = passwordEncoder.encode(password);
+//	        userDto.setPassword(encodedPassword);
+//	    }
+//
+//	    try {
+//	    	mypageservice.updatePw(userDto);
+//	    } catch (IllegalArgumentException e) {
+//	        model.addAttribute("errorMessage", e.getMessage());
+//	        return "/mypage/profile";
+//	    }
+//	    return "redirect:/mypage/profile";
+//	}
 
 	// 마이페이지_프로필 수정 페이지:회원 탈퇴
 	@DeleteMapping("/profile/deleteUser")
 	@ResponseBody
-	public ResponseEntity<Map<String,Object>> deleteUser(Principal principal) {
-		Map<String,Object> response = new HashMap<String,Object>();
+	public ResponseEntity<Map<String, Object>> deleteUser(Principal principal) {
+		Map<String, Object> response = new HashMap<String, Object>();
 		String userId = principal.getName();
 		int result = mypageservice.deleteUser(userId);
-		
-		if(result > 0) {
+
+		if (result > 0) {
 			response.put("success", true);
 		} else {
 			response.put("success", false);
@@ -381,19 +430,20 @@ public class MyPageController {
 		model.addAttribute("mainCateList", mainCateList);
 		String userId = principal.getName();
 		model.addAttribute("userId", userId);
-//		model.addAttribute("point", mypageservice.searchPoint(userId));
+
+		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
+		// model.addAttribute("point", mypageservice.searchPoint(userId));
 		return "/mypage/pointList";
 	}
 
 	// 포인트 충전
 	@PutMapping("/chargePoint")
 	@ResponseBody
-	public void chargePoint(Principal principal, @RequestBody Map<String, Integer> map) {	
+	public void chargePoint(Principal principal, @RequestBody Map<String, Integer> map) {
 		String userId = principal.getName();
 		Integer newPoint = map.get("point") + map.get("userPoint");
 
 		mypageservice.chargePoint(userId, newPoint);
 	}
-
 
 }

@@ -23,6 +23,7 @@ import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
+import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
@@ -149,8 +150,6 @@ public class MyPageService {
 
 	public int updateSCheck(int proSeq) {
 		int result = mypageDao.updateSCheck(proSeq);
-//		int check = mypageDao.searchDeal(proSeq);
-//		if()
 		return result;
 
 	}
@@ -231,6 +230,20 @@ public class MyPageService {
 
 	public int chargePoint(String userId, Integer chargePoint) {
 		return mypageDao.chargePoint(userId, chargePoint);
+	}
+
+	public List<PointListDTO> searchPoint(String userId) {
+		return mypageDao.searchPoint(userId);
+	}
+
+	public int updatePhone(String userId, String phone) {
+		return mypageDao.updatePhone(userId, phone);
+		
+	}
+
+	public int updateAddress(String userId, String address, String detailAddress) {
+		return mypageDao.updateAddress(userId, address, detailAddress);
+		
 	}
 
 }
