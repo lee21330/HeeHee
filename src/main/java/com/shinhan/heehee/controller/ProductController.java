@@ -115,7 +115,7 @@ public class ProductController {
 		model.addAttribute("mainCateList", mainCateList);
 		
 		modiDTO.setUploadFiles(uploadImgs);
-		productservice.prodModify(modiDTO, userId);
+		productservice.prodModify(modiDTO);
 		return "redirect:/sell/productdetail/" + modiDTO.getProdSeq();
 	}
 	

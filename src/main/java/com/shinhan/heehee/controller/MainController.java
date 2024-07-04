@@ -46,4 +46,10 @@ public class MainController {
 		model.addAttribute("aucList", auctionService.aucProdList());
 		return "/main/auction";
 	}
+	
+	@GetMapping("/main/search")
+	public String search(Model model) {
+		model.addAttribute("rankProdList", mainservice.rankProdList());
+		return "/main/search";
+	}
 }

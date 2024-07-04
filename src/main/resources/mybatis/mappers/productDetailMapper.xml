@@ -28,7 +28,7 @@
 		WHERE 
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
 		AND
-			SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+			SELL.PRO_STATUS NOT IN('거래완료','예약중')
 		AND
 			SELL.ID IS NOT NULL
 	</select>
@@ -48,8 +48,8 @@
 		      JOIN SELL_PRODUCT SELL ON IMG.TABLE_PK = SELL.PRODUCT_SEQ
 		      WHERE IMG.IMG_CATE_SEQ = 2
 		        AND CREATE_DATE >= SYSDATE - 30
-		        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
-		        AND SELL.ID IS NOT NULL  -- 이 조건을 여기로 이동
+		        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
+		        AND SELL.ID IS NOT NULL
 		      ORDER BY DBMS_RANDOM.RANDOM)
 		WHERE ROWNUM <![CDATA[<]]> 6
 		  AND PRODUCT_SEQ != #{PROD_SEQ}
@@ -66,7 +66,7 @@
                                 WHERE IMG_CATE_SEQ = 2
                                 GROUP BY TABLE_PK)
         AND ROWNUM <![CDATA[<]]> 13
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
         AND SELL.ID IS NOT NULL
         GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
         ORDER BY IMG_SEQ
@@ -84,7 +84,7 @@
         INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
         WHERE IMG.IMG_CATE_SEQ = 2
         AND ROWNUM <![CDATA[<]]> 35
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
         AND SELL.ID IS NOT NULL
         GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
         ORDER BY DBMS_RANDOM.RANDOM
@@ -101,7 +101,7 @@
         FROM SELL_PRODUCT SELL
         INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
         WHERE IMG.IMG_CATE_SEQ = 2
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
         AND ROWNUM <![CDATA[<]]> 35
         AND SELL.ID IS NOT NULL
         GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
@@ -123,7 +123,7 @@
 	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ) 
 	                    FROM IMG_FILES
 	                    WHERE IMG_CATE_SEQ = 2
-	                    AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+	                    AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
 	                    GROUP BY TABLE_PK)
 	   <!-- AND ROWNUM <![CDATA[<]]> 6 -->
 	   ORDER BY DBMS_RANDOM.RANDOM
@@ -278,7 +278,7 @@
     )
     ORDER BY CRE_DATE DESC
   )
-WHERE ROWNUM <![CDATA[<]]> 3
+WHERE ROWNUM <![CDATA[<]]> 5
 
 	</select>
 	

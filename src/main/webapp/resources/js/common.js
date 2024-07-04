@@ -1,37 +1,15 @@
 function showTost(txt) {
-	let tostMessage = $("#tost_message");
-	
-	tostMessage.text(txt);
-	tostMessage.addClass("active");
-	
-	setTimeout(function() {
-		tostMessage.removeClass("active");
-	}, 1000);
-	
-	// throw new Error("stopExecution");
+    let tostMessage = $("#tost_message");
+    
+    tostMessage.text(txt);
+    tostMessage.addClass("active");
+    
+    setTimeout(function() {
+        tostMessage.removeClass("active");
+    }, 1000);
+    
+    // throw new Error("stopExecution");
 }
-
-
-
-function payForAuc(payName, amount, aucSeq) {
-	$.ajax({
-	    url: '/heehee/pay/before',
-	    method: 'POST',
-	    data: {
-	    	"payName" : payName,
-	    	"amount" : amount,
-	    	"aucSeq" : aucSeq
-	    	},
-	    success: function (data, status, xhr) {
-	    	payment(payName,data);
-	    },
-	    error: function (data, status, err) {
-	    	console.log(err);
-	    }
-	});
-}
-
-
 function inputPhoneNumber( phone ) {
     if( event.keyCode != 8 ) {
         const regExp = new RegExp( /^[0-9]{2,3}-^[0-9]{3,4}-^[0-9]{4}/g );
@@ -74,9 +52,12 @@ function inputPhoneNumber( phone ) {
         }
     }
 }
-
 function checkPhoneNumber( number ) {
     const regExp = new RegExp( /^[0-9|-]*$/ );
     if( regExp.test( number ) == true ) { return true; }
     else { return false; }
+}
+function beforeCheckLocation(locAddr) {
+    if(checkNick == '') {openLogin();}
+    else {location.href = locAddr;}
 }
