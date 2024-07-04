@@ -3,18 +3,11 @@
 <link rel="stylesheet" href="${path}/resources/css/loginModal.css">
 
 <script>
-
 	var idFlag = false;
 	var nickNameFlag = false;
 	var emailFlag = false;
 	var authFlag = false;
-	
-	$(window).on('unload', function() {
-	    var cookieName = 'Authorization';
-	    document.cookie = encodeURIComponent(cookieName) + "=deleted; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-	});
-	
-	
+	var checkNick = "${userNickName}";
 	
 	$(function() {
 		$("#loginBtn").on("click", openLogin);

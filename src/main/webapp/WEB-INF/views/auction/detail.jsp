@@ -54,7 +54,7 @@
                     <div id="my_point_area">
                     	<p class="my_point_text">나의 보유 포인트</p>
                     	<p class="my_point_amount_area"><span class="my_point_amount">5,000</span>P</p>
-                    	<button>포인트 충전</button>
+                    	<button id="charge_point_btn">포인트 충전</button>
                     </div>
                 </div>
             </div>
@@ -108,6 +108,10 @@
 	$(document).ready(function() {
 	    connect();
 		
+	    $("#charge_point_btn").on("click", function() {
+	    	beforeLocationCheck();
+	    });
+	    
 	    var stars = document.querySelectorAll('#seller_score .star');
 
 	    for (var i = 0; i < userRating; i++) {

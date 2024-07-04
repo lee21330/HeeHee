@@ -166,3 +166,8 @@ function checkPhoneNumber( number ) {
     if( regExp.test( number ) == true ) { return true; }
     else { return false; }
 }
+
+function beforeCheckLocation(locAddr) {
+	if(checkNick == '') {openLogin();}
+	else {location.href = locAddr;}
+}

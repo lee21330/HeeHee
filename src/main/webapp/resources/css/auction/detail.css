@@ -221,6 +221,6 @@
 	font-size: 25px;
 }
 
-#seller_score {
-	
+#seller_score > div {
+	float: right;
 }
