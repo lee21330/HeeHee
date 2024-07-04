@@ -146,8 +146,8 @@
 			<table class="recentJoinTable">
 				<thead>
 					<tr>
+						<th>회원ID</th>
 						<th>회원명</th>
-						<th>아이디</th>
 						<th>이메일</th>
 						<th>전화번호</th>
 						<th>가입일</th>
@@ -168,5 +168,6 @@
 		</div> <!-- recentJoinContainer -->
 	</div> <!-- mainMenuContainer -->
 	</div> <!-- bodyContainer -->
+	<script type="text/javascript" src="${path}/resources/js/admin/main.js"></script>
 </body>
 </html>

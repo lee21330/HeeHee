@@ -288,6 +288,7 @@ table tbody tr td {
 
 .totalOrderTable, .proStatusTable, .aucStatusTable  {
 	width: 100%;
+	text-align: center;
 }
 
 /* 전체 주문통계 */
@@ -296,55 +297,46 @@ table.totalOrderTable thead tr th:nth-child(1),
 table.totalOrderTable tbody tr td:nth-child(1) {
 	width: 60%;
 }
-
 	/* 총 주문액 */
 table.totalOrderTable thead tr th:nth-child(2),
 table.totalOrderTable tbody tr td:nth-child(2) {
 	width: 40%;
 }
-
 	/* 상품 - 판매중 */
 table.proStatusTable thead tr th:nth-child(1),
 table.proStatusTable tbody tr td:nth-child(1) {
 	width: 20%;
 }
-
 	/* 상품 - 예약중 */
 table.proStatusTable thead tr th:nth-child(2),
 table.proStatusTable tbody tr td:nth-child(2) {
 	width: 20%;
 }
-
 	/* 상품 - 거래완료 */
 table.proStatusTable thead tr th:nth-child(3),
 table.proStatusTable tbody tr td:nth-child(3) {
 	width: 30%;
 }
-
 	/* 상품 - 판매중지 */
 table.proStatusTable thead tr th:nth-child(4),
 table.proStatusTable tbody tr td:nth-child(4) {
 	width: 30%;
 }
-
 	/* 경매 - 입찰 */
 table.aucStatusTable thead tr th:nth-child(1),
 table.aucStatusTable tbody tr td:nth-child(1) {
 	width: 15%;
 }
-
 	/* 경매 - 낙찰 */
 table.aucStatusTable thead tr th:nth-child(2),
 table.aucStatusTable tbody tr td:nth-child(2) {
 	width: 15%;
 }
-
 	/* 경매 - 거래완료 */
 table.aucStatusTable thead tr th:nth-child(3),
 table.aucStatusTable tbody tr td:nth-child(3) {
 	width: 35%;
 }
-
 	/* 경매 - 판매중지 */
 table.aucStatusTable thead tr th:nth-child(4),
 table.aucStatusTable tbody tr td:nth-child(4) {
@@ -357,42 +349,41 @@ table.aucStatusTable tbody tr td:nth-child(4) {
 table.recentOrderTable thead tr th:nth-child(1),
 table.recentOrderTable tbody tr td:nth-child(1) {
 	width: 10%;
+	text-align: center;
 }
-
 	/* 구매자명 */
 table.recentOrderTable thead tr th:nth-child(2),
 table.recentOrderTable tbody tr td:nth-child(2) {
 	width: 8%;
+	text-align: center;
 }
-
 	/* 판매자명 */
 table.recentOrderTable thead tr th:nth-child(3),
 table.recentOrderTable tbody tr td:nth-child(3) {
 	width: 8%;
+	text-align: center;
 }
-
 	/* 품목명 */
 table.recentOrderTable thead tr th:nth-child(4),
 table.recentOrderTable tbody tr td:nth-child(4) {
-	width: 43%;
+	width: 45%;
 }
-
 	/* 거래방식 */
 table.recentOrderTable thead tr th:nth-child(5),
 table.recentOrderTable tbody tr td:nth-child(5) {
-	width: 10%;
+	width: 8%;
+	text-align: center;
 }
-
 	/* 거래금액 */
 table.recentOrderTable thead tr th:nth-child(6),
 table.recentOrderTable tbody tr td:nth-child(6) {
 	width: 11%;
 }
-
 	/* 거래일 */
 table.recentOrderTable thead tr th:nth-child(7),
 table.recentOrderTable tbody tr td:nth-child(7) {
 	width: 10%;
+	text-align: center;
 }
 /* 최근 주문내역 끝 */
 
@@ -401,63 +392,62 @@ table.recentOrderTable tbody tr td:nth-child(7) {
 table.recentQuestionTable thead tr th:nth-child(1),
 table.recentQuestionTable tbody tr td:nth-child(1) {
 	width: 13%;
+	text-align: center;
 }
-
 	/* 회원명 */
 table.recentQuestionTable thead tr th:nth-child(2),
 table.recentQuestionTable tbody tr td:nth-child(2) {
 	width: 6%;
+	text-align: center;
 }
-
 	/* 처리현황 */
 table.recentQuestionTable thead tr th:nth-child(3),
 table.recentQuestionTable tbody tr td:nth-child(3) {
 	width: 20%;
+	text-align: center;
 }
-
 	/* 제목 */
 table.recentQuestionTable thead tr th:nth-child(4),
 table.recentQuestionTable tbody tr td:nth-child(4) {
 	width: 51%;
 }
-
 	/* 작성일 */
 table.recentQuestionTable thead tr th:nth-child(5),
 table.recentQuestionTable tbody tr td:nth-child(5) {
 	width: 10%;
+	text-align: center;
 }
 /* 최근 문의내역 끝 */
 
 /* 최근 회원가입 */
-	/* 회원명 */
+	/* 회원ID */
 table.recentJoinTable thead tr th:nth-child(1),
 table.recentJoinTable tbody tr td:nth-child(1) {
-	width: 6%;
-}
-
-	/* 아이디 */
-table.recentJoinTable thead tr th:nth-child(2),
-table.recentJoinTable tbody tr td:nth-child(2) {
 	width: 13%;
 	text-align: center;
 }
-
+	/* 회원명 */
+table.recentJoinTable thead tr th:nth-child(2),
+table.recentJoinTable tbody tr td:nth-child(2) {
+	width: 6%;
+	text-align: center;
+}
 	/* 이메일 */
 table.recentJoinTable thead tr th:nth-child(3),
 table.recentJoinTable tbody tr td:nth-child(3) {
 	width: 58%;
 }
-
 	/* 전화번호 */
 table.recentJoinTable thead tr th:nth-child(4),
 table.recentJoinTable tbody tr td:nth-child(4) {
 	width: 13%;
+	text-align: center;
 }
-
 	/* 가입일 */
-.recentJoinTable table thead tr th:nth-child(5),
-.recentJoinTable table tbody tr td:nth-child(5) {
+table.recentJoinTable thead tr th:nth-child(5),
+table.recentJoinTable tbody tr td:nth-child(5) {
 	width: 10%;
+	text-align: center;
 }
 /* 최근 회원가입 끝 */
 
@@ -470,38 +460,38 @@ table.recentJoinTable tbody tr td:nth-child(4) {
 	border-bottom: 1px solid gray;
 	margin-bottom: 30px;
 }
+
 	/* 회원명 */
 .userTable table thead tr th:nth-child(1),
-.userTable table tbody tr td:nth-child(1) {
+.userTable tbody tr td:nth-child(1) {
 	width: 6%;
 	text-align: center;
-	
 }
 	/* 아이디 */
-.userTable table thead tr th:nth-child(2),
-.userTable table tbody tr td:nth-child(2) {
+.userTable thead tr th:nth-child(2),
+.userTable tbody tr td:nth-child(2) {
 	width: 13%;
 	text-align: center;
 }
 	/* 이메일 */
-.userTable table thead tr th:nth-child(3),
-.userTable table tbody tr td:nth-child(3) {
+.userTable thead tr th:nth-child(3),
+.userTable tbody tr td:nth-child(3) {
 	width: 20%;
 }
 	/* 전화번호 */
-.userTable table thead tr th:nth-child(4),
-.userTable table tbody tr td:nth-child(4) {
+.userTable thead tr th:nth-child(4),
+.userTable tbody tr td:nth-child(4) {
 	width: 13%;
 	text-align: center;
 }
 	/* 주소 */
-.userTable table thead tr th:nth-child(5),
-.userTable table tbody tr td:nth-child(5) {
+.userTable thead tr th:nth-child(5),
+.userTable tbody tr td:nth-child(5) {
 	width: 38%;
 }
 	/* 가입입 */
-.userTable table thead tr th:nth-child(6),
-.userTable table tbody tr td:nth-child(6) {
+.userTable thead tr th:nth-child(6),
+.userTable tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
 }
@@ -652,7 +642,6 @@ table.recentJoinTable tbody tr td:nth-child(4) {
     align-items: center;
 }
 
-
 /* category.jsp 끝 */
 
 /* qnaManager.jsp */
@@ -668,14 +657,12 @@ table.recentJoinTable tbody tr td:nth-child(4) {
 	width: 7%;
 	text-align: center;
 }
-
 	/* 처리현황 */
 .qnaTable table thead tr th:nth-child(3),
 .qnaTable table tbody tr td:nth-child(3) {
 	width: 8%;
 	text-align: center;
 }
-
 	/* 유형 */
 .qnaTable table thead tr th:nth-child(4),
 .qnaTable table tbody tr td:nth-child(4) {
@@ -709,7 +696,6 @@ table.recentJoinTable tbody tr td:nth-child(4) {
 .qnaContentContainer {
 	margin-top: 20px;
 	display:inline-block;
-	
 }
 
 /* qnaManager.jsp 끝 */
@@ -774,16 +760,15 @@ table.recentJoinTable tbody tr td:nth-child(4) {
 .qnaManagerTable table tbody tr td:nth-child(4) {
 	width: 49%;
 }
-
 	/* 작성자ID */
 .qnaManagerTable table thead tr th:nth-child(5),
 .qnaManagerTable table tbody tr td:nth-child(5) {
 	width: 13%;
 }
-
 	/* 작성일 */
 .qnaManagerTable table thead tr th:nth-child(6),
 .qnaManagerTable table tbody tr td:nth-child(6) {
 	width: 10%;
+	text-align: center;
 }
 /* questiomManager.jsp 끝 */
