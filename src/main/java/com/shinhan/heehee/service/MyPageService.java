@@ -30,6 +30,7 @@ import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleDetailDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
+import com.shinhan.heehee.dto.response.UserDTO;
 
 @Service
 public class MyPageService {
@@ -245,5 +246,10 @@ public class MyPageService {
 		return mypageDao.updateAddress(userId, address, detailAddress);
 		
 	}
+
+//	public void updatePw(UserDTO userDto) {
+//	eturn mypageDao.updatePhone(userId, phone);
+//		
+//	}
 
 }
