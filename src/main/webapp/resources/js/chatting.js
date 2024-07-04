@@ -363,7 +363,7 @@ function selectChattingFn(){
         const sellingImage = document.createElement("img");
         sellingImage.classList.add("selling-image");
         
-        const imgName = roomDetail.roomProductDTO.productSeq ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
+        const imgName = roomDetail.roomProductDTO.productImg ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
         
         const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${imgName}`;
         sellingImage.setAttribute("src", imgUrl);
@@ -598,7 +598,6 @@ function selectChattingFn(){
                     }
                 }
             }
-            contentBody.append(messageList);
         }
         
         else if(roomDetail.roomMessageDTO.length == 0){
@@ -607,6 +606,8 @@ function selectChattingFn(){
             //noneRoomChat.innerHTML = "채팅을 시작해보세요💭";
             //contentBody.append(noneRoomChat);
         }
+        
+        contentBody.append(messageList);
         
         const chattingInput = document.createElement("div");
         chattingInput.classList.add("chatting-input");
@@ -857,12 +858,14 @@ function updateChatRoomList(data) {
                         unreadCount.classList.add("unread-count");
                         unreadCount.innerText = room.unreadcount;
                     
-                        const nameCount = document.querySelector(".name-count");
+                        const nameCount = existingChatRoom.querySelector(".name-count");
                        	nameCount.append(unreadCount);
                     }
                    	
                     existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
-          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent.startsWith("[img_asdfzv]") ? "사진" : room.lastcontent;
+                    if(room.lastcontent){
+          	        	existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent.startsWith("[img_asdfzv]") ? "사진" : room.lastcontent;
+                	}
                 }
           	    
           	    //업데이트 후 목록 맨 위로 이동
