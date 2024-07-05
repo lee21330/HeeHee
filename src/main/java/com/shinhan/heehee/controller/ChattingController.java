@@ -12,7 +12,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +28,7 @@ import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 import com.shinhan.heehee.service.AWSS3Service;
+import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.ChattingService;
 import com.shinhan.heehee.service.MainService;
 
@@ -41,6 +41,9 @@ public class ChattingController {
 	
 	@Autowired
 	private MainService mainservice;
+	
+	@Autowired
+	private AlarmService alarmService;
 
 	@Autowired
 	private AWSS3Service s3Service;
@@ -55,13 +58,18 @@ public class ChattingController {
 	@GetMapping
 	public String chatting(Model model, Principal principal) {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
+		
 		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
+		
+		int alarmCount = alarmService.alarmCount(principal.getName());
+
 		// model에 담을 것: 유저별 채팅방 목록
 		model.addAttribute("roomList", cService.getRoomList(userId));
 		model.addAttribute("userId", userId);
+		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		return "chatting/chatting";
 	}
 
