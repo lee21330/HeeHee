@@ -44,7 +44,7 @@
 		where r.room_id = m.room_id) as maxmessageno
 		from chat_room r
 		where seller=#{userId} or buyer=#{userId}
-		order by maxmessageno desc nulls last
+		order by maxmessageno desc nulls last, id desc
 	</select>
 	
 <select id="getRoomProduct" parameterType="hashMap" resultType="com.shinhan.heehee.dto.response.RoomProductDTO">

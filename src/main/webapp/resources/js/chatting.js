@@ -825,11 +825,14 @@ function updateChatRoomList(data) {
     
     // 조회한 채팅방 목록을 순회
     for (let room of data) {
-    	
-        console.log("room:", `"${room.id}"]`);
+    
+    	let existingChatRoom = null;
+    	let li = null;
+    
         // 채팅방 아이템을 찾기
-        const existingChatRoom = chattingList.querySelector(`li[room-id="${room.id}"]`);
+        existingChatRoom = chattingList.querySelector(`li[room-id="${room.id}"]`);
         //console.log(chattingList.querySelector(`li[room-id="${room.id}"]`));
+        
         
         // 이미 있는 채팅방이면 unreadCount, sendTime, lastContent만 업데이트
         if (existingChatRoom) {
@@ -871,7 +874,7 @@ function updateChatRoomList(data) {
             
         } else {
             // 새로운 채팅방이면 목록 위에 추가
-            const li = document.createElement("li");
+            li = document.createElement("li");
             li.classList.add("chatting-item");
             li.setAttribute("room-id", room.id);
             li.setAttribute("receiver-id", room.receiverid);
@@ -930,40 +933,47 @@ function updateChatRoomList(data) {
             
             //클릭 이벤트 추가
             li.addEventListener("click", e => {
-            // 전역변수에 채팅방 번호, 상대 id, 상대 닉네임 저장
-            selectRoomId = li.getAttribute("room-id");
-            selectReceiverId = li.getAttribute("receiver-id");
+            	// 전역변수에 채팅방 번호, 상대 id, 상대 닉네임 저장
+            	selectRoomId = li.getAttribute("room-id");
+            	selectReceiverId = li.getAttribute("receiver-id");
 
-            selectReceiverName = li.children[1].children[0].children[0].innerText;
+            	selectReceiverName = li.children[1].children[0].children[0].innerText;
 
-            const unreadCountElem = li.querySelector(".unread-count");
-            if (unreadCountElem) {
-                unreadCountElem.remove();
-            }
+            	const unreadCountElem = li.querySelector(".unread-count");
+            	if (unreadCountElem) {
+                	unreadCountElem.remove();
+            	}
 
-            // 모든 채팅방에서 select 클래스를 제거
-            const chattingItemList = chattingList.querySelectorAll(".chatting-item");
-            chattingItemList.forEach(item => item.classList.remove("select"));
+           	 	// 모든 채팅방에서 select 클래스를 제거
+            	const chattingItemList = chattingList.querySelectorAll(".chatting-item");
+            	chattingItemList.forEach(item => item.classList.remove("select"));
 
-            // 현재 클릭한 채팅방에 select 클래스 추가
-            li.classList.add("select");
+            	// 현재 클릭한 채팅방에 select 클래스 추가
+            	li.classList.add("select");
 
-            // 채팅 메시지가 있는 경우
-            // 비동기로 메시지 목록을 조회하는 함수 호출
-            selectChattingFn();
+            	// 채팅 메시지가 있는 경우
+            	// 비동기로 메시지 목록을 조회하는 함수 호출
+            	selectChattingFn();
 
-            fetch("/heehee/chatting/read", {
-                method : "PUT",
-                headers : {"Content-Type": "application/json"},
-                body : JSON.stringify({"chatRoomId" : selectRoomId, "loginUserId" : loginMemberNo})
-            })
-            .then(resp => resp.text())
-            .then(result => console.log(result))
-            .catch(err => console.log(err));
-        });
+            	fetch("/heehee/chatting/read", {
+                	method : "PUT",
+                	headers : {"Content-Type": "application/json"},
+                	body : JSON.stringify({"chatRoomId" : selectRoomId, "loginUserId" : loginMemberNo})
+            	})
+            	.then(resp => resp.text())
+            	.then(result => console.log(result))
+            	.catch(err => console.log(err));
+        	});
 
             // 새로운 채팅방을 목록의 맨 위에 추가
             //chattingList.insertBefore(li, chattingList.children[1]);
         }
+        if(existingChatRoom){
+			chattingList.querySelector(`li[room-id="${room.id}"]`).remove();
+			chattingList.appendChild(existingChatRoom);
+		}
+		else if(li){
+			chattingList.appendChild(li);
+		}
     }
 }
