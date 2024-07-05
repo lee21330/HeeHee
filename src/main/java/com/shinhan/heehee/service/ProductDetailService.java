@@ -47,9 +47,11 @@ public class ProductDetailService {
 	}
 	
 	@Transactional
-	public void prodModify(ProductModifyRequestDTO modiDTO) throws IOException {
+	public void prodModify(ProductModifyRequestDTO modiDTO, String userId) throws IOException {
 		String filePath = "images/sell/";
 		List<MultipartFile> files = modiDTO.getUploadFiles();
+		
+		System.out.println("**********************************" + modiDTO);
 		
 		// 파일 업로드 전 기존 파일 삭제
 		if(modiDTO.getDelArr() != null) {
@@ -67,8 +69,8 @@ public class ProductDetailService {
 				ImageFileDTO imgfile = new ImageFileDTO();
 				String fileName = fileUploadService.uploadOneObject(file, filePath);
 				imgfile.setImgName(fileName);
-				imgfile.setProdSeq(modiDTO.getProdSeq());
-				
+				imgfile.setTablePk(modiDTO.getProdSeq());
+				imgfile.setUserId(userId);
 				productDetailDao.insertImgFile(imgfile);
 			}
 		}

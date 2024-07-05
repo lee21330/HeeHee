@@ -39,7 +39,12 @@ $(document).ready(function() {
     // 맨 위로 스크롤하는 이벤트 리스너
     $('#gotop').on('click', function(e) {
         e.preventDefault();
-        $('html, body').animate({scrollTop: 0}, 500);
+        $('html, body').animate({scrollTop: 0}, 200);
+    });
+    
+     $('#top_img').on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({scrollTop: 0}, 200);
     });
     
     

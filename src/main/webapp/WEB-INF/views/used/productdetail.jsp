@@ -147,7 +147,7 @@
 					<div class="title-container">
 
 						<p id="product_name">${info.articleTitle}</p>
-						<a href="#" class="price-check-link">시세조회</a>
+						<!-- <a href="#" class="price-check-link">시세조회</a> -->
 
 					</div>
 					<p id="product_price"><fmt:formatNumber value="${info.productPrice}" pattern="#,###" />원</p>
@@ -189,9 +189,11 @@
 						</div>
 					</c:if>
 					<c:if test="${userId == info.id && info.proStatus == '판매중지'}">
-						<div class="button-container">
-							<p id="reserve_explanation">판매 중지된 물품은 수정할 수 없습니다.</p>
-							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
+						<div class="text-container">
+							<p id="reserve_explanation">※ 판매 중지된 물품은 수정할 수 없습니다.</p>
+							<p id="banReason">판매중지 사유</p>
+							<p id="paused_explanation">${info.productBanReason}</p>
+							
 						</div>
 					</c:if>
 					<c:if test="${userId == info.id && info.proStatus == '판매보류'}">
@@ -203,13 +205,13 @@
 					</c:if>
 					<c:if test="${userId == info.id && info.proStatus == '예약중'}">
 						<div class="button-container">
-							<p id="reserve_explanation">예약중인 물품은 수정할 수 없습니다.</p>
+							<p id="reserve_explanation">※ 예약중인 물품은 수정할 수 없습니다.</p>
 							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
 						</div>
 					</c:if>
 					<c:if test="${userId != info.id && info.proStatus == '예약중' && info.deal == '택배'}">
 						<div class="button-container">
-							<p id="reserve_explanation">이미 거래가 완료된 상품입니다.</p>
+							<p id="reserve_explanation">※ 이미 거래가 완료된 상품입니다.</p>
 						</div>
 					</c:if>
 					<c:if test="${userId != info.id && info.proStatus == '예약중' && info.deal == '직거래'}">
@@ -231,12 +233,12 @@
 					</c:if>
 					<c:if test="${userId != info.id && info.proStatus == '판매중지'}">
 						<div class="button-container">
-							<p id="reserve_explanation">판매 중지된 물품은 구매할 수 없습니다.</p>
+							<p id="reserve_explanation">※ 판매 중지된 물품은 구매할 수 없습니다.</p>
 						</div>
 					</c:if>
 					<c:if test="${userId != info.id && info.proStatus == '판매보류'}">
 						<div class="button-container">
-							<p id="reserve_explanation">판매 보류된 물품은 구매할 수 없습니다.</p>
+							<p id="reserve_explanation">※ 판매 보류된 물품은 구매할 수 없습니다.</p>
 						</div>
 					</c:if>
 					
@@ -253,7 +255,10 @@
 						
 					</div>
 				</c:if>
-					<p id="gotop" style="cursor: pointer">TOP</p>
+				<div id="plus_container">
+					<img id="top_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png">
+					<p id="gotop">TOP</p>
+				</div>
 				</div>
 			</div>
 			<div class="info-container">

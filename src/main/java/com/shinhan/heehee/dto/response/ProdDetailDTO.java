@@ -37,5 +37,6 @@ public class ProdDetailDTO {
 	private int viewCnt;
 	private int specifiedJjimCnt;
 	private String userId;
+	private String productBanReason;
 	
 }

@@ -95,8 +95,6 @@ public class ProductController {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 
-		
-		
 		/* if(prodInfo == null) return "/"; */
 		model.addAttribute("userId", userId);
 		
@@ -110,12 +108,12 @@ public class ProductController {
 	// 수정하는거
 	@PostMapping("/productModify")
 	public String prodModify(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
-							,ProductModifyRequestDTO modiDTO, String userId, Model model) throws IOException {
+							,ProductModifyRequestDTO modiDTO, Principal principal, Model model) throws IOException {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		
 		modiDTO.setUploadFiles(uploadImgs);
-		productservice.prodModify(modiDTO);
+		productservice.prodModify(modiDTO, principal.getName());
 		return "redirect:/sell/productdetail/" + modiDTO.getProdSeq();
 	}
 	
