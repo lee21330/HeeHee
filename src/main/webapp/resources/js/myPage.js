@@ -7,7 +7,7 @@ $(function() {
 	$(".mModal_close").on("click", hide);
 	$(".menu li").on("click", changeMenu);
 	$(".sub_menu li").on("click", changeSubMenu);
-
+	$("#btn_charge").on("click", chargePoint);
 });
 function show() {
 	$("#search").addClass("show");
@@ -51,11 +51,14 @@ function changeStatus(status) {
 					var detailUrl = '';
 
 					// 판매상태에 따라 페이지 다르게
-					if (sale.proStatus === '판매중') {
+					if (sale.proStatus === '판매중' ||sale.proStatus === '판매보류' || sale.proStatus === '판매중지') {
 						detailUrl = "/heehee/sell/productdetail/" + sale.productSeq;
-					} else if (sale.proStatus === '판매보류') {
-						detailUrl = 'javascript:void(0);'; // 판매보류일 경우, 클릭 이벤트를 비활성화
-					} else {
+					}
+					 //else if (sale.proStatus === '판매보류' || sale.proStatus === '판매중지') {
+						//detailUrl = 'javascript:void(0);'; // 판매보류일 경우, 클릭 이벤트를 비활성화
+						//} 
+					
+					else {
 						detailUrl = "/heehee/mypage/saledetail/" + sale.productSeq;
 					}
 
@@ -84,6 +87,9 @@ function changeStatus(status) {
                             					<li onclick="hideSubDropdown()">취소</li>
                             					<li onclick="updateStatus(${sale.productSeq},'${sale.proStatus}')" id="statusDropdown">판매중</li>
 					                        </ul>`;
+					}
+					else if (sale.proStatus === '판매중지') {
+						statusChangeMenu = `<p>${sale.productBanReason}</p>`;
 					}
 
 					output += `				
@@ -275,12 +281,12 @@ function changeStatus_auc(status) {
 			} else {
 
 				data.forEach(function(sale) {
-					var detailUrl = sale.proStatus === '입찰' ? '/heehee/auc/detail/${sale.productSeq}' : '/heehee/mypage/saledetailAuc/${sale.productSeq}';
+					var detailUrl = sale.proStatus === '입찰' ? '/heehee/auc/detail/' + sale.productSeq : '/heehee/mypage/saledetailAuc/' + sale.productSeq;
 					output += `							
                             <div class="product" onclick="location.href='${detailUrl}'">
                                 <div class="product_slider">
                                     <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${sale.imgName}">
-                                </div>
+                                </div>     
                                 <p>${sale.auctionTitle}</p>
                                 <p>${sale.aucPrice}</p>
                                 <p id="s_statusVal">${sale.aucStatus}</p>
@@ -327,3 +333,6 @@ function showPurchaseList_auc() {
 		}
 	});
 }
+
+
+

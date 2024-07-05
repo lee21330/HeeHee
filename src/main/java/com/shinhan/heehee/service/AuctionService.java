@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.AuctionDAO;
-import com.shinhan.heehee.dto.request.AuctionHistoryDTO;
-import com.shinhan.heehee.dto.response.AuctionProdDTO;
-import com.shinhan.heehee.dto.response.AuctionProdInfoDTO;
+import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
 
 @Service
 public class AuctionService {
@@ -30,5 +31,9 @@ public class AuctionService {
 	
 	public AuctionProdInfoDTO aucProdInfo(int aucSeq) {
 		return auctionDAO.aucProdInfo(aucSeq);
+	}
+	
+	public List<AuctionImgsDTO> aucProdImgList(int aucSeq) {
+		return auctionDAO.aucProdImgList(aucSeq);
 	}
 }

@@ -1,4 +1,4 @@
-package com.shinhan.heehee.dto.response;
+package com.shinhan.heehee.dto.response.auction;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

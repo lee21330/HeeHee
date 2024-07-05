@@ -6,33 +6,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
 import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
+import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
+import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
@@ -52,6 +58,9 @@ public class MyPageController {
 	@Autowired
 	ProductDetailService productservice;
 
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+
 	// 마이페이지
 	@GetMapping("/main")
 	public String sellerInfo(Principal principal, Model model) {
@@ -59,6 +68,7 @@ public class MyPageController {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
+		model.addAttribute("userId", userId);
 		return "/mypage/myPage";
 	}
 
@@ -125,9 +135,6 @@ public class MyPageController {
 	@ResponseBody
 	public List<SaleListAucDTO> saleListAuc(Principal principal, @RequestParam("status") String status) {
 		String userId = principal.getName();
-		System.out.println("=======================");
-		System.out.println(userId);
-		System.out.println(status);
 		return mypageservice.saleListAuc(status, userId);
 	}
 
@@ -157,9 +164,13 @@ public class MyPageController {
 
 	// 마이페이지 - 판매 상품 상세페이지
 	@GetMapping("/saledetail/{productSeq}")
-	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model) {
+	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		model.addAttribute("dcOption", mypageservice.dcOption());
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		String userId = principal.getName();
+		model.addAttribute("userId", userId);
 		return "/mypage/saleDetail";
 	}
 
@@ -178,7 +189,7 @@ public class MyPageController {
 		return "redirect:/mypage/saledetail/{productSeq}";
 	}
 
-	// 마이페이지 - 판매 상품 상세페이지_update deal_history(거래완료 버튼)
+	// 마이페이지 - 판매 상품 상세페이지:거래완료 버튼
 	@PostMapping("/saledetail/{productSeq}/updateSCheck")
 	public String updateSCheck(@RequestParam("proSeq") int proSeq, RedirectAttributes redirectAttr) {
 		int result = mypageservice.updateSCheck(proSeq);
@@ -194,9 +205,27 @@ public class MyPageController {
 
 	// 마이페이지 - 구매 상품 상세페이지
 	@GetMapping("/purchasedetail/{productSeq}")
-	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model) {
+	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		String userId = principal.getName();
+		model.addAttribute("userId", userId);
 		return "/mypage/purchaseDetail";
+	}
+
+	// 마이페이지 - 구매 상품 상세페이지:거래완료 버튼
+	@PostMapping("/purchasedetail/{productSeq}/updatePCheck")
+	public String updatePCheck(@RequestParam("proSeq") int proSeq, RedirectAttributes redirectAttr) {
+		int result = mypageservice.updatePCheck(proSeq);
+		String message;
+		if (result > 0) {
+			message = "insert success";
+		} else {
+			message = "insert fail";
+		}
+		redirectAttr.addFlashAttribute("result", message);
+		return "redirect:/mypage/purchaseDetail/{productSeq}";
 	}
 
 	// 마이페이지-프로필 수정 페이지 이동
@@ -205,6 +234,9 @@ public class MyPageController {
 		String userId = principal.getName();
 		model.addAttribute("profile", mypageservice.profile(userId));
 		model.addAttribute("bankList", mypageservice.bankList());
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("userId", userId);
 		return "/mypage/editProfile";
 	}
 
@@ -251,19 +283,61 @@ public class MyPageController {
 		return mypageservice.dupNickCheck(nickName);
 	}
 
-	// 마이페이지_프로필 수정 페이지:현재 비밀번호 체크
-	@GetMapping("/profile/currentPwCheck")
+	// 마이페이지_프로필 수정 페이지: 전화번호 수정
+	@PostMapping("/profile/updatePhone")
 	@ResponseBody
-	public void currentPwCheck(Principal principal, String currentPw) {
+	public ResponseEntity<?> updatePhone(Principal principal, String phoneNum, HttpServletResponse response) {
 		String userId = principal.getName();
+		response.setContentType("text/plain;charset=UTF-8");
+		return mypageservice.updatePhone(userId, phoneNum);
+	}
+
+	// 마이페이지_프로필 수정 페이지: 주소 수정
+	@PostMapping("/profile/updateAddress")
+	@ResponseBody
+	public ResponseEntity<?> updateAddress(Principal principal, String address, String detailAddress,
+			HttpServletResponse response) {
+		String userId = principal.getName();
+		response.setContentType("text/plain;charset=UTF-8");
 		
-		mypageservice.currentPwCheck(userId, currentPw);
+		return mypageservice.updateAddress(userId, address, detailAddress);
+	}
+
+	// 마이페이지_프로필 수정 페이지:비밀번호 수정
+	@PutMapping("/profile/updatePw")
+	@ResponseBody
+	public Map<String, Object> updatePw(Principal principal, @RequestBody Map<String, String> passwordData) {
+		String userId = principal.getName();
+		String currentPassword = passwordData.get("currentPassword");
+		String password = passwordData.get("password");
+		String confirmPassword = passwordData.get("confirmPassword");
+		return mypageservice.updatePw(userId, currentPassword, password, confirmPassword);
+	}
+
+	// 마이페이지_프로필 수정 페이지:회원 탈퇴
+	@DeleteMapping("/profile/deleteUser")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> deleteUser(Principal principal) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		String userId = principal.getName();
+		int result = mypageservice.deleteUser(userId);
+
+		if (result > 0) {
+			response.put("success", true);
+		} else {
+			response.put("success", false);
+		}
+		return ResponseEntity.ok(response);
 	}
 
 	// 마이페이지-QnA
 	@GetMapping("/qnaBoard")
 	public String qnaBoard(Principal principal, Model model) {
 		String userId = principal.getName();
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("userId", userId);
+
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
 
@@ -282,7 +356,7 @@ public class MyPageController {
 	}
 
 	// 마이페이지-QnA-나의 문의 삭제하기
-	@GetMapping("/qnaBoard/deleteQna")
+	@DeleteMapping("/qnaBoard/deleteQna")
 	public String deleteQna(Integer seqQnaBno, Principal principal, RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
 		int result = mypageservice.deleteQna(seqQnaBno);
@@ -301,47 +375,15 @@ public class MyPageController {
 		return "redirect:/mypage/qnaBoard";
 	}
 
-//	@PostMapping("/qnaBoard/insertQna")
-//	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs,
-//			Principal principal, RedirectAttributes redirectAttr) {
-//		String userId = principal.getName();
-//		InsertQnADTO qna = new InsertQnADTO();
-//		qna.setId(userId);
-//
-//		// qna 데이터 삽입
-//		int result = mypageservice.insertQna(qna);
-//		if (result > 0) {
-//			// qna 객체에 삽입된 seqQnaBno 값을 qnaImg의 tablePk로 설정
-//			if (uploadImgs != null && !uploadImgs.isEmpty()) {
-//				for (MultipartFile img : uploadImgs) {
-//					InsertQnAImgDTO qnaImg = new InsertQnAImgDTO(); // 매 반복마다 새로운 객체 생성
-//					qnaImg.setTablePk(qna.getSeqQnaBno());
-//					qnaImg.setId(userId);
-//					try {
-//						String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaboard/");
-//						qnaImg.setImgName(imgName);
-//						mypageservice.insertQnaImg(qnaImg);
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//		} else {
-//			redirectAttr.addFlashAttribute("result", "insert fail");
-//		}
-//
-//		return "redirect:/mypage/qnaBoard";
-//	}
 	@PostMapping("/qnaBoard/insertQna")
-	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, Principal principal,
-			RedirectAttributes redirectAttr) throws IOException {
+	public String insertQna(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs, InsertQnADTO qna,
+			Principal principal, RedirectAttributes redirectAttr, Model model) throws IOException {
 		String userId = principal.getName();
-		InsertQnADTO qna = new InsertQnADTO();
+		model.addAttribute("userId", userId);
 		qna.setId(userId);
 		System.out.println(qna);
 		System.out.println(uploadImgs);
 		mypageservice.insertQna(qna, uploadImgs);
-		s3Service.uploadObject(uploadImgs, "images/mypage/qnaBoard/");
 
 		return "redirect:/mypage/qnaBoard";
 	}
@@ -349,6 +391,8 @@ public class MyPageController {
 	// 마이페이지-FAQ
 	@GetMapping("/faqBoard")
 	public String faqBoard(Model model) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
 		return "/mypage/faqBoard";
@@ -363,18 +407,40 @@ public class MyPageController {
 		return mypageservice.faqOption(option);
 	}
 
-	// 포인트 내역
+	// 포인트 내역 페이지
 	@GetMapping("/pointlist")
 	public String pointlist(Principal principal, Model model) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
 		String userId = principal.getName();
-//		model.addAttribute("point", mypageservice.searchPoint(userId));
+		model.addAttribute("userId", userId);
+
+		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
+
 		return "/mypage/pointList";
 	}
 
-	// 회원 탈퇴
-	@PostMapping("/userWithdrawal")
-	public String withdrawal() {
-		return "/main";
+	// 포인트 내역 페이지: 월별조회
+	@GetMapping(value = "/pointlist/searchPoint", produces = "application/json")
+	public @ResponseBody List<PointListDTO> searchPoint(Principal principal, @RequestParam String month) {
+		String userId = principal.getName();
+		String[] parts = month.split("-");
+		String year = parts[0];
+		String monthPart = parts[1];
+		List<PointListDTO> result = mypageservice.searchPoint(userId, year, monthPart);
+		System.out.println("============");
+		System.out.println(result);
+		return result;
+	}
+
+	// 포인트 충전
+	@PutMapping("/chargePoint")
+	@ResponseBody
+	public void chargePoint(Principal principal, @RequestBody Map<String, Integer> map) {
+		String userId = principal.getName();
+		Integer newPoint = map.get("point") + map.get("userPoint");
+
+		mypageservice.chargePoint(userId, newPoint);
 	}
 
 }

@@ -12,12 +12,14 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.AuctionDAO;
-import com.shinhan.heehee.dto.response.AuctionProdDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -31,6 +33,8 @@ import java.util.Map;
 @Service
 public class ElasticsearchService {
 
+	Logger logger = LoggerFactory.getLogger(ElasticsearchService.class);
+	
     @Autowired
     private RestHighLevelClient client;
 
@@ -46,8 +50,9 @@ public class ElasticsearchService {
             .put("index.analysis.analyzer.ngram_analyzer.tokenizer", "standard")
             .putList("index.analysis.analyzer.ngram_analyzer.filter", "lowercase", "ngram_filter")
             .put("index.analysis.filter.ngram_filter.type", "ngram")
-            .put("index.analysis.filter.ngram_filter.min_gram", 3)		// 최소글자
-            .put("index.analysis.filter.ngram_filter.max_gram", 3)	// 최대 글자
+            .put("index.analysis.filter.ngram_filter.min_gram", 1)		// 최소글자
+            .put("index.analysis.filter.ngram_filter.max_gram", 25)	// 최대 글자
+            .put("index.max_ngram_diff", 24)  // max_ngram_diff 설정 추가
         );
 
         // 매핑 설정
@@ -108,6 +113,7 @@ public class ElasticsearchService {
                     .source(jsonMap, XContentType.JSON);
             client.index(request, RequestOptions.DEFAULT);
         }
+        logger.info("Elasticsearch 서버에 데이터 동기화 메소드 실행");
     }
 
     public List<AuctionProdDTO> search(String keyword) throws IOException {
