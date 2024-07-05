@@ -17,18 +17,26 @@ $(function() {
 		$("#deliveryText").show();
 
 		// 진행 상황에 따라 progress value 값 조절 
-		//'결제완료(0%)': 거래내역 있을 때
+		// '결제완료(0%)': 거래내역 있을 때
+
+		//'거래완료(100%)': proStatus가 '거래완료'일 때
+		if (proStatus === '거래완료') {
+			$("#graph").attr('value', 100);
+		}
+
+		// '배송완료(75%)': 택배 배송이 완료되었을 때 + 판매 확정날짜가 있을 때
+		else if (sCheck != '') {
+			$("#graph").attr('value', 75);
+		}
+
 
 		//'발송완료(25%)': 송장을 입력했을 때(송장 내역이 있을 때)
-		if (dNumberText != '') {
+		else if (dNumberText != '') {
 			$("#graph").attr('value', 25);
 		}
 
 
-		//'거래완료(100%)': proStatus가 '거래완료'일 때
-		else if (proStatus === '거래완료') {
-			$("#graph").attr('value', 100);
-		}
+
 
 	} else {
 
@@ -58,6 +66,6 @@ function updateSCheck(proSeq) {
 		method: 'POST',
 		data: { 'proSeq': proSeq }
 	});
-	$("#graph").attr('value', 75);
+
 }
 

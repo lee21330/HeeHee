@@ -76,6 +76,8 @@
       as payStatus,
       NVL((select pro_status from sell_product s
                               where r.sell_seq=s.product_seq), null) AS sellProStatus,
+      NVL((select deal from sell_product s
+                              where r.sell_seq=s.product_seq), null) AS dealStatus,
   	  COALESCE(NVL2((SELECT seller from chat_room r2 where r2.room_id=r.room_id and r2.seller=#{loginUserId}),
               '판매자', '구매자'),
              null) AS status
@@ -99,6 +101,13 @@
     where id=#{loginUserId}
 </select>
 
+<!-- 구매자 id & 판매물품 시퀀스와 일치하는 채팅방이 있는지 확인-->
+<select id="checkSellerChat" parameterType="hashMap" resultType="int">
+	select count(*)
+	from chat_room
+	where seller=#{sellerId} and sell_seq=#{sellSeq}
+</select>
+
 <!-- 메시지 읽음 체크 -->
 <update id="updateReadCheck">
 	update chat_message
@@ -120,7 +129,7 @@
 	where id=#{loginUserId}
 </update>
 
-<!-- 약속 잡기 시 상품 상태 업데이트 -->
+<!-- 약속 잡기 / 결제 시 상품 상태 업데이트 -->
 <update id="updateReserve">
 	update sell_product
 	set pro_status='예약중'
@@ -134,7 +143,7 @@
 	where product_seq=#{productSeq}
 </update>
 
-<!-- 약속 잡기 시 거래내역 데이터 추가 -->
+<!-- 약속 잡기 / 결제 시 거래내역 데이터 추가 -->
 <insert id="insertDeal">
 	<selectKey keyProperty="dealSeq" order="BEFORE" resultType="int">
          SELECT deal_seq.NEXTVAL FROM DUAL
@@ -147,6 +156,12 @@
     delete from deal_history
     where buyer_id=#{buyerId} and sell_seq=#{productSeq}
 </delete> 
+
+<!-- 판매자와 채팅 클릭 시 채팅방 생성 -->
+<insert id="insertChatRoom" parameterType="hashMap">
+    insert into chat_room
+    values(seq_room.nextval, #{sellerId}, #{loginUserId}, null, #{sellSeq})
+</insert>
 
 <!-- 이미지 없이 텍스트만 보낸 경우 -->
 <insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.ChatMessageDTO">

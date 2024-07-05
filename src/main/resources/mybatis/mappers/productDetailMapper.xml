@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.productDetail">
-	<select id="productInfo" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
+	<select id="productInfo" parameterType="com.shinhan.heehee.dto.request.ProductDetailRequestDTO" resultType="com.shinhan.heehee.dto.response.ProdDetailDTO">
 	    SELECT 
 		    SELL.*, 
 		    CATE.*, 
@@ -13,7 +13,8 @@
 		    USER_INFO.USER_RATING AS USER_RATING,
 		    USER_INFO.USER_INTRODUCE,
 		    (SELECT COUNT(*) FROM VIEW_LOG WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS VIEW_CNT,
-		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT
+		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ}) AS JJIM_CNT,
+		    (SELECT COUNT(*) FROM JJIM WHERE PRODUCT_SEQ = #{PROD_SEQ} AND ID = #{userId}) AS specifiedJjimCnt
 		FROM 
 		    SELL_PRODUCT SELL
 		INNER JOIN 
@@ -27,7 +28,7 @@
 		WHERE 
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
 		AND
-			(SELL.PRO_STATUS = '판매중' OR SELL.PRO_STATUS = '예약중')
+			SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
 	</select>
 	
 	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
@@ -59,25 +60,27 @@
 		JOIN SELL_PRODUCT SELL ON IMG.TABLE_PK = SELL.PRODUCT_SEQ
 		WHERE IMG.IMG_CATE_SEQ = 2
 		AND CREATE_DATE >= SYSDATE - 30
+		AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
 		ORDER BY DBMS_RANDOM.RANDOM)
-		WHERE ROWNUM <![CDATA[<]]> 6
+		WHERE ROWNUM &lt; 6
 		AND PRODUCT_SEQ != #{PROD_SEQ}
 	</select>
 	
 	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
-		    SELL.INTRODUCE, SELL.PRODUCT_PRICE
+		    SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
 		FROM SELL_PRODUCT SELL
 		INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
 		WHERE IMG.IMG_CATE_SEQ = 2
         AND ROWNUM <![CDATA[<]]> 13
-		GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.INTRODUCE, SELL.PRODUCT_PRICE
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+		GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
 		ORDER BY IMG_SEQ
 	</select>
 	
 	<select id="prodreco" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
-            SELL.PRODUCT_PRICE, SELL.CREATE_DATE,
+            SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ, SELL.PRODUCT_SEQ,
             CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 3600 THEN ROUND((SYSDATE - CREATE_DATE)*24*60) || '분전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 86400 THEN ROUND((SYSDATE - CREATE_DATE)*24) || '시간전'
@@ -87,13 +90,14 @@
         INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
         WHERE IMG.IMG_CATE_SEQ = 2
         AND ROWNUM <![CDATA[<]]> 35
-        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
         ORDER BY DBMS_RANDOM.RANDOM
 	</select>
 	
 	<select id="recently" resultType="com.shinhan.heehee.dto.response.MainProdRecentlyDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
-            SELL.PRODUCT_PRICE, SELL.CREATE_DATE,
+            SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ, SELL.PRODUCT_SEQ,
             CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 3600 THEN ROUND((SYSDATE - CREATE_DATE)*24*60) || '분전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 86400 THEN ROUND((SYSDATE - CREATE_DATE)*24) || '시간전'
@@ -102,8 +106,9 @@
         FROM SELL_PRODUCT SELL
         INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
         WHERE IMG.IMG_CATE_SEQ = 2
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
         AND ROWNUM <![CDATA[<]]> 35
-        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE
+        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
         ORDER BY (SYSDATE - CREATE_DATE)
 	</select>
 	
@@ -186,16 +191,80 @@
 		WHERE PRODUCT_SEQ = #{prodSeq}
 	</update>
 	
+	<select id="cateList" resultType="com.shinhan.heehee.dto.response.ProductCategoryDTO">
+		SELECT *
+	  	FROM PRODUCT_CATEGORY
+	</select>
+	
 	<select id="mainCateList" resultType="com.shinhan.heehee.dto.response.CategoryDTO">
 		SELECT CATEGORY
-	  	FROM PRODUCT_CATEGORY
-	 	GROUP BY CATEGORY
+		FROM PRODUCT_CATEGORY
+		GROUP BY CATEGORY
 	</select>
 	
-	<select id="subCateList" parameterType="String" resultType="String">
-		SELECT DETAIL_CATEGORY
-  		FROM PRODUCT_CATEGORY
-		WHERE CATEGORY = #{mainCate}
+	<!-- 여기서부터 구현해야함 -->
+	<update id="proStatusSelling" parameterType="int">
+		UPDATE SELL_PRODUCT
+		SET PRO_STATUS = '판매중'
+        WHERE PRODUCT_SEQ = #{productSeq}
+	</update>
+	
+	<update id="proStatusReserve" parameterType="int">
+		UPDATE SELL_PRODUCT
+		SET PRO_STATUS = '예약중'
+        WHERE PRODUCT_SEQ = #{productSeq}
+	</update>
+	
+	<update id="proStatusPutoff" parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+		UPDATE SELL_PRODUCT
+		SET PRO_STATUS = '판매보류'
+        WHERE PRODUCT_SEQ = #{productSeq}
+	</update>
+	
+	<delete id="proStatusDelete" parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
+		DELETE FROM SELL_PRODUCT
+		WHERE PRODUCT_SEQ = #{productSeq}
+	</delete>
+	
+	<insert id="insertViewLog" parameterType="com.shinhan.heehee.dto.request.ViewLogDTO">
+		INSERT INTO VIEW_LOG VALUES (#{productSeq}, #{ID}, SYSDATE)
+	</insert>
+	
+	
+	<!-- <insert id="insertRecently" parameterType="com.shinhan.heehee.dto.request.RecentlyDTO">
+		INSERT INTO RECENTLY VALUES (#{productSeq}, #{ID})
+	</insert> -->
+	
+	
+	<select id="selectRecently" parameterType="String" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
+		SELECT *
+		FROM (SELECT *
+		FROM (
+		SELECT VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME, MAX(CREATE_DATE) CRE_DATE
+		  FROM VIEW_LOG VLOG, IMG_FILES IMG
+		 WHERE VLOG.PRODUCT_SEQ = IMG.TABLE_PK
+		   AND VLOG.ID = #{userId}
+		   AND IMG.IMG_CATE_SEQ = 2
+		   AND IMG.IMG_SEQ = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = VLOG.PRODUCT_SEQ AND IMG_CATE_SEQ = 2)
+		 GROUP BY VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME)
+		 ORDER BY CRE_DATE DESC)
+		 WHERE ROWNUM <![CDATA[<]]> 3
 	</select>
 	
+	
+	<insert id="insertJjim" parameterType="com.shinhan.heehee.dto.request.JjimDTO">
+		INSERT INTO JJIM VALUES (#{productSeq}, #{id})
+	</insert>
+	
+	<delete id="deleteJjim" parameterType="com.shinhan.heehee.dto.request.JjimDTO">
+		DELETE FROM JJIM
+		WHERE product_seq = #{productSeq} 
+		AND ID = #{id}
+	</delete>
+	
+	<select id="selectJjim" parameterType="int" resultType="int">
+		SELECT COUNT(*) AS JJIM_CNT
+		FROM JJIM
+		WHERE PRODUCT_SEQ = #{productSeq}
+	</select>
 </mapper>

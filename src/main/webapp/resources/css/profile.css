@@ -14,7 +14,6 @@ html, body, section {
 	margin: 0 auto;
 	display: flex;
 	justify-content: center;
-	border: 1px solid blue;
 }
 
 /*-------------공통요소--------------*/
@@ -27,14 +26,13 @@ form {
 	width: 30%;
 	height: 100%;
 	box-shadow: 10px 0px 5px -2px rgba(0, 0, 0, .16);
-	border: 1px solid red;
 }
 
-#profileImg {
+.profileImg {
 	width: 210px;
 	height: 210px;
 	margin: 0 auto;
-	position: relative;
+	position: relative;	
 }
 
 .photo {
@@ -43,6 +41,7 @@ form {
 	border-radius: 50%;
 	position: absolute;
 	z-index: 1;
+	box-shadow: 0 5px 10px -5px lightgray;
 }
 
 .photo-edit {
@@ -53,69 +52,147 @@ form {
 	right: 10px;
 }
 
-#nickName {
+.btn_image {
+	display: inline-block;
+	width: 80px;
+	height: 30px;
+	margin: 0px 5px;
+	
+}
+#btn_modify{
+	background: #3F51A1;
+	color: white;
+	border: none;
+}
+#btn_delete{
+	background: #DCF343;
+	border: none;
+}
+.nickName {
 	font-size: 30px;
 	text-align: center;
-	margin: 20px auto;
-	
+	margin: 20px 0px 0px;
+}
+
+.userIntroduce {
+	font-size: 15px;
+	text-align: center;
+	color: #929294;
+	/* height: 70px;
+	border: 1px solid #acacac;
+	border-radius: 7px; */
+	margin: 10px auto;
 }
 
 #btn_photo {
 	width: 80px;
 }
 
+#editProfile {
+	display: none;
+}
+
+.btn_profile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 20px 0px 0px;
+}
+
+.input_left {
+	text-align: center;
+}
+.input_left p{
+	display: inline-block;
+	border: 1px solid black;
+}
+
+#userIntroduce {
+	height: 100px;
+}
+
+#btn_submit {
+	cursor: pointer;
+	width: 120px;
+	height: 40px;
+	background: #3F51A1;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	margin: 0px 5px 0px 5px;
+	font-size: 20px;
+	box-sizing: border-box;
+}
+
+#btn_cancel {
+	cursor: pointer;
+	width: 120px;
+	height: 40px;
+	border: 1px solid #3F51A1;
+	border-radius: 5px;
+	color: #3F51A1;
+	background-color: white;
+	margin: 0px 5px 0px 5px;
+	font-size: 20px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 /*--------------오른쪽 영역--------------*/
 .right {
 	width: 60%;
 	height: 100%;
-	border: 1px solid green;
 	text-align: center;
+	padding: 40px 0px;
 }
-
+.right p {
+	margin: 0px 0px;
+}
 .right-box {
 	width: 80%;
 	border: solid 1px #e3e9ed;
 	box-shadow: 1px 1px 10px 0 rgba(72, 75, 108, .08);
 	border-radius: 12px;
-	margin: 35px auto;
+	margin: 20px auto;
+	padding: 10px 15px;
 }
-
-#drawal {
-	height: 30px;
-	line-height: 30px;
-	color: #acacac;
+.right-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #D9D9D9;
+	padding: 10px 10px;
+} 
+.photo-arrow{
+	width: 25px;
 }
-
-#drawal:hover {
-	cursor: pointer;
-	color: #4949e9;
+.right-information{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
-
-.item {
+.right-information p{
+	color: #3F51A1;
+}
+/* .item {
 	margin: 16px 0px;
 	display: flex;
 	gap: 15px;
-	/* border: 1px solid pink; */
-}
-
-.file {
+	border: 1px solid pink;
+} */
+#modifyInfo{
 	display: none;
 }
 
-.right p {
-	width: 80px;
-	display: inline-block;
-	margin: 0px 0px;
-	/* border: 1px solid red; */
-}
-
-input {
-	width: 210px;
-	height: 25px;
+.right-info input[type="text"] {
+	width: 250px;
+	height: 35px;
 	border: 1px solid #acacac;
 	border-radius: 7px;
 	margin-right: 0;
 	color: #989898;
+	box-sizing: border-box;
 }
 
 .readonly {
@@ -127,20 +204,41 @@ input {
 	cursor: pointer;
 	width: 80px;
 	height: 30px;
-	background: #4949e9;
+	background: #3F51A1;
 	border: none;
 	border-radius: 5px;
 	color: white;
 }
 
-.address {
-	width: 210px;
-}
-
-.address input {
-	margin: 0px 0px 16px 0px;
-}
-
 .submit {
 	text-align: center;
+}
+
+/* ---- 내 계좌, 비밀번호 ---- */
+
+
+/* .bankImg {
+	width: 30px;
+	height: 30px;
+} */
+#acc-box,#pw-box{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#acc-box p,#pw-box p{
+	padding: 10px;
+}
+
+
+/* ---- 회원탈퇴 ---- */
+#drawal {
+	height: 30px;
+	line-height: 30px;
+	color: #acacac;
+}
+
+#drawal:hover {
+	cursor: pointer;
+	color: #3F51A1;
 }

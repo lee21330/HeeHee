@@ -2,6 +2,8 @@ package com.shinhan.heehee.dto.response;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,10 @@ public class EditProfileDTO {
 	private String email;
 	private String phoneNum;
 	private String nickName;
+	private String bank;
+	private String accountNum;
+	private String userIntroduce;
 	private String address;
+	private String detailAddress;
 	private Date modifyDate;
 }

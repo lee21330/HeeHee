@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shinhan.pay">
+
+	<insert id="insertPay" parameterType="com.shinhan.heehee.dto.request.pay.PayRequestDTO">
+		<selectKey keyProperty="paySeq" order="BEFORE" resultType="int">
+	         SELECT SEQ_PAY_HISTORY.NEXTVAL FROM DUAL
+	     </selectKey>
+		INSERT INTO PAY_HISTORY VALUES(#{paySeq}, #{amount}, #{buyerId}, #{aucSeq}, #{sellSeq}, '대기')
+	</insert>
+	
+	<update id="completePay" parameterType="int">
+		UPDATE PAY_HISTORY SET STATUS = '완료' WHERE PAY_SEQ = #{paySeq}
+	</update>
+</mapper>

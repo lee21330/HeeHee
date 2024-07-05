@@ -27,11 +27,31 @@ public class UserDAO {
 		return sqlSession.selectOne(namespace + "findByUserId", userId);
 	}
 	
+	public UserDTO findByUserEmail(String email) {
+		return sqlSession.selectOne(namespace + "findByUserEmail", email);
+	}
+	
 	public int signup(UserDTO userDto) {
 		return sqlSession.insert(namespace + "signup", userDto);
 	}
 	
 	public Map<String,Object> findNickName(String userName) {
 		return sqlSession.selectOne(namespace + "findNickName", userName);
+	}
+	
+	public UserDTO getBuyerInfo(String buyerId) {
+		return sqlSession.selectOne(namespace + "getBuyerInfo" ,buyerId);
+	}
+	
+	public int dupIdCheck(String id) {
+		return sqlSession.selectOne(namespace + "dupIdCheck", id);
+	}
+	
+	public int dupNickCheck(String nickName) {
+		return sqlSession.selectOne(namespace + "dupNickCheck", nickName);
+	}
+	
+	public int dupEmailCheck(String email) {
+		return sqlSession.selectOne(namespace + "dupEmailCheck", email);
 	}
 }

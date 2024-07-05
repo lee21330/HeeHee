@@ -1,4 +1,4 @@
-package com.shinhan.heehee.initalizer;
+package com.shinhan.heehee.initializer;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -8,6 +8,7 @@ import com.shinhan.heehee.config.SecurityConfig;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletRegistration.Dynamic;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -32,6 +33,11 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         encodingFilter.setEncoding("UTF-8");
         encodingFilter.setForceEncoding(true);
         return new Filter[]{encodingFilter};
+    }
+    
+    @Override
+    protected void customizeRegistration(Dynamic registration) {
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
     }
 
 }

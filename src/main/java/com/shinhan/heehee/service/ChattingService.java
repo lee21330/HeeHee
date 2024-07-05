@@ -1,17 +1,17 @@
 package com.shinhan.heehee.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.ChattingDAO;
-import com.shinhan.heehee.dto.request.ChatImageDTO;
 import com.shinhan.heehee.dto.request.ChatMessageDTO;
+import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 
@@ -23,7 +23,13 @@ public class ChattingService {
 	private ChattingDAO cDao;
 	
 	@Autowired
+	private AlarmDAO alarmDao;
+	
+	@Autowired
 	private AWSS3Service s3Service;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 	
 	@Transactional(readOnly = true)
 	public List<ChatRoomDTO> getRoomList(String userId){
@@ -46,36 +52,64 @@ public class ChattingService {
 	public int updatePoint(Map<String, Object> map) {
 		return cDao.updatePoint(map);
 	}
-
-	public int insertMessage(ChatMessageDTO messageDTO) {
-		return cDao.insertMessage(messageDTO);
-	}
-
-	public void insertMsgImg(ChatMessageDTO messageDTO) throws IOException {
-		//String filePath = "images/chat/";
-		List<String> imgs = messageDTO.getImgs();
+	
+	@Transactional
+	public void saveMessage(ChatMessageDTO message) {
+		if (message.getImgs() != null && !message.getImgs().isEmpty()) {
+			List<String> imgs = message.getImgs();
+			
+			for(String img : imgs) {
+				message.setContent("[img_asdfzv] " + img);
+	    		cDao.insertChatMsg(message);
+	    		
+	    		int msgId=message.getMsgId();
+	    		
+	    		message.setMsgId(msgId);
+	    		message.setContent(img);
+	    		cDao.insertChatImg(message);
+	        }
+		} else {
+			cDao.insertMessage(message);
+		}
 		
-		for(String img : imgs) {
-            messageDTO.setContent("[img_asdfzv] " + img);
-    		cDao.insertChatMsg(messageDTO);
+		if(message.getReadCheck()=="N") {
+            AlarmDTO alarmDTO = new AlarmDTO();
+            
+            String receiverId = message.getReceiver();
     		
-    		int msgId=messageDTO.getMsgId();
+    		alarmDTO.setId(receiverId);
+    		alarmDTO.setCateNum(1); // 알림 분류 코드 (채팅)
+    		alarmDTO.setReqSeq(message.getMsgId());
+    		alarmDTO.setAlContent("새로운 메시지가 있습니다.");
     		
-    		messageDTO.setMsgId(msgId);
-    		messageDTO.setContent(img);
-    		cDao.insertChatImg(messageDTO);
-        }
+    		alarmDao.alarmInsert(alarmDTO);
+    		
+    		int alarmCnt = alarmDao.alarmCount(receiverId);
+    		messagingTemplate.convertAndSend("/topic/alarm/" + receiverId, alarmCnt);
+		}
 	}
 	
-    //약속 잡기
+    //약속 잡기 / 결제
+	@Transactional
 	public void reserve(Map<String, Object> map) {
 		cDao.updateReserve(map);
 		cDao.insertDeal(map);
 	}
 
 	//약속 취소
+	@Transactional
 	public void cancelReserve(Map<String, Object> map) {
 		cDao.cancelReserve(map);
 		cDao.deleteDeal(map);
 	}
+
+	//채팅방 생성: 판매자와 채팅 클릭 시
+	public int insertChatRoom(Map<String, Object> map) {
+		Integer result = cDao.checkSellerChat(map);
+		if(result==0) {
+			result = cDao.insertChatRoom(map);
+		}
+		return result;
+	}
+
 }

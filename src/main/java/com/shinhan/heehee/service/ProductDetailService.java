@@ -1,6 +1,7 @@
 package com.shinhan.heehee.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.ProductDetailDAO;
 import com.shinhan.heehee.dto.request.ImageFileDTO;
+import com.shinhan.heehee.dto.request.JjimDTO;
 import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.RecentlyDTO;
+import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
+import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
@@ -24,8 +29,8 @@ public class ProductDetailService {
 	@Autowired
 	AWSS3Service fileUploadService;
 	
-	public ProdDetailDTO prodInfo(Integer prodSeq) {
-		return productDetailDao.productInfo(prodSeq);
+	public ProdDetailDTO prodInfo(ProductDetailRequestDTO sampleDTO) {
+		return productDetailDao.productInfo(sampleDTO);
 	}
 	
 	public List<ProdDetailImgDTO> prodImg(Integer prodSeq) {
@@ -45,8 +50,6 @@ public class ProductDetailService {
 	public void prodModify(ProductModifyRequestDTO modiDTO) throws IOException {
 		String filePath = "images/sell/";
 		List<MultipartFile> files = modiDTO.getUploadFiles();
-		
-		System.out.println("서비스: " + modiDTO);
 		
 		// 파일 업로드 전 기존 파일 삭제
 		if(modiDTO.getDelArr() != null) {
@@ -74,4 +77,45 @@ public class ProductDetailService {
 		productDetailDao.updateProduct(modiDTO);
 		
 	}
+	
+	public void insertViewLog(ViewLogDTO viewLogDTO) {
+		productDetailDao.insertViewLog(viewLogDTO);
+	}
+	
+	public List<ProdDetailDTO> selectRecently(String userId) {
+		return productDetailDao.selectRecently(userId);
+	}
+	
+	public int proStatusSelling(int productSeq) {
+		return productDetailDao.proStatusSelling(productSeq);
+	}
+	
+	public int proStatusReserve(int productSeq) {
+		return productDetailDao.proStatusReserve(productSeq);
+	}
+
+	public int proStatusPutOff(int productSeq) {
+		return productDetailDao.proStatusPutOff(productSeq);
+	}
+
+	public int proStatusDelete(int productSeq) {
+		return productDetailDao.proStatusDelete(productSeq);
+	}
+
+	public int insertJjim(JjimDTO jjimDTO) {
+		return productDetailDao.insertJjim(jjimDTO);
+	}
+
+	public int deleteJjim(JjimDTO jjimDTO) {
+		return productDetailDao.deleteJjim(jjimDTO);
+	}
+	
+	public int selectJjim(JjimDTO jjimDto) {
+		return productDetailDao.selectJjim(jjimDto);
+	}
+
+	/*
+	 * public int insertRecently(RecentlyDTO recentlyDTO) { return
+	 * productDetailDao.insertRecently(recentlyDTO); }
+	 */
 }

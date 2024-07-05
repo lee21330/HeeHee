@@ -18,4 +18,5 @@ public class JjimDTO {
 	private String deal;
 	private String id;
 	private String imgName;
+	private String userId;
 }
