@@ -103,67 +103,83 @@
 				<div class="right-box" id="Info">
 					<div class="right-info">
 						<p>전화번호</p>
-						<div class="right-information" id="phoneNum">
+						<div class="right-information" id="phoneNum" onclick="showPhone()">
 							<p>${profile.phoneNum}</p>
 							<img class="photo-arrow"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
-							<%@include file="/WEB-INF/views/mypage/phoneModal.jsp"%>
 						</div>
+
+						<!-- 전화번호 수정 모달 -->
+						<div id="phoneModal" class="profileModal">
+							<div class="profileModalBody">
+								<img
+									src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
+									alt="전화번호 수정 창 닫기 아이콘" class="profileModalClose"
+									onclick="hidePhone()"> <input type="text"
+									id="myphone_input" name="phoneNum"
+									placeholder="${profile.phoneNum}" maxlength="13"
+									pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}"> <input
+									type="button" id="btn_send_phone" value="인증번호 발송"> <input
+									type="text" id="phone_auth_input" placeholder="인증번호를 입력해주세요.">
+
+								<input type="button" id="btn_auth_phone" value="인증하기">
+								<div id="phone_auth_result"></div>
+								<button id="btn_update_phone">수정</button>
+							</div>
+						</div>
+
 					</div>
 					<div class="right-info">
 						<p>내 계좌</p>
 						<div class="right-information" id="btn-account">
 							<p>${profile.bank}${profile.accountNum}</p>
-							<%-- <%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%> --%>
 							<img class="photo-arrow"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
 						</div>
+
+						<!-- 계좌 수정 모달 -->
+						<%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%>
 					</div>
 					<div class="right-info">
 						<p>주소</p>
-						<div class="right-information" id="address">
-							<p>${profile.address}${profile.detailAddress}</p>
+						<div class="right-information" id="address" onclick="showAddress()">
+							<p>${profile.address} ${profile.detailAddress}</p>
 							<img class="photo-arrow"
 								src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
 						</div>
-					</div>
 
+						<!-- 주소 수정 모달 -->
+						<div id="addressModal" class="profileModal" >
+							<div class="profileModalBody">
+								<img
+									src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
+									alt="전화번호 수정 창 닫기 아이콘" class="profileModalClose"
+									onclick="hideAddress()">
+								<p>주소</p>
+								<div class="address">
+									<input type="text" id="mod_addr_input" placeholder="주소를 검색하세요" value="${profile.address}"> 
+									<input type="button" value="검색" onclick="openAddressApiModify()"> 
+									<input type="text" id="mod_detail_addr_input" placeholder="사용하실 상세 주소" value="${profile.detailAddress}">
+								</div>
+								<div class="submit">
+									<button class="btn" onclick="updateAddress()">저장</button>
+								</div>
 
-
-				</div>
-
-				<%-- 				<div class="right-box" id="modifyInfo">
-					<form action="${path}/mypage/editProfile/updateProfile" method="post">
-						<div class="right-info">
-							<p>전화번호</p>
-							<input type="text" id="phone_input" name="phoneNum" 
-							placeholder="사용하실 전화번호를 입력하세요" maxlength="13" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" value="${profile.phoneNum}"> 
-							<input type="button" value="인증번호 발송" class="btn">
-						</div>
-						<div class="right-info">
-							<p>주소</p>
-							<div class="address">
-								<input type="text" id="mod_addr_input" placeholder="주소를 검색하세요" value="${profile.address}"> 
-								<input type="button" value="검색" onclick="openAddressApiModify()"> 
-								<input type="text" placeholder="사용하실 상세 주소" value="${profile.detailAddress}">
 							</div>
 						</div>
-						<div class="submit">
-							<button class="btn" id="btn_save">저장</button>
-						</div>
-					</form>
-				</div> --%>
+					</div>
+				</div>
 
 				<div class="right-box" id="pw-box">
 					<p>비밀번호</p>
 					<button id="btn-pw" class="btn">수정</button>
-				<%-- 	 <%@include file="/WEB-INF/views/mypage/pwModal.jsp"%>  --%>
+					<%@include file="/WEB-INF/views/mypage/pwModal.jsp"%> 
 				</div>
 
 				<div class="right-box">
 
 					<p id="drawal">회원 탈퇴</p>
-					<%-- <%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%> --%>
+					<%@include file="/WEB-INF/views/mypage/withdrawalModal.jsp"%>
 				</div>
 			</div>
 		</div>

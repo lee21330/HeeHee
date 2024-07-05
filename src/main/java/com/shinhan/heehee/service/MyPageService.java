@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -227,16 +228,38 @@ public class MyPageService {
 	}
 
 	public List<PointListDTO> searchPoint(String userId, String year, String monthPart) {
-		return mypageDao.searchPoint(userId,year,monthPart);
+		return mypageDao.searchPoint(userId, year, monthPart);
 	}
 
-	public int updatePhone(String userId, String phone) {
-		return mypageDao.updatePhone(userId, phone);
+	public ResponseEntity<?> updatePhone(String userId, String phone) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result = mypageDao.updatePhone(userId, phone);
+
+		if (result > 0) {
+			response.put("success", true);
+			response.put("message", "전화번호 변경에 성공했습니다!");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", false);
+			response.put("message", "전화번호 변경에 실패했습니다.");
+			return ResponseEntity.ok(response);
+		}
 
 	}
 
-	public int updateAddress(String userId, String address, String detailAddress) {
-		return mypageDao.updateAddress(userId, address, detailAddress);
+	public ResponseEntity<?> updateAddress(String userId, String address, String detailAddress) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result =  mypageDao.updateAddress(userId, address, detailAddress);
+
+		if (result > 0) {
+			response.put("success", true);
+			response.put("message", "주소 변경에 성공했습니다!");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", false);
+			response.put("message", "주소 변경에 실패했습니다.");
+			return ResponseEntity.ok(response);
+		}
 
 	}
 

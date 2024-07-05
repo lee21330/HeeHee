@@ -45,11 +45,11 @@
 	float: right;
 }
 
+#phid {
+	display: none;
+}
 
-/* phone */
-
-
-/* /* account
+ /* account
 #aModal {
 	position: fixed;
 	top: 0;
@@ -218,4 +218,3 @@ withdrawalModal.jsp
 	font-size: 15px !important;
 }
 
-account */ */

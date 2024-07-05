@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -133,9 +135,6 @@ public class MyPageController {
 	@ResponseBody
 	public List<SaleListAucDTO> saleListAuc(Principal principal, @RequestParam("status") String status) {
 		String userId = principal.getName();
-		System.out.println("=======================");
-		System.out.println(userId);
-		System.out.println(status);
 		return mypageservice.saleListAuc(status, userId);
 	}
 
@@ -285,21 +284,23 @@ public class MyPageController {
 	}
 
 	// 마이페이지_프로필 수정 페이지: 전화번호 수정
-	@PutMapping("/profile/updatePhone")
-	public String updatePhone(Principal principal, String phone) {
+	@PostMapping("/profile/updatePhone")
+	@ResponseBody
+	public ResponseEntity<?> updatePhone(Principal principal, String phoneNum, HttpServletResponse response) {
 		String userId = principal.getName();
-
-		mypageservice.updatePhone(userId, phone);
-		return "redirect:/mypage/profile";
+		response.setContentType("text/plain;charset=UTF-8");
+		return mypageservice.updatePhone(userId, phoneNum);
 	}
 
 	// 마이페이지_프로필 수정 페이지: 주소 수정
-	@PutMapping("/profile/updateAddress")
-	public String updateAddress(Principal principal, String address, String detailAddress) {
+	@PostMapping("/profile/updateAddress")
+	@ResponseBody
+	public ResponseEntity<?> updateAddress(Principal principal, String address, String detailAddress,
+			HttpServletResponse response) {
 		String userId = principal.getName();
-
-		mypageservice.updateAddress(userId, address, detailAddress);
-		return "redirect:/mypage/profile";
+		response.setContentType("text/plain;charset=UTF-8");
+		
+		return mypageservice.updateAddress(userId, address, detailAddress);
 	}
 
 	// 마이페이지_프로필 수정 페이지:비밀번호 수정
@@ -310,10 +311,6 @@ public class MyPageController {
 		String currentPassword = passwordData.get("currentPassword");
 		String password = passwordData.get("password");
 		String confirmPassword = passwordData.get("confirmPassword");
-		System.out.println("=========================");
-		System.out.println(currentPassword);
-		System.out.println(password);
-		System.out.println(confirmPassword);
 		return mypageservice.updatePw(userId, currentPassword, password, confirmPassword);
 	}
 
@@ -410,9 +407,9 @@ public class MyPageController {
 		return mypageservice.faqOption(option);
 	}
 
-	// 포인트 내역 페이지 
+	// 포인트 내역 페이지
 	@GetMapping("/pointlist")
-	public String pointlist(Principal principal,  Model model) {
+	public String pointlist(Principal principal, Model model) {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		String userId = principal.getName();
@@ -422,19 +419,19 @@ public class MyPageController {
 
 		return "/mypage/pointList";
 	}
-	
+
 	// 포인트 내역 페이지: 월별조회
-		@GetMapping(value="/pointlist/searchPoint", produces="application/json")	
-		public @ResponseBody List<PointListDTO> searchPoint(Principal principal, @RequestParam String month) {
-			String userId = principal.getName();
-			String[] parts = month.split("-");
-	        String year = parts[0];
-	        String monthPart = parts[1];
-	        List<PointListDTO> result =  mypageservice.searchPoint(userId,year,monthPart);
-	        System.out.println("============");
-	        System.out.println(result);
-			return result;
-		}
+	@GetMapping(value = "/pointlist/searchPoint", produces = "application/json")
+	public @ResponseBody List<PointListDTO> searchPoint(Principal principal, @RequestParam String month) {
+		String userId = principal.getName();
+		String[] parts = month.split("-");
+		String year = parts[0];
+		String monthPart = parts[1];
+		List<PointListDTO> result = mypageservice.searchPoint(userId, year, monthPart);
+		System.out.println("============");
+		System.out.println(result);
+		return result;
+	}
 
 	// 포인트 충전
 	@PutMapping("/chargePoint")
