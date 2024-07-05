@@ -49,6 +49,7 @@ function disconnect() {
 
 // 채팅 보여주기
 function showMessage(chatMessage){
+	if(document.querySelector(".noneRoomChat")){document.querySelector(".noneRoomChat").remove();}
     const messageList = document.querySelector(".message-list");
     
     const contentBody = document.querySelector(".content-body");
@@ -601,10 +602,10 @@ function selectChattingFn(){
         }
         
         else if(roomDetail.roomMessageDTO.length == 0){
-            //const noneRoomChat = document.createElement("div");
-            //noneRoomChat.classList.add("noneRoomChat");
-            //noneRoomChat.innerHTML = "채팅을 시작해보세요💭";
-            //contentBody.append(noneRoomChat);
+            const noneRoomChat = document.createElement("div");
+            noneRoomChat.classList.add("noneRoomChat");
+            noneRoomChat.innerHTML = "채팅을 시작해보세요💭";
+            contentBody.append(noneRoomChat);
         }
         
         contentBody.append(messageList);

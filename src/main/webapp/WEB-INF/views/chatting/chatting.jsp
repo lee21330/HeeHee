@@ -201,6 +201,9 @@
 			</div>
 			<!-- 채팅 메시지 내역 -->
 			<div class="content-body">
+			<div class = "noneRoomChat">
+                채팅을 시작해보세요💭
+            </div>
 				<%-- <div class="message-list">
 				    <!-- 내 메세지 -->
 					<div class="my-chat">
