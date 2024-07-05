@@ -177,9 +177,11 @@
 					<ul id="product_state">
 						<li>제품 상태: ${info.condition}</li>
 						<li>거래 방식: ${info.deal}</li>
+						
 						<c:if test="${info.deal == '택배'}">
 							<li>배송비: <fmt:formatNumber value="${info.DCharge}" pattern="#,###"/>원</li>
 						</c:if>
+					
 					</ul>
 					<c:if test="${userId == info.id && info.proStatus == '판매중'}">
 						<div class="button-container">
@@ -256,7 +258,7 @@
 					</div>
 				</c:if>
 				<div id="plus_container">
-					<img id="top_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png">
+					<!-- <img id="top_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png"> -->
 					<p id="gotop">TOP</p>
 				</div>
 				</div>

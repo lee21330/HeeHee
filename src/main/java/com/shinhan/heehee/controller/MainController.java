@@ -29,14 +29,15 @@ public class MainController {
 	public String main(Model model, Principal principal) {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList();
 		model.addAttribute("mainCateList", mainCateList); // 카테고리 서비스 호출
+		model.addAttribute("userId",principal.getName());
+		String loginId = (principal != null) ? principal.getName() : "admin";
 		
 		if(principal != null) {
-			model.addAttribute("userId",principal.getName());
 			int alarmCount = alarmService.alarmCount(principal.getName());
 			model.addAttribute("alarmCount",alarmCount);
 		}
 		model.addAttribute("rankProdList", mainservice.rankProdList());
-		model.addAttribute("recommandList", mainservice.recommandList());
+		model.addAttribute("recommandList", mainservice.recommandList(loginId));
 		model.addAttribute("recentprodList", mainservice.recentprodList());
 		return "/main/main";
 	}

@@ -29,6 +29,7 @@ import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
 import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
+import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 import com.shinhan.heehee.exception.ProductNotFoundException;
 import com.shinhan.heehee.service.MainService;
@@ -65,6 +66,7 @@ public class ProductController {
 		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
 		
+		
 		ProdDetailDTO prodInfo = productservice.prodInfo(sampleDTO);
 
 		if(prodInfo == null) throw new ProductNotFoundException();
@@ -72,7 +74,7 @@ public class ProductController {
 		
 		model.addAttribute("info", prodInfo);
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
-		model.addAttribute("prodRecoList",productservice.prodReco(prodSeq));
+		model.addAttribute("prodRecoList",productservice.prodReco(sampleDTO));
 		model.addAttribute("recentlyList",productservice.selectRecently(userId));
 		
 		

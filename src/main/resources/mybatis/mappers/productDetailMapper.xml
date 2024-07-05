@@ -41,7 +41,8 @@
         AND IMG.TABLE_PK = #{PROD_SEQ}
 	</select>
 	
-	<select id="prodrecoDetail" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
+	<!-- 귀찮아서 response에 있는 DTO 재활용 했읍니다.. -->
+	<select id="prodrecoDetail" parameterType="com.shinhan.heehee.dto.request.ProductDetailRequestDTO" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT *
 		FROM (SELECT IMG.IMG_NAME, SELL.PRODUCT_SEQ
 		      FROM IMG_FILES IMG
@@ -50,10 +51,10 @@
 		        AND CREATE_DATE >= SYSDATE - 30
 		        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
 		        AND SELL.ID IS NOT NULL
+		        AND SELL.ID != #{userId}
 		      ORDER BY DBMS_RANDOM.RANDOM)
 		WHERE ROWNUM <![CDATA[<]]> 6
 		  AND PRODUCT_SEQ != #{PROD_SEQ}
-
 	</select>
 	
 	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
@@ -72,7 +73,7 @@
         ORDER BY IMG_SEQ
 	</select>
 	
-	<select id="prodreco" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
+	<select id="prodreco" parameterType="String" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
             SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ, SELL.PRODUCT_SEQ,
             CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
@@ -86,6 +87,7 @@
         AND ROWNUM <![CDATA[<]]> 35
         AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
         AND SELL.ID IS NOT NULL
+        AND SELL.ID != #{userId}
         GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
         ORDER BY DBMS_RANDOM.RANDOM
 	</select>
@@ -182,12 +184,15 @@
          	SELECT SEQ_SELL_PROD.NEXTVAL FROM DUAL
      	</selectKey>
 		INSERT INTO SELL_PRODUCT
-		VALUES (#{prodSeq}, #{articleTitle}, #{productPrice}, #{introduce}, #{state}, '판매중', #{deal}, #{dCharge}, 5, #{userId}, SYSDATE, NULL)
+		VALUES (#{prodSeq}, #{articleTitle}, #{productPrice}, #{introduce}, #{state}, '판매중', #{deal}, #{dCharge}, #{selectSeq}, #{userId}, SYSDATE, NULL)
 	</insert>
 	
 	<insert id="insertProductCategory" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		<selectKey keyProperty="selectSeq" order="BEFORE" resultType="int">
+         	SELECT SEQ_PROD_TYPE.NEXTVAL FROM DUAL
+     	</selectKey>
 		INSERT INTO PRODUCT_TYPE
-		VALUES (SEQ_PROD_TYPE.nextval, #{cateSeq}, #{prodName})
+		VALUES (#{selectSeq}, #{cateSeq}, #{prodName})
 	</insert>
 	
 	<insert id="insertProductName" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">

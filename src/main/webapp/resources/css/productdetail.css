@@ -168,11 +168,13 @@ body {
 	padding: 3px;
 	width: 68px;
 	text-align: center;
+	margin-bottom: 0px;
 }
 
 #top_img {
 	width: 30px;
 	object-fit: contain;
+	margin-top: 8px;
 }
 
 .recentimg {
@@ -219,6 +221,11 @@ body {
 	line-height: 2;
 	padding: 0%;
 	box-sizing: border-box;
+	height: 101px;
+}
+
+#d_charge_info {
+	height: 30px;
 }
 
 .button-container {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.MainDAO;
+import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.MainProdRankDTO;
 import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
@@ -24,8 +25,8 @@ public class MainService {
 		return mainDao.rankProdList();
 	}
 
-	public List<MainProdRecoDTO> recommandList() {
-		return mainDao.recommandList();
+	public List<MainProdRecoDTO> recommandList(String loginId) {
+		return mainDao.recommandList(loginId);
 	}
 
 	public List<MainProdRecentlyDTO> recentprodList() {

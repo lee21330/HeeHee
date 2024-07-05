@@ -118,7 +118,7 @@
 	</div>
 	<div class="regi_item">
 	    <p class="setmargin">배송비</p>
-	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." value="${info.DCharge}" disabled>
+	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." value="${info.DCharge}" disabled required>
 	</div>
 		</main>
 		</div>
