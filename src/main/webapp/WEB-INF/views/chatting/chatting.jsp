@@ -243,9 +243,7 @@
 		</div>
 	</div>
 	
-	<div id="footerArea">
 		<jsp:include page="../common/footer.jsp"></jsp:include>
-	</div>
 
 	<!--------------------------------------- sockjs를 이용한 WebSocket 구현을 위해 라이브러리 추가 ---------------------------------------------->
 	<!-- https://github.com/sockjs/sockjs-client -->

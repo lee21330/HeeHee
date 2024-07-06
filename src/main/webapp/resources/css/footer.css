@@ -31,7 +31,14 @@ body {
 	color: #000000;
 }
 
+.fix-container{
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+}
+
 .main-container {
+	width: 100%;
 	display:flex;
 	flex-direction: column;
 }
