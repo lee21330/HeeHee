@@ -298,6 +298,30 @@ public class AdminController {
 
 	// 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면
 	// 기능이 늘어날 수 있음
+	
+	//페이징 구현을 위한 시도
+	@GetMapping("/searchCategoryInfo")
+	@ResponseBody
+	public Map<String, Object> searchCategoryInfo(
+					@RequestParam(required = false) String category, 
+					@RequestParam(required = false) String keyword,
+					@RequestParam int page,
+					@RequestParam int size) {
+			System.out.println("Received search request with params: " + category + ", " + keyword);
+			List<AdminCategoryDTO> filterSearch = adminService.searchCategoryInfo(category, keyword, page, size);
+			
+			int totalRecords = adminService.countCategoryInfo(category, keyword);
+		    int totalPages = (int) Math.ceil((double) totalRecords / size);
+		    
+		    Map<String, Object> result = new HashMap<>();
+		    result.put("data", filterSearch);
+		    result.put("totalPages", totalPages);
+		    
+			System.out.println(filterSearch.size());
+			return result; 
+	}
+	
+	/* 원본
 	@GetMapping("/searchCategoryInfo")
 	@ResponseBody
 	public List<AdminCategoryDTO> searchCategoryInfo(
@@ -308,7 +332,8 @@ public class AdminController {
 			System.out.println(filterSearch.size());
 			return filterSearch; 
 	}
-
+	 */
+	
 	// 상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
 	@PostMapping("/insertCategory")
 	@ResponseBody
