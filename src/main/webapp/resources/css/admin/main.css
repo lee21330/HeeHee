@@ -17,7 +17,7 @@
 
 body {
 	font-family: 'Arial', SEBANG_Gothic_Bold;
-	height: 1080px;
+	height: 1080px; /* 원본은 1080px */
 }
 
 #bodyContainer {
@@ -87,9 +87,14 @@ body {
 .radioContainer {
     display: inline-block;
     border: 1px solid gray;
-    border-radius: 5px;
+ /*   border-radius: 5px;*/
     cursor: pointer;
     text-align: center;
+    margin-right: 5px;
+    font-size: 13px;
+    padding: 3px;
+    background-color: rgb(73, 73, 233);
+    color: white;
 }
 
 .radioContainer input[type="radio"] {
@@ -102,16 +107,21 @@ body {
 }
 
 .radioContainer input[type="radio"]:checked + label {
-    background-color: rgb(73, 73, 233);
-    color: white;
-    /* border-radius: 5px; */
-    /* padding: 5px 10px; */
+    color: rgb(210,223,81);
 }
 
 /* redio버튼 적용사항 끝 */
 
 .radios {
 	font-size: 15px;
+}
+
+#saveNewButton, #saveEditButton {
+	padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+	background-color: rgb(210,223,81);
+	color: rgb(73,73,233);
 }
 
 .commonSmallBtn {
@@ -198,6 +208,7 @@ body {
 #midContainer {
 	display: flex;
 	align-items: center;
+	margin: 5px 0px 5px 0px;
 }
 	
 #btmContainer {
@@ -226,9 +237,10 @@ table {
 
 table tbody {
 	display: block;
-	max-height: 630px;
+	max-height: 690px;
 	overflow-y: scroll;
 	width: 100%;
+	border-bottom: 1px solid  rgba(0, 0, 0, 0.05);
 }
 
 table thead, table tbody tr {
@@ -238,13 +250,13 @@ table thead, table tbody tr {
 
 table thead tr th {
 	background-color: rgb(171,195,255);
-	padding: 5px 5px 5px 5px;
+	padding: 7px 5px 7px 5px;
 	border: 1px solid rgb(233, 233, 233);
 	font-size: 14px;
 }
 
 table tbody tr td {
-	padding: 5px 5px 5px 5px;
+	padding: 7px 5px 7px 5px;
 	border: 1px solid rgb(233, 233, 233);
 	word-wrap: break-word;
 	font-size:13px;
@@ -280,31 +292,16 @@ table tbody tr td {
 }
 
 .saveEditButton {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
 	position: relative;
     left: 30px;
 }
 
 .saveEditButtonSingle {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
 	position: relative;
     left: 20px;
 }
 
 .saveNewButton {
-	padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
     position: relative;
     left: 30px;
 }
@@ -378,7 +375,7 @@ table tbody tr td {
 	justify-content: flex-start;
 	position: relative;
 	border-bottom: 3px solid rgb(233, 233, 233);
-	margin:30px 0px 5px 0px;
+	margin:23px 0px 5px 0px;
 }
 
 #mainTitleContainerTop {
@@ -495,17 +492,17 @@ table.recentProductTable tbody tr td:nth-child(1) {
 	/* 구매자ID */
 table.recentProductTable thead tr th:nth-child(2),
 table.recentProductTable tbody tr td:nth-child(2) {
-	width: 9%;
+	width: 13%;
 }
 	/* 판매자ID */
 table.recentProductTable thead tr th:nth-child(3),
 table.recentProductTable tbody tr td:nth-child(3) {
-	width: 9%;
+	width: 13%;
 }
 	/* 품목명 */
 table.recentProductTable thead tr th:nth-child(4),
 table.recentProductTable tbody tr td:nth-child(4) {
-	width: 45%;
+	width: 37%;
 }
 	/* 거래상태 */
 table.recentProductTable thead tr th:nth-child(5),
@@ -535,7 +532,6 @@ table.recentProductTable tbody tr td:nth-child(7) {
 table.recentQuestionTable thead tr th:nth-child(1),
 table.recentQuestionTable tbody tr td:nth-child(1) {
 	width: 13%;
-	text-align: center;
 }
 	/* 처리현황 */
 table.recentQuestionTable thead tr th:nth-child(2),
@@ -561,18 +557,16 @@ table.recentQuestionTable tbody tr td:nth-child(4) {
 table.recentJoinTable thead tr th:nth-child(1),
 table.recentJoinTable tbody tr td:nth-child(1) {
 	width: 13%;
-	text-align: center;
 }
 	/* 회원명 */
 table.recentJoinTable thead tr th:nth-child(2),
 table.recentJoinTable tbody tr td:nth-child(2) {
-	width: 8%;
-	text-align: center;
+	width: 10%;
 }
 	/* 이메일 */
 table.recentJoinTable thead tr th:nth-child(3),
 table.recentJoinTable tbody tr td:nth-child(3) {
-	width: 56%;
+	width: 54%;
 }
 	/* 전화번호 */
 table.recentJoinTable thead tr th:nth-child(4),
@@ -607,7 +601,7 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 	/* 아이디 */
 .userTable thead tr th:nth-child(2),
 .userTable tbody tr td:nth-child(2) {
-	width: 15%;
+	width: 13%;
 }
 	/* 이메일 */
 .userTable thead tr th:nth-child(3),
@@ -623,7 +617,7 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 	/* 주소 */
 .userTable thead tr th:nth-child(5),
 .userTable tbody tr td:nth-child(5) {
-	width: 34%;
+	width: 36%;
 }
 	/* 가입입 */
 .userTable thead tr th:nth-child(6),
@@ -699,11 +693,6 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 }
 
 .saveEditButtonBan {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
 	position: relative;
     left: 40px;
 }
@@ -742,11 +731,6 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 }
 
 .saveNewButtonBan {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
 	position: relative;
     left: 50px;
 }
@@ -974,7 +958,7 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 }
 
 .editFaqAnsInput {
-	width: 470px;
+	width: 460px;
 	height: 26px;
 	margin: auto;
 	position: relative;
@@ -982,11 +966,6 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 }
 
 .saveEditButtonFaq, .saveNewButtonFaq {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
 	position: relative;
     left: 40px;
 }

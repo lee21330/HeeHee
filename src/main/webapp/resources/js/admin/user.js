@@ -8,13 +8,25 @@ $(document).ready(function() {
 	$('#searchButton').click(function() {
 		loadTable();
 	});
-
+	
+/* 원문
 	// 초기화 버튼 클릭 시
 	$('#resetButton').click(function() {
 		$('#searchInput').val('');
 		$('#startDate').val('');
 		$('#endDate').val('');
 		$('#input[name="dateSelect"]').prop('checked', false);
+		loadTable();
+	});
+	*/
+	
+	// 초기화 버튼 클릭 시
+	$('#resetButton').on('click', function() {
+		$('#searchInput').val('');
+		$('#startDate').val('');
+		$('#endDate').val('');
+		$('#input[name="dateSelect"]').prop('checked', false);
+		$('.radioContainer label').css('color', 'white');
 		loadTable();
 	});
 
@@ -63,7 +75,12 @@ $(document).ready(function() {
 	$('input[name="dateSelect"]').click(function() {
 		var today = new Date();
 		var startDate, endDate;
-
+		
+	// label.radioLabel 인라인 스타일 제거
+    $('.radioContainer label').each(function() {
+	$(this).css('color', ''); // 인라인 스타일 제거
+	});
+		
 		if (this.id === 'today') {
 			startDate = endDate = today.toISOString().split('T')[0];
 		} else if (this.id === 'week') {

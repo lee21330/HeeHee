@@ -123,12 +123,14 @@
                 </when>
             </choose>
         </if>
+        <!-- 향후 개선하여 추가 구현 예정
         <if test="startDate != null and !startDate.isEmpty()">
             AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
         </if>
         <if test="endDate != null and !endDate.isEmpty()">
             AND CREATE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
         </if>
+         -->
 	</select>
 	
 	<!-- 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯) -->

@@ -4,6 +4,8 @@
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
+<!-- 관리자 페이지의 HEADER -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
 <title>header</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" href="${path}/resources/css/header.css">
+<link rel="stylesheet" href="${path}/resources/css/admin/header.css">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/loginModal.jsp"%>
@@ -25,7 +27,7 @@
 			</div>
 			<div class="header_container">
 				<div class="logo">
-					<a href="">
+					<a href="${path}/main">
 						<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo.png" alt="로고 이미지">
 					</a>
 				</div>

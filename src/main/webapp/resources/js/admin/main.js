@@ -80,10 +80,11 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var buyerId = (!item.buyerId || item.buyerId.trim() === '' ) ? '' : item.buyerId ;
 					var row = 
 						"<tr>" + 
 							"<td>" + item.productSeq + "</td>" + 
-							"<td>" + item.buyerId + "</td>" + 
+							"<td>" + buyerId + "</td>" + 
 							"<td>" + item.id + "</td>" + 
 							"<td>" + item.articleTitle + "</td>" + 
 							"<td>" + item.proStatus + "</td>" + 

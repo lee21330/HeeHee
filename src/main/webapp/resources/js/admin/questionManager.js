@@ -72,7 +72,7 @@ $(document).ready(function() {
 								"<p class='editTitle'>문의유형<br>수정</p>" + 
 								"<input type='text' id='editCategory" + id + "' class='doubleInputSmall' placeholder='수정할 유형 입력' value='" + row.find('td').eq(2).text() + "'>" + 
 								"<input type='text' id='editCategoryContent" + id + "' class='doubleInputBigger' placeholder='유형에 대한 내용 입력' value='" + row.find('td').eq(3).text() + "'>" + 
-								"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+								"<button id='saveEditButton' class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
 								"</div>" + 
 							"</td>" + 
 						"</tr>";
@@ -105,7 +105,7 @@ $(document).ready(function() {
 							"<p class='editTitle'>문의유형<br>신규등록</p>" + 
 							"<input type='text' id='newCategory' class='doubleInputSmall' placeholder='신규 유형 입력'>" + 
 							"<input type='text' id='newCategoryContent' class='doubleInputBigger' placeholder='유형에 대한 내용 입력'>" + 
-							"<button class='saveNewButton' data-id='" + id + "'>신규 등록</button>" + 
+							"<button id='saveNewButton' class='saveNewButton' data-id='" + id + "'>신규 등록</button>" + 
 							"</div>" + 
 						"</td>" + 
 					"</tr>";
@@ -114,7 +114,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시 (수정 등록)
-	$(document).on('click', '.saveEditButton', function() {
+	$(document).on('click', '#saveEditButton', function() {
 		var seqQnaOption = $(this).attr('data-id');
 		var qnaOption = $("#editCategory" + seqQnaOption).val();
 		var qnaOptionContent = $("#editCategoryContent" + seqQnaOption).val();
@@ -136,7 +136,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시 (신규 등록)
-	$(document).on('click', '.saveNewButton', function() {
+	$(document).on('click', '#saveNewButton', function() {
 		var qnaOption = $('#newCategory').val();
 		var qnaOptionContent = $('#newCategoryContent').val();
 

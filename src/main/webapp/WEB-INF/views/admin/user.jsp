@@ -26,7 +26,7 @@
 			<option value="email">이메일</option>
 		</select>
 		<input type="text" id="searchInput" placeholder="입력란 (제목 혹은 내용 입력)">
-		<button type="submit" class="commonSmallBtn" id="searchButton" onclick="filterSearch()">검색</button>
+		<button type="submit" class="commonSmallBtn" id="searchButton">검색</button>
 		<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
 		</div>
 		<div id="btmContainer">
