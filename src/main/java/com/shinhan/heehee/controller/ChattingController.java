@@ -63,7 +63,7 @@ public class ChattingController {
 		if (principal != null)
 			userId = principal.getName();
 		
-		int alarmCount = alarmService.alarmCount(principal.getName());
+		int alarmCount = alarmService.alarmCount(userId);
 
 		// model에 담을 것: 유저별 채팅방 목록
 		model.addAttribute("roomList", cService.getRoomList(userId));
@@ -121,7 +121,7 @@ public class ChattingController {
 		return cService.updatePoint(map);
 	}
 
-	//약속 잡기
+	//약속 잡기 / 결제
 	@PostMapping("/reserve")
 	@ResponseBody
 	public void reserve(@RequestBody Map<String, Object> map) {

@@ -324,7 +324,7 @@ function completePayment(payInfo, payButton) {
                 method : "POST",
                 headers : {"Content-Type": "application/json"},
                 body : JSON.stringify({
-                "buyerId" : selectReceiverId,
+                "buyerId" : loginMemberNo,
                 "productSeq" : payInfo.sellSeq
                 })
             })
@@ -364,8 +364,12 @@ function selectChattingFn(){
         const sellingImage = document.createElement("img");
         sellingImage.classList.add("selling-image");
         
-        const imgName = roomDetail.roomProductDTO.productImg ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
+        var imgName = "mypage/logo_profile.jpg";
         
+        if(roomDetail.roomProductDTO.productSeq){
+        	imgName = roomDetail.roomProductDTO.productImg ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
+        }
+        	
         const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${imgName}`;
         sellingImage.setAttribute("src", imgUrl);
         
@@ -743,7 +747,7 @@ function reserve(productSeq){
              method : "POST",
              headers : {"Content-Type": "application/json"},
              body : JSON.stringify({
-             "buyerId" : selectReceiverId,
+             "buyerId" : loginMemberNo,
              "productSeq" : productSeq
              })
             })
@@ -778,7 +782,7 @@ function cancelReserve(productSeq){
              method : "POST",
              headers : {"Content-Type": "application/json"},
              body : JSON.stringify({
-             "buyerId" : selectReceiverId,
+             "buyerId" : loginMemberNo,
              "productSeq" : productSeq
              })
             })
