@@ -214,6 +214,4 @@ public class MyPageDAO {
 		return sqlSession.update(namespace + "updateAddress", params);
 	}
 
-	
-
 }

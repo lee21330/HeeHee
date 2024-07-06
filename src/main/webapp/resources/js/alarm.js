@@ -306,6 +306,8 @@ function alarmUnck() {
 function alarmRead() {
 	// var li = event.target.parentElement;
 	
+	console.log("이거는 타니?????????");
+	
 	var alNum = $(this).attr("alNum");
 	console.log(alNum);
 	
@@ -321,6 +323,7 @@ function alarmRead() {
 			}
 		},
 		error : function(data) {
+			console.log("이거 타니???????????????" + data);
 			alert("알림 확인 오류 입니다");
 		}
 	});

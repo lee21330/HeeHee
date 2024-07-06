@@ -13,6 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.shinhan.heehee.exception.ProductNotFoundException;
 import com.shinhan.heehee.exception.UserNotFoundException;
+import com.shinhan.heehee.exception.AucListZeroException;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
@@ -51,4 +52,8 @@ public class ExceptionHandlerController {
 		return "error/500error";
 	}
 	
+	@ExceptionHandler(AucListZeroException.class)
+	public void AucListZeroException(HttpServletRequest request,AucListZeroException ex) {
+		logger.warn("=====현재 진행중인 경매가 없습니다.======");
+	}
 }

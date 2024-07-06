@@ -34,6 +34,7 @@ public class MainController {
 		model.addAttribute("rankProdList", mainservice.rankProdList());
 		model.addAttribute("recommandList", mainservice.recommandList());
 		model.addAttribute("recentprodList", mainservice.recentprodList());
+		model.addAttribute("lastURL", "main");
 		return "/main/main";
 	}
 	

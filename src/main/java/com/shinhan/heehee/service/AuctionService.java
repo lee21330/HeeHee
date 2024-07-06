@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.AuctionDAO;
+import com.shinhan.heehee.dao.MyPageDAO;
 import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
@@ -31,6 +32,9 @@ public class AuctionService {
 
 	@Autowired
 	AlarmDAO alarmDAO;
+	
+	@Autowired
+	MyPageDAO mypageDAO;
 
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
@@ -128,7 +132,8 @@ public class AuctionService {
 				messagingTemplate.convertAndSend("/topic/alarm/" + bid.getSellerId(), sellerAlarmCnt);
 			}
 		}
-		logger.info("-------------- 낙찰, 유찰 스케줄러 ---------------");
+		
+		logger.info("-------------- 낙찰, 유찰, 택 스케줄러 ---------------");
 	}
 
 }

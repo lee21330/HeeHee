@@ -105,10 +105,20 @@ function sendAlarm() {
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="${path}/sell/productregi">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
-							<span>물품등록</span>
-						</a>
+						<c:choose>
+							<c:when test="${lastURL eq 'auc'}">
+								<a onclick="beforeCheckLocation('${path}/auc/regi')">
+									<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
+									<span>경매등록</span>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a onclick="beforeCheckLocation('${path}/sell/productregi')">
+									<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
+									<span>물품등록</span>
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</div>
 					<div class="menu_div">
 						<a href="/heehee/chatting">

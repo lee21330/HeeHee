@@ -59,13 +59,14 @@ public class AlarmController {
 	}
 	
 	// 알림 확인 시 N => Y 업데이트 (마지막 알림이 조회되므로 전부 다 변경하지 않으면 N인 값이 계속 조회됨)
-	@ResponseBody
 	@PostMapping("/alarmUpdate/{alNum}")
+	@ResponseBody
 	public int alarmUpdate(@PathVariable("alNum") int alNum) {
 		int result = alarmService.alarmUpdate(alNum);
 		
 		return result;
 	}
+	
 	
 	/*
 	 @PostMapping("/app/alarmInsert")

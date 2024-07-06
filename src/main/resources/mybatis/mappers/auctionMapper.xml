@@ -133,4 +133,18 @@
         	#{seqArr}
 		</foreach>
 	</update>
+	
+	<select id="recommandAucProd" parameterType="int" resultType="com.shinhan.heehee.dto.response.auction.AuctionProdDTO">
+		SELECT PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
+		, AUCTION_TITLE, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
+       	, TO_CHAR(EXP_TIME, 'hh24:mi:ss') AS EXP_TIME, IMG.IMG_NAME
+		FROM (
+		SELECT *
+		FROM AUC_PRODUCT
+		WHERE AUCTION_SEQ = (SELECT AUCTION_SEQ FROM AUC_PRODUCT ap WHERE PRODUCT_SEQ = 62)
+		AND AUC_PRODUCT.EXP_TIME > SYSDATE
+		ORDER BY EXP_TIME DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+	</select>
+	
 </mapper>
