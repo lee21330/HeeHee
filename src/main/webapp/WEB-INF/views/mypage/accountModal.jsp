@@ -13,13 +13,13 @@
 			$("#btn_aModal_cancel").on("click", hide);
 			function show() {
 				$("#accountModal").show();
-				$("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
+				$("body").css("overflow", "hidden"); 
 			}
 			function hide() {
 				$("#accountModal").hide();
 				$(".Modal_bank input").val("");
 				$(".Modal_bank select").val("은행");
-				$("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
+				$("body").css("overflow", "scroll"); 
 			}
 		});
 	</script>
