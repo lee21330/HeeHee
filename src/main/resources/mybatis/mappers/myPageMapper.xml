@@ -75,6 +75,29 @@
 		AND SELL.PRODUCT_SEQ =
 		#{proSeq}
 	</select>
+	<select id="saledetailAuc" parameterType="int"
+		resultType="com.shinhan.heehee.dto.response.SaleDetailAucDTO">
+		SELECT *
+		FROM AUC_PRODUCT ap
+		JOIN PRODUCT_TYPE TYPE ON ap.AUCTION_SEQ = TYPE.PRODUCT_SEQ
+		JOIN
+		PRODUCT_CATEGORY CATE ON TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
+		JOIN IMG_FILES IMG ON ap.PRODUCT_SEQ = IMG.TABLE_PK
+		LEFT OUTER JOIN
+		DEAL_HISTORY DH ON ap.PRODUCT_SEQ = DH.AUC_SEQ
+		LEFT OUTER JOIN DELIVERY D ON DH.S_SEQ = d.S_SEQ
+		LEFT OUTER JOIN
+		DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ = DC.D_COMPANY_SEQ
+		WHERE
+		IMG.IMG_SEQ IN (
+		SELECT MIN(IMG_SEQ)
+		FROM
+		IMG_FILES
+		WHERE
+		IMG_CATE_SEQ = 3
+		GROUP BY TABLE_PK)
+		AND ap.PRODUCT_SEQ = #{proSeq}
+	</select>
 	<delete id="proStatusDelete"
 		parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
 		DELETE FROM SELL_PRODUCT
@@ -108,8 +131,10 @@
 		S_CHECK = SYSDATE
 		WHERE SELL_SEQ = #{proSeq}
 	</update>
-	<!-- <update id="updatePCheck" parameterType="int"> UPDATE DEAL_HISTORY 
-		SET P_CHECK = SYSDATE WHERE SELL_SEQ = #{proSeq} </update> -->
+	<update id="updatePCheck" parameterType="int"> UPDATE DEAL_HISTORY
+		SET
+		P_CHECK = SYSDATE WHERE SELL_SEQ = #{proSeq}
+	</update>
 	<select id="dcOption" resultType="dcvo">
 		SELECT * FROM DELIVERY_COMPANY
 	</select>
@@ -130,7 +155,7 @@
 		TABLE_PK)
 	</select>
 	<select id="purchaselistAuc" parameterType="string"
-		resultType="purchasevo">
+		resultType="com.shinhan.heehee.dto.response.SaleListAucDTO">
 		SELECT *
 		FROM DEAL_HISTORY dh, AUC_PRODUCT ap, IMG_FILES img
 		where dh.AUC_SEQ
@@ -320,12 +345,14 @@
 
 		SELECT PAY_DATE, AMOUNT
 		FROM PAY_HISTORY
-		WHERE TO_CHAR(PAY_DATE, 'YYYY') = #{YEAR}
+		WHERE
+		TO_CHAR(PAY_DATE, 'YYYY') = #{YEAR}
 		AND TO_CHAR(PAY_DATE, 'MM') =
 		#{MONTH}
 		AND BUYER_ID = #{userId}
 		AND AUC_SEQ IS NULL
-		AND SELL_SEQ IS NULL
+		AND SELL_SEQ IS
+		NULL
 
 		ORDER BY PAY_DATE
 	</select>

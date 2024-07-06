@@ -52,15 +52,7 @@
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 					</div>
 				</div>
-				<%-- <div class="account">
-					<p class=>내 계좌</p>
-					<p class="bankName">${sellerInfo.bank}</p>
-					<p class="accNum">${sellerInfo.accountNum}</p>
-					<div>
-						<%@ include file="/WEB-INF/views/mypage/accountModal.jsp"%>
-						<button class="btn" id="btn-account">계좌 수정</button>
-					</div>
-				</div> --%>
+
 				<div class="top-right">
 					<a href="${path}/mypage/qnaBoard" class="qna">1:1문의</a>
 					<div class="point">
@@ -78,13 +70,9 @@
 				</div>
 			</div>
 
-
-
-
-
 			<ul id="deal">
-				<li onclick="changeDeal('중고물품')">중고물품</li>
-				<li onclick="changeDeal('경매물품')">경매물품</li>
+				<li id="sell" class="select_deal" onclick="changeDeal('중고물품')">중고물품</li>
+				<li id="auction" onclick="changeDeal('경매물품')">경매물품</li>
 			</ul>
 
 

@@ -16,4 +16,5 @@ import lombok.ToString;
 public class CategoryDTO {
 	private String category;
 	private List<String> subCategory;
+	private int productCateSeq;
 }

@@ -30,6 +30,7 @@ import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
+import com.shinhan.heehee.dto.response.SaleDetailAucDTO;
 import com.shinhan.heehee.dto.response.SaleDetailDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
@@ -155,8 +156,20 @@ public class MyPageService {
 
 	}
 
-	public int updatePCheck(int proSeq) {
-		return mypageDao.updatePCheck(proSeq);
+	public ResponseEntity<?> updatePCheck(int proSeq) {
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result = mypageDao.updatePCheck(proSeq);
+		
+		if (result == 0) {
+			response.put("success", false);
+			response.put("message", "거래완료에 실패했습니다.");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", true);
+			response.put("message", "거래완료에 성공했습니다.");
+			return ResponseEntity.ok(response);
+		}
 
 	}
 
@@ -172,16 +185,27 @@ public class MyPageService {
 		return mypageDao.saleListAuc(status, userId);
 	}
 
-	public List<PurchaseListDTO> purchaselistAuc(String userId) {
+	public List<SaleListAucDTO> purchaselistAuc(String userId) {
 		return mypageDao.purchaselistAuc(userId);
 	}
 
 	public int proStatusDelete(int productSeq) {
 		return mypageDao.proStatusDelete(productSeq);
 	}
-
-	public int updateStatus(int productSeq, String proStatus) {
-		return mypageDao.updateStatus(productSeq, proStatus);
+	
+	public ResponseEntity<?> updateStatus(int productSeq, String proStatus) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result = mypageDao.updateStatus(productSeq, proStatus);
+		
+		if (result == 0) {
+			response.put("success", false);
+			response.put("message", "상태변경에 실패했습니다.");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", true);
+			response.put("message", "상태변경에 성공했습니다.");
+			return ResponseEntity.ok(response);
+		}
 	}
 
 	public Object editProfile(String nickName, String userIntroduce, String image, String userId) {
@@ -292,5 +316,11 @@ public class MyPageService {
 
 		return response;
 	}
+
+	public SaleDetailAucDTO saledetailAuc(int proSeq) {
+		return mypageDao.saledetailAuc(proSeq);
+	}
+
+
 
 }

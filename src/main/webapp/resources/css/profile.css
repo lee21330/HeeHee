@@ -119,18 +119,9 @@ form {
 }
 
 #nickName {
-	width: 140px;
+	width: 220px;
 	height: 30px;
 	box-sizing: border-box;
-}
-
-#btn-originalNick {
-	background-color: gray;
-}
-
-#my_nick_dup_result {
-	visibility: hidden;
-	color: red;
 }
 
 #userIntroduce {
@@ -267,20 +258,97 @@ form {
 	float: right;
 }
 
-.right-info input[type="text"] {
-	width: 250px;
-	height: 35px;
-	border: 1px solid #acacac;
-	border-radius: 7px;
-	margin-right: 0;
-	color: #989898;
-	box-sizing: border-box;
-}
 .right-information {
 	cursor: pointer;
 }
 
-/* 전화번호 수정 모달 */
+/* 모달 */
+.profileModal_h {
+    color: #4949e9;
+    height: 30px;
+    margin: 25px 0px 75px 0px;
+    font-size: 30px;
+    text-align: center;
+}
+.profileModal_p {
+    display: block !important;
+    width: 100% !important;
+    height: 20px;
+    font-size: 20px;
+    margin: 0px 0px 75px 0px !important;
+    text-align: center;
+}
+
+.modal_form {
+    height: 90%;
+    padding: 20px 0px 20px 0px;
+}
+.modal_form p {
+
+	margin: 0px 5px 60px 5px !important;
+	font-size: 27px;
+	display: inline-block;
+
+}
+.modal_info {
+    color: #4949E9;
+}
+
+
+.input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 0px 0px 60px 0px;
+}
+
+.btn_modal {
+    width: 100%;
+    text-align: center;
+    margin: 0px 0px 20px 0px;
+}
+.btn_submit {
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    background: #4949e9;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 0px 5px 0px 5px;
+    font-size: 20px;
+}
+.btn_cancel {
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    border: 1px solid #4949e9;
+    border-radius: 5px;
+    color: #4949e9;
+    background-color: white;
+    margin: 0px 5px 0px 5px;
+    font-size: 20px;
+}
+.Modal_bank select {
+    color: rgb(63, 81, 161);
+    width: 100px;
+    height: 50px;
+    font-size: 17px;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
+    text-align: center;
+}
+.Modal_bank input {
+    width: 285px;
+    height: 50px;
+    padding: 0px;
+    font-size: 17px;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 10px;
+    padding-left: 10px;
+} 
 
 /* 내 계좌 수정 모달 */
 

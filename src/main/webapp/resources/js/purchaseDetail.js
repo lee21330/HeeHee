@@ -2,7 +2,7 @@ $(function() {
 	var dNumberText = $("#dNumber").text().trim();
 	var dealText = $("#deal").text().trim();
 	var proStatus = $("#proStatus").text().trim();
-	var sCheck = $("#sCheck").text().trim();
+	var pCheck = $("#pCheck").text().trim();
 
 
 	/* 거래방식(deal)에 따라 progress_ing가 다르게 보임*/
@@ -21,7 +21,7 @@ $(function() {
 		}
 
 		// '배송완료(75%)': 택배 배송이 완료되었을 때 + 판매 확정날짜가 있을 때
-		else if (sCheck != '') {
+		else if (pCheck != '') {
 			$("#graph").attr('value', 75);
 		}
 
@@ -49,7 +49,7 @@ $(function() {
 	}
 
 	// 판매 확정날짜가 있으면 '거래완료' 버튼 안 보임
-	if (sCheck != '' || proStatus === '판매중지') {
+	if (pCheck != '' || proStatus === '판매중지') {
 		$("#complete").hide();
 	}
 
@@ -57,10 +57,24 @@ $(function() {
 });
 
 function updatePCheck(proSeq) {
+alert(proSeq);
 	$.ajax({
-		url: '/heehee/mypage/purchasedetail/${saleDetail.productSeq}/updatePCheck',
+		url: '/heehee/mypage/purchasedetail/updatePCheck',
 		method: 'POST',
-		data: { 'proSeq': proSeq }
+		data: { proSeq: proSeq },
+		success: function(data) {
+			console.log(data);
+			if (data.success == true) {
+				showTost(data.message);
+				
+			} else {
+				showTost(data.message);
+			}
+			window.location.reload();
+		}, error: function(data, status, err) {
+			console.log(err);
+			showTost(data.message);
+		}
 	});
 
 }
