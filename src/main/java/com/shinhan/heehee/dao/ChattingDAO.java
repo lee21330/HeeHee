@@ -79,14 +79,24 @@ public class ChattingDAO {
 		sqlSession.delete(namespace + "deleteDeal", map);
 	}
 	
-	//채팅방 생성 전 채팅방 유무 확인
+	//판매자와 채팅: 채팅방 생성 전 채팅방 유무 확인
 	public int checkSellerChat(Map<String, Object> map) {
 		return sqlSession.selectOne(namespace + "checkSellerChat", map);
 	}
 
-	//채팅방 생성: 판매자와 채팅 클릭 시
+	//판매자와 채팅: 채팅방 생성
 	public int insertChatRoom(Map<String, Object> map) {
 		return sqlSession.insert(namespace + "insertChatRoom", map);
+	}
+
+	//경매 낙찰 후 채팅방 유무 확인
+	public Integer checkAuctionChat(Map<String, Object> map) {
+		return sqlSession.selectOne(namespace + "checkAuctionChat", map);
+	}
+
+	//경매 낙찰 후 채팅방 생성
+	public Integer insertAuctionChat(Map<String, Object> map) {
+		return sqlSession.insert(namespace + "insertAuctionChat", map);
 	}
 
 }

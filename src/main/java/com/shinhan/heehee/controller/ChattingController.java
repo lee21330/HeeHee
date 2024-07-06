@@ -54,11 +54,6 @@ public class ChattingController {
 	@Autowired
     private WebSocketEventListener webSocketEventListener;
 	
-	@GetMapping("/footer")
-	public String footer() {
-		return "common/footer";
-	}
-	
 	// 채팅 페이지
 	@GetMapping
 	public String chatting(Model model, Principal principal) {
@@ -145,6 +140,13 @@ public class ChattingController {
     @ResponseBody
 	public int insertChatRoom(@RequestBody Map<String, Object> map) {
 		return cService.insertChatRoom(map);
+    }
+    
+   //채팅방 생성: 경매 낙찰 후 채팅 클릭 시
+    @PostMapping("/auction")
+    @ResponseBody
+	public int insertAuctionChat(@RequestBody Map<String, Object> map) {
+		return cService.insertAuctionChat(map);
     }
 
     //이미지 업로드: js에서 사용
