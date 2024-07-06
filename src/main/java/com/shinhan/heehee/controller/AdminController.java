@@ -446,7 +446,7 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 진행 중 오류가 발생했습니다.");
 		}
 	}
-
+	
 	@GetMapping("/faqManager")
 	public String admin_faqManager() {
 		return "/admin/faqManager";

@@ -74,20 +74,20 @@ $(document).ready(function() {
 								"<tr class='editRow'>" + 
 									"<td colspan='8'>" + 
 										"<div class='updateContainer'>" + 
-										"<p class='productUpdate'>판매상태<br>수정</p>" + 
-										"</div>" + 
-										"<select id='editStatus" + id + "'>" + 
+										"<p class='editTitle'>판매상태<br>수정</p>" + 
+										"<select id='editStatus" + id + "' class='selectStatus'>" + 
 											"<option value='입찰' " + (row.find('td').eq(7).text() === '입찰' ? 'selected' : '') + ">입찰</option>" + 
 											"<option value='판매중지' " + (row.find('td').eq(7).text() === '판매중지' ? 'selected' : '') + ">판매중지</option>" +
 										"</select>" + 
-										"<input type='text' id='editInput" + id + "' class='singleInput' placeholder='판매중지 사유를 입력해주세요'>" + 
-										"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+										"<input type='text' id='editInput" + id + "' class='singleInputPro' placeholder='판매중지 사유를 입력해주세요'>" + 
+										"<button id='saveEditButton' class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+										"</div>" + 
 									"</td>" + 
 								"</tr>";
 
 							var banReason = 
 								"<tr class='banReason'>" + 
-									"<td colspan='6'>" + 
+									"<td colspan='8'>" + 
 										"<div class='aucBanReason'>" + 
 										"<p class='productUpdate'>판매중지 사유</p>" + 
 										"<p>" + contentData.aucBanReason + "</p>" + 
@@ -110,7 +110,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시
-	$(document).on('click', '.saveEditButton', function() {
+	$(document).on('click', '#saveEditButton', function() {
 		var productSeq = $(this).attr('data-id');
 		var aucStatus = $("#editStatus" + productSeq).val();
 		var aucBanReason = $("#editInput" + productSeq).val();

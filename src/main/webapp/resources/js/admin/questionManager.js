@@ -69,11 +69,11 @@ $(document).ready(function() {
 						"<tr class='editRow'>" + 
 							"<td colspan='6'>" + 
 								"<div class='updateContainer'>" + 
-								"<p class='productUpdate'>문의유형<br>수정</p>" + 
-								"</div>" + 
+								"<p class='editTitle'>문의유형<br>수정</p>" + 
 								"<input type='text' id='editCategory" + id + "' class='doubleInputSmall' placeholder='수정할 유형 입력' value='" + row.find('td').eq(2).text() + "'>" + 
 								"<input type='text' id='editCategoryContent" + id + "' class='doubleInputBigger' placeholder='유형에 대한 내용 입력' value='" + row.find('td').eq(3).text() + "'>" + 
 								"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+								"</div>" + 
 							"</td>" + 
 						"</tr>";
 					row.after(editRow);
@@ -102,11 +102,11 @@ $(document).ready(function() {
 					"<tr class='newRow'>" + 
 						"<td colspan='6'>" + 
 							"<div class='updateContainer'>" + 
-							"<p class='productUpdate'>문의 유형<br>신규 등록</p>" + 
-							"</div>" + 
+							"<p class='editTitle'>문의유형<br>신규등록</p>" + 
 							"<input type='text' id='newCategory' class='doubleInputSmall' placeholder='신규 유형 입력'>" + 
 							"<input type='text' id='newCategoryContent' class='doubleInputBigger' placeholder='유형에 대한 내용 입력'>" + 
 							"<button class='saveNewButton' data-id='" + id + "'>신규 등록</button>" + 
+							"</div>" + 
 						"</td>" + 
 					"</tr>";
 				$('#tableBody').append(newRow);

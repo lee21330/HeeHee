@@ -100,11 +100,11 @@ $(document).ready(function() {
 						"<tr class='editRow'>" + 
 							"<td colspan='6'>" + 
 								"<div class='updateContainer'>" + 
-									"<p class='productUpdate'>카테고리<br>수정</p>" + 
-								"</div>" + 
+									"<p class='editTitle'>카테고리<br>수정</p>" + 
 								"<input type='text' id='editCategory" + id + "' class='categoryInputSmall' placeholder='카테고리 입력' value='" + row.find('td').eq(2).text() + "'>" + 
 								"<input type='text' id='editDetailCategory" + id + "' class='categoryInputBigger' placeholder='세부 카테고리 입력' value='" + row.find('td').eq(3).text() + "'>" + 
-								"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+								"<button id='saveEditButton' class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+								"</div>" + 
 							"</td>" + 
 						"</tr>";
 					row.after(editRow);
@@ -133,11 +133,11 @@ $(document).ready(function() {
 					"<tr class='newRow'>" + 
 						"<td colspan='6'>" + 
 							"<div class='updateContainer'>" + 
-								"<p class='productUpdate'>카테고리<br>신규 등록</p>" + 
-							"</div>" + 
+								"<p class='editTitle'>카테고리<br>신규등록</p>" + 
 							"<input type='text' id='newCategory' class='categoryInputSmall' placeholder='카테고리 입력'>" + 
 							"<input type='text' id='newDetailCategory' class='categoryInputBigger' placeholder='세부 카테고리 입력'>" + 
-							"<button class='saveNewButton' data-id='" + id + "'>신규 등록</button>" + 
+							"<button id='saveNewButton' class='saveNewButton' data-id='" + id + "'>신규 등록</button>" + 
+							"</div>" + 
 						"</td>" + 
 					"</tr>";
 				$('#tableBody').append(newRow);
@@ -145,7 +145,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시 (수정 등록)
-	$(document).on('click', '.saveEditButton', function() {
+	$(document).on('click', '#saveEditButton', function() {
 		var productCateSeq = $(this).attr('data-id');
 		var category = $("#editCategory" + productCateSeq).val();
 		var detailCategory = $("#editDetailCategory" + productCateSeq).val();
@@ -167,7 +167,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시 (신규 등록)
-	$(document).on('click', '.saveNewButton', function() {
+	$(document).on('click', '#saveNewButton', function() {
 		var category = $('#newCategory').val();
 		var detailCategory = $('#newDetailCategory').val();
 

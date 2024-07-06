@@ -62,10 +62,10 @@
 		 -->
 
 		</div>
-		<div id="btmContainer">
+		<div id="detailContainer">
 		<p class="detailTitle">상세 정보</p>
-		<button class="commonSmallBtn" id="addButton">정지 등록</button>
-		<button class="commonSmallBtn" id="editButton">수정</button>
+		<button class="commonSmallDetailBtn2" id="addButton">정지 등록</button>
+		<button class="commonSmallDetailBtn3" id="editButton">수정</button>
 		</div>
 		<div class="userBanTable">
 			<table>

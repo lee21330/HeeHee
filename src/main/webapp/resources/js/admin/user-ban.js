@@ -82,12 +82,12 @@ $(document).ready(function() {
 						"<tr class='editRow'>" + 
 							"<td colspan='6'>" + 
 								"<div class='updateContainer'>" + 
-								"<p class='productUpdate'>정지내용<br>수정입력</p>" + 
+								"<p class='editTitle'>정지내용<br>수정입력</p>" + 
+								"<input type='text' id='editReason" + id + "' class='userbanEditInput' placeholder='정지 혹은 해제 사유를 입력해주세요'>" + 
+								"<input type='date' id='startDateSelect' value='" + startDateValue + "' class='userBanStr'>" + 
+								"<input type='date' id='endDateSelect' value='" + endDateValue + "' class='userBanEnd'>" + 
+								"<button id='saveEditButton' class='saveEditButtonBan' data-id='" + id + "'>수정 등록</button>" + 
 								"</div>" + 
-								"<input type='text' id='editReason" + id + "' class='userbanInput' placeholder='정지 혹은 해제 사유를 입력해주세요'>" + 
-								"<input type='date' id='startDateSelect' value='" + startDateValue + "'>" + 
-								"<input type='date' id='endDateSelect' value='" + endDateValue + "'>" + 
-								"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
 							"</td>" + 
 						"</tr>";
 					row.after(editRow);
@@ -115,13 +115,13 @@ $(document).ready(function() {
 					"<tr class='newRow'>" + 
 						"<td colspan='6'>" + 
 							"<div class='updateContainer'>" + 
-								"<p class='productUpdate'>사용자<br>이용정지</p>" + 
+								"<p class='editTitle'>사용자<br>이용정지</p>" + 
+								"<input type='text' id='newBanId' class='userBanIdInput' placeholder='정지할 사용자 ID 입력'>" + 
+								"<input type='text' id='newBanContent' class='userBanContentInput' placeholder='이용정지 사유를 입력해주세요'>" + 
+								"<input type='date' id='startDateSelect' class='userBanStr2'>" + 
+								"<input type='date' id='endDateSelect' class='userBanEnd2'>" + 
+								"<button id='saveNewButton' class='saveNewButtonBan' data-id='" + id + "'>정지 등록</button>" + 
 							"</div>" + 
-								"<input type='text' id='newBanId' class='categoryInputSmall' placeholder='정지할 사용자 ID 입력'>" + 
-								"<input type='text' id='newBanContent' class='categoryInputBigger' placeholder='이용정지 사유를 입력해주세요'>" + 
-								"<input type='date' id='startDateSelect'>" + 
-								"<input type='date' id='endDateSelect'>" + 
-								"<button class='saveNewButton' data-id='" + id + "'>정지 등록</button>" + 
 						"</td>" + 
 					"</tr>";
 				$('#tableBody').append(newRow);
@@ -129,7 +129,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시(수정등록)
-	$(document).on('click', '.saveEditButton', function() {
+	$(document).on('click', '#saveEditButton', function() {
 		var id = $(this).attr('data-id');
 		var banContent = $('#editReason' + id).val();
 		var banStr = $('#startDateSelect').val();
@@ -158,7 +158,7 @@ $(document).ready(function() {
 	});
 	
 	// 저장 버튼 클릭 시 (신규등록)
-	$(document).on('click', '.saveNewButton', function(){
+	$(document).on('click', '#saveNewButton', function(){
 		var id = $('#newBanId').val();
 		var banContent = $('#newBanContent').val();
 		var banStr = $('#startDateSelect').val();

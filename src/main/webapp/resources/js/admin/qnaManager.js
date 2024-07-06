@@ -82,18 +82,18 @@ $(document).ready(function() {
 							
 							var editRow = 
 								"<tr class='editRow'>" + 
-									"<td colspan='6'>" + 
+									"<td colspan='7'>" + 
 										"<div class='updateContainer'>" + 
-											"<p class='productUpdate'>답변 입력</p>" + 
-										"</div>" + 
+										"<p class='editTitle'>답변 입력</p>" + 
 										"<input type='text' id='editInput" + contentData.seqQnaBno + "' class='singleInput' placeholder='답변하실 내용을 입력하세요.'>" + 
-										"<button class='saveEditButton' data-id='" + contentData.seqQnaBno + "'>답변 등록</button>" + 
+										"<button id='saveEditButton' class='saveEditButtonSingle' data-id='" + contentData.seqQnaBno + "'>답변 등록</button>" + 
+										"</div>" + 
 									"</td>" + 
 								"</tr>";
 
 							var qnaContentRow = 
 								"<tr class='qnaContentRow'>" + 
-									"<td colspan='6'>" + 
+									"<td colspan='7'>" + 
 										"<div class='qnaContainer'>" + 
 											"<div class='qnaContentText'>" + 
 												"<p class='productUpdate'>문의내용</p>" + 
@@ -154,8 +154,8 @@ $(document).ready(function() {
 	};
 
 	// 저장 버튼 클릭 시
-	$(document).on('click', '.saveEditButton', function() {
-		var seqQnaBno = $('.saveEditButton').attr("data-id");
+	$(document).on('click', '#saveEditButton', function() {
+		var seqQnaBno = $('#saveEditButton').attr("data-id");
 		var newValue = $("#editInput" + seqQnaBno).val();
 		var id = getSelectedRow().closest('tr').find('td').eq(5).text();
 		

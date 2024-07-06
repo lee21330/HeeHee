@@ -19,7 +19,7 @@
 		<p class="searchTitle">회원 검색</p>
 		<div id="searchContainer">
 		<div id="midContainer">
-		<p class="searchContext">검색어</p>
+		<p class="searchContextUser">검색어</p>
 		<select id="searchCategory">
 			<option value="memberName">회원명</option>
 			<option value="userID">아이디</option>
@@ -30,7 +30,7 @@
 		<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
 		</div>
 		<div id="btmContainer">
-		<p class="searchContext">기간검색</p>
+		<p class="searchPeriodContext">기간검색</p>
 		<select id="dateCategory">
 			<option value="joinDate">가입일</option>
 		</select>
@@ -59,7 +59,7 @@
 		</div>
 		</div>
 		</div>
-		<p class="detailTitle">상세 정보</p>
+		<p class="detailTitleUser">상세 정보</p>
 		<div class="userTable">
 			<table>
 				<thead>

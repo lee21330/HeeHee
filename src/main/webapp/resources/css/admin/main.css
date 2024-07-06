@@ -43,15 +43,39 @@ body {
 	margin-top: 15px;
 }
 
-.searchTitle, .detailTitle {
+.searchTitle {
 	color: black;
 	font-size: 20px;
 	padding-bottom: 5px;
 }
 
+.detailTitle {
+	color: black;
+	font-size: 20px;
+}
+
+.detailTitleUser {
+	color: black;
+	font-size: 20px;
+	margin-bottom: 3px;
+}
+
+.searchContextUser {
+	color: black;
+	font-size: 16px;
+	margin-right: 23px;
+	}
+
 .searchContext {
 	color: black;
 	font-size: 16px;
+	margin-right: 8px;
+	}
+
+.searchPeriodContext {
+	color: black;
+	font-size: 16px;
+	margin-right: 8px;
 	}
 	
 /* main container 중 기간검색 radio버튼에 대한 적용사항 */
@@ -86,26 +110,75 @@ body {
 
 /* redio버튼 적용사항 끝 */
 
-.containerHeadBlock {
-	padding: 0px 15px 0px 15px;
-	background-color: rgb(171,195,255);
-	margin-right: 10px;
-}
-
 .radios {
 	font-size: 15px;
-	}
+}
 
 .commonSmallBtn {
-	font-size: 15px;
+	font-size: 13px;
 	font-weight: 400;
 	font-family: 'Arial', SEBANG_Gothic_Bold;
 	color: white;
 	background-color: rgb(73,73,233);
 	border: 0px;
-	padding: 5px;
-	margin: 5px;
+	padding: 3px;
+	margin: 3px;
 	cursor: pointer;
+}
+
+.commonSmallDetailBtn1 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right:70px;
+}
+
+.commonSmallDetailBtn2 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right: 35px;
+}
+.commonSmallDetailBtn3 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right: 0px;
+}
+
+.commonSmallDetailBtn4 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right: 97px;
 }
 
 .mainMenuBtn {
@@ -125,15 +198,23 @@ body {
 #midContainer {
 	display: flex;
 	align-items: center;
-	margin-bottom: 1px;
-	}
+}
 	
 #btmContainer {
 	display: flex;
 	align-items: center;
 	margin: 0px 0px 5px;
-	}
+}
 
+#detailContainer {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+#searchCategory, #dateCategory {
+	margin-right: 5px;
+}
 
 /* Table styles - 공통 , 수정시 통합 수정 */
 
@@ -145,7 +226,7 @@ table {
 
 table tbody {
 	display: block;
-	max-height: 600px;
+	max-height: 630px;
 	overflow-y: scroll;
 	width: 100%;
 }
@@ -171,17 +252,6 @@ table tbody tr td {
 
 /* table 하위 수정시 메뉴 css */
 
-.tableSubTitle {
-	font-size: 15px;
-	text-align: center;
-	margin-bottom: 5px;
-}
-
-.updateContainer {
-    display: inline-block;
-	margin: 2.5px 5px 2.5px 5px;
-}
-
 .editRow {
     background-color: rgb(171,195,255);
     padding-bottom: 30px;
@@ -191,9 +261,22 @@ table tbody tr td {
     background-color: rgb(171,195,255);
 }
 
-.productUpdate {
+.tableSubTitle {
+	font-size: 15px;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.updateContainer {
+    display: inline-flex;
+	margin: 2.5px 5px 2.5px 5px;
+}
+
+.editTitle {
     font-weight: bold;
     font-size: 15px;
+    text-align: center;
+    margin: auto;
 }
 
 .saveEditButton {
@@ -202,6 +285,18 @@ table tbody tr td {
     color: white;
     border: none;
     cursor: pointer;
+	position: relative;
+    left: 30px;
+}
+
+.saveEditButtonSingle {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+	position: relative;
+    left: 20px;
 }
 
 .saveNewButton {
@@ -210,27 +305,43 @@ table tbody tr td {
     color: white;
     border: none;
     cursor: pointer;
+    position: relative;
+    left: 30px;
 }
 
-.saveEditButton:hover {
-	background-color: #45a049;
-}
-
-.saveNewButton:hover {
+.saveEditButton:hover, .saveNewButton:hover {
 	background-color: #45a049;
 }
 
 .singleInput {
-	width: 730px;
+	width: 800px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
+}
+
+.selectStatus {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
 }
 
 .doubleInputSmall {
 	width: 150px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
 }
 
 .doubleInputBigger {
-	width: 600px;
-	
+	width: 640px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
 }
 
 .qnaImageSize{
@@ -484,7 +595,7 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 #searchContainer {
 	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 }
 
 	/* 회원명 */
@@ -564,8 +675,80 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 	text-align: center;
 }
 
-.userbanInput {
-	width:500px;
+/* userBan 수정 관련 */
+.userbanEditInput {
+	width:530px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
+}
+
+.userBanStr {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
+}
+
+.userBanEnd {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 30px;
+}
+
+.saveEditButtonBan {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+	position: relative;
+    left: 40px;
+}
+
+/* userBan 신규등록 관련 */
+.userBanIdInput {
+	width: 135px;
+	height: 26px;
+	margin: auto;
+	align-items: center;
+	position: relative;
+	left: 10px;
+}
+
+.userBanContentInput {
+	width: 395px;
+	height: 26px;
+	margin: auto;
+    align-items: center;
+	position: relative;
+	left: 20px;
+}
+
+.userBanStr2 {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 30px;
+}
+
+.userBanEnd2 {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 40px;
+}
+
+.saveNewButtonBan {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+	position: relative;
+    left: 50px;
 }
 
 /* user-ban.jsp 끝 */
@@ -616,15 +799,28 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 	text-align: center;
 }
 
+.singleInputPro {
+	width: 720px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
+}
+
 /* product.jsp, auction.jsp 끝 */
 
 /* category.jsp */
+
+.categoryTable table tbody tr td:nth-child(1).rowCheckbox {
+	text-align: center;
+}
 
 	/* 선택 */
 .categoryTable table thead tr th:nth-child(1),
 .categoryTable table tbody tr td:nth-child(1) {
 	width: 4%;
 }
+
 	/* 번호 */
 .categoryTable table thead tr th:nth-child(2),
 .categoryTable table tbody tr td:nth-child(2) {
@@ -659,14 +855,20 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 	/* 카테고리 수정, 신규등록 Input */
 .categoryInputSmall {
 	width: 150px;
-	margin-left: 5px;
+	height: 26px;
+	margin: auto;
 	align-items: center;
+	position: relative;
+	left: 10px;
 	
 }
 .categoryInputBigger {
-	width: 350px;
-    margin-right: 5px;
+	width: 640px;
+	height: 26px;
+	margin: auto;
     align-items: center;
+	position: relative;
+	left: 20px;
 }
 
 /* category.jsp 끝 */
@@ -761,6 +963,32 @@ table.recentJoinTable tbody tr td:nth-child(5) {
 .faqTable table tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
+}
+
+.editFaqContentInput {
+	width: 200px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
+}
+
+.editFaqAnsInput {
+	width: 470px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 30px;
+}
+
+.saveEditButtonFaq, .saveNewButtonFaq {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+	position: relative;
+    left: 40px;
 }
 
 /* faqManager.jsp 끝 */
