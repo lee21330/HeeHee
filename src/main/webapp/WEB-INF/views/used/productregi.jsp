@@ -103,7 +103,7 @@
 	</div>
 	<div class="regi_item">
 		<p>상품 가격</p>
-		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요." required>
+		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요." required max="2000000000">
 	</div>
 	<div class="regi_item">
     <p>거래 유형</p>
@@ -117,7 +117,7 @@
 	</div>
 	<div class="regi_item">
 	    <p class="setmargin">배송비</p>
-	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." disabled required>
+	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." disabled required max="2000000000">
 	</div>
 		</main>
 		</div>

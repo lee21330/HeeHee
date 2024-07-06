@@ -61,7 +61,7 @@ public class ProductController {
 	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
 		
-		int alarmCount = alarmService.alarmCount(principal.getName());
+		int alarmCount = alarmService.alarmCount(userId);
 		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
@@ -97,11 +97,9 @@ public class ProductController {
 	public String modify(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
 		
-		if(principal == null) throw new ProductNotFoundException();
-		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
 		
-		int alarmCount = alarmService.alarmCount(principal.getName());
+		int alarmCount = alarmService.alarmCount(userId);
 		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
@@ -133,11 +131,10 @@ public class ProductController {
 	// 등록하기 페이지
 	@GetMapping("/productregi")
 	public String registry(Model model, Principal principal) {
-		if(principal == null) throw new ProductNotFoundException();
 		
 		String userId = principal.getName();
 		
-		int alarmCount = alarmService.alarmCount(principal.getName());
+		int alarmCount = alarmService.alarmCount(userId);
 		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출

@@ -52,7 +52,7 @@ public class MainController {
 		String loginId = (principal != null) ? principal.getName() : "admin";
 		model.addAttribute("userId",loginId);
 		
-		int alarmCount = alarmService.alarmCount(principal.getName());
+		int alarmCount = alarmService.alarmCount(loginId);
 		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList();
@@ -62,8 +62,12 @@ public class MainController {
 	}
 	
 	@GetMapping("/main/search")
-	public String search(Model model) {
+	public String search(Model model, Principal principal) {
 		model.addAttribute("rankProdList", mainservice.rankProdList());
+		
+		String loginId = (principal != null) ? principal.getName() : "admin";
+		int alarmCount = alarmService.alarmCount(loginId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 
 		List<CategoryDTO> mainCateList = mainservice.mainCateList();
 		model.addAttribute("mainCateList", mainCateList); // header 카테고리

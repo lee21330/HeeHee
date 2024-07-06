@@ -35,7 +35,7 @@
             });
     	});
     	
-        $("#accuracy").on("click", show);
+        $("#accuracy").on("click", show); // 이게 모달 생기는 코드!!!
         $(".rModal_close").on("click", hide);
 
         function show() {
@@ -48,7 +48,7 @@
             $("body").css("overflow", "scroll");
         }
 
-        var selectedRating = 0; // 선택된 별의 등급을 저장하는 전역 변수
+        var selectedRating = 0;
 
         $(".stars").on("mousemove", function (e) {
             var $star = $(this);
