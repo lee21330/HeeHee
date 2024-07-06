@@ -7,14 +7,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>구매 상품 페이지</title>
+<title>구매 경매 상품 페이지</title>
 <link rel="stylesheet" href="${path}/resources/css/saleDetail.css">
 </head>
 <%@ include file="../common/header.jsp"%>
 <body>
 	<script src="/heehee/resources/js/purchaseDetail.js"></script>
-	aa
-	<%-- <div class="purchaseDetail">
+
+	<div class="purchaseDetail">
 		<p id="proStatus">${saleDetail.proStatus}</p>
 
 		<div id="product">
@@ -80,6 +80,6 @@
 			</div>
 		</div>
 
-	</div> --%>
+	</div> 
 </body>
 </html>
