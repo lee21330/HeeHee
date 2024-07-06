@@ -32,21 +32,19 @@
 	</select>
 	<select id="saleListAuc" parameterType="map"
 		resultType="com.shinhan.heehee.dto.response.SaleListAucDTO">
-		SELECT *
-		FROM AUC_PRODUCT ap, IMG_FILES IMG
-		WHERE ap.PRODUCT_SEQ =
-		IMG.TABLE_PK
-		AND ap.SELLER_ID = #{userId}
-		AND IMG_CATE_SEQ = 3
-		<if test="status!='all'">
-			AND ap.AUC_STATUS = #{status}
-		</if>
-		AND IMG.IMG_SEQ IN
-		(SELECT MIN(IMG_SEQ)
-		FROM IMG_FILES
-		WHERE IMG_CATE_SEQ
-		= 3
-		GROUP BY TABLE_PK)
+		select PRODUCT_SEQ as productSeq,
+       AUCTION_TITLE as auctionTitle,
+       EXP_TIME as expTime,
+       AUC_STATUS as aucStatus,
+       AUC_BAN_REASON as accBanReason,
+       nvl((SELECT max(bid_price) from auction_history ah where ap.PRODUCT_SEQ=ah.auc_prod_seq and ap.AUC_STATUS = '낙찰'),0) as aucPrice,
+       (SELECT img_name from img_files i 
+               where ap.PRODUCT_SEQ=i.table_pk and i.img_cate_seq=3 and rownum=1) as imgName
+from auc_product ap
+where ap.SELLER_ID = #{userId}
+<if test="status!='all'">
+            AND ap.AUC_STATUS = #{status}
+</if>
 	</select>
 	<select id="saleDetail" parameterType="int"
 		resultType="saleDetailvo">

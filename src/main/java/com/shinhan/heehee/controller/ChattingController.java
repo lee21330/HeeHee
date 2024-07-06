@@ -54,6 +54,11 @@ public class ChattingController {
 	@Autowired
     private WebSocketEventListener webSocketEventListener;
 	
+	@GetMapping("/footer")
+	public String footer() {
+		return "common/footer";
+	}
+	
 	// 채팅 페이지
 	@GetMapping
 	public String chatting(Model model, Principal principal) {
