@@ -189,3 +189,82 @@
 	margin: 0px 0px 75px 0px;
 	text-align: center;
 }
+
+/* 여기부터 평점 주는 모달 추가됨 */
+#rate_title {
+	color: black;
+    font-size: 18px;
+    text-align: center;
+    margin-top: -5px;
+    margin-left: 25px;
+}
+
+.rModal {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0, 0, 0, 0.4);
+	z-index: 99;
+}
+
+.rModal.show {
+	display: block;
+}
+
+.rModal_body {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 450px;
+	height: 200px;
+	background-color: rgb(255, 255, 255);
+	border-radius: 10px;
+	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	transform: translateX(-50%) translateY(-60%);
+	padding: 40px;
+	
+}
+
+.rModal_close {
+	width: 20px;
+	cursor: pointer;
+	float: right;
+}
+
+.rate_wrap {
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	top: 80%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.btn_submit {
+	cursor: pointer;
+	width: 110px;
+	height: 40px;
+	border: 1px solid #4949e9;
+	border-radius: 5px;
+	color: #4949e9;
+	background-color: white;
+	margin: 0px 5px 0px 5px;
+	font-size: 15px;
+}
+
+#star_wrap {
+	text-align: center;
+	margin-top: 30px;
+}
+
+.stars {
+	cursor: pointer;
+	width: 75px;
+	object-fit: contain;
+}

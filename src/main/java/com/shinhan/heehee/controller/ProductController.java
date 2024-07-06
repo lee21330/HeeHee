@@ -32,6 +32,7 @@ import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 import com.shinhan.heehee.exception.ProductNotFoundException;
+import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.ProductDetailService;
 import com.shinhan.heehee.service.ProductModifyService;
@@ -53,9 +54,15 @@ public class ProductController {
 	@Autowired
 	MainService mainservice;
 	
+	@Autowired
+	AlarmService alarmService;
+	
 	@GetMapping("/productdetail/{prod_seq}")
 	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
+		
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
@@ -94,6 +101,9 @@ public class ProductController {
 		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
 		
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 
@@ -111,6 +121,7 @@ public class ProductController {
 	@PostMapping("/productModify")
 	public String prodModify(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
 							,ProductModifyRequestDTO modiDTO, Principal principal, Model model) throws IOException {
+		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		
@@ -125,6 +136,9 @@ public class ProductController {
 		if(principal == null) throw new ProductNotFoundException();
 		
 		String userId = principal.getName();
+		
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
@@ -155,7 +169,10 @@ public class ProductController {
 	}
 	
 	@GetMapping("/sellerProfile/{id}")
-	public String home(@PathVariable("id") String id, Model model) {
+	public String home(@PathVariable("id") String id, Model model, Principal principal) {
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.MyPageDAO;
+import com.shinhan.heehee.dto.request.RateAdminDTO;
 import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
@@ -186,6 +187,15 @@ public class MyPageService {
 		String encPw = mypageDao.selectEncPw(userId);
 		return 0;
 
+	}
+	
+	// 평점 관련
+	public int rating(RateAdminDTO rateDTO) {
+		return mypageDao.rating(rateDTO);
+	}
+	
+	public int updateRate(RateAdminDTO rateDTO) {
+		return mypageDao.updateRate(rateDTO);
 	}
 
 }

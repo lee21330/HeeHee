@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.amazonaws.services.lookoutmetrics.model.Alert;
+import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
+import com.shinhan.heehee.dto.request.RateAdminDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
@@ -375,6 +379,35 @@ public class MyPageController {
 	@PostMapping("/userWithdrawal")
 	public String withdrawal() {
 		return "/main";
+	}
+	
+	
+	// 평점 매기기
+	@PostMapping("/rating")
+	@ResponseBody
+	@Transactional
+	public Map<String,Object> userRating(RateAdminDTO rateDTO, Model model, Principal principal) throws IOException {
+		Map<String,Object> response = new HashMap<String,Object>();
+		
+		String userId = principal.getName();
+		rateDTO.setUserId(userId);
+		int result = mypageservice.rating(rateDTO);
+		mypageservice.updateRate(rateDTO);
+		
+		
+		
+		// response.put("success", true);
+		// return response;
+		
+		// 성공 실패 분류 로직 구현
+		
+		if (result == 1) {
+			response.put("success", true);
+			return response; 
+		}
+		else {
+			return response; 
+		}
 	}
 
 }

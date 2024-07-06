@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shinhan.heehee.dto.request.RateAdminDTO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
@@ -176,6 +177,15 @@ public class MyPageDAO {
 	public String selectEncPw(String userId) {
 		// 현재 암호화된 비밀번호 조회
 		return sqlSession.selectOne(namespace + "selectEncPw", userId);
+	}
+	
+	// 평점 관련
+	public int rating(RateAdminDTO rateDTO) {
+		return sqlSession.insert(namespace + "insertRating", rateDTO);
+	}
+	
+	public int updateRate(RateAdminDTO rateDTO) {
+		return sqlSession.insert(namespace + "updateRating", rateDTO);
 	}
 
 }

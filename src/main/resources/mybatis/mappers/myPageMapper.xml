@@ -254,6 +254,21 @@
 		INSERT INTO IMG_FILES VALUES (SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id});
 		 ]]>
 	</insert>
+	
+	<insert id="insertRating" parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+		<selectKey keyProperty="selectedRating" order="BEFORE" resultType="int">
+        	SELECT SEQ_RATE.NEXTVAL FROM DUAL
+	    </selectKey>
+		INSERT INTO RATE_ADMIN
+		VALUES(#{selectedRating}, #{productSeq}, #{sellerId}, #{userRating})
+	</insert>
+	
+	<update id="updateRating" parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+		UPDATE HH_USER
+		SET USER_RATING = ROUND(#{selectedRating}, 0)
+		WHERE ID = #{sellerId}
+	</update>
+	
 
 	<!-- <insert id="insertQnaImg" parameterType="insertQnaImgvo"> INSERT INTO 
 		IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id}) 
