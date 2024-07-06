@@ -26,7 +26,8 @@
 			<div class="top">
 				<div class="profileImg">
 					<img
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerInfo.profileImg}" onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerInfo.profileImg}"
+						onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 				</div>
 				<div class="profile">
 					<div class="profileName">
@@ -51,17 +52,32 @@
 						<img class="star"
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 					</div>
+					<div id="summing_container">
+						<div class="summing">
+							<p class="summing_title">가입한지</p>
+							<p class="summing_body">${sellerInfo.createDiff}일</p>
+						</div>
+						<div class="summing">
+							<p class="summing_title">판매횟수</p>
+							<p class="summing_body">${dealComplete.counting}회</p>
+						</div>
+					</div>
+
 				</div>
 
 				<div class="top-right">
-					<a href="${path}/mypage/qnaBoard" class="qna">1:1문의</a>
+					<div class="qna">
+						<a href="${path}/mypage/qnaBoard" class="qnaLink">1:1문의</a>
+					</div>
 					<div class="point">
 						<p>포인트</p>
-						<br>
-						<fmt:formatNumber value="${sellerInfo.userPoint}" pattern="#,###" />
-						<img onclick="location.href='${path}/mypage/pointlist'"
-							src="${path}/resources/images/화살표.png" id="pointImg">
-
+						<div id="pointNum">
+							<fmt:formatNumber value="${sellerInfo.userPoint}" pattern="#,###"
+								var="formattedPoint" />
+							<p class="formatted-point">${formattedPoint}원</p>
+							<img onclick="location.href='${path}/mypage/pointlist'"
+								src="${path}/resources/images/화살표.png" id="pointImg">
+						</div>
 						<div>
 							<%@ include file="/WEB-INF/views/mypage/pointModal.jsp"%>
 							<button id="btn-point">충전</button>

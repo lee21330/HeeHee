@@ -32,21 +32,22 @@
 	</select>
 	<select id="saleListAuc" parameterType="map"
 		resultType="com.shinhan.heehee.dto.response.SaleListAucDTO">
-		SELECT *
-		FROM AUC_PRODUCT ap, IMG_FILES IMG
-		WHERE ap.PRODUCT_SEQ =
-		IMG.TABLE_PK
-		AND ap.SELLER_ID = #{userId}
-		AND IMG_CATE_SEQ = 3
+		select PRODUCT_SEQ as productSeq,
+		AUCTION_TITLE as auctionTitle,
+		EXP_TIME as expTime,
+		AUC_STATUS as aucStatus,
+		AUC_BAN_REASON as accBanReason,
+		nvl((SELECT max(bid_price) from auction_history ah where
+		ap.PRODUCT_SEQ=ah.auc_prod_seq and ap.AUC_STATUS = '낙찰'),0) as
+		aucPrice,
+		(SELECT img_name from img_files i
+		where ap.PRODUCT_SEQ=i.table_pk and i.img_cate_seq=3 and rownum=1) as
+		imgName
+		from auc_product ap
+		where ap.SELLER_ID = #{userId}
 		<if test="status!='all'">
 			AND ap.AUC_STATUS = #{status}
 		</if>
-		AND IMG.IMG_SEQ IN
-		(SELECT MIN(IMG_SEQ)
-		FROM IMG_FILES
-		WHERE IMG_CATE_SEQ
-		= 3
-		GROUP BY TABLE_PK)
 	</select>
 	<select id="saleDetail" parameterType="int"
 		resultType="saleDetailvo">
@@ -79,15 +80,21 @@
 		resultType="com.shinhan.heehee.dto.response.SaleDetailAucDTO">
 		SELECT *
 		FROM AUC_PRODUCT ap
-		JOIN PRODUCT_TYPE TYPE ON ap.AUCTION_SEQ = TYPE.PRODUCT_SEQ
+		JOIN PRODUCT_TYPE TYPE ON
+		ap.AUCTION_SEQ = TYPE.PRODUCT_SEQ
 		JOIN
-		PRODUCT_CATEGORY CATE ON TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
-		JOIN IMG_FILES IMG ON ap.PRODUCT_SEQ = IMG.TABLE_PK
+		PRODUCT_CATEGORY CATE ON
+		TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
+		JOIN IMG_FILES IMG ON
+		ap.PRODUCT_SEQ = IMG.TABLE_PK
 		LEFT OUTER JOIN
-		DEAL_HISTORY DH ON ap.PRODUCT_SEQ = DH.AUC_SEQ
-		LEFT OUTER JOIN DELIVERY D ON DH.S_SEQ = d.S_SEQ
+		DEAL_HISTORY DH ON
+		ap.PRODUCT_SEQ = DH.AUC_SEQ
+		LEFT OUTER JOIN DELIVERY D ON DH.S_SEQ =
+		d.S_SEQ
 		LEFT OUTER JOIN
-		DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ = DC.D_COMPANY_SEQ
+		DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ =
+		DC.D_COMPANY_SEQ
 		WHERE
 		IMG.IMG_SEQ IN (
 		SELECT MIN(IMG_SEQ)
@@ -201,9 +208,9 @@
 	</delete>
 	<select id="sellerInfo" parameterType="String"
 		resultType="myHeaderDTO">
-		SELECT *
+		SELECT HH_USER.*, ROUND(SYSDATE - CREATE_DATE) AS CREATE_DIFF
 		FROM HH_USER
-		WHERE HH_USER.ID = #{USER_ID}
+		WHERE ID = #{id}
 	</select>
 	<select id="bankList"
 		resultType="com.shinhan.heehee.dto.response.BankKindDTO">
@@ -363,20 +370,20 @@
 		WHERE ID = #{userId}
 	</update>
 	<update id="updateFirstDstatus">
-		UPDATE DELIVERY 
+		UPDATE DELIVERY
 		SET D_STATUS = '배송중'
 		WHERE D_SEQ IN (
 		SELECT D_SEQ
-		FROM DELIVERY d 
+		FROM DELIVERY d
 		WHERE D_STATUS = '발송완료')
 	</update>
-	
+
 	<update id="updateSecondDstatus">
-		UPDATE DELIVERY 
+		UPDATE DELIVERY
 		SET D_STATUS = '배송중'
 		WHERE D_SEQ IN (
 		SELECT D_SEQ
-		FROM DELIVERY d 
+		FROM DELIVERY d
 		WHERE D_STATUS = '발송완료')
 	</update>
 </mapper>

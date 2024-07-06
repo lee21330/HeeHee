@@ -42,6 +42,7 @@ import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
 import com.shinhan.heehee.service.ProductDetailService;
+import com.shinhan.heehee.service.SellerProfileService;
 
 @Controller
 @RequestMapping("/mypage")
@@ -59,6 +60,8 @@ public class MyPageController {
 	BCryptPasswordEncoder passwordEncoder;
 	@Autowired
 	AlarmService alarmService;
+	@Autowired
+	SellerProfileService sellerprofileservice;
 
 	// 마이페이지
 	@GetMapping("/main")
@@ -72,6 +75,7 @@ public class MyPageController {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList();
 		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
+		model.addAttribute("dealComplete", sellerprofileservice.dealComplete(userId));
 		model.addAttribute("userId", userId);
 		return "/mypage/myPage";
 	}
@@ -395,7 +399,7 @@ public class MyPageController {
 	}
 
 	// 마이페이지-QnA-나의 문의 삭제하기
-	@DeleteMapping("/qnaBoard/deleteQna")
+	@GetMapping("/qnaBoard/deleteQna")
 	public String deleteQna(Integer seqQnaBno, Principal principal, RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
 		int result = mypageservice.deleteQna(seqQnaBno);

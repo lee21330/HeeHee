@@ -92,7 +92,7 @@ function changeStatus(status) {
 						<div class="product">
 							<div>${statusChangeMenu}</div>
 							<div onclick="location.href='${detailUrl}'">
-								<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}">
+								<div class="product_img"><img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}"></div>
 								<p>${sale.articleTitle}</p>
 								<p>${sale.productPrice}</p>
 								<p id="s_statusVal">${sale.proStatus}</p>
