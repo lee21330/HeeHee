@@ -44,7 +44,7 @@
 		where r.room_id = m.room_id) as maxmessageno
 		from chat_room r
 		where seller=#{userId} or buyer=#{userId}
-		order by maxmessageno desc nulls last
+		order by maxmessageno desc nulls last, id desc
 	</select>
 	
 <select id="getRoomProduct" parameterType="hashMap" resultType="com.shinhan.heehee.dto.response.RoomProductDTO">
@@ -70,10 +70,9 @@
                   (SELECT ARTICLE_TITLE from sell_product s where r.sell_seq=s.product_seq),
                   (SELECT auction_TITLE from auc_product a where r.auc_seq=a.product_seq)),null)
       as productName,
-      coalesce(nvl2((select sell_seq from chat_room r2 where r2.room_id=r.room_id),
-                  (SELECT STATUS from pay_history p where r.sell_seq=p.sell_seq and r.buyer=p.buyer_id),
-                  (SELECT STATUS from pay_history p where r.auc_seq=p.auc_seq and r.buyer=p.buyer_id)),null)
-      as payStatus,
+      (select max(p.status) keep(dense_rank first order by p.pay_date desc)
+        from pay_history p
+        where r.sell_seq=p.sell_seq and r.buyer=p.buyer_id) as pay_status,
       NVL((select pro_status from sell_product s
                               where r.sell_seq=s.product_seq), null) AS sellProStatus,
       NVL((select deal from sell_product s
@@ -105,7 +104,7 @@
 <select id="checkSellerChat" parameterType="hashMap" resultType="int">
 	select count(*)
 	from chat_room
-	where seller=#{sellerId} and sell_seq=#{sellSeq}
+	where buyer=#{loginUserId} and sell_seq=#{sellSeq}
 </select>
 
 <!-- 메시지 읽음 체크 -->
