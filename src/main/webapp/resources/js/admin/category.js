@@ -1,27 +1,23 @@
 //table 동적 업데이트 Ajax용 / 간격 탭간격으로 수정, snake -> camel로 변수명 수정, ₩₩ -> "" + 로 수정
 
 $(document).ready(function() {
-	let currentPage = 0;
-	const pageSize = 10;
 	
 	// 페이지 로드 시 테이블을 초기화
-	loadTable(0, 10);
+	loadTable();
 
 	// 검색 버튼 클릭 시
 	$('#searchButton').click(function() {
-		currentPage = 0; //검색 시 페이지를 0으로 초기화
-		loadTable(currentPage, pageSize);
+		loadTable();
 	});
 
 	// 초기화 버튼 클릭 시
 	$('#resetButton').click(function() {
 		$('#searchInput').val('');
-		currentPage = 0;
-		loadTable(currentPage, pageSize);
+		loadTable();
 	});
 
 	// 테이블 데이터를 Ajax로 가져오기
-	function loadTable(page, size) {
+	function loadTable() {
 		var category = $('#searchCategory').val();
 		var keyword = $('#searchInput').val();
 
@@ -30,8 +26,6 @@ $(document).ready(function() {
 			method: 'GET',
 			data: { 'category': category, 
 					'keyword': keyword, 
-					'page': page, 
-					'size': size 
 					},
 			success: function(data) {
 				var tableBody = $('#tableBody');
@@ -49,36 +43,12 @@ $(document).ready(function() {
 						"</tr>";
 					tableBody.append(row);
 				});
-
-				//페이징 처리
-				setupPagination(data.totalPages, page);
 			},
 			error: function(xhr, status, error) {
 				alert('데이터를 가져오는 중 오류가 발생했습니다.');
 			}
 		});
 	};
-	
-	//페이징처리용
-	function setupPagination(totalPages, currentPage){
-		var pagination = $('#pagination');
-		pagination.empty();
-		
-		for(var i = 0 ; i < totalPages ; i++){
-			var pageLink = $("<a href'#'></a>").text(i + 1);
-			
-			if (i == currentPage){
-				pageLink.css('font-weight', 'bold');
-			}
-			
-			pageLink.on('click', function(event){
-				event.preventDefault();
-				loadTable($(this).text() -1, pageSize);
-			});
-			
-			pagination.append(pageLink);
-		}
-	}
 
 	// 수정 버튼 클릭 시
 	$('#editButton').click(function() {
@@ -158,7 +128,7 @@ $(document).ready(function() {
 					'detailCategory':detailCategory 
 					},
 			success: function() {
-				loadTable(currentPage, pageSize);
+				loadTable();
 			},
 			error: function() {
 				alert('등록 중 오류가 발생했습니다.');
@@ -201,7 +171,7 @@ $(document).ready(function() {
 						data:{'productCateSeq': productCateSeq
 								},
 						success: function() {
-							loadTable(currentPage, pageSize);
+							loadTable();
 						},
 						error: function() {
 							alert('삭제 중 오류가 발생했습니다.');

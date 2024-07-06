@@ -118,7 +118,7 @@ $(document).ready(function() {
 		var currProStatus = getSelectedRow().closest('tr').find('td').eq(7).text();
 		var userid = getSelectedRow().closest('tr').find('td').eq(4).text();
 
-		if(currProStatus == '예약중' || currProStatus == '거래완료'){
+		if(currProStatus == '예약중' || currProStatus == '거래완료' || currProStatus == '판매보류'){
 			alert('거래상태를 변경할 수 없습니다.');
 			} else {
 				$.ajax({

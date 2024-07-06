@@ -170,22 +170,9 @@ public class AdminService {
 
 	// 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면
 	// 기능이 늘어날 수 있음
-	
-	//페이징 구현을 위한 시도
-	public List<AdminCategoryDTO> searchCategoryInfo(String category, String keyword, int page, int size) {
-		int offset = page * size;
-		return adminDAO.searchCategoryInfo(category, keyword, offset, size);
-	}
-	public int countCategoryInfo(String category, String keyword) {
-		return adminDAO.countCategoryInfo(category, keyword);
-	}
-	
-	/* 원본
 	public List<AdminCategoryDTO> searchCategoryInfo(String category, String keyword) {
 		return adminDAO.searchCategoryInfo(category, keyword);
 	}
-	 */
-	
 
 	// 상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함)
 	public void insertCategory(String category, String detailCategory, String id) {

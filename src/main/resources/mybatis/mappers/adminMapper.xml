@@ -284,29 +284,7 @@
             </choose>
         </if>
         ORDER BY PRODUCT_CATE_SEQ ASC
-        OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY <!-- 페이징처리를 위해 이부분만 추가됨 -->
 	</select>
-	
-	<!-- 페이징처리를 위해 추가된 구문 -->
-	<select id="countCategoryInfo" resultType="int">
-		SELECT COUNT(*)
-		FROM PRODUCT_CATEGORY pc
-		WHERE 1=1
-		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
-			<choose>
-				<when test="category == 'number'">
-					AND pc.PRODUCT_CATE_SEQ = #{keyword}
-				</when>
-				<when test="category == 'category'">
-					AND pc.CATEGORY LIKE '%' || #{keyword} || '%'
-				</when>
-				<when test="category == 'subCategory'">
-					AND pc.DETAIL_CATEGORY LIKE '%' || #{keyword} || '%'
-				</when>
-			</choose>
-		</if>
-	</select>
-	<!-- 페이징처리를 위해 추가된 구문 -->
 	
 	<!-- 상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함) -->
 	<insert id="insertCategory">
