@@ -1,105 +1,132 @@
 @charset "UTF-8";
 
 .pointList {
-	width: 1280px;
-	margin: 0 auto;
-	border: 1px solid red;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    width: 1280px;
+    height: 500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 #point_text {
-	width: 350px;
-	display: inline-block;
-	text-align: center;
-	margin-left: 50px;
-	border: 1px solid pink;
+    width: 350px;
+    text-align: center;
+    margin-left: 50px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
 }
 
 #balance {
-	font-size: 30px;
-	margin-bottom: -10px;
+    font-size: 30px;
+    margin-bottom: -10px;
 }
 
 #balance_t p {
-	display: inline-block;
+    display: inline-block;
 }
 
-#balance_int {
-	font-size: 45px;
-	color: #4949e9;
+.formatted-point {
+    font-size: 45px;
+    color: #4949e9;
 }
 
 #balance_text {
-	font-size: 45px;
+    font-size: 45px;
 }
 
 #btn-point {
-	background-color: #4949e9;
-	width: 125px;
-	height: 50px;
-	color: white;
-	font-size: 18px;
-	cursor: pointer;
-	border: none;
+    background-color: #4949e9;
+    width: 125px;
+    height: 50px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
 }
 
 #point_box {
-	margin-left: 100px;
-	width: 750px;
-	display: inline-block;
-	text-align: center;
-	right: 230px;
-	border: 1px solid blue;
+    width: 750px;
+    text-align: center;
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 20px;
+}
+
+#point_box_text {
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #point_history {
-	border: 4px solid #dcf343;
-	border-radius: 10px;
-	padding: 30px;
+    border: 4px solid #dcf343;
+    border-radius: 10px;
+    padding: 30px;
+    width: calc(100% - 60px);
+    margin-top: 40px; 
+    max-height: 400px; 
+    overflow-y: auto; 
+    scrollbar-width: none; 
+}
+
+/* WebKit 브라우저에서 스크롤바 숨기기 */
+#point_history::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 #month {
-	display: inline-block;
-	font-size: 25px;
-	margin-bottom: -5px;
+    display: inline-block;
+    font-size: 25px;
+    margin-bottom: -5px;
 }
 
 #month_list {
-	width: 25px;
-	cursor: pointer;
+    width: 25px;
+    cursor: pointer;
 }
 
 #month_option {
-	padding: 8px 16px;
-	text-align: left;
-	cursor: pointer;
-	/* display: none; */
+    padding: 8px 16px;
+    text-align: left;
+    cursor: pointer;
 }
 
 .month_option:hover {
-	background-color: #f1f1f1;
+    background-color: #f1f1f1;
 }
 
 #date {
-	color: #acacac;
-	margin-bottom: 30px;
+    color: #acacac;
+    margin-bottom: 30px;
 }
 
 .detail {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 .detail_date {
-	float: left;
-	margin: 25px 40px 25px 40px;
-	color: #acacac;
-	font-size: 25px;
+    float: left;
+    margin: 25px 40px 25px 40px;
+    color: #acacac;
+    font-size: 25px;
 }
 
 .detail_point {
-	float: right;
-	margin: 25px 40px 25px 40px;
-	font-size: 25px;
+    float: right;
+    margin: 25px 40px 25px 40px;
+    font-size: 25px;
 }

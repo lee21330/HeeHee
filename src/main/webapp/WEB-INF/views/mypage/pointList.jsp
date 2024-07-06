@@ -20,8 +20,7 @@
 			<div id="balance_t">
 				<fmt:formatNumber value="${sellerInfo.userPoint}" pattern="#,###"
 					var="formattedPoint" />
-				<p id="balance_text">${formattedPoint}원</p>
-
+				<p id="balance_text"><span class="formatted-point">${formattedPoint}</span>원</p>
 			</div>
 			<%-- <%@ include file="/WEB-INF/views/mypage/pointModal.jsp"%> --%>
 			<button id="btn-point">충전하기</button>
