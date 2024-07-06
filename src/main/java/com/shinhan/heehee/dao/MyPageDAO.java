@@ -228,6 +228,14 @@ public class MyPageDAO {
 	public SaleDetailAucDTO saledetailAuc(int proSeq) {
 		return sqlSession.selectOne(namespace + "saledetailAuc", proSeq);
 	}
+	
+	public int updateFirstDstatus() {
+		return sqlSession.update(namespace + "updateFirstDstatus");
+	}
+	
+	public int updateSecondDstatus() {
+		return sqlSession.update(namespace + "updateSecondDstatus");
+	}
 
 
 	

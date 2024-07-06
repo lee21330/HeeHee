@@ -157,10 +157,10 @@ public class MyPageService {
 	}
 
 	public ResponseEntity<?> updatePCheck(int proSeq) {
-		
+
 		Map<String, Object> response = new HashMap<String, Object>();
 		int result = mypageDao.updatePCheck(proSeq);
-		
+
 		if (result == 0) {
 			response.put("success", false);
 			response.put("message", "거래완료에 실패했습니다.");
@@ -192,11 +192,11 @@ public class MyPageService {
 	public int proStatusDelete(int productSeq) {
 		return mypageDao.proStatusDelete(productSeq);
 	}
-	
+
 	public ResponseEntity<?> updateStatus(int productSeq, String proStatus) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		int result = mypageDao.updateStatus(productSeq, proStatus);
-		
+
 		if (result == 0) {
 			response.put("success", false);
 			response.put("message", "상태변경에 실패했습니다.");
@@ -273,7 +273,7 @@ public class MyPageService {
 
 	public ResponseEntity<?> updateAddress(String userId, String address, String detailAddress) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		int result =  mypageDao.updateAddress(userId, address, detailAddress);
+		int result = mypageDao.updateAddress(userId, address, detailAddress);
 
 		if (result > 0) {
 			response.put("success", true);
@@ -298,20 +298,22 @@ public class MyPageService {
 			return response;
 		}
 
-		if (!password.equals(confirmPassword)) {
+		else if (!password.equals(confirmPassword)) {
 			response.put("able", false);
 			response.put("message", "새 비밀번호가 서로 다릅니다.");
 			return response;
 		}
 
-		String encodedPassword = passwordEncoder.encode(password);
-		int result = mypageDao.updatePw(userId, encodedPassword);
-		if (result == 1) {
-			response.put("able", true);
-			response.put("message", "비밀번호 변경에 성공했습니다.");
-		} else {
-			response.put("able", false);
-			response.put("message", "비밀번호 변경에 실패했습니다.");
+		else {
+			String encodedPassword = passwordEncoder.encode(password);
+			int result = mypageDao.updatePw(userId, encodedPassword);
+			if (result == 1) {
+				response.put("able", true);
+				response.put("message", "비밀번호 변경에 성공했습니다.");
+			} else {
+				response.put("able", false);
+				response.put("message", "비밀번호 변경에 실패했습니다.");
+			}
 		}
 
 		return response;
@@ -320,7 +322,5 @@ public class MyPageService {
 	public SaleDetailAucDTO saledetailAuc(int proSeq) {
 		return mypageDao.saledetailAuc(proSeq);
 	}
-
-
 
 }
