@@ -96,6 +96,9 @@
 .receiver-nickname {
 	font-family: 'SEBANG_Gothic_Bold';
 	font-size: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .unread-count {
@@ -206,6 +209,9 @@
 	font-size: 20px;
 	color: #7E7E7E;
 	margin:0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .selling-image {
