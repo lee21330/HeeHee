@@ -13,31 +13,71 @@
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <%-- slick slider --%>
 <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<link rel="stylesheet" href="/heehee/resources/css/auction/detail.css">
 </head>
 
 <body>
 	<%@ include file="../common/header.jsp" %>
-	<div id="mainContainer">
-		<div id="top_area">
-			<img id="aucProdImg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${aucProdInfo.imgName}">
-		</div>
-		<input id = "aucPrice" type="number" value="${aucProdInfo.aucPrice}" disabled>
-		<button id="placeBidBtn">입찰하기</button>
-		<button id="paymentBtn">결제하기</button>
-		<button id="에러" onclick="error()"></button>
-		<div id="response"></div>
+	<script src="/heehee/resources/js/auction/auction.js"></script>
+	<div class="productDetail">
+		<main>
+			<div class="auction-container">
+            <div class="auction-item">
+                <div class="item-image product_slider">
+                	<c:forEach var="product" items="${aucImgs}">
+						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${product.imgName}">
+					</c:forEach>
+                </div>
+                <div class="item-info">
+                	<p class="time-left blue">
+                    	<span class="h"></span>:<span class="m"></span>:<span class="s"></span>
+                    </p>
+                    <h2>${aucProdInfo.auctionTitle}</h2>
+                    <p class="price">${aucProdInfo.aucPrice}원</p>
+                    <p class="bids">입찰자수: 5명</p>
+                    <p class="state">제품 상태: 거의 신품</p>
+                    
+                    <button>입찰하기</button>
+                </div>
+            </div>
+            <div class="item-details">
+                <div class="item-description">
+                    <h3>물품 정보</h3>
+                    <p>상태 깨끗한 품품푸린 인형 이에요...</p>
+                </div>
+                <div class="seller-info">
+                    <h3>판매자 정보</h3>
+                    <p>이두리</p>
+                    <p>안녕하세요 5조 프론트 총괄 담당 이두리입니다.</p>
+                </div>
+            </div>
+            <!-- <div class="related-items">
+                <h3>마감 임박 제품</h3>
+                <div class="items">
+                    <div class="item"><img src="item1.png" alt="item1"></div>
+                    <div class="item"><img src="item2.png" alt="item2"></div>
+                    <div class="item"><img src="item3.png" alt="item3"></div>
+                    <div class="item"><img src="item4.png" alt="item4"></div>
+                    <div class="item"><img src="item5.png" alt="item5"></div>
+                </div>
+            </div> -->
+        </div>
+		</main>
 	</div>
-    <footer>
-        <p>&copy; 2024 희희낙찰. All rights reserved.</p>
-    </footer>
 </body>
 <script>
 	$(document).ready(function() {
+		
+		var userRating = "${info.userRating}"; // EL문법때문에 js파일로 따로 못뺌
+	    var stars = document.querySelectorAll('#seller_score .star');
+
+	    for (var i = 0; i < userRating; i++) {
+	        stars[i].src = 'https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star1.png';
+	    }
 		
 	    connect();
 	    $('#placeBidBtn').click(function() {
@@ -45,46 +85,16 @@
 	    });
 	    
 	    $('#paymentBtn').click(function() {
-	        payment();
+	    	payForPoint("포인트:5000", 5000);
 	    });
+	    
+	    remaindTime();
+	    
+	    setInterval(function() {
+	    	remaindTime();
+		 },1000);
 	});
 	
-	function payment() {
-		IMP.init("imp22447463");
-		IMP.request_pay(
-				  {
-				    pg: "html5_inicis.INIpayTest", //테스트 시 html5_inicis.INIpayTest 기재
-				    pay_method: "card",
-				    merchant_uid: "order_no_0003", //상점에서 생성한 고유 주문번호
-				    name: "포인트:5000",
-				    amount: 1,
-				    buyer_email: "test@portone.io",
-				    buyer_name: "sinsang",
-				    buyer_tel: "010-1234-5678", //필수 파라미터 입니다.
-				    buyer_addr: "서울특별시 강남구 삼성동",
-				    buyer_postcode: "123-456",
-				    m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}",
-				    escrow: true, //에스크로 결제인 경우 설정
-				    vbank_due: "20240725",
-				    bypass: {
-				      // PC 경우
-				      acceptmethod: "noeasypay", // 간편결제 버튼을 통합결제창에서 제외(PC)
-				      // acceptmethod: "cardpoint", // 카드포인트 사용시 설정(PC)
-				      // 모바일 경우
-				      P_RESERVED: "noeasypay=Y", // 간편결제 버튼을 통합결제창에서 제외(모바일)
-				      // P_RESERVED: "cp_yn=Y", // 카드포인트 사용시 설정(모바일)
-				      // P_RESERVED: "twotrs_bank=Y&iosapp=Y&app_scheme=your_app_scheme://", // iOS에서 계좌이체시 결제가 이뤄지던 앱으로 돌아가기
-				    },
-				    period: {
-				      from: "20240101", //YYYYMMDD
-				      to: "20241231", //YYYYMMDD
-				    },
-				  },
-				  function (rsp) {
-				    console.log(rsp);
-				  },
-				);
-	}
 	
     var stompClient = null;
     
@@ -118,11 +128,11 @@
     	return num < 10 ? "0" + num : String(num);
 	}
 	
-	function remaindTime(seq, expDate, expTime) {
-		var expD = expDate;
+	function remaindTime() {
+		var expD = "${aucProdInfo.expDate}";
 		var dSplit = expD.split("/");
 		
-		var expT = expTime;
+		var expT = "${aucProdInfo.expTime}";
 		var tSplit = expT.split(":");
 		
 	    var now = new Date();
@@ -135,28 +145,14 @@
       	let SS = fGet2char(Math.floor((gap % 60000) / 1000));
       
 	    if((gap/60000) < 30) {
-	    	$(".c_" + seq).removeClass("blue");
-	    	$(".c_" + seq).addClass("red");
+	    	$(".time-left").removeClass("blue");
+	    	$(".time-left").addClass("red");
 	    }
 	    
-	    $(".h_" + seq).html(HH);
-	    $(".m_" + seq).html(MM);
-	    $(".s_" + seq).html(SS);
+	    $(".h").html(HH);
+	    $(".m").html(MM);
+	    $(".s").html(SS);
 	}
 	
-	function error() {
-		$.ajax({
-		    url: '/heehee/auc/detail/asdfasf',
-		    method: 'GET',
-		    success: function (data, status, xhr) {
-		    	console.log(data);
-		    	console.log(status);
-		    	console.log(xhr);
-		    },
-		    error: function (data, status, err) {
-		    	console.log(err);
-		    }
-		});
-	}
     </script>
 </html>

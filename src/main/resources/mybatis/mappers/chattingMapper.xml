@@ -5,10 +5,10 @@
 <!-- 채팅방 목록에 필요한 정보 불러오기 -->
 	<select id="getRoomList" parameterType="String" resultType="com.shinhan.heehee.dto.response.ChatRoomDTO">
 		select room_id as id,
-		(
-		select max(m.content) keep(dense_rank first order by m.send_time desc)
-		from chat_message m
-		where m.room_id=r.room_id) as lastcontent,
+		(select m.content from chat_message m
+		                  where m.msg_id=(select max(msg_id)
+		                                  from chat_message m
+		                                  where r.room_id = m.room_id)) as lastcontent,
 		to_char((select max(send_time) from chat_message m where m.room_id=r.room_id),
 		'MM/DD') sendtime,
 		COALESCE(NVL2((SELECT seller FROM chat_room r2
@@ -70,6 +70,14 @@
                   (SELECT ARTICLE_TITLE from sell_product s where r.sell_seq=s.product_seq),
                   (SELECT auction_TITLE from auc_product a where r.auc_seq=a.product_seq)),null)
       as productName,
+      coalesce(nvl2((select sell_seq from chat_room r2 where r2.room_id=r.room_id),
+                  (SELECT STATUS from pay_history p where r.sell_seq=p.sell_seq and r.buyer=p.buyer_id),
+                  (SELECT STATUS from pay_history p where r.auc_seq=p.auc_seq and r.buyer=p.buyer_id)),null)
+      as payStatus,
+      NVL((select pro_status from sell_product s
+                              where r.sell_seq=s.product_seq), null) AS sellProStatus,
+      NVL((select deal from sell_product s
+                              where r.sell_seq=s.product_seq), null) AS dealStatus,
   	  COALESCE(NVL2((SELECT seller from chat_room r2 where r2.room_id=r.room_id and r2.seller=#{loginUserId}),
               '판매자', '구매자'),
              null) AS status
@@ -93,6 +101,13 @@
     where id=#{loginUserId}
 </select>
 
+<!-- 구매자 id & 판매물품 시퀀스와 일치하는 채팅방이 있는지 확인-->
+<select id="checkSellerChat" parameterType="hashMap" resultType="int">
+	select count(*)
+	from chat_room
+	where seller=#{sellerId} and sell_seq=#{sellSeq}
+</select>
+
 <!-- 메시지 읽음 체크 -->
 <update id="updateReadCheck">
 	update chat_message
@@ -114,14 +129,21 @@
 	where id=#{loginUserId}
 </update>
 
-<!-- 약속 잡기 시 상품 상태 업데이트 -->
-<update id="updateProStatus">
+<!-- 약속 잡기 / 결제 시 상품 상태 업데이트 -->
+<update id="updateReserve">
 	update sell_product
 	set pro_status='예약중'
 	where product_seq=#{productSeq}
 </update>
 
-<!-- 약속 잡기 시 거래내역 데이터 추가 -->
+<!-- 약속 취소 시 상품 상태 업데이트 -->
+<update id="cancelReserve">
+	update sell_product
+	set pro_status='판매중'
+	where product_seq=#{productSeq}
+</update>
+
+<!-- 약속 잡기 / 결제 시 거래내역 데이터 추가 -->
 <insert id="insertDeal">
 	<selectKey keyProperty="dealSeq" order="BEFORE" resultType="int">
          SELECT deal_seq.NEXTVAL FROM DUAL
@@ -129,12 +151,24 @@
      insert into deal_history values(#{dealSeq}, #{buyerId}, null, null, null, #{productSeq}, null)
 </insert>
 
+<!-- 약속 취소 시 거래내역 데이터 삭제 -->
+<delete id="deleteDeal">
+    delete from deal_history
+    where buyer_id=#{buyerId} and sell_seq=#{productSeq}
+</delete> 
+
+<!-- 판매자와 채팅 클릭 시 채팅방 생성 -->
+<insert id="insertChatRoom" parameterType="hashMap">
+    insert into chat_room
+    values(seq_room.nextval, #{sellerId}, #{loginUserId}, null, #{sellSeq})
+</insert>
+
 <!-- 이미지 없이 텍스트만 보낸 경우 -->
 <insert id="insertMessage" parameterType="com.shinhan.heehee.dto.request.ChatMessageDTO">
 	<selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
-     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, 'N')
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, SYSDATE, #{readCheck})
 </insert>
 
 <!-- 이미지를 보낸 경우 (1)메세지 저장 / content: [img] 이미지 이름 -->
@@ -142,7 +176,7 @@
      <selectKey keyProperty="msgId" order="BEFORE" resultType="int">
          SELECT SEQ_MESSAGE.NEXTVAL FROM DUAL
      </selectKey>
-     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, TO_DATE(#{sendTime}, 'YYYY/MM/DD HH24:mi:ss'), 'N')
+     insert into chat_message values(#{msgId}, #{roomId}, #{sender}, #{receiver}, #{content}, TO_DATE(#{sendTime}, 'YYYY/MM/DD HH24:mi:ss'), #{readCheck})
 </insert>
 
 <!-- 이미지를 보낸 경우 (2)이미지 저장 / content: 폴더/이미지이름 -->

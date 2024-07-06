@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
@@ -18,9 +17,11 @@ import com.shinhan.heehee.dto.response.InsertQnADTO;
 import com.shinhan.heehee.dto.response.InsertQnAImgDTO;
 import com.shinhan.heehee.dto.response.JjimDTO;
 import com.shinhan.heehee.dto.response.MyPageHeaderDTO;
+import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
+import com.shinhan.heehee.dto.response.SaleDetailAucDTO;
 import com.shinhan.heehee.dto.response.SaleDetailDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
@@ -52,15 +53,6 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "saleList", params);
 	}
 
-//	public int userIntroduce(String intro, String userId) {
-//		Map<String, Object> params = new HashMap<>();
-//		params.put("introduce", intro);
-//		params.put("userId", userId);
-//		return sqlSession.update(namespace + "userIntroduce", params);
-//	}
-
-
-
 	public List<QnADTO> qnaOption() {
 		return sqlSession.selectList(namespace + "qnaOption");
 	}
@@ -73,11 +65,8 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "myQna", userId);
 	}
 
-	public int insertQna(InsertQnADTO qna, List<MultipartFile> uploadImgs) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("qna", qna);
-		params.put("uploadImgs", uploadImgs);
-		return sqlSession.insert(namespace + "insertQna", params);
+	public int insertQna(InsertQnADTO qna) {
+		return sqlSession.insert(namespace + "insertQna", qna);
 	}
 
 	public int insertQnaImg(InsertQnAImgDTO qnaImg) {
@@ -118,6 +107,9 @@ public class MyPageDAO {
 	public int updateSCheck(int proSeq) {
 		return sqlSession.update(namespace + "updateSCheck", proSeq);
 	}
+	public int updatePCheck(int proSeq) {
+		return sqlSession.update(namespace + "updatePCheck", proSeq);
+	}
 
 	public List<BankKindDTO> bankList() {
 		return sqlSession.selectList(namespace + "bankList");
@@ -137,7 +129,7 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "saleListAuc", params);
 	}
 
-	public List<PurchaseListDTO> purchaselistAuc(String userId) {
+	public List<SaleListAucDTO> purchaselistAuc(String userId) {
 		return sqlSession.selectList(namespace + "purchaselistAuc", userId);
 	}
 
@@ -177,5 +169,75 @@ public class MyPageDAO {
 		// 현재 암호화된 비밀번호 조회
 		return sqlSession.selectOne(namespace + "selectEncPw", userId);
 	}
+
+	public int deleteUser(String userId) {
+		return sqlSession.delete(namespace + "deleteUser", userId);
+	}
+	public int deleteAucId(String userId) {
+		return sqlSession.update(namespace + "deleteAucId", userId);
+	}
+	public int deleteId(String userId) {
+		return sqlSession.update(namespace + "deleteId", userId);
+	}
+	public int deleteChatBySeller(String userId) {
+		return sqlSession.update(namespace + "deleteChatBySeller", userId);
+	}
+
+	public int deleteChatByBuyer(String userId) {
+		return sqlSession.update(namespace + "deleteChatByBuyer", userId);
+	}
+	
+	
+	public int chargePoint(String userId, Integer userPoint) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("userPoint", userPoint);
+		return sqlSession.update(namespace + "chargePoint", params);
+	}
+
+	public List<PointListDTO> searchPoint(String userId, String year, String monthPart) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("YEAR", year);
+		params.put("MONTH", monthPart);
+		return sqlSession.selectList(namespace + "searchPoint", params);
+	}
+
+	public int updatePhone(String userId, String phone) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("phone", phone);
+		return sqlSession.update(namespace + "updatePhone", params);
+	}
+
+	public int updateAddress(String userId, String address, String detailAddress) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("address", address);
+		params.put("detailAddress", detailAddress);
+		return sqlSession.update(namespace + "updateAddress", params);
+	}
+
+	public int updatePw(String userId, String pw) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("pw", pw);
+		return sqlSession.update(namespace + "updatePw", params);
+	}
+
+	public SaleDetailAucDTO saledetailAuc(int proSeq) {
+		return sqlSession.selectOne(namespace + "saledetailAuc", proSeq);
+	}
+	
+	public int updateFirstDstatus() {
+		return sqlSession.update(namespace + "updateFirstDstatus");
+	}
+	
+	public int updateSecondDstatus() {
+		return sqlSession.update(namespace + "updateSecondDstatus");
+	}
+
+
+	
 
 }

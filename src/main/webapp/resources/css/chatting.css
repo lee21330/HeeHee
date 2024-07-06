@@ -25,7 +25,6 @@
 
 .chatting-list {
 	width: 40%;
-	/* border: 1px solid black; */
 	list-style: none;
 	overflow: auto;
 	align-items: center;
@@ -34,8 +33,7 @@
 .chatting-item {
 	width: 90%;
 	display: flex;
-	padding: 10px 10px; /*위아래, 왼쪽오른쪽 */
-	/* border: 1px solid blue; */
+	padding: 10px 10px;
 	cursor: pointer;
 }
 
@@ -128,6 +126,26 @@
 	margin-left:auto;
 }
 
+.noneRoom{
+	margin: 150px 50px 50px 50px;
+	text-align: center;
+}
+
+.noneRoom span{
+	font-size: 20px;
+	margin-bottom: 100px;
+}
+
+.noneRoom p{
+	margin: 10px;
+}
+
+.noneRoomChat{
+	font-size: 20px;
+	margin: 120px 50px 50px 50px;
+	text-align: center;
+}
+
 .chatting-content {
 	width: 60%;
 	/* border: 1px solid gray; */
@@ -154,6 +172,13 @@
 .selling-info{
 	display:flex;
 	flex-direction: row;
+}
+
+.button-div {
+	display: flex;
+    flex-direction: row;
+    margin-left:auto;
+    gap: 10px;
 }
 
 .price-name{
@@ -187,8 +212,6 @@
 	background-color:#ABC3FF;
 	color:#FFFFFF;
 	border:none;
-	margin-left:auto;
-	margin-right:30px;
 	margin-top:auto;
 	height: 50%;
 	font-size: 15px;
@@ -201,8 +224,6 @@
 	background-color:#ABC3FF;
 	color:#FFFFFF;
 	border:none;
-	margin-left:10px;
-	margin-right:30px;
 	margin-top:auto;
 	height: 50%;
 	font-size: 15px;
@@ -215,13 +236,16 @@
 	background-color:#ABC3FF;
 	color:#FFFFFF;
 	border:none;
-	margin-left:auto;
-	margin-right:10px;
 	margin-top:auto;
 	height: 50%;
 	font-size: 15px;
 	cursor: pointer;
 	width:100px;
+}
+
+.pay:disabled{
+	background-color:#858585;
+	cursor: not-allowed;
 }
 
 .reserve:disabled{

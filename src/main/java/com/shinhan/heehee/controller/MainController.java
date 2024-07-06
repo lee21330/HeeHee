@@ -41,9 +41,9 @@ public class MainController {
 		return "/main/main";
 	}
 	
-	@GetMapping("/auc")
-	public String auction(Model model) {
-		model.addAttribute("aucList", auctionService.aucProdList());
-		return "/main/auction";
+	@GetMapping("/main/search")
+	public String search(Model model) {
+		model.addAttribute("rankProdList", mainservice.rankProdList());
+		return "/main/search";
 	}
 }

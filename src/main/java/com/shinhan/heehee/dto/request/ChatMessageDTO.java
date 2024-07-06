@@ -19,4 +19,5 @@ public class ChatMessageDTO {
 	private String content;
 	private String sendTime;
 	private List<String> imgs;
+	private String readCheck;
 }

@@ -28,6 +28,14 @@
 	background: #ececec;
 }
 
+.recommandProdDiv:hover {
+	background: #ececec;
+}
+
+.nowRegProdDiv:hover {
+	background: #ececec;
+}
+
 .product_img:hover {
 	cursor: pointer;
 }

@@ -16,4 +16,6 @@ import lombok.ToString;
 public class JjimDTO {
 	private int productSeq;
 	private String id;
+	private String userId;
+	private int JJIM_CNT;
 }

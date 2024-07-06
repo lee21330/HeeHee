@@ -26,14 +26,38 @@
 	<div class="productDetail">
 		<main>
 			<div class="product-container">
-				<c:if test="${userId == info.id && info.proStatus != '예약중'}">
+				<c:if test="${userId == info.id && info.proStatus == '판매중'}">
 				<div class="product_slider">
 					<c:forEach var="product" items="${prodImgList}">
 						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 					</c:forEach>
 				</div>
 				</c:if>
-				<c:if test="${userId == info.id && info.proStatus == '예약중'}">
+				<c:if test="${userId == info.id && info.proStatus == '판매중지'}">
+				<div class="product_slider">
+					<c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">판매 중지된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				</div>
+				</c:if>
+				<c:if test="${userId == info.id && info.proStatus == '판매보류'}">
+				<div class="product_slider">
+					<c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">판매보류된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				</div>
+				</c:if>
+				<c:if test="${userId == info.id && info.proStatus == '예약중'  && info.deal == '직거래'}">
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
@@ -45,7 +69,19 @@
 				        </c:forEach>
 				    </div>
 				</c:if>
-				<c:if test="${userId != info.id && info.proStatus != '예약중'}">
+				<c:if test="${userId == info.id && info.proStatus == '예약중'  && info.deal == '택배'}">
+				    <div class="product_slider">
+				        <c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">결제가 완료된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+				<c:if test="${userId != info.id && info.proStatus == '판매중'}">
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
@@ -54,7 +90,43 @@
 				        </c:forEach>
 				    </div>
 				</c:if>
-				<c:if test="${userId != info.id && info.proStatus == '예약중'}">
+				<c:if test="${userId != info.id && info.proStatus == '판매중지'}">
+				    <div class="product_slider">
+				        <c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">판매 중지된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+				<c:if test="${userId != info.id && info.proStatus == '판매보류'}">
+				    <div class="product_slider">
+				        <c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">판매 보류된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+				<c:if test="${userId != info.id && info.proStatus == '예약중' && info.deal == '택배'}">
+				    <div class="product_slider">
+				        <c:forEach var="product" items="${prodImgList}">
+				            <div class="product_item">
+				            <div id="overlay">
+				                <p id="postpone">결제가 완료된 상품입니다.</p>
+				            </div>
+				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+				<c:if test="${userId != info.id && info.proStatus == '예약중' && info.deal == '직거래'}">
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
@@ -75,26 +147,56 @@
 					<div class="title-container">
 
 						<p id="product_name">${info.articleTitle}</p>
-						<a href="#" class="price-check-link">시세조회</a>
+						<!-- <a href="#" class="price-check-link">시세조회</a> -->
 
 					</div>
-					<p id="product_price">${info.productPrice}원</p>
+					<p id="product_price"><fmt:formatNumber value="${info.productPrice}" pattern="#,###" />원</p>
 					<p id="product_etc">
 					<fmt:formatDate value="${info.createDate}" pattern="yyyy/MM/dd" type="date"/>
 					· 
 					조회 ${info.viewCnt}
 					· 
-					찜 ${info.jjimCnt} 
-					<span id="fullHeart">❤️</span>
-					<span id="emptyHeart">🤍</span></p>
+					찜 <span id="jjim_Cnt">${info.jjimCnt}</span>
+					<c:if test="${userId == info.id}">
+						<span id="fullHeart" style="display: none">❤️</span>
+						<span id="emptyHeart" style="display: none">🤍</span>
+					</c:if>
+					<c:if test="${userId == 'admin'}">
+						<span id="fullHeart" style="display: none">❤️</span>
+						<span id="emptyHeart" style="display: none">🤍</span>
+					</c:if>
+					<c:if test="${userId != 'admin' && userId != info.id && info.specifiedJjimCnt >= 1}">
+						<span id="fullHeart">❤️</span>
+						<span id="emptyHeart" style="display: none">🤍</span>
+					</c:if>
+					<c:if test="${userId != 'admin' && userId != info.id && info.specifiedJjimCnt == 0}">
+						<span id="fullHeart" style="display: none">❤️</span>
+						<span id="emptyHeart">🤍</span>
+					</c:if>
+					</p>
 					<ul id="product_state">
 						<li>제품 상태: ${info.condition}</li>
 						<li>거래 방식: ${info.deal}</li>
 						<c:if test="${info.deal == '택배'}">
-							<li>배송비: ${info.DCharge}원</li>
+							<li>배송비: <fmt:formatNumber value="${info.DCharge}" pattern="#,###"/>원</li>
 						</c:if>
 					</ul>
-					<c:if test="${userId == info.id && info.proStatus != '예약중'}">
+					<c:if test="${userId == info.id && info.proStatus == '판매중'}">
+						<div class="button-container">
+							<button onclick="location.href='${path}/sell/productmodify/${info.productSeq}'" id="gochat" style="cursor: pointer">물품정보 수정</button>
+							<button id="gobuy" style="cursor: pointer">판매상태 수정</button>
+							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
+						</div>
+					</c:if>
+					<c:if test="${userId == info.id && info.proStatus == '판매중지'}">
+						<div class="text-container">
+							<p id="reserve_explanation">※ 판매 중지된 물품은 수정할 수 없습니다.</p>
+							<p id="banReason">판매중지 사유</p>
+							<p id="paused_explanation">${info.productBanReason}</p>
+							
+						</div>
+					</c:if>
+					<c:if test="${userId == info.id && info.proStatus == '판매보류'}">
 						<div class="button-container">
 							<button onclick="location.href='${path}/sell/productmodify/${info.productSeq}'" id="gochat" style="cursor: pointer">물품정보 수정</button>
 							<button id="gobuy" style="cursor: pointer">판매상태 수정</button>
@@ -103,36 +205,60 @@
 					</c:if>
 					<c:if test="${userId == info.id && info.proStatus == '예약중'}">
 						<div class="button-container">
-							<p id="reserve_explanation">예약중인 물품은 수정할 수 없습니다.</p>
+							<p id="reserve_explanation">※ 예약중인 물품은 수정할 수 없습니다.</p>
 							<%@include file="/WEB-INF/views/used/proStatusmodify.jsp" %>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.proStatus == '예약중'}">
+					<c:if test="${userId != info.id && info.proStatus == '예약중' && info.deal == '택배'}">
 						<div class="button-container">
-							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
+							<p id="reserve_explanation">※ 이미 거래가 완료된 상품입니다.</p>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.deal == '택배' && info.proStatus != '예약중'}">
+					<c:if test="${userId != info.id && info.proStatus == '예약중' && info.deal == '직거래'}">
 						<div class="button-container">
-							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
-							<button id="gobuy" style="cursor: pointer">즉시구매</button>
+							<button loginUserId="${userId}" sellerId = "${info.id}" sellSeq = "${info.productSeq}" id="gochat" class="seller-chat" style="cursor: pointer">판매자와 채팅하기</button>
 						</div>
 					</c:if>
-					<c:if test="${userId != info.id && info.deal == '직거래' && info.proStatus != '예약중'}">
+					<c:if test="${userId != info.id && info.proStatus == '판매중' && info.deal == '택배'}">
 						<div class="button-container">
-							<button onclick="location.href='${path}/chat/${info.productSeq}'" id="gochat" style="cursor: pointer">판매자와 채팅하기</button>
+							<button loginUserId="${userId}" sellerId = "${info.id}" sellSeq = "${info.productSeq}" id="gochat" class="seller-chat" style="cursor: pointer">판매자와 채팅하기</button>
+							<button id="gobuy" style="cursor: pointer" prodSeq = "${info.productSeq}" alarmId="${info.id}" onclick='payForSell("${info.prodName}",${info.productPrice},${info.productSeq}, "${info.id}")'>즉시구매</button>
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.proStatus == '판매중' && info.deal == '직거래'}">
+						<div class="button-container">
+							<button loginUserId="${userId}" sellerId = "${info.id}" sellSeq = "${info.productSeq}" id="gochat" class="seller-chat" style="cursor: pointer">판매자와 채팅하기</button>
 							<button id="disabled_btn" disabled>즉시구매</button>
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.proStatus == '판매중지'}">
+						<div class="button-container">
+							<p id="reserve_explanation">※ 판매 중지된 물품은 구매할 수 없습니다.</p>
+						</div>
+					</c:if>
+					<c:if test="${userId != info.id && info.proStatus == '판매보류'}">
+						<div class="button-container">
+							<p id="reserve_explanation">※ 판매 보류된 물품은 구매할 수 없습니다.</p>
 						</div>
 					</c:if>
 					
 				</div>
 				<div id="plusArea">
-					<p>최근 본 상품</p>
+				<c:if test="${userId != 'admin'}">
+					<p id="">최근 본 상품</p>
 					<div id="recentArea">
-						<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
-						<img class="recentimg" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/nuboori.png" style="cursor: pointer">
+						
+							<c:forEach var="recent" items="${recentlyList}">
+							<img class="recentimg" onclick="location.href='${path}/sell/productdetail/${recent.productSeq}'"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recent.imgName}" style="cursor: pointer">
+							</c:forEach>
+						
 					</div>
-					<p id="gotop" style="cursor: pointer">TOP</p>
+				</c:if>
+				<div id="plus_container">
+					<img id="top_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png">
+					<p id="gotop">TOP</p>
+				</div>
 				</div>
 			</div>
 			<div class="info-container">
@@ -146,7 +272,8 @@
 					<hr>
 					<div id="seller_score">
 						<img id="sellerimg" onclick="location.href='${path}/sell/sellerProfile/${info.id}'" style="cursor: pointer"
-						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}">
+						src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${info.profileImg}" 
+						onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 						<div>
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
@@ -175,8 +302,28 @@
 	
 	<script>
 	$(function () {
-		$("#fullHeart").on("click", addJjim);
-		$("#emptyHeart").on("click", deleteJjim);
+		
+		$("#emptyHeart").on("click", addJjim);
+		$("#fullHeart").on("click", deleteJjim);
+		
+		var productSeq = ${info.productSeq};
+        var id = "${userId}";
+
+        
+        
+    	/* $.ajax({
+            url: '/heehee/sell/selectJjim',
+            method: 'GET',
+            contentType: 'application/json',
+            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
+            success: function (data, status, xhr) {
+                console.log(data);
+               
+            },
+            error: function (data, status, err) {
+                console.log(err);
+            }
+        }); */
 	});
 	
 	document.addEventListener('DOMContentLoaded', function () {
@@ -190,24 +337,51 @@
 	
 	
     function addJjim() {
-    	$('#fullHeart').hide();
-        $('#emptyHeart').show();
+    	$('#emptyHeart').hide();
+        $('#fullHeart').show();
         
         var productSeq = ${info.productSeq};
+        var id = "${userId}";
     	$.ajax({
-            url: '/heehee/sell/cancelreserve',
-            method: 'PUT',
+            url: '/heehee/sell/insertJjim',
+            method: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ "productSeq": productSeq }),
+            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
             success: function (data, status, xhr) {
                 console.log(data);
                 if(data.success == true) {
                     showTost(data.message);
-                    $("#current_status").text("현재 상태: 판매중");
-                    $("#cancel_reserve_btn").off("click");
-                    $("#cancel_reserve_btn").text("예약하기");
-                    $("#cancel_reserve_btn").attr("id", "to_reserve_btn");
-                    $("#to_reserve_btn").on("click", toReserve);
+                    $('#product_etc').val('${info.jjimCnt}');
+                    updateProduct();
+                } else {
+                	showTost(data.message);
+                }
+            },
+            error: function (data, status, err) {
+                console.log(err);
+            }
+        });
+    	
+    	
+    }
+        
+    function deleteJjim() {
+    	$('#fullHeart').hide();
+        $('#emptyHeart').show();
+        
+        var productSeq = ${info.productSeq};
+        var id = "${userId}";
+    	$.ajax({
+            url: '/heehee/sell/deleteJjim',
+            method: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ "productSeq": productSeq, "id": id }),
+            success: function (data, status, xhr) {
+                console.log(data);
+                if(data.success == true) {
+                    showTost(data.message);
+                    $('#product_etc').val('${info.jjimCnt}');
+                    updateProduct();
                 } else {
                 	showTost(data.message);
                 }
@@ -217,13 +391,32 @@
             }
         });
     }
-        
-    function deleteJjim() {
-    	$('#emptyHeart').hide();
-        $('#fullHeart').show();
+    
+    function updateProduct() {
+        var productSeq = ${info.productSeq};  // 현재 제품의 고유 번호
+
+        // AJAX 요청을 통해 서버로부터 최신 데이터 가져오기
+        $.ajax({
+            url: '/heehee/sell/LatestJjimCnt',
+            method: 'GET',
+            data: { "productSeq": productSeq },
+            success: function(data) {
+            	console.log(data);
+                if (data.success) {
+                    $('#jjim_Cnt').text(data.jjimCnt);
+                    console.log(data.jjimCnt);
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function(xhr, status, err) {
+                console.error('Error fetching latest jjim count:', err);
+            }
+        });
     }
-	
-	
+
+    
+    
 	</script>
 </body>
 </html>

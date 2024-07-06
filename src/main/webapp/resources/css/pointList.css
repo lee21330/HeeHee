@@ -3,7 +3,7 @@
 .pointList {
 	width: 1280px;
 	margin: 0 auto;
-border: 1px solid red;
+	border: 1px solid red;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -11,10 +11,10 @@ border: 1px solid red;
 
 #point_text {
 	width: 350px;
-    display: inline-block;
-    text-align: center;
-    margin-left: 50px;
-    border: 1px solid pink;
+	display: inline-block;
+	text-align: center;
+	margin-left: 50px;
+	border: 1px solid pink;
 }
 
 #balance {
@@ -33,7 +33,6 @@ border: 1px solid red;
 
 #balance_text {
 	font-size: 45px;
-	
 }
 
 #btn-point {
@@ -48,11 +47,11 @@ border: 1px solid red;
 
 #point_box {
 	margin-left: 100px;
-    width: 750px;
+	width: 750px;
 	display: inline-block;
 	text-align: center;
-    right: 230px;
-    border: 1px solid blue;
+	right: 230px;
+	border: 1px solid blue;
 }
 
 #point_history {
@@ -63,37 +62,24 @@ border: 1px solid red;
 
 #month {
 	display: inline-block;
-}
-
-#month_list{
-	width: 25px;
-	cursor: pointer;
-}
-
-#month {
 	font-size: 25px;
 	margin-bottom: -5px;
 }
 
-#month_dropdown {
-    display: none;
-    
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    width: 100px;
+#month_list {
+	width: 25px;
+	cursor: pointer;
 }
 
-.month_option {
-    padding: 8px 16px;
-    text-align: left;
-    cursor: pointer;
+#month_option {
+	padding: 8px 16px;
+	text-align: left;
+	cursor: pointer;
+	/* display: none; */
 }
 
 .month_option:hover {
-    background-color: #f1f1f1;
+	background-color: #f1f1f1;
 }
 
 #date {
@@ -102,7 +88,7 @@ border: 1px solid red;
 }
 
 .detail {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .detail_date {

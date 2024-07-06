@@ -27,9 +27,11 @@ public class UserDTO implements UserDetails{
     private String password;
     private String role;
     private String email;
-    private String phone_num;
-    private String acc_num;
-    private String nick_name;
+    private String phoneNum;
+    private String accountNum;
+    private String nickName;
+    private String address;
+    private String detailAddress;
 
 
     // 이하 코드는 security 를 위한 용도
