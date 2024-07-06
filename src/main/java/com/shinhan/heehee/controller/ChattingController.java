@@ -8,28 +8,29 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shinhan.heehee.config.WebSocketEventListener;
 import com.shinhan.heehee.dto.request.ChatMessageDTO;
+import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 import com.shinhan.heehee.service.AWSS3Service;
 import com.shinhan.heehee.service.ChattingService;
+import com.shinhan.heehee.service.MainService;
 
 @Controller
 @RequestMapping("/chatting")
@@ -37,18 +38,25 @@ public class ChattingController {
 
 	@Autowired
 	private ChattingService cService;
+	
+	@Autowired
+	private MainService mainservice;
 
 	@Autowired
 	private AWSS3Service s3Service;
 
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
-
-	String userId = "";
-
+	
+	@Autowired
+    private WebSocketEventListener webSocketEventListener;
+	
 	// 채팅 페이지
 	@GetMapping
 	public String chatting(Model model, Principal principal) {
+		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
+		model.addAttribute("mainCateList", mainCateList);
+		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
 		// model에 담을 것: 유저별 채팅방 목록
@@ -61,8 +69,10 @@ public class ChattingController {
 	@GetMapping(value = "/roomList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ChatRoomDTO> getRoomList(Principal principal) {
+		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
+		//System.out.println(cService.getRoomList(userId));
 		return cService.getRoomList(userId); // 로그인 유저 Id 전달
 	}
 
@@ -70,6 +80,7 @@ public class ChattingController {
 	@GetMapping(value = "/{id}", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public RoomDetailDTO getRoomDetail(@PathVariable("id") int chatRoomId, Principal principal) {
+		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -109,44 +120,21 @@ public class ChattingController {
 		cService.reserve(map);
 	}
 	
-
-	// 메시지(+이미지) insert
-	// (1) 메시지 전송
-	/*
-	 * @PostMapping("/message")
-	 * 
-	 * @ResponseBody public String insertMessage(@RequestBody ChatMessageDTO
-	 * messageDTO) throws IOException { System.out.println(messageDTO);
-	 * cService.insertMessage(messageDTO); return "test"; }
-	 */
-
-	// (2) 사진 전송
-	/*
-	 * @PostMapping("/image")
-	 * 
-	 * @ResponseBody public void insertImage(@RequestPart(required = false)
-	 * ChatMessageDTO messageDTO,
-	 * 
-	 * @RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
-	 * if(imgs!=null && !imgs.isEmpty()) { String filePath ="images/chat/";
-	 * s3Service.uploadObject(imgs, filePath); for(MultipartFile img : imgs) {
-	 * if(img!=null && !img.isEmpty()) {
-	 * System.out.println(img.getOriginalFilename());
-	 * cService.insertMsgImg(messageDTO, img); } } } }
-	 */
-
-	/*@PostMapping("/message")
+	//약속 취소
+    @PostMapping("/reserve/cancel")
 	@ResponseBody
-	public void insertMessage(@RequestPart(required = false) ChatMessageDTO messageDTO,
-			@RequestPart(required = false) List<MultipartFile> imgs) throws IOException {
-		if (imgs != null && !imgs.isEmpty()) {
-			messageDTO.setImgs(imgs);
-			cService.insertMsgImg(messageDTO);
-		} else {
-			cService.insertMessage(messageDTO);
-		}
-	}*/
+	public void cancelReserve(@RequestBody Map<String, Object> map) {
+		cService.cancelReserve(map);
+	}
+    
+    //채팅방 생성: 판매자와 채팅 클릭 시
+    @PostMapping("/seller")
+    @ResponseBody
+	public int insertChatRoom(@RequestBody Map<String, Object> map) {
+		return cService.insertChatRoom(map);
+    }
 
+    //이미지 업로드: js에서 사용
 	@PostMapping("/upload/image")
 	@ResponseBody
 	public List<String> uploadImages(@RequestPart List<MultipartFile> imgs) throws IOException {
@@ -165,20 +153,26 @@ public class ChattingController {
 		}
 		return imgNames;
 	}
-
+	
 	// 소켓: 메시지(+이미지) insert
-	// @SendTo 대신 converAndSend 사용
+	// @SendTo 대신 convertAndSend 사용
 	@MessageMapping("/chat")
 	public void sendMessage(ChatMessageDTO message) throws IOException {
-		// 메세지 Insert 로직 구현 필요
-		if (message.getImgs() != null && !message.getImgs().isEmpty()) {
-			System.out.println("이미지 확인");
-			cService.insertMsgImg(message);
+		int subscribeCount = webSocketEventListener.getSubscribersCount("/topic/chatroom/" + message.getRoomId());
+		
+		if(subscribeCount>=2) {
+			message.setReadCheck("Y");
 		} else {
-			System.out.println("텍스트 확인");
-			cService.insertMessage(message);
+			message.setReadCheck("N");
 		}
+		
+		cService.saveMessage(message);
 
 		messagingTemplate.convertAndSend("/topic/chatroom/" + message.getRoomId(), message);
+	}
+	
+	@MessageMapping("/joinRoom")
+	public void joinRoom(Map<String,Object> map) throws IOException {
+		messagingTemplate.convertAndSend("/topic/chatroom/" + map.get("roomId"), map);
 	}
 }

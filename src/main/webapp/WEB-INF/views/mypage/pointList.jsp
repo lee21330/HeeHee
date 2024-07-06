@@ -23,14 +23,12 @@
 				<p id="balance_text">${formattedPoint}원</p>
 
 			</div>
-			<%@ include file="/WEB-INF/views/mypage/pointModal.jsp"%>
+			<%-- <%@ include file="/WEB-INF/views/mypage/pointModal.jsp"%> --%>
 			<button id="btn-point">충전하기</button>
 		</div>
 		<div id="point_box">
 			<div id="point_box_text">
 				<div id="month">
-					<!-- <p id="month">5월</p>
-					<img id="month_list" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow2.png"> -->
 					
 						<input type="month" id="month_option" onchange="searchPointList()" >
 				

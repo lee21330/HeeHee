@@ -13,7 +13,8 @@
 <%@ include file="../common/header.jsp"%>
 <body>
 	<script src="/heehee/resources/js/purchaseDetail.js"></script>
-	<div class="purchaseDetail">
+	aa
+	<%-- <div class="purchaseDetail">
 		<p id="proStatus">${saleDetail.proStatus}</p>
 
 		<div id="product">
@@ -79,6 +80,6 @@
 			</div>
 		</div>
 
-	</div>
+	</div> --%>
 </body>
 </html>

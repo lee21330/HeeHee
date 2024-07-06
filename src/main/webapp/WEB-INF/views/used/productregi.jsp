@@ -15,7 +15,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/product.js"></script> <!-- 이미지파일 업로드때문에 필요 -->
 	<script src="/heehee/resources/js/productregiCategory.js"></script>
-	<form action="/heehee/sell/productModify" method="POST" enctype="multipart/form-data">
+	<form action="/heehee/sell/productRegistry" method="POST" enctype="multipart/form-data">
 	<div class="productRegistrate">
 	<div id="test">
 		<main>
@@ -68,18 +68,18 @@
 	                         <ul class="content_list1" id="subCategoryList">
 	                             <!-- 여기에 소분류 항목들 추가됨 -->
 	                         </ul>
-	                         <input id="selCateSeq" type="hidden" value="" name="cateSeq">
+	                         <input id="selCateSeq" type="hidden" value="" name="cateSeq" required>
                         </div>
 			        </div>
 			    </div>
 			</div>
 	<div class="regi_item">
 		<p class="setmargin">글 제목</p>
-		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." name="articleTitle">
+		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." name="articleTitle" required>
 	</div>
 	<div class="regi_item">
 		<p>상품 이름</p>
-		<input type="text" class="input_name" placeholder="상품명을 입력해주세요." name="prodName">
+		<input type="text" class="input_name" placeholder="상품명을 입력해주세요." name="prodName" required>
 	</div>
 	<div class="regi_item">
 		<p>상품 상태</p>
@@ -99,11 +99,11 @@
 	</div>
 	<div class="regi_item">
 		<p>상품 설명</p>
-		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요."></textarea>
+		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요." required></textarea>
 	</div>
 	<div class="regi_item">
 		<p>상품 가격</p>
-		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요.">
+		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요." required>
 	</div>
 	<div class="regi_item">
     <p>거래 유형</p>
@@ -117,19 +117,43 @@
 	</div>
 	<div class="regi_item">
 	    <p class="setmargin">배송비</p>
-	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." disabled>
+	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." disabled required>
 	</div>
 		</main>
 		</div>
 	</div>
 	<div id="sub_button">
-		<input type="submit" value="수정하기">
+		<input type="submit" value="등록하기">
 	</div>
 	
 	</form>
 	
 	<script>
 	$(document).ready(function() {
+		$('form').on('submit', function(e) {
+	        if (!validateForm()) {
+	            e.preventDefault(); // 유효성 검사를 통과하지 못하면 폼 제출을 막음
+	        }
+	    });
+		
+		$('#modify_form').submit(function(event) {
+	        // 카테고리 선택 확인
+	        var selectedCategory = $('#selCateSeq').val();
+	        if (selectedCategory === '') {
+	            alert('카테고리를 선택해주세요.');
+	            event.preventDefault(); // 폼 제출 방지
+	        }
+	    });
+		
+		$('#modify_form').submit(function(event) {
+	        // 이미지 선택 확인
+	        var numFiles = $('#input_file1')[0].files.length + "${prodImgList.size()}";
+	        if (numFiles < 1) {
+	            alert('이미지를 최소 1개 이상 선택해주세요.');
+	            event.preventDefault(); // 폼 제출 방지
+	        }
+	    });
+		
 		var delArr = [];
 		
 		var selectedStatus = "${info.condition}";
@@ -146,11 +170,14 @@
         var selectedDeal = "${info.deal}";
         if (selectedDeal === "택배") {
             $("#package").prop("checked", true);
+            $('#d_charge').val('');
+            $('#d_charge').attr("placeholder", "0");
             $('#d_charge').attr('disabled', false);
             /* $('#d_charge').focus(); */
         } else if (selectedDeal === "직거래") {
             $("#direct").prop("checked", true);
             $('#d_charge').val('');
+            $('#d_charge').attr("placeholder", "0");
             $('#d_charge').attr('disabled', true);
         }
 
@@ -264,11 +291,37 @@
 	        
 	        var cateSeq = $(this).attr('data');
 	        $("#selCateSeq").val(cateSeq);
+	        console.log(cateSeq);
 	    });
 	});
 	
 	
-
+	function validateForm() {
+        // 이미지 파일 검사
+        var inputFile = $('#input_file1')[0];
+        var existingImages = "${prodImgList.size()}";
+        var newImages = inputFile.files.length;
+        if (existingImages + newImages < 1) {
+            alert('적어도 하나의 이미지를 추가해주세요.');
+            return false;
+        }
+        // 이미지 파일 타입 검사
+        var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/jpg"];
+        for (var i = 0; i < inputFile.files.length; i++) {
+            var file = inputFile.files[i];
+            if ($.inArray(file.type, validImageTypes) === -1) {
+                alert('올바른 이미지 파일 형식이 아닙니다.');
+                return false;
+            }
+        }
+        // 카테고리 검사
+        var selectedCategory = $("#selCateSeq").val();
+        if (!selectedCategory) {
+            alert('카테고리를 선택해주세요.');
+            return false;
+        }
+        return true;
+    }
 </script>
 </body>
 

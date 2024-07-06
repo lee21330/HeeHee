@@ -23,6 +23,7 @@
 				<li id="all_acu" class="select_sub" onclick="changeStatus_auc('all')">전체</li>
 				<li id="sell_acu" onclick="changeStatus_auc('입찰')">입찰중</li>
 				<li id="reserve_acu" onclick="changeStatus_auc('낙찰')">낙찰</li>
+				<li id="reserve_acu" onclick="changeStatus_auc('유찰')">유찰</li>
 				<li id="complete_acu" onclick="changeStatus_auc('거래완료')">거래완료</li>
 				<li id="complete_acu" onclick="changeStatus_auc('판매중지')">판매중지</li>
 				

@@ -38,7 +38,7 @@
 				<div class="input">
 					<div class="Modal_bank">
 						<select name="bankSeq" required>
-							<option value="">은행</option>
+							<option value="" >은행</option>
 							<c:forEach var="banklist" items="${bankList}">
 								<option value="${banklist.bankSeq}">${banklist.bank}</option>
 							</c:forEach>

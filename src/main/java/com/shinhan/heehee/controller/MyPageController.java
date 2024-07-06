@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
@@ -38,8 +37,8 @@ import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
-import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.service.AWSS3Service;
+import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
 import com.shinhan.heehee.service.ProductDetailService;
@@ -54,19 +53,24 @@ public class MyPageController {
 	MainService mainservice;
 	@Autowired
 	AWSS3Service s3Service;
-
 	@Autowired
 	ProductDetailService productservice;
-
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	AlarmService alarmService;
 
 	// 마이페이지
 	@GetMapping("/main")
 	public String sellerInfo(Principal principal, Model model) {
 		String userId = principal.getName();
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		model.addAttribute("sellerInfo", mypageservice.sellerInfo(userId));
 		model.addAttribute("userId", userId);
 		return "/mypage/myPage";
@@ -76,8 +80,6 @@ public class MyPageController {
 	@PostMapping("/main/deleteJjim")
 	public String deleteJjim(@RequestParam List<Integer> seq, Principal principal, RedirectAttributes redirectAttr) {
 		String userId = principal.getName();
-		System.out.println("=======================");
-		System.out.println(seq);
 		int result = mypageservice.deleteJjim(seq, userId);
 		String message;
 		if (result > 0) {
@@ -117,17 +119,9 @@ public class MyPageController {
 	// 마이페이지_판매상태에 따른 판매내역 조회(중고)_상품상태 변경
 	@PostMapping("/main/updateStatus")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> updateStatus(int productSeq, String proStatus) {
-		Map<String, Object> response = new HashMap<String, Object>();
-		int result = mypageservice.updateStatus(productSeq, proStatus);
-		if (result == 0) {
-			response.put("success", false);
-			response.put("message", "상태변경에 실패했습니다.");
-		} else {
-			response.put("success", true);
-			response.put("message", "상태변경에 성공했습니다.");
-		}
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
+	public ResponseEntity<?> updateStatus(int productSeq, String proStatus, HttpServletResponse response) {
+		response.setContentType("text/plain;charset=UTF-8");
+		return mypageservice.updateStatus(productSeq, proStatus);
 	}
 
 	// 마이페이지_판매상태에 따른 판매내역 조회(경매)
@@ -149,7 +143,7 @@ public class MyPageController {
 	// 마이페이지_구매내역 조회(경매)
 	@PostMapping("/main/purchaselistAuc")
 	@ResponseBody
-	public List<PurchaseListDTO> purchaselistAuc(Principal principal) {
+	public List<SaleListAucDTO> purchaselistAuc(Principal principal) {
 		String userId = principal.getName();
 		return mypageservice.purchaselistAuc(userId);
 	}
@@ -167,8 +161,12 @@ public class MyPageController {
 	public String saleDetail(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
 		model.addAttribute("dcOption", mypageservice.dcOption());
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		String userId = principal.getName();
 		model.addAttribute("userId", userId);
 		return "/mypage/saleDetail";
@@ -203,29 +201,62 @@ public class MyPageController {
 		return "redirect:/mypage/saledetail/{productSeq}";
 	}
 
+	// 마이페이지 - 판매 상품 상세페이지(경매)
+		@GetMapping("/saledetailAuc/{productSeq}")
+		public String saledetailAuc(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
+			model.addAttribute("saleDetail", mypageservice.saledetailAuc(proSeq));
+			model.addAttribute("dcOption", mypageservice.dcOption());
+
+			int alarmCount = alarmService.alarmCount(principal.getName());
+			model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+			List<CategoryDTO> mainCateList = mainservice.mainCateList();
+			model.addAttribute("mainCateList", mainCateList); // header 카테고리
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
+			return "/mypage/saleDetailAuc";
+		}
+		
 	// 마이페이지 - 구매 상품 상세페이지
 	@GetMapping("/purchasedetail/{productSeq}")
 	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
 		model.addAttribute("saleDetail", mypageservice.saleDetail(proSeq));
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		String userId = principal.getName();
 		model.addAttribute("userId", userId);
 		return "/mypage/purchaseDetail";
 	}
+	
+	// 마이페이지 - 구매 상품 상세페이지(경매)
+	@GetMapping("/purchasedetailAuc/{productSeq}")
+	public String purchasedetailAuc(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
+		model.addAttribute("saleDetail", mypageservice.saledetailAuc(proSeq));
+		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
+		String userId = principal.getName();
+		model.addAttribute("userId", userId);
+		
+		return "/mypage/purchaseDetailAuc";
+	}
 
 	// 마이페이지 - 구매 상품 상세페이지:거래완료 버튼
-	@PostMapping("/purchasedetail/{productSeq}/updatePCheck")
-	public String updatePCheck(@RequestParam("proSeq") int proSeq, RedirectAttributes redirectAttr) {
-		int result = mypageservice.updatePCheck(proSeq);
-		String message;
-		if (result > 0) {
-			message = "insert success";
-		} else {
-			message = "insert fail";
-		}
-		redirectAttr.addFlashAttribute("result", message);
-		return "redirect:/mypage/purchaseDetail/{productSeq}";
+	@PostMapping("/purchasedetail/updatePCheck")
+	@ResponseBody
+	public ResponseEntity<?> updatePCheck(int proSeq, HttpServletResponse response) {
+	    response.setContentType("text/plain;charset=UTF-8");
+	    
+	    return mypageservice.updatePCheck(proSeq);
 	}
 
 	// 마이페이지-프로필 수정 페이지 이동
@@ -234,9 +265,13 @@ public class MyPageController {
 		String userId = principal.getName();
 		model.addAttribute("profile", mypageservice.profile(userId));
 		model.addAttribute("bankList", mypageservice.bankList());
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
-		model.addAttribute("userId", userId);
+		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		return "/mypage/editProfile";
 	}
 
@@ -299,7 +334,7 @@ public class MyPageController {
 			HttpServletResponse response) {
 		String userId = principal.getName();
 		response.setContentType("text/plain;charset=UTF-8");
-		
+
 		return mypageservice.updateAddress(userId, address, detailAddress);
 	}
 
@@ -334,9 +369,13 @@ public class MyPageController {
 	@GetMapping("/qnaBoard")
 	public String qnaBoard(Principal principal, Model model) {
 		String userId = principal.getName();
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
-		model.addAttribute("userId", userId);
+		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
@@ -390,9 +429,15 @@ public class MyPageController {
 
 	// 마이페이지-FAQ
 	@GetMapping("/faqBoard")
-	public String faqBoard(Model model) {
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
+	public String faqBoard(Model model, Principal principal) {
+		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
+
 		model.addAttribute("qnaOption", mypageservice.qnaOption());
 		model.addAttribute("faq", mypageservice.faqOption(0));
 		return "/mypage/faqBoard";
@@ -410,8 +455,14 @@ public class MyPageController {
 	// 포인트 내역 페이지
 	@GetMapping("/pointlist")
 	public String pointlist(Principal principal, Model model) {
-		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
+		
 		String userId = principal.getName();
 		model.addAttribute("userId", userId);
 

@@ -9,10 +9,11 @@ $(function() {
 		readURL(this);
 	});
 
-
 	// 모달창 숨기기
 	$("#phoneModal").hide();
 	$("#addressModal").hide();
+	$("#pwModal").hide();
+	$("#drawalModal").hide();
 
 	// 전화번호 변경 모달
 	$("#btn_send_phone").on("click", phoneSend);
@@ -38,49 +39,6 @@ function readURL(input) {
 // 사진 변경 버튼
 function chooseFile() {
 	$('#fileInput').click();
-}
-
-// 닉네임 값 변경되면 '중복체크' 버튼 활성화/비활성화
-function changeBtn(originalNick) {
-	var originalNick = $("#nickName").val(); // 원래 닉네임 값
-	var nickName = $("#nickName").val();
-
-	if (nickName !== originalNick) { // 입력된 닉네임과 원래 닉네임이 다를 경우
-		$('#btn-originalNick').hide();
-		$('#btn-nick').show();
-	} else {
-		$('#btn-originalNick').show();
-		$('#btn-nick').hide();
-	}
-}
-
-// 중복 체크 버튼 클릭 
-function dupMyNickCheck(originalNick) {
-	var nickName = $("#nickName").val();
-	if (nickName === "") {
-		//$("#my_nick_dup_result").css("visibility", "visible");
-		$("#my_nick_dup_result").text("닉네임을 입력해주세요");
-	} else if (originalNick === nickName) {
-		// 원래 닉네임과 입력된 닉네임이 같은 경우 
-	} else {
-		$.ajax({
-			url: '/heehee/mypage/profile/dupNickCheck',
-			method: 'GET',
-			data: { "nickName": nickName },
-			success: function(data) {
-				$("#my_nick_dup_result").css("visibility", "visible");
-				if (data.able == true) {
-					$("#my_nick_dup_result").removeClass("red").addClass("green");
-				} else {
-					$("#my_nick_dup_result").removeClass("green").addClass("red");
-				}
-				$("#my_nick_dup_result").text(data.message);
-			},
-			error: function(xhr, status, error) {
-				console.error(error);
-			}
-		});
-	}
 }
 
 // 전화번호 변경 모달 
@@ -204,8 +162,18 @@ function updateAddress() {
 	});
 
 }
+// 비밀번호 변경 모달 
+function showPW() {
+	$("#pwModal").show();
+	$("body").css("overflow", "hidden");
+}
+function hidePW() {
+	$("#pwModal").hide();
+	$("body").css("overflow", "auto");
 
+}
 // 현재 비밀번호 체크
+
 function currentPwCheck() {
 	var currentPw = $("#currentPw").val();
 	if (currentPw === '') {
@@ -224,3 +192,53 @@ function currentPwCheck() {
 	}
 }
 
+function changePW() {
+	var currentPassword = $("#currentPassword").val();
+	var password = $("#password").val();
+	var confirmPassword = $("#confirmPassword").val();
+
+	$.ajax({
+		url: '/heehee/mypage/profile/updatePw',
+		method: 'PUT',
+		contentType: 'application/json',
+		data: JSON.stringify({
+			currentPassword: currentPassword,
+			password: password,
+			confirmPassword: confirmPassword
+		}),
+		success: function(data) {
+			if (data.able === true) {
+				// 성공 시 처리 
+			} else {
+				// 실패 시 처리 
+			}
+			$("#new_pw_check").text(data.message);
+		},
+		error: function(xhr, status, error) {
+			console.error(error);
+		}
+	});
+}
+
+// 회원탈퇴 모달 
+function showDrawal() {
+	$("#drawalModal").show();
+	$("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
+}
+function hideDrawal() {
+	$("#drawalModal").hide();
+	$("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
+}
+function deleteUser() {
+	$.ajax({
+		url: "/heehee/mypage/profile/deleteUser",
+		method: "DELETE",
+		success: function(data) {
+			console.log(data);
+			logout();
+		},
+		error: function(err) {
+			console.log(err)
+		}
+	});
+}

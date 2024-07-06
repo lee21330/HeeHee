@@ -66,27 +66,52 @@
 				<li class="chatting-item" room-id="${room.id}" receiver-id="${room.receiverid}">
 					<!-- 왼쪽 상대방 사진 부분 -->
 					<div class="item-header">
-						<img class="receiver-image"
+					    <c:choose>
+                            <c:when test="${not empty room.receivernickname}">
+                                <img class="receiver-image"
 							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${room.receiverimg}">
+                            </c:when>
+                            <c:otherwise>
+                                <img class="receiver-image"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg"">
+                            </c:otherwise>
+                            </c:choose>
 					</div> <!-- 오른쪽 상대방 닉네임, 안 읽은 메세지 수, 최근 메세지 내용, 최근 메시지 보낸 날짜 -->
 					<div class="item-body">
 						<div class="name-count">
-							<p class="receiver-nickname">${room.receivernickname}</p>
+							<c:choose>
+                            <c:when test="${not empty room.receivernickname}">
+                                <p class="receiver-nickname">${room.receivernickname}</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="receiver-nickname">(알 수 없음)</p>
+                            </c:otherwise>
+                            </c:choose>
 							<c:if test="${room.unreadcount > 0}">
 								<p class="unread-count">${room.unreadcount}</p>
 							</c:if>
 						</div>
 
 						<div class="message-container">
-							<span class="recent-message">${room.lastcontent}</span> <span
-								class="send-time">${room.sendtime}</span>
+					    	<c:choose>
+                         	   <c:when test="${fn:substring(room.lastcontent, 0, 12) == '[img_asdfzv]'}">
+                          	      <span class="recent-message">사진</span>
+                         	   </c:when>
+                         	   <c:otherwise>
+                          	      <span class="recent-message">${room.lastcontent}</span>
+                        	    </c:otherwise>
+                        	    </c:choose>
+							<span class="send-time">${room.sendtime}</span>
 						</div>
 					</div>
 				</li>
 			</c:forEach>
 			</c:if>
 			<c:if test="${fn:length(roomList) == 0}">
-                <p>채팅 내역이 없습니다.</p>
+			<div class = "noneRoom">
+                <span>지금 바로 대화를 시작해보세요💭</span>
+                <p>내가 올린 상품이나 관심있는 상품에 관한 대화를<br>여기서 볼 수 있어요.</p>
+            </div>
             </c:if>
 		</ul>
 
@@ -176,7 +201,11 @@
 			</div>
 			<!-- 채팅 메시지 내역 -->
 			<div class="content-body">
-
+            <c:if test="${fn:length(roomList) == 0}">
+		    	<div class = "noneRoomChat">
+              	  <span>대화방을 선택해주세요💭</span>
+          	  </div>
+            </c:if>
 				<%-- <div class="message-list">
 				    <!-- 내 메세지 -->
 					<div class="my-chat">
@@ -224,7 +253,10 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<<<<<<< HEAD
 	
+=======
+>>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 	<script>
 		// 로그인한 회원 번호 => 추후 수정
 		loginMemberNo = "${userId}";

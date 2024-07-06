@@ -21,6 +21,7 @@ import com.shinhan.heehee.dto.response.PointListDTO;
 import com.shinhan.heehee.dto.response.PurchaseListDTO;
 import com.shinhan.heehee.dto.response.QnADTO;
 import com.shinhan.heehee.dto.response.QnAImgDTO;
+import com.shinhan.heehee.dto.response.SaleDetailAucDTO;
 import com.shinhan.heehee.dto.response.SaleDetailDTO;
 import com.shinhan.heehee.dto.response.SaleListAucDTO;
 import com.shinhan.heehee.dto.response.SaleListDTO;
@@ -128,7 +129,7 @@ public class MyPageDAO {
 		return sqlSession.selectList(namespace + "saleListAuc", params);
 	}
 
-	public List<PurchaseListDTO> purchaselistAuc(String userId) {
+	public List<SaleListAucDTO> purchaselistAuc(String userId) {
 		return sqlSession.selectList(namespace + "purchaselistAuc", userId);
 	}
 
@@ -223,6 +224,11 @@ public class MyPageDAO {
 		params.put("pw", pw);
 		return sqlSession.update(namespace + "updatePw", params);
 	}
+
+	public SaleDetailAucDTO saledetailAuc(int proSeq) {
+		return sqlSession.selectOne(namespace + "saledetailAuc", proSeq);
+	}
+
 
 	
 
