@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.UserDAO;
+import com.shinhan.heehee.dto.request.BanUserDTO;
 import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.exception.UserNotFoundException;
 
@@ -85,5 +86,9 @@ public class UserService {
 	
 	public UserDTO findByUserEmail(String email) {
 		return userDao.findByUserEmail(email);
+	}
+	
+	public BanUserDTO banCheck(String userId) {
+		return userDao.banCheck(userId);
 	}
 }

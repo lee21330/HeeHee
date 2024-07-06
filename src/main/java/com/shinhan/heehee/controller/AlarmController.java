@@ -33,8 +33,6 @@ public class AlarmController {
 	// 알림 전체 조회
 	@ResponseBody
 	@GetMapping("/alarmAll")
-	// @GetMapping("/alarmAll/{userId}")
-	// public List<AlarmChatDTO> alarmList(@PathVariable("userId") String userId) {
 	public List<AlarmChatDTO> alarmList(Principal principal) {
 		String userId = "";
 		
@@ -48,8 +46,6 @@ public class AlarmController {
 	// 미확인 알림 조회
 	@ResponseBody
 	@GetMapping("/alarmUnck")
-	// @GetMapping("/alarmUnck/{userId}")
-	// public List<AlarmChatDTO> alarmUnck(@PathVariable("userId") String userId) {
 	public List<AlarmChatDTO> alarmUnck(Principal principal) {
 		String userId = "";
 		
@@ -78,6 +74,7 @@ public class AlarmController {
 	 }
 	 */
 	
+	// 알림 웹소켓
 	@MessageMapping("/alarm/{fromUser}")
 	public void handleBid(AlarmDTO alarmDto, @DestinationVariable("fromUser") String fromUser) {
 		alarmDto.setId(fromUser); // 알림 받을 유저
