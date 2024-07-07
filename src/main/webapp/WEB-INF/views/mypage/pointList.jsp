@@ -13,33 +13,34 @@
 <%@ include file="../common/header.jsp"%>
 <body>
 	<script src="/heehee/resources/js/point.js"></script>
-
+	<%@ include file="/WEB-INF/views/mypage/pointModal.jsp"%>
 	<div class="pointList">
 		<div id="point_text">
 			<p id="balance">현재 포인트</p>
 			<div id="balance_t">
 				<fmt:formatNumber value="${sellerInfo.userPoint}" pattern="#,###"
 					var="formattedPoint" />
-				<p id="balance_text"><span class="formatted-point">${formattedPoint}</span>원</p>
+				<p id="balance_text">
+					<span class="formatted-point">${formattedPoint}</span>원
+				</p>
 			</div>
-			<%-- <%@ include file="/WEB-INF/views/mypage/pointModal.jsp"%> --%>
+
 			<button id="btn-point">충전하기</button>
 		</div>
 		<div id="point_box">
 			<div id="point_box_text">
 				<div id="month">
-					
-						<input type="month" id="month_option" onchange="searchPointList()" >
-				
+
+					<input type="month" id="month_option" onchange="searchPointList()">
+
 				</div>
 			</div>
-<!-- 			<div>
-				<p id="date">2024.05.01 ~ 05.31</p>
-			</div> -->
-			<div id="point_history">
-			
-			</div>
+
+			<div id="point_history"></div>
 		</div>
+	</div>
+	<div id="footerArea">
+		<jsp:include page="../common/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

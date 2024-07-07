@@ -1,14 +1,50 @@
 $(function() {
 	changeStatus('all');
-	changeStatus_auc('all');
 	showUserInfo();
+	
 	$("#deal_auc").hide();
+	
 	$("#btn_search").on("click", show);
 	$(".mModal_close").on("click", hide);
-	$(".menu li").on("click", changeMenu);
-	$(".sub_menu li").on("click", changeSubMenu);
+	$("#menu li").on("click", changeMenu);
+	$("#menu_auc li").on("click", changeMenuAuc);
+	$("#sub_menu li").on("click", changeSubMenu);
+	$("#sub_menu_auc li").on("click", changeSubMenuAuc);
 	$("#btn_charge").on("click", chargePoint);
 });
+
+function changeDeal(deal) {
+	if (deal === '중고물품') {
+		$("#deal_sell").show();
+		$("#deal_auc").hide();
+		
+		$("#sell").addClass("select_deal");
+		$("#auction").removeClass("select_deal");
+		
+		changeStatus('all');
+		$("#menu li").removeClass("select");
+		$("#menu li").eq(0).addClass("select");
+		$("#sub_menu li").removeClass("select_sub");
+		$("#sub_menu li").eq(0).addClass("select_sub");
+
+		
+	} else {
+		$("#deal_auc").show();
+		$("#deal_sell").hide();
+		
+		$("#auction").addClass("select_deal");
+		$("#sell").removeClass("select_deal");
+		
+		changeStatus_auc('all');
+		$("#menu_auc li").removeClass("select");
+		$("#menu_auc li").eq(0).addClass("select");
+		$("#sub_menu_auc li").removeClass("select_sub");
+		$("#sub_menu_auc li").eq(0).addClass("select_sub");
+	}
+}
+
+
+
 function show() {
 	$("#search").addClass("show");
 }
@@ -25,11 +61,19 @@ function showUserInfo() {
 	}
 }
 function changeMenu() {
-	$(".menu li").removeClass("select");
+	$("#menu li").removeClass("select");
 	$(this).addClass("select");
 }
 function changeSubMenu() {
-	$(".sub_menu li").removeClass("select_sub");
+	$("#sub_menu li").removeClass("select_sub");
+	$(this).addClass("select_sub");
+}
+function changeMenuAuc() {
+	$("#menu_auc li").removeClass("select");
+	$(this).addClass("select");
+}
+function changeSubMenuAuc() {
+	$("#sub_menu_auc li").removeClass("select_sub");
 	$(this).addClass("select_sub");
 }
 
@@ -59,6 +103,7 @@ function changeStatus(status) {
 					var subDropdownId = 'sub_dropdown_' + index;
 
 					var statusChangeMenu = '';
+					var productBanReason = '';
 					if (sale.proStatus === '판매중') {
 						statusChangeMenu = `
 							<img class="photo_status" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-status.png" 
@@ -85,17 +130,25 @@ function changeStatus(status) {
 								<li onclick="updateStatus(${sale.productSeq},'판매보류')" id="statusDropdown">판매중</li>
 							</ul>`;
 					} else if (sale.proStatus === '판매중지') {
-						statusChangeMenu = `<p>${sale.productBanReason}</p>`;
+						productBanReason = `<div class="productBanReason"><p>판매중지</p></div>`;
 					}
+					
+					 // "판매중지" 상태일 때의 배경색 지정
+                    var productStyle = sale.proStatus === '판매중지' ? 'background-color: orangered;' : '';
+					var imgClass = sale.proStatus === '판매중지' ? 'gray-scale' : '';
+                   
 
 					output += `				
 						<div class="product">
 							<div>${statusChangeMenu}</div>
 							<div onclick="location.href='${detailUrl}'">
-								<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}">
+								<div class="product_img ${imgClass}">
+								<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${sale.imgName}">
+								${productBanReason}
+								</div>
 								<p>${sale.articleTitle}</p>
-								<p>${sale.productPrice}</p>
-								<p id="s_statusVal">${sale.proStatus}</p>
+								<p id="productPrice">${sale.productPrice}원</p>
+								<p id="s_statusVal" style="${productStyle}">${sale.proStatus}</p>
 							</div>
 						</div>`;
 				});
@@ -110,13 +163,13 @@ function changeStatus(status) {
 function dropdown(id) {
 	// 다른 모든 드롭다운 메뉴 숨기기
 	$('.dropdown-menu').hide();
-	$('#' + id).toggle(); // 특정 id를 가진 요소를 토글
+	$('#' + id).show(); // 특정 id를 가진 요소를 토글
 }
 
 function sub_dropdown(id) {
 	// 다른 모든 서브 드롭다운 메뉴 숨기기
 	$('.sub-dropdown-menu').hide();
-	$('#' + id).toggle(); // 특정 id를 가진 요소를 토글
+	$('#' + id).show(); // 특정 id를 가진 요소를 토글
 }
 
 function hideSubDropdown(id) {
@@ -124,8 +177,6 @@ function hideSubDropdown(id) {
 }
 
 function updateStatus(productSeq, proStatus) {
-	alert(productSeq);
-	alert(proStatus);
 	$.ajax({
 		url: '/heehee/mypage/main/updateStatus',
 		method: 'POST',
@@ -184,7 +235,7 @@ function showPurchaseList() {
                             <div class="product" onclick="location.href='/heehee/mypage/purchasedetail/${purchase.productSeq}'">
 								<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${purchase.imgName}">
 								<p>${purchase.articleTitle}</p>
-								<p>${purchase.productPrice}</p>
+								<p>${purchase.productPrice}원</p>
 							</div>`;
 				});
 			}
@@ -219,7 +270,7 @@ function showJjimList() {
 									<img class="product_img"
 										src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${jjim.imgName}">
 									<p>${jjim.articleTitle}</p>
-									<p>${jjim.productPrice}</p>
+									<p>${jjim.productPrice}원</p>
 								</div>
 							</div>`;
 				});
@@ -256,22 +307,6 @@ function deleteJjim() {
 		}
 	});
 }
-function changeDeal(deal) {
-	if (deal === '중고물품') {
-		$("#deal_sell").show();
-		$("#deal_auc").hide();
-		
-		$("#sell").addClass("select_deal");
-		$("#auction").removeClass("select_deal");
-		
-	} else {
-		$("#deal_auc").show();
-		$("#deal_sell").hide();
-		
-		$("#auction").addClass("select_deal");
-		$("#sell").removeClass("select_deal");
-	}
-}
 
 
 
@@ -292,14 +327,16 @@ function changeStatus_auc(status) {
 			} else {
 
 				data.forEach(function(sale) {
-					var detailUrl = sale.proStatus === '입찰' ? '/heehee/auc/detail/' + sale.productSeq : '/heehee/mypage/saledetailAuc/' + sale.productSeq;
+					var detailUrl = sale.aucStatus === '입찰' ? '/heehee/auc/detail/' + sale.productSeq : '/heehee/mypage/saledetailAuc/' + sale.productSeq;
+					// 가격 표시를 조건부로 설정
+					var priceDisplay = (sale.aucStatus === '낙찰' || sale.aucStatus === '거래 완료') ? `<p>${sale.aucPrice}원</p>` : '';
 					output += `							
                             <div class="product" onclick="location.href='${detailUrl}'">
                                 <div class="product_slider">
                                     <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${sale.imgName}">
                                 </div>     
                                 <p>${sale.auctionTitle}</p>
-                                <p>${sale.aucPrice}</p>
+                                ${priceDisplay}
                                 <p id="s_statusVal">${sale.aucStatus}</p>
                             </div>`;
 				});
@@ -332,7 +369,7 @@ function showPurchaseList_auc() {
                             <div class="product" onclick="location.href='/heehee/mypage/purchasedetailAuc/${purchase.productSeq}'">
 								<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${purchase.imgName}">
 								<p>${purchase.auctionTitle}</p>
-								<p>${purchase.productPrice}</p>
+								<p>${purchase.aucPrice}원</p>
 							</div>`;
 				});
 			}

@@ -172,32 +172,24 @@ function hidePW() {
 	$("body").css("overflow", "auto");
 
 }
-// 현재 비밀번호 체크
 
-function currentPwCheck() {
-	var currentPw = $("#currentPw").val();
-	if (currentPw === '') {
-		$("#my_pw_check").text("비밀번호를 입력하세요.");
-	} else {
-		$.ajax({
-			url: '/heehee/mypage/profile/currentPwCheck',
-			method: 'POST',
-			data: { "currentPw": currentPw },
-			success: function(data) {
-				location.href = '';
-			}, error: function(data, status, err) {
-				console.log(err);
-			}
-		});
-	}
-}
 
 function changePW() {
 	var currentPassword = $("#currentPassword").val();
 	var password = $("#password").val();
 	var confirmPassword = $("#confirmPassword").val();
-
-	$.ajax({
+	if (currentPassword === '') {
+		$("#new_pw_check").text("현재 비밀번호를 입력하세요.");
+	}
+	
+	else if(password === ''){
+		$("#new_pw_check").text("새로운 비밀번호를 입력하세요.");
+	
+	}else if(confirmPassword === ''){
+		$("#new_pw_check").text("새로운 비밀번호를 확인하세요.");
+	
+	}else{
+		$.ajax({
 		url: '/heehee/mypage/profile/updatePw',
 		method: 'PUT',
 		contentType: 'application/json',
@@ -208,16 +200,20 @@ function changePW() {
 		}),
 		success: function(data) {
 			if (data.able === true) {
-				// 성공 시 처리 
+				$("#new_pw_check").text("");
+				showTost(data.message);
+				window.location.reload();
 			} else {
-				// 실패 시 처리 
+				$("#new_pw_check").text(data.message);
 			}
-			$("#new_pw_check").text(data.message);
+			
 		},
 		error: function(xhr, status, error) {
 			console.error(error);
 		}
 	});
+	}
+	
 }
 
 // 회원탈퇴 모달 

@@ -73,7 +73,9 @@
 		</div>
 	</section>
 	</main>
-	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<div id="footerArea">
+    	<jsp:include page="../common/footer.jsp"></jsp:include>
+	</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

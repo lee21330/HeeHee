@@ -13,10 +13,10 @@ import lombok.ToString;
 @ToString
 public class SaleListAucDTO {
 	private int productSeq; 
-	private int aucPrice;
-	private String auctionTitle;
-	private String expTime;
-	private String imgName;
-	private String aucStatus;
-	private String accBanReason; 
+    private int aucPrice;
+    private String auctionTitle;
+    private String expTime;
+    private String imgName;
+    private String aucStatus;
+    private String accBanReason;
 }

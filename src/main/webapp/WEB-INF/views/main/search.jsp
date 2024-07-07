@@ -41,7 +41,7 @@
 									<img class="product_img"
 										src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}"
 										onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">
-									<div id="overlay">
+									<div id="overlay1">
 										<p id="auc_intro">경매품</p>
 									</div>
 								</div>

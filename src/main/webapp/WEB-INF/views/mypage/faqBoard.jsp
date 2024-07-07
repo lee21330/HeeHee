@@ -57,6 +57,9 @@
 			<div id="message"></div>
 		</div>
 	</div>
+	<div id="footerArea">
+		<jsp:include page="../common/footer.jsp"></jsp:include>
+	</div>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 body {
+	
 	padding-top: 200px;
 }
 
@@ -73,8 +74,8 @@ body {
 	height: 350px;
 }
 
-#product_item {
-	
+.product_item {
+	position: relative;
 }
 
 .product_img {
@@ -403,15 +404,4 @@ main {
 
 p {
 	line-height: 1.6;
-}
-
-footer {
-	text-align: center;
-	padding: 10px 20px;
-	background: white;
-	color: #acacac;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	width: 100%;
 }

@@ -61,10 +61,10 @@
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
-				            <div id="overlay">
-				                <p id="postpone">예약중인 상품입니다.</p>
-				            </div>
-				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+					            <div id="overlay">
+					                <p id="postpone">예약중인 상품입니다.</p>
+					            </div>
+				                	<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 				            </div>
 				        </c:forEach>
 				    </div>
@@ -300,7 +300,9 @@
 			</div>
 		</main>
 	</div>
-	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<div id="footerArea">
+    	<jsp:include page="../common/footer.jsp"></jsp:include>
+	</div>
 	
 	
 	<script>

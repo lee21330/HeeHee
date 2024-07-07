@@ -24,24 +24,30 @@
 			<div class="title-container">
 				<p id="product_category">${saleDetail.category}>
 					${saleDetail.detailCategory} (${saleDetail.prodName})</p>
-					
+
 				<p id="date">${saleDetail.psDate}</p>
 				<p id="articleTitle">${saleDetail.articleTitle}</p>
+				<p id="dealTitle">거래방식:</p>
 				<p id="deal">${saleDetail.deal}</p>
-				
+
 				<div id="delivery">
-					<p>${saleDetail.DCompany}</p>
-					<p id="dNumber">${saleDetail.DNumber}</p>
+					<p>택배사: ${saleDetail.DCompany}</p>
+					<p id="dNumber">송장번호: ${saleDetail.DNumber}</p>
+					<p id="dStatus">${saleDetail.DStatus}</p>
 				</div>
+
 			</div>
+
 		</div>
 
 		<p id="progress">진행상황</p>
 		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
+		<button id="accuracy">평점 매기기</button>
+		<%@ include file="/WEB-INF/views/mypage/ratingModal.jsp"%>
+		<p id="rateSeq">${saleDetail.rateSeq}</p>
 		<p id="pCheck">${saleDetail.PCheck}</p>
 		<progress id="graph" value="0" max="100"></progress>
 		<div id="deliveryText" class="progress_ing">
-			<p>결제대기</p>
 			<p>결제완료</p>
 			<p>발송완료</p>
 			<p>배송 중</p>
@@ -79,6 +85,9 @@
 			</div>
 		</div>
 
+	</div>
+	<div id="footerArea">
+		<jsp:include page="../common/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

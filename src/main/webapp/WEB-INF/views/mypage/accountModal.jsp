@@ -17,8 +17,6 @@
 			}
 			function hide() {
 				$("#accountModal").hide();
-				$(".Modal_bank input").val("");
-				$(".Modal_bank select").val("은행");
 				$("body").css("overflow", "scroll"); 
 			}
 		});
@@ -38,7 +36,7 @@
 				<div class="input">
 					<div class="Modal_bank">
 						<select name="bankSeq" required>
-							<option value="" >은행</option>
+							<option value="">은행</option>
 							<c:forEach var="banklist" items="${bankList}">
 								<option value="${banklist.bankSeq}">${banklist.bank}</option>
 							</c:forEach>
@@ -51,8 +49,7 @@
 				</div>
 
 				<div class="btn_modal">
-					<button type="submit" class="btn_submit">수정하기</button>
-					<input type="button" class="btn_cancel" id="btn_aModal_cancel" value="취소하기">
+					<button type="submit" class="btn_submit">저장</button>
 				</div>
 			</form>
 		</div>

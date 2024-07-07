@@ -29,14 +29,16 @@
 				<div class="title-container"> -->
 				<p id="date">${saleDetail.psDate}</p>
 				<p id="articleTitle">${saleDetail.articleTitle}</p>
+				<p id="dealTitle">거래방식:</p>
 				<p id="deal">${saleDetail.deal}</p>
 
 				<%@ include file="/WEB-INF/views/mypage/delieveryModal.jsp"%>
 				<button id="enter_invoice">송장 입력하기</button>
 				<div id="delivery">
 					<!-- Ajax로 동적 업데이트 -->
-					<p>${saleDetail.DCompany}</p>
-					<p id="dNumber">${saleDetail.DNumber}</p>
+					<p>택배사: ${saleDetail.DCompany}</p>
+					<p id="dNumber">송장번호: ${saleDetail.DNumber}</p>
+					<p id="dStatus">${saleDetail.DStatus}</p>
 				</div>
 			</div>
 		</div>
@@ -44,6 +46,7 @@
 		<p id="progress">진행상황</p>
 		<button id="complete" onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
 		<p id="sCheck">${saleDetail.SCheck}</p>
+		<p id="dStatus">${saleDetailDStatus}</p>
 		<progress id="graph" value="0" max="100"></progress>
 
 		<div id="deliveryText" class="progress_ing">
@@ -84,6 +87,8 @@
 		</div>
 
 	</div>
-
+	<div id="footerArea">
+		<jsp:include page="../common/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

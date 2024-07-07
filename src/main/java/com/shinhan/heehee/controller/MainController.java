@@ -32,34 +32,16 @@ public class MainController {
 		String loginId = (principal != null) ? principal.getName() : "admin";
 		model.addAttribute("userId",loginId);
 		
+		int alarmCount = alarmService.alarmCount(loginId);
+		model.addAttribute("alarmCount",alarmCount);
+	
 		
-		
-		
-		if(principal != null) {
-			int alarmCount = alarmService.alarmCount(principal.getName());
-			model.addAttribute("alarmCount",alarmCount);
-		}
 		model.addAttribute("rankProdList", mainservice.rankProdList());
 		model.addAttribute("recommandList", mainservice.recommandList(loginId));
 		model.addAttribute("recentprodList", mainservice.recentprodList());
 		return "/main/main";
 	}
 	
-	@GetMapping("/auc")
-	public String auction(Model model, Principal principal) {
-		model.addAttribute("aucList", auctionService.aucProdList());
-		
-		String loginId = (principal != null) ? principal.getName() : "admin";
-		model.addAttribute("userId",loginId);
-		
-		int alarmCount = alarmService.alarmCount(loginId);
-		model.addAttribute("alarmCount", alarmCount); // 알림 개수
-		
-		List<CategoryDTO> mainCateList = mainservice.mainCateList();
-		model.addAttribute("mainCateList", mainCateList); // header 카테고리
-		
-		return "/main/auction";
-	}
 	
 	@GetMapping("/main/search")
 	public String search(Model model, Principal principal) {
