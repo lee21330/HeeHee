@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shinhan.heehee.dto.request.RateAdminDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.FaQDTO;
 import com.shinhan.heehee.dto.response.InsertDeliveryDTO;
@@ -192,35 +194,39 @@ public class MyPageController {
 	}
 
 	// 마이페이지 - 판매 상품 상세페이지:거래완료 버튼
-	@PostMapping("/saledetail/{productSeq}/updateSCheck")
-	public String updateSCheck(@RequestParam("proSeq") int proSeq, RedirectAttributes redirectAttr) {
-		int result = mypageservice.updateSCheck(proSeq);
-		String message;
-		if (result > 0) {
-			message = "insert success";
-		} else {
-			message = "insert fail";
-		}
-		redirectAttr.addFlashAttribute("result", message);
-		return "redirect:/mypage/saledetail/{productSeq}";
+	@PostMapping("/saledetail/updateSCheck")
+	@ResponseBody
+	public ResponseEntity<?> updateSCheck(int proSeq, HttpServletResponse response) {
+		response.setContentType("text/plain;charset=UTF-8");
+		return mypageservice.updateSCheck(proSeq);
+	}
+
+	// 마이페이지 - 판매 상품 상세페이지:거래완료 버튼(경매)
+	@PostMapping("/saledetail/updateSCheckAuc")
+	@ResponseBody
+	public ResponseEntity<?> updateSCheckAuc(int proSeq, HttpServletResponse response) {
+		response.setContentType("text/plain;charset=UTF-8");
+
+		return mypageservice.updateSCheckAuc(proSeq);
+
 	}
 
 	// 마이페이지 - 판매 상품 상세페이지(경매)
-		@GetMapping("/saledetailAuc/{productSeq}")
-		public String saledetailAuc(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
-			model.addAttribute("saleDetail", mypageservice.saledetailAuc(proSeq));
-			model.addAttribute("dcOption", mypageservice.dcOption());
+	@GetMapping("/saledetailAuc/{productSeq}")
+	public String saledetailAuc(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
+		model.addAttribute("saleDetail", mypageservice.saledetailAuc(proSeq));
+		model.addAttribute("dcOption", mypageservice.dcOption());
 
-			int alarmCount = alarmService.alarmCount(principal.getName());
-			model.addAttribute("alarmCount", alarmCount); // 알림 개수
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 
-			List<CategoryDTO> mainCateList = mainservice.mainCateList();
-			model.addAttribute("mainCateList", mainCateList); // header 카테고리
-			String userId = principal.getName();
-			model.addAttribute("userId", userId);
-			return "/mypage/saleDetailAuc";
-		}
-		
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
+		String userId = principal.getName();
+		model.addAttribute("userId", userId);
+		return "/mypage/saleDetailAuc";
+	}
+
 	// 마이페이지 - 구매 상품 상세페이지
 	@GetMapping("/purchasedetail/{productSeq}")
 	public String purchasedetail(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
@@ -236,21 +242,20 @@ public class MyPageController {
 		model.addAttribute("userId", userId);
 		return "/mypage/purchaseDetail";
 	}
-	
+
 	// 마이페이지 - 구매 상품 상세페이지(경매)
 	@GetMapping("/purchasedetailAuc/{productSeq}")
 	public String purchasedetailAuc(@PathVariable("productSeq") int proSeq, Model model, Principal principal) {
+		String userId = principal.getName();
 		model.addAttribute("saleDetail", mypageservice.saledetailAuc(proSeq));
-		model.addAttribute("userId", principal.getName()); // 로그인 유저 아이디
+		model.addAttribute("userId", userId); // 로그인 유저 아이디
 
 		int alarmCount = alarmService.alarmCount(principal.getName());
 		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 
 		List<CategoryDTO> mainCateList = mainservice.mainCateList();
 		model.addAttribute("mainCateList", mainCateList); // header 카테고리
-		String userId = principal.getName();
-		model.addAttribute("userId", userId);
-		
+
 		return "/mypage/purchaseDetailAuc";
 	}
 
@@ -258,9 +263,18 @@ public class MyPageController {
 	@PostMapping("/purchasedetail/updatePCheck")
 	@ResponseBody
 	public ResponseEntity<?> updatePCheck(int proSeq, HttpServletResponse response) {
-	    response.setContentType("text/plain;charset=UTF-8");
-	    
-	    return mypageservice.updatePCheck(proSeq);
+		response.setContentType("text/plain;charset=UTF-8");
+
+		return mypageservice.updatePCheck(proSeq);
+	}
+
+	// 마이페이지 - 구매 상품 상세페이지:거래완료 버튼(경매)
+	@PostMapping("/purchasedetail/updatePCheckAuc")
+	@ResponseBody
+	public ResponseEntity<?> updatePCheckAuc(int proSeq, HttpServletResponse response) {
+		response.setContentType("text/plain;charset=UTF-8");
+
+		return mypageservice.updatePCheckAuc(proSeq);
 	}
 
 	// 마이페이지-프로필 수정 페이지 이동
@@ -466,7 +480,7 @@ public class MyPageController {
 
 		List<CategoryDTO> mainCateList = mainservice.mainCateList();
 		model.addAttribute("mainCateList", mainCateList); // header 카테고리
-		
+
 		String userId = principal.getName();
 		model.addAttribute("userId", userId);
 
@@ -496,6 +510,31 @@ public class MyPageController {
 		Integer newPoint = map.get("point") + map.get("userPoint");
 
 		mypageservice.chargePoint(userId, newPoint);
+	}
+
+	// 평점 매기기
+	@PostMapping("/rating")
+	@ResponseBody
+	@Transactional
+	public Map<String, Object> userRating(RateAdminDTO rateDTO, Model model, Principal principal) throws IOException {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		String userId = principal.getName();
+		rateDTO.setUserId(userId);
+		int result = mypageservice.rating(rateDTO);
+		mypageservice.updateRate(rateDTO);
+
+		// response.put("success", true);
+		// return response;
+
+		// 성공 실패 분류 로직 구현
+
+		if (result == 1) {
+			response.put("success", true);
+			return response;
+		} else {
+			return response;
+		}
 	}
 
 }

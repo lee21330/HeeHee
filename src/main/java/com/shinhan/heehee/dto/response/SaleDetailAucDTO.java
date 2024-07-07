@@ -13,32 +13,27 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaleDetailAucDTO {
-//	private int productSeq;
-//	private String aucStatus;
-//	private Date psDate;
-//	private String category;
-//	private String detailCategory;
-//	private String actionTitle;
-//	private String introduce;
-//	
-//	private int dCompanySeq;
-//	private String dCompany;
-//	private String dNumber;
-//	private String dStatus;
-//	private int sSeq;
-//	private Date pCheck;
-//	private Date sCheck;
-//	
-//	private int dCharge;
-//	private String deal;
-//	private String imgName;
-//	private String buyerId;
+
 	private int productSeq;
+	private String aucStatus;
+	private Date psDate;
+	private String category;
+	private String detailCategory;
 	private int aucPrice;
 	private String auctionTitle;
+	private String introduce;
+	private int dCompanySeq;
+	private String dCompany;
+	private String dNumber;
+	private String dStatus;
 	private String expDate;
 	private String expTime;
+	private int sSeq;
+	private Date pCheck;
+	private Date sCheck;	
 	private String imgName;
-	private String aucStatus;
+	private String buyerId;	
 	private String accBanReason;
+	private String id;
+	private int rateSeq;
 }

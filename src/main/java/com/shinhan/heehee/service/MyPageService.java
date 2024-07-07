@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.MyPageDAO;
 import com.shinhan.heehee.dao.UserDAO;
+import com.shinhan.heehee.dto.request.RateAdminDTO;
 import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
@@ -150,9 +151,18 @@ public class MyPageService {
 		return result;
 	}
 
-	public int updateSCheck(int proSeq) {
+	public ResponseEntity<?>  updateSCheck(int proSeq) {
+		Map<String, Object> response = new HashMap<String, Object>();
 		int result = mypageDao.updateSCheck(proSeq);
-		return result;
+		if (result == 0) {
+			response.put("success", false);
+			response.put("message", "거래완료에 실패했습니다.");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", true);
+			response.put("message", "거래완료에 성공했습니다.");
+			return ResponseEntity.ok(response);
+		}
 
 	}
 
@@ -172,6 +182,37 @@ public class MyPageService {
 		}
 
 	}
+	
+	public ResponseEntity<?> updatePCheckAuc(int proSeq) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result = mypageDao.updatePCheckAuc(proSeq);
+
+		if (result == 0) {
+			response.put("success", false);
+			response.put("message", "거래완료에 실패했습니다.");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", true);
+			response.put("message", "거래완료에 성공했습니다.");
+			return ResponseEntity.ok(response);
+		}
+	}
+	
+	public ResponseEntity<?> updateSCheckAuc(int proSeq) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		int result = mypageDao.updateSCheckAuc(proSeq);
+
+		if (result == 0) {
+			response.put("success", false);
+			response.put("message", "거래완료에 실패했습니다.");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", true);
+			response.put("message", "거래완료에 성공했습니다.");
+			return ResponseEntity.ok(response);
+		}
+	}
+
 
 	public List<BankKindDTO> bankList() {
 		return mypageDao.bankList();
@@ -322,5 +363,17 @@ public class MyPageService {
 	public SaleDetailAucDTO saledetailAuc(int proSeq) {
 		return mypageDao.saledetailAuc(proSeq);
 	}
+	
+	// 평점 관련
+    public int rating(RateAdminDTO rateDTO) {
+        return mypageDao.rating(rateDTO);
+    }
+    
+    public int updateRate(RateAdminDTO rateDTO) {
+        return mypageDao.updateRate(rateDTO);
+    }
+
+	
+	
 
 }

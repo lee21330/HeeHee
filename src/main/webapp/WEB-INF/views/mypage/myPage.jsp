@@ -85,17 +85,15 @@
 					</div>
 				</div>
 			</div>
-
 			<ul id="deal">
 				<li id="sell" class="select_deal" onclick="changeDeal('중고물품')">중고물품</li>
 				<li id="auction" onclick="changeDeal('경매물품')">경매물품</li>
 			</ul>
-
-
 			<div id="dealContainer">
 				<%@include file="/WEB-INF/views/mypage/myPageSell.jsp"%>
 				<%@include file="/WEB-INF/views/mypage/myPageAuc.jsp"%>
 			</div>
+
 		</div>
 	</section>
 	<div id="footerArea">

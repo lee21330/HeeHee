@@ -36,12 +36,15 @@
 		AUCTION_TITLE as auctionTitle,
 		EXP_TIME as expTime,
 		AUC_STATUS as aucStatus,
-		AUC_BAN_REASON as accBanReason,
+		AUC_BAN_REASON as
+		accBanReason,
 		nvl((SELECT max(bid_price) from auction_history ah where
-		ap.PRODUCT_SEQ=ah.auc_prod_seq and ap.AUC_STATUS = '낙찰'),0) as
+		ap.PRODUCT_SEQ=ah.auc_prod_seq and ap.AUC_STATUS IN ('낙찰','거래완료')),0)
+		as
 		aucPrice,
 		(SELECT img_name from img_files i
-		where ap.PRODUCT_SEQ=i.table_pk and i.img_cate_seq=3 and rownum=1) as
+		where
+		ap.PRODUCT_SEQ=i.table_pk and i.img_cate_seq=3 and rownum=1) as
 		imgName
 		from auc_product ap
 		where ap.SELLER_ID = #{userId}
@@ -51,59 +54,83 @@
 	</select>
 	<select id="saleDetail" parameterType="int"
 		resultType="saleDetailvo">
-		SELECT *
-		FROM SELL_PRODUCT SELL
-		JOIN PRODUCT_TYPE TYPE ON
-		SELL.SELECT_SEQ = TYPE.PRODUCT_SEQ
+		SELECT
+		SELL.*,
+		TYPE.*,
+		CATE.PRODUCT_CATE_SEQ,
+		CATE.CATEGORY,
+		CATE.DETAIL_CATEGORY,
+		IMG.*,
+		DH.*,
+		D.*,
+		DC.*,
+		RA.RATE_SEQ
+		FROM
+		SELL_PRODUCT
+		SELL
+		JOIN PRODUCT_TYPE TYPE ON SELL.SELECT_SEQ = TYPE.PRODUCT_SEQ
+		JOIN
+		PRODUCT_CATEGORY CATE ON TYPE.PRODUCT_CATE_SEQ =
+		CATE.PRODUCT_CATE_SEQ
+		JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
+		LEFT OUTER JOIN
+		DEAL_HISTORY DH ON SELL.PRODUCT_SEQ = DH.SELL_SEQ
+		LEFT OUTER JOIN
+		DELIVERY D ON DH.S_SEQ = D.S_SEQ
+		LEFT OUTER JOIN DELIVERY_COMPANY DC ON
+		D.D_COMPANY_SEQ = DC.D_COMPANY_SEQ
+		LEFT OUTER JOIN RATE_ADMIN RA ON
+		SELL.PRODUCT_SEQ = RA.PRODUCT_SEQ
+		WHERE
+		IMG.IMG_SEQ IN (
+		SELECT
+		MIN(IMG_SEQ)
+		FROM IMG_FILES
+		WHERE IMG_CATE_SEQ = 2
+		GROUP BY TABLE_PK
+		)
+		AND
+		SELL.PRODUCT_SEQ = #{proSeq}
+
+	</select>
+	<select id="saledetailAuc" parameterType="int"
+		resultType="com.shinhan.heehee.dto.response.SaleDetailAucDTO">
+		SELECT
+		ap.*,
+		TYPE.*,
+		CATE.*,
+		IMG.*,
+		DH.*,
+		D.*,
+		DC.*,
+		NVL((SELECT
+		MAX(ah.BID_PRICE)
+		FROM AUCTION_HISTORY ah
+		WHERE ap.PRODUCT_SEQ =
+		ah.AUC_PROD_SEQ), 0) AS aucPrice
+		FROM AUC_PRODUCT ap
+		JOIN PRODUCT_TYPE
+		TYPE ON ap.AUCTION_SEQ = TYPE.PRODUCT_SEQ
 		JOIN PRODUCT_CATEGORY CATE ON
 		TYPE.PRODUCT_CATE_SEQ =
 		CATE.PRODUCT_CATE_SEQ
 		JOIN IMG_FILES IMG ON
-		SELL.PRODUCT_SEQ = IMG.TABLE_PK
+		ap.PRODUCT_SEQ = IMG.TABLE_PK
 		LEFT OUTER JOIN DEAL_HISTORY DH ON
-		SELL.PRODUCT_SEQ = DH.SELL_SEQ
+		ap.PRODUCT_SEQ = DH.AUC_SEQ
 		LEFT OUTER JOIN DELIVERY D ON DH.S_SEQ =
-		d.S_SEQ
+		D.S_SEQ
 		LEFT OUTER JOIN DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ =
 		DC.D_COMPANY_SEQ
 		WHERE IMG.IMG_SEQ IN (
 		SELECT MIN(IMG_SEQ)
 		FROM
 		IMG_FILES
-		WHERE
-		IMG_CATE_SEQ = 2
-		GROUP BY TABLE_PK)
-		AND SELL.PRODUCT_SEQ =
+		WHERE IMG_CATE_SEQ = 3
+		GROUP BY TABLE_PK
+		)
+		AND ap.PRODUCT_SEQ =
 		#{proSeq}
-	</select>
-	<select id="saledetailAuc" parameterType="int"
-		resultType="com.shinhan.heehee.dto.response.SaleDetailAucDTO">
-		SELECT *
-		FROM AUC_PRODUCT ap
-		JOIN PRODUCT_TYPE TYPE ON
-		ap.AUCTION_SEQ = TYPE.PRODUCT_SEQ
-		JOIN
-		PRODUCT_CATEGORY CATE ON
-		TYPE.PRODUCT_CATE_SEQ = CATE.PRODUCT_CATE_SEQ
-		JOIN IMG_FILES IMG ON
-		ap.PRODUCT_SEQ = IMG.TABLE_PK
-		LEFT OUTER JOIN
-		DEAL_HISTORY DH ON
-		ap.PRODUCT_SEQ = DH.AUC_SEQ
-		LEFT OUTER JOIN DELIVERY D ON DH.S_SEQ =
-		d.S_SEQ
-		LEFT OUTER JOIN
-		DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ =
-		DC.D_COMPANY_SEQ
-		WHERE
-		IMG.IMG_SEQ IN (
-		SELECT MIN(IMG_SEQ)
-		FROM
-		IMG_FILES
-		WHERE
-		IMG_CATE_SEQ = 3
-		GROUP BY TABLE_PK)
-		AND ap.PRODUCT_SEQ = #{proSeq}
 	</select>
 	<delete id="proStatusDelete"
 		parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
@@ -138,9 +165,21 @@
 		S_CHECK = SYSDATE
 		WHERE SELL_SEQ = #{proSeq}
 	</update>
-	<update id="updatePCheck" parameterType="int"> UPDATE DEAL_HISTORY
+	<update id="updatePCheck" parameterType="int">
+		UPDATE DEAL_HISTORY
 		SET
 		P_CHECK = SYSDATE WHERE SELL_SEQ = #{proSeq}
+	</update>
+	<update id="updateSCheckAuc" parameterType="int">
+		UPDATE DEAL_HISTORY
+		SET
+		S_CHECK = SYSDATE
+		WHERE AUC_SEQ = #{proSeq}
+	</update>
+	<update id="updatePCheckAuc" parameterType="int">
+		UPDATE DEAL_HISTORY
+		SET
+		P_CHECK = SYSDATE WHERE AUC_SEQ = #{proSeq}
 	</update>
 	<select id="dcOption" resultType="dcvo">
 		SELECT * FROM DELIVERY_COMPANY
@@ -163,23 +202,33 @@
 	</select>
 	<select id="purchaselistAuc" parameterType="string"
 		resultType="com.shinhan.heehee.dto.response.SaleListAucDTO">
-		SELECT *
-		FROM DEAL_HISTORY dh, AUC_PRODUCT ap, IMG_FILES img
-		where dh.AUC_SEQ
-		= ap.PRODUCT_SEQ
-		AND ap.PRODUCT_SEQ = img.TABLE_PK
-		AND
-		img.IMG_CATE_SEQ
-		= 3
-		AND BUYER_ID = #{userId}
-		AND IMG.IMG_SEQ IN
-		(SELECT
-		MIN(IMG_SEQ)
+		SELECT
+		ap.PRODUCT_SEQ AS productSeq,
+		ap.AUCTION_TITLE AS
+		auctionTitle,
+		ap.EXP_TIME AS expTime,
+		ap.AUC_STATUS AS aucStatus,
+		ap.AUC_BAN_REASON AS accBanReason,
+		NVL((SELECT MAX(bid_price)
 		FROM
-		IMG_FILES
-		WHERE IMG_CATE_SEQ = 3
-		GROUP BY
-		TABLE_PK)
+		auction_history ah
+		WHERE ap.PRODUCT_SEQ = ah.auc_prod_seq
+		AND
+		ap.AUC_STATUS IN ('낙찰','거래완료')), 0) AS aucPrice,
+		(SELECT img_name
+		FROM
+		img_files i
+		WHERE ap.PRODUCT_SEQ = i.table_pk
+		AND i.img_cate_seq = 3
+		AND
+		ROWNUM = 1) AS imgName
+		FROM
+		auc_product ap
+		JOIN
+		DEAL_HISTORY dh ON
+		ap.PRODUCT_SEQ = dh.AUC_SEQ
+		WHERE
+		dh.BUYER_ID = #{userId}
 	</select>
 
 	<select id="jjimList" parameterType="string" resultType="jjimvo">
@@ -208,7 +257,8 @@
 	</delete>
 	<select id="sellerInfo" parameterType="String"
 		resultType="myHeaderDTO">
-		SELECT HH_USER.*, ROUND(SYSDATE - CREATE_DATE) AS CREATE_DIFF
+		SELECT HH_USER.*, ROUND(SYSDATE - CREATE_DATE) AS
+		CREATE_DIFF
 		FROM HH_USER
 		WHERE ID = #{id}
 	</select>
@@ -385,5 +435,23 @@
 		SELECT D_SEQ
 		FROM DELIVERY d
 		WHERE D_STATUS = '발송완료')
+	</update>
+	<insert id="insertRating"
+		parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+		<selectKey keyProperty="selectedRating" order="BEFORE"
+			resultType="int">
+			SELECT SEQ_RATE.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO RATE_ADMIN
+		VALUES(#{selectedRating}, #{productSeq},
+		#{sellerId}, #{userRating})
+	</insert>
+
+	<update id="updateRating"
+		parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+		UPDATE HH_USER
+		SET USER_RATING = ROUND(#{selectedRating},
+		0)
+		WHERE ID = #{sellerId}
 	</update>
 </mapper>

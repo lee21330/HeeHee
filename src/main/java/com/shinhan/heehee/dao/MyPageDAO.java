@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.request.RateAdminDTO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
 import com.shinhan.heehee.dto.response.EditProfileDTO;
@@ -237,7 +238,22 @@ public class MyPageDAO {
 		return sqlSession.update(namespace + "updateSecondDstatus");
 	}
 
+	// 평점 관련
+    public int rating(RateAdminDTO rateDTO) {
+        return sqlSession.insert(namespace + "insertRating", rateDTO);
+    }
+    
+    public int updateRate(RateAdminDTO rateDTO) {
+        return sqlSession.insert(namespace + "updateRating", rateDTO);
+    }
 
+	public int updateSCheckAuc(int proSeq) {
+		return sqlSession.update(namespace + "updateSCheckAuc", proSeq);
+	}
+
+	public int updatePCheckAuc(int proSeq) {
+		return sqlSession.update(namespace + "updatePCheckAuc", proSeq);
+	}
 	
 
 }
