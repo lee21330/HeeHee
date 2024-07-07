@@ -8,30 +8,34 @@
 
 #deal {
 	border-top: 1px solid #C1C1C1;
+	border-bottom: 1px solid #C1C1C1;
 	display: flex;
-	height: 50px;
+	height: 55px;
 	width: 100%;
 	padding: 0px 0px 0px 0px;
+	background-color: #3F51A1;
+	color: white;
 }
 
 #deal li {
 	list-style: none;
 	width: 50%;
 	height: 100%;
-	line-height: 50px;
+	line-height: 55px;
 	text-align: center;
 	cursor: pointer;
+	font-size: 18px;
 }
 
 .select_deal {
-	background-color: #ABC3FF;
+	color: #DCF343;
 }
 /* ---------------nav--------------- */
 .menu {
-	height: 40px;
-	display: flex;
-	margin: 10px 0px 0px;
+	margin: 10px 0px 20px;
 	padding: 0px 0px 0px 0px;
+	display: inline-block;
+	width: 470px;
 }
 
 .menu li {
@@ -41,9 +45,11 @@
 	list-style: none;
 	text-align: center;
 	cursor: pointer;
-	border: 1px solid #C1C1C1;
+	border: 2px solid #3F51A1;
 	border-radius: 15px;
 	margin: 0px 5px;
+	display: inline-block;
+	box-sizing: border-box;
 }
 
 .menu li:not(.select):hover {
@@ -52,8 +58,27 @@
 }
 
 .select {
-	background-color: #4949E9;
+	background-color: #3F51A1;
 	color: white;
+}
+
+.sub_menu {
+	display: inline-block;
+	padding: 0px 0px 0px 0px;
+	margin: 10px 0px 20px 640px;
+}
+
+.sub_menu select {
+	width: 150px;
+	height: 40px;
+	font-size: 18px;
+	border-radius: 10px;
+}
+
+.sub_menu select option {
+	width: 200px;
+	height: 40px;
+	font-size: 18px;
 }
 
 #dealContainer {
@@ -75,7 +100,8 @@
 	border: 1px solid #EAEAEA;
 }
 
-.sub_menu {
+/* .sub_menu {
+	margin-top:10px;
 	border-bottom: 1px solid #C1C1C1;
 }
 
@@ -96,11 +122,12 @@
 	color: black !important;
 	font-size: 17px;
 }
-
+ */
 .message {
 	display: block;
 	width: 100%;
 	text-align: center;
+	font-size: 20px;
 }
 
 .list {
@@ -109,16 +136,15 @@
 	flex-wrap: wrap;
 	gap: 20px;
 	padding: 0px 0px 0px 0px;
-	margin: 10px 0px;
 	display: flex;
 }
 
 .product {
 	width: 200px;
 	height: 280px;
-	margin: 10px 20px 0px 20px;
+	margin: 30px 20px 0px 20px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 10%;
+	border-radius: 10px;
 	transition: transform 0.3s ease-in-out;
 	padding: 5px;
 	box-sizing: border-box;
@@ -142,7 +168,7 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	border-radius: 10%;
+	border-radius: 10px;
 	box-shadow: 0 5px 10px -5px lightgray;
 	position: relative;
 	z-index: 1;
@@ -173,21 +199,24 @@
 	display: inline-block;
 }
 
+#s_statusVal_div {
+	width: 100%;
+}
+
 #s_statusVal {
 	width: 30%;
 	font-size: 12px;
 	background-color: #ABC3FF;
 	text-align: center;
 	padding: 3px;
-	display: inline-block;
 	border-radius: 5px;
+	margin-left: 123px;
 }
 /* 이미지 흑백 처리 */
 .product_img.gray-scale img {
 	filter: grayscale(100%);
 	position: relative;
 }
-
 
 /* 상세필터 */
 #btn_search {
@@ -258,6 +287,17 @@ input[type="radio"] {
 	width: 100%;
 }
 
+.btn_jjim {
+	width: 100px;
+	height: 40px;
+	margin-left: 10px;
+	background-color: white;
+	border: 2px solid orangered;
+	color: orangered;
+	font-size: 15px;
+	border-radius: 13px;
+}
+
 /* dropdown*/
 .dropdown-menu {
 	width: 100px;
@@ -308,14 +348,15 @@ input[type="radio"] {
 .productBanReason {
 	position: absolute;
 	z-index: 2;
-	top:0;
+	top: 0;
 	width: 190px;
 	height: 190px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.productBanReason p{
+
+.productBanReason p {
 	background-color: white;
 	width: 100px;
 	height: 30px;
@@ -324,4 +365,8 @@ input[type="radio"] {
 	align-items: center;
 	border-radius: 5px;
 	color: orangered;
+}
+
+#deal_auc {
+	display: none;
 }

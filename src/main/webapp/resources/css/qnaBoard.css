@@ -1,104 +1,147 @@
 @charset "UTF-8";
 
 .main_container {
-	width: 1280px;
-	display: flex;
-	justify-content: space-around;
-	margin: 0 auto;
+    width: 1280px;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+
+    margin-top: 30px; /* 추가 */
 }
+
+/* 추가 */
+.main_container h1 {
+    color: rgb(63, 81, 161);
+}
+
 /*--------------왼쪽 영역--------------*/
 .left {
-	width: 600px;
+    width: 600px;
 }
 
 /*-------1:1 Q&A-------*/
 #note {
-	border: 1px solid #979797;
-	margin-bottom: 16px;
+    /* 테두리 주석 함 */
+    /* border: 1px solid #979797; */
+    margin-bottom: 57px; /* 변경 */
 }
 
 #note p {
-	font-size: 13px;
+    font-size: 13px;
 }
 
 h1 {
-	border-bottom: 2px solid #979797;
-	margin: 0px 0px 0px 0px;
-	padding: 16px 0px;
+    border-bottom: 2px solid #979797;
+    margin: 0px 0px 20px 0px;
+    padding: 16px 0px;
 }
 
 /*-------1:1 문의하기-------*/
 #qna {
-	border: 1px solid #979797;
+     /* 테두리 주석 함 */
+    /* border: 1px solid #979797; */
 }
 
 #qna_title {
-	width: 450px;
-	height: 30px;
-	box-sizing: border-box;
+    width: 450px;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px solid #D3D3D3; /* 추가 */
+    background-color: rgb(249, 249, 249); /* 추가 */
+    border-radius: 5px; /* 추가 */
 }
 
 .qna_item {
-	width: 100%;
-	display: flex;
-	gap: 60px;
-	margin-top: 10px;
+    width: 100%;
+    display: flex;
+    gap: 30px; /* 변경 */
+    margin-top: 25px; /* 변경 */
 }
 
 .qna_item p {
-	width: 75px;
-	height: 100%;
-	margin-top: 0;
-	display: inline-block;
+    width: 95px; /* 변경 */
+    height: 100%;
+    margin-top: 0;
+    display: flex; /* 변경 */
 }
-.preview_item img{
-	width: 80px;
-	height: 80px;
+
+/* 추가 */
+.qna_item input {
+    width: 450px;
+    height: 30px;
+    border: 1px solid #D3D3D3;
+    background-color: rgb(249, 249, 249);
+    border-radius: 5px;
+}
+
+.preview_item img {
+    width: 80px;
+    height: 80px;
 }
 
 /*----문의유형----*/
 .radioContainer {
-	width: 130px;
-	height: 30px;
-	border: 1px solid #D3D3D3;
-	cursor: pointer;
-	box-sizing: border-box;
+    width: 130px;
+    height: 30px;
+    border: 1px solid #D3D3D3;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-bottom: -10px; /* 추가 */
+    border-radius: 5px; /* 추가 */
+    background-color: rgb(249, 249, 249); /* 추가 */
 }
 
 input[type="radio"] {
-	display: none;
+    display: none;
 }
 
 .type {
-	width: 450px;
-	height: 100%;
-	display: flex;
-	flex-flow: wrap;
-	gap: 30px;
-	/* justify-content: space-between; */
-	padding: 0px 0px 0px 0px;
-	margin: 0px 0px 0px 0px;
+    width: 450px;
+    height: 100%;
+    display: flex;
+    flex-flow: wrap;
+    gap: 30px;
+    /* justify-content: space-between; */
+
+    /* padding, margin 주석으로 변경 */
+    /* padding: 0px 0px 0px 0px; */
+    /* margin: 0px 0px 0px 0px; */
 }
 
 .radioLabel {
-	width: 130px;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 0px 0px 0px 0px;
-	margin: 0px 0px 0px 0px;
-	box-sizing: border-box;
+    width: 130px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer; /* 추가 */
+
+    /* padding, margin 주석으로 변경 */
+    /* padding: 0px 0px 0px 0px; */
+    /* margin: 0px 0px 0px 0px; */
 }
 
 .radioContainer input[type="radio"]:checked+label {
-	background-color: #ABC3FF;
+    background-color: rgb(63, 81, 161); /* 변경 */
+    color: white; /* 추가 */
+    border-radius: 5px; /* 추가 */
+}
+
+/* 추가 */
+.radioLabel:hover {
+    color: white;
+    background-color: rgb(63, 81, 161);
+    border-radius: 5px;
 }
 
 #qnaOptionContent {
-	display: block;
-	width: 100%;
+    display: block;
+    width: 100%;
+    color: rgb(63, 81, 161); /* 추가 */
+    margin-top: 20px; /* 추가 : 두리 확인 받기 */
 }
+
 /* 
 textarea {
 	width: 450px;
@@ -109,156 +152,227 @@ textarea {
 } */
 
 .input_file {
- 	display: none; 
+    display: none;
 }
 
-.img_preview, .preview {
-	width: 80px;
-	height: 80px;
-	border-radius: 5px;
-	margin-bottom: 15px;
+.img_preview,
+.preview {
+    width: 45px; /* 변경 */
+    height: 45px; /* 변경 */
+    border-radius: 5px;
+    margin-bottom: 15px;
+    cursor: pointer; /* 추가 */
+    position: relative; /* 추가 */
+    left: 27px; /* 추가 */
+    margin-right: 15px;
+}
+
+/* 추가 */
+.preview {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* 추가 */
+.remove_img {
+    width: 22px;
+    height: 22px;
+    position: relative;
+    right: -15px;
+    bottom: 25px;
+    border: 1px solid #D3D3D3;
+    background-color: rgb(249, 249, 249);
+    border-radius: 3px;
+    color: gray;
 }
 
 .btn {
-	width: 100%;
-	height: 50px;
-	text-align: center;
-	line-height: 50px; /* 텍스트의 세로 정렬 */
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    line-height: 50px; /* 텍스트의 세로 정렬 */
 }
 
 .btn div {
-	display: inline-block;
+    display: inline-block;
 }
 
 .btn_submit {
-	cursor: pointer;
-	width: 150px;
-	height: 50px;
-	background: #4949e9;
-	border: none;
-	border-radius: 5px;
-	color: white;
-	margin: 0px 5px 0px 5px;
+    cursor: pointer;
+    width: 100px; /* 변경 */
+    height: 45px; /* 변경 */
+    background: rgb(63, 81, 161); /* 변경 */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 0px 5px 0px 5px; /* 변경 */
+}
+
+/* 추가 */
+.btn_submit:hover {
+    transform: translateY(-2px);
+    color: rgb(210,223,81);
 }
 
 .btn_cancel {
-	cursor: pointer;
-	width: 150px;
-	height: 50px;
-	border: 1px solid #4949e9;
-	border-radius: 5px;
-	color: #4949e9;
-	background-color: white;
-	margin: 0px 5px 0px 5px;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    border: 1px solid #4949e9;
+    border-radius: 5px;
+    color: #4949e9;
+    background-color: white;
+    margin: 0px 5px 0px 5px;
 }
 
 /*--------------오른쪽 영역--------------*/
 .right {
-	width: 45%;
+    width: 45%;
 }
 
 /*-------BEST FAQ-------*/
 #faq {
-	margin: 0px;
-	height: 400px;
-	border: 1px solid #979797;
-	overflow-y: auto;
+    margin: 0px;
+    height: 350px; /* 변경 */
+    /* 테두리 주석 함 */
+    /* border: 1px solid #979797; */
+    overflow-y: auto;
+    margin-bottom: 20px; /* 변경 */
+}
+
+/* 추가 */
+#faq h1>a {
+    color: rgb(63, 81, 161); 
 }
 
 #faq::-webkit-scrollbar {
-	display: block !important;
+    display: block !important;
+    width: 15px; /* 추가 */
 }
 
 #faq::-webkit-scrollbar-thumb {
-	background-color: #ccc; /* Color of the scrollbar thumb */
-	border-radius: 5px; /* Rounded corners */
+    background-color: #ccc; /* Color of the scrollbar thumb */
+    border-radius: 5px; /* Rounded corners */
 }
 
 #faq::-webkit-scrollbar-track {
-	background-color: #f1f1f1; /* Color of the scrollbar track */
+    background-color: #f1f1f1; /* Color of the scrollbar track */
 }
 
 #faq a {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 #faq a:hover {
-	color: #4949e9;
+    color: rgb(210, 223, 81); /* 변경 */
 }
 
 .header {
-	height: 50px;
-	width: 100%;
-	border-bottom: 1px solid gray;
-	display: flex;
-	align-items: center;
+    height: 50px;
+    width: 100%;
+    /* border-bottom: 1px solid gray; */
+    display: flex;
+    align-items: center;
 }
 
 .header:hover {
-	background-color: #DCF343;
-	cursor: pointer;
+    background-color: rgb(210, 223, 81); /* 변경 */
+    cursor: pointer; /* 적용 안되는것 같음 */
 }
 
 .header.select {
-	background-color: #DCF343;
+    background-color: rgb(210, 223, 81);  /* 변경 */
 }
 
 #img_q {
-	width: 30px;
-	height: 30px;
+    width: 30px;
+    height: 30px;
 }
 
 .qnaTitle {
-	width: 80%;
+    width: 80%;
 }
 
 .content {
-	display: none;
-	border-bottom: 1px solid gray;
-	background-color: #EFEFEF;
-	padding: 10px 10px;
+    display: none;
+    border-bottom: 1px solid #D3D3D3; /* 변경 */
+    /* 배경 주석 처리 */
+    /* background-color: #EFEFEF; */
+    padding: 10px 10px;
 }
 
 /*-------나의 문의-------*/
 #myQna {
-	border: 1px solid #979797;
-	height: 400px;
-	overflow-y: auto;
+    /* 테두리 주석 함 */
+    /* border: 1px solid #979797; */
+    height: 350px; /* 변경 */
+    overflow-y: auto;
 }
 
 #myQna::-webkit-scrollbar {
-	display: block !important;
+    display: block !important;
+    width: 15px; /* 추가 */
 }
 
 #myQna::-webkit-scrollbar-thumb {
-	background-color: #ccc; /* Color of the scrollbar thumb */
-	border-radius: 5px; /* Rounded corners */
+    background-color: #ccc; /* Color of the scrollbar thumb */
+    border-radius: 5px; /* Rounded corners */
 }
 
 #myQna::-webkit-scrollbar-track {
-	background-color: #f1f1f1; /* Color of the scrollbar track */
+    background-color: #f1f1f1; /* Color of the scrollbar track */
 }
 
 .ansStatus {
-	width: 70px;
-	height: 25px;
-	display: flex;
-	background-color: #4949e9;
-	color: white;
-	align-items: center;
-	justify-content: center;
+    width: 70px;
+    height: 25px;
+    display: flex;
+    background-color: rgb(63, 81, 161); /* 변경 */
+    color: white;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px; /* 추가 */
 }
 
 .qnaContent {
-	border: 1px solid green;
+    /* 테두리 주석 함 */
+    /* border: 1px solid green; */
+    position: relative;
+    color: gray;
+    margin-bottom: 15px; /* 추가 */
 }
 
 .qnaFile {
-	width: 200px;
+    width: 150px;
+    height: 150px; /* 추가 */
+    object-fit: cover; /* 추가 */
+    margin-right: 10px;
 }
 
 .qnaAns {
-	border: 1px solid green;
+    /* 테두리 주석 함 */
+    /* border: 1px solid green; */
+}
+
+/* 추가 */
+#delete {
+    width: 50px;
+    height: 25px;
+    color: white;
+    background-color: rgb(63, 81, 161);
+    border: 1px solid rgb(63, 81, 161);;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    cursor: pointer;
+}
+
+/* 추가 */
+#delete:hover {
+    transform: translateY(-2px);
+    color: rgb(210,223,81);
 }

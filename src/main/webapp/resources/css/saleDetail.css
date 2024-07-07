@@ -117,7 +117,10 @@
 #price_area {
 	margin-top: 75px;
 }
-
+.order{
+	display: flex;
+	justify-content: space-between;
+}
 .order p{
 	display: inline-block;
 }

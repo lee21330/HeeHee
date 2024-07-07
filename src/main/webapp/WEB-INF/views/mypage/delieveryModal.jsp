@@ -44,16 +44,27 @@
 }
 
 #dMdal_p {
-	margin-left: 0px;
+	display: block;
+	width: 100%;
+	height: 30px;
+	font-size: 30px;
+	margin: 0px 0px 70px 0px;
+	text-align: center;
+	color: #3F51A1;
 }
 
 #input_d {
-	justify-content: space-between;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+	margin: 0px 0px 70px 0px;
 }
 
 .Modal_delivery select {
 	color: rgb(63, 81, 161);
-	width: 250px;
+	width: 200px;
 	height: 50px;
 	font-size: 17px;
 	border: 1px solid rgb(189, 189, 189);
@@ -62,7 +73,7 @@
 }
 
 .Modal_delivery input {
-	width: 320px;
+	width: 300px;
 	height: 50px;
 	padding: 0px;
 	font-size: 17px;
@@ -86,13 +97,13 @@
 	color: white;
 	margin: 0px 5px 0px 5px;
 	font-size: 20px;
-}
+} 
 </style>
 <body>
 	<script>
 		$(function() {
 			$("#deliveryModal").hide();
-			
+
 			$("#enter_invoice").on("click", show);
 			$(".profileModalClose").on("click", hide);
 			function show() {

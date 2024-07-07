@@ -49,7 +49,7 @@ function updateSCheck(proSeq) {
 		url: '/heehee/mypage/saledetail/updateSCheckAuc',
 		method: 'POST',
 		data: { 'proSeq': proSeq },
-		uccess: function(data) {
+		success: function(data) {
 			console.log(data);
 			if (data.success == true) {
 				showTost(data.message);
@@ -57,7 +57,7 @@ function updateSCheck(proSeq) {
 			} else {
 				showTost(data.message);
 			}
-			window.location.reload();
+			setTimeout(() => window.location.reload(), 1000);
 		}, error: function(data, status, err) {
 			console.log(err);
 			showTost(data.message);

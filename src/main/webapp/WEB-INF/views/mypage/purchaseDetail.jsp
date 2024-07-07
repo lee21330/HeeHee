@@ -42,7 +42,9 @@
 
 		<p id="progress">진행상황</p>
 		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
-		<button id="accuracy">평점 매기기</button>
+		<c:if test="${saleDetail.proStatus == '거래완료' && saleDetail.rateSeq == 0}">
+			<button id="accuracy">평점 매기기</button>
+		</c:if>
 		<%@ include file="/WEB-INF/views/mypage/ratingModal.jsp"%>
 		<p id="rateSeq">${saleDetail.rateSeq}</p>
 		<p id="pCheck">${saleDetail.PCheck}</p>
@@ -64,13 +66,13 @@
 				<p>구매가</p>
 				<p class="order_right">
 					<fmt:formatNumber value="${saleDetail.productPrice}"
-						pattern="#,###" />
+						pattern="#,###" />원
 				</p>
 			</div>
 			<div class="order">
 				<p>배송비</p>
 				<p class="order_right">
-					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />
+					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />원
 				</p>
 			</div>
 			<hr>

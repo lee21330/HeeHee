@@ -5,7 +5,6 @@ $(function() {
 	var pCheck = $("#pCheck").text().trim();
 	var dStatus = $("#dStatus").text().trim();
 	var rateSeq = $("#rateSeq").text().trim();
-	$("#accuracy").hide();
 
 	/* 예약중인 상품이고 거래방식이 택배이고 송장 내역 없으면 '송장 입력하기' 버튼 보임 */
 	if (dealText === '택배' && dNumberText === '' && proStatus === '예약중') {
@@ -67,9 +66,6 @@ $(function() {
 	if (pCheck != '' || proStatus === '판매중지') {
 		$("#complete").hide();
 	}
-	if (proStatus === '거래완료' && rateSeq === '') {
-		$("#accuracy").show();
-	}
 
 
 });
@@ -87,7 +83,7 @@ function updatePCheck(proSeq) {
 			} else {
 				showTost(data.message);
 			}
-			window.location.reload();
+			setTimeout(() => window.location.reload(), 1000);
 		}, error: function(data, status, err) {
 			console.log(err);
 			showTost(data.message);

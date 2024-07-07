@@ -60,7 +60,7 @@
 				<p id="total">판매금액</p>
 				<p class="order_right">
 					<fmt:formatNumber value="${saleDetail.aucPrice}"
-						pattern="#,###" />
+						pattern="#,###" />원
 				</p>
 			</div>
 
