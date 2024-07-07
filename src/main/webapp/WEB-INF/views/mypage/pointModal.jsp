@@ -213,4 +213,5 @@
 			</div>
 		</div>
 	</div>
+		<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </body>
