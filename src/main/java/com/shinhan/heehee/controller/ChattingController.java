@@ -171,6 +171,7 @@ public class ChattingController {
 	
 	// 소켓: 메시지(+이미지) insert
 	// @SendTo 대신 convertAndSend 사용
+	//convertAndSend(destination, payload)
 	@MessageMapping("/chat")
 	public void sendMessage(ChatMessageDTO message) throws IOException {
 		int subscribeCount = webSocketEventListener.getSubscribersCount("/topic/chatroom/" + message.getRoomId());
@@ -182,7 +183,7 @@ public class ChattingController {
 		}
 		
 		cService.saveMessage(message);
-
+		
 		messagingTemplate.convertAndSend("/topic/chatroom/" + message.getRoomId(), message);
 	}
 	
