@@ -89,15 +89,16 @@
 }
 
 #place_bid_btn {
-    margin-top: 10px;
-    padding: 10px 210px;
-    border: none;
-    background-color: #3b5998;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 30px;
-    letter-spacing: 10px;
+	margin-top: 10px;
+	padding: 10px 200px;
+	border: none;
+	background-color: #3b5998;
+	color: #fff;
+	border-radius: 10px;
+	cursor: pointer;
+	font-size: 30px;
+	letter-spacing: 10px;
+	margin-left: 35px;
 }
 
 .item-details {
@@ -134,6 +135,11 @@
 
 .item-details p {
     margin-bottom: 5px;
+}
+
+.item-description div {
+	overflow: scroll;
+	height: 224px;
 }
 
 .related-items {

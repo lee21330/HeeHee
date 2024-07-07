@@ -77,6 +77,8 @@ public class AuctionController {
 		AuctionProdInfoDTO aucProdInfo = auctionService.aucProdInfo(aucSeq);
 		if (aucProdInfo == null)
 			return "redirect:/auc";
+		
+		aucProdInfo.setIntroduce(aucProdInfo.getIntroduce().replace(" ", "&nbsp;").replace("\n", "<br>"));
 
 		if (principal != null) {
 			model.addAttribute("userId", principal.getName());

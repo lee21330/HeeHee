@@ -65,7 +65,7 @@
                 <div class="item-description">
                     <h3>물품 정보</h3>
                     <hr>
-                    <p>${aucProdInfo.introduce}</p>
+                    <div>${aucProdInfo.introduce}</div>
                 </div>
                 <div class="seller-info">
                     <h3>판매자 정보</h3>
