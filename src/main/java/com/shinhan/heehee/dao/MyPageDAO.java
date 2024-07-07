@@ -170,6 +170,15 @@ public class MyPageDAO {
 		// 현재 암호화된 비밀번호 조회
 		return sqlSession.selectOne(namespace + "selectEncPw", userId);
 	}
+	
+	// 평점 관련
+	public int rating(RateAdminDTO rateDTO) {
+		return sqlSession.insert(namespace + "insertRating", rateDTO);
+	}
+	
+	public int updateRate(RateAdminDTO rateDTO) {
+		return sqlSession.insert(namespace + "updateRating", rateDTO);
+	}
 
 	public int deleteUser(String userId) {
 		return sqlSession.delete(namespace + "deleteUser", userId);
@@ -237,15 +246,6 @@ public class MyPageDAO {
 	public int updateSecondDstatus() {
 		return sqlSession.update(namespace + "updateSecondDstatus");
 	}
-
-	// 평점 관련
-    public int rating(RateAdminDTO rateDTO) {
-        return sqlSession.insert(namespace + "insertRating", rateDTO);
-    }
-    
-    public int updateRate(RateAdminDTO rateDTO) {
-        return sqlSession.insert(namespace + "updateRating", rateDTO);
-    }
 
 	public int updateSCheckAuc(int proSeq) {
 		return sqlSession.update(namespace + "updateSCheckAuc", proSeq);

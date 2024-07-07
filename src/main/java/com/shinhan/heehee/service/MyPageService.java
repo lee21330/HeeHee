@@ -17,6 +17,7 @@ import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.MyPageDAO;
 import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.request.RateAdminDTO;
+import com.shinhan.heehee.dto.request.RateAdminDTO;
 import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.BankKindDTO;
 import com.shinhan.heehee.dto.response.DeliveryCompanyDTO;
@@ -311,6 +312,15 @@ public class MyPageService {
 		}
 
 	}
+	
+	// 평점 관련
+	public int rating(RateAdminDTO rateDTO) {
+		return mypageDao.rating(rateDTO);
+	}
+	
+	public int updateRate(RateAdminDTO rateDTO) {
+		return mypageDao.updateRate(rateDTO);
+	}
 
 	public ResponseEntity<?> updateAddress(String userId, String address, String detailAddress) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -364,15 +374,6 @@ public class MyPageService {
 		return mypageDao.saledetailAuc(proSeq);
 	}
 	
-	// 평점 관련
-    public int rating(RateAdminDTO rateDTO) {
-        return mypageDao.rating(rateDTO);
-    }
-    
-    public int updateRate(RateAdminDTO rateDTO) {
-        return mypageDao.updateRate(rateDTO);
-    }
-
 	
 	
 

@@ -27,7 +27,6 @@ $(document).ready(function() {
 });
 
 function beforeConnectCheck() {
-	console.log("타는거야?");
 	 // 로그인 하면 소켓 연결
 	if("${userId}" != "") alarmConnect();
 }
