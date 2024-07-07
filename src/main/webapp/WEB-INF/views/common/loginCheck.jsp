@@ -15,7 +15,7 @@
 <%-- 로그인 후 --%>
 <sec:authorize access="isAuthenticated()">
 	
-	${userNickName}님 안녕하세요.
+	⭐ ${userNickName}님 안녕하세요 ⭐
 	<div onclick="logout()">로그아웃</div>
 	<div class="div_line"></div>
 	<sec:authorize access="hasRole('ADMIN')">

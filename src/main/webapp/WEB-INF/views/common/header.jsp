@@ -103,7 +103,7 @@ function sendAlarm() {
 			<div class="login_container">
 				<div class="login_menu">
 					<%@ include file="/WEB-INF/views/common/loginCheck.jsp"%>
-					<button onclick="sendAlarm() ">소켓</button>
+					<%-- <button onclick="sendAlarm() ">소켓</button> --%>
 				</div>
 			</div>
 			<div class="header_container">

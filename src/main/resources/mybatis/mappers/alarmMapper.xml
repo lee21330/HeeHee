@@ -15,7 +15,7 @@
 								A.AL_CHECK alCheck
 					FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
 											JOIN AUC_PRODUCT AP ON (A.AL_REQ_SEQ = AP.PRODUCT_SEQ)
-					WHERE A.CATE_NUM = 8 -- 경매물품 판매중지
+					WHERE A.CATE_NUM = 8 -- 경매물품 판매 상태
 								AND A.AL_REQ_SEQ = AP.PRODUCT_SEQ
 								AND A.ID = #{userId}
 					UNION ALL
@@ -28,7 +28,7 @@
 								A.AL_CHECK alCheck
 					FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
 											JOIN SELL_PRODUCT S ON (A.ID = S.ID)
-					WHERE A.CATE_NUM = 7 -- 중고물품 판매중지
+					WHERE A.CATE_NUM = 7 -- 중고물품 판매 상태
 								AND A.ID = #{userId}
 								AND A.AL_REQ_SEQ = S.PRODUCT_SEQ
 					UNION ALL
@@ -118,7 +118,7 @@
 	<!-- 미확인 알림 조회 -->
 	<select id="alarmUnck" parameterType="string" resultType="alarmChatDTO">
 		SELECT *
-		FROM(SELECT NVL(MAX(AP.AUCTION_TITLE), 'From. 희희낙찰') sender,
+		FROM(SELECT NVL(MAX(AP.AUCTION_TITLE), '📢 From. 희희낙찰') sender,
 									MAX(A.AL_CONTENT) alContent,
 									MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate,
 									MAX(NF.CATE_NUM) cateNum,
@@ -127,11 +127,42 @@
 									MAX(A.AL_CHECK) alCheck
 				FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
 										JOIN AUC_PRODUCT AP ON (A.AL_REQ_SEQ = AP.PRODUCT_SEQ)
-				WHERE A.CATE_NUM = 8 -- 경매물품 판매중지
+				WHERE A.CATE_NUM = 8 -- 경매물품 경매 재개
 							AND A.AL_REQ_SEQ = AP.PRODUCT_SEQ
 							AND AL_CHECK = 'N'
 							AND A.ID = #{userId}
+							AND AUC_STATUS = '입찰'
 				UNION ALL
+				SELECT NVL(MAX(AP.AUCTION_TITLE), '📢 From. 희희낙찰') sender, 
+									MAX(A.AL_CONTENT) alContent, 
+									MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+									MAX(NF.CATE_NUM) cateNum, 
+									MAX(A.AL_REQ_SEQ) reqSeq, 
+									MAX(A.AL_NUM) alNum, 
+									MAX(A.AL_CHECK) alCheck 
+     			FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+                  						JOIN AUC_PRODUCT AP ON (A.AL_REQ_SEQ = AP.PRODUCT_SEQ) 
+     			WHERE A.CATE_NUM = 8 -- 경매물품 판매중지
+           					AND A.AL_REQ_SEQ = AP.PRODUCT_SEQ
+           					AND AL_CHECK = 'N'
+           					AND A.ID = #{userId}
+           					AND AUC_STATUS = '판매중지'
+     			UNION ALL
+				SELECT NVL(MAX(S.ARTICLE_TITLE), '📢 From. 희희낙찰') sender, 
+                					MAX(A.AL_CONTENT) alContent, 
+                					MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate, 
+                					MAX(NF.CATE_NUM) cateNum, 
+                					MAX(A.AL_REQ_SEQ) reqSeq, 
+                					MAX(A.AL_NUM) alNum, 
+                					MAX(A.AL_CHECK) alCheck 
+      			FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM) 
+                   						JOIN SELL_PRODUCT S ON (A.ID = S.ID)
+      			WHERE A.CATE_NUM = 7 -- 중고물품 판매 재개
+            				AND A.AL_REQ_SEQ = S.PRODUCT_SEQ
+            				AND AL_CHECK = 'N' 
+            				AND A.ID = #{userId}
+            				AND S.PRO_STATUS = '판매중'
+     			UNION ALL
 				SELECT NVL(MAX(S.ARTICLE_TITLE), '📢 From. 희희낙찰') sender,
 							MAX(A.AL_CONTENT) alContent,
 							MAX(TO_CHAR(A.AL_DATE, 'YYYY-MM-DD / HH24:MI')) alDate,
@@ -145,6 +176,7 @@
 							AND A.AL_REQ_SEQ = S.PRODUCT_SEQ
 							AND AL_CHECK = 'N'
 							AND A.ID = #{userId}
+							AND S.PRO_STATUS = '판매중지'
 				UNION ALL
 				SELECT NVL(MAX(B.BAN_CONTENT), '📢 From. 희희낙찰') sender,
 							MAX(A.AL_CONTENT) alContent,
@@ -197,7 +229,7 @@
 				FROM ALARM A JOIN NF_CATEGORY NF ON (A.CATE_NUM = NF.CATE_NUM)
 										JOIN DEAL_HISTORY DH ON (A.ID = DH.BUYER_ID)
 										JOIN DELIVERY D ON (DH.S_SEQ = D.S_SEQ)
-										JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = SELL_SEQ)
+										JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = DH.SELL_SEQ)
 				WHERE A.CATE_NUM = 5 -- 배송
 							AND A.AL_REQ_SEQ = D.D_SEQ
 							AND AL_CHECK = 'N'
