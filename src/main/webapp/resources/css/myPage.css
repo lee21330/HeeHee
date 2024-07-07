@@ -100,29 +100,6 @@
 	border: 1px solid #EAEAEA;
 }
 
-/* .sub_menu {
-	margin-top:10px;
-	border-bottom: 1px solid #C1C1C1;
-}
-
-.sub_menu ul {
-	display: inline-block;
-}
-
-.sub_menu li {
-	float: left;
-	list-style: none;
-	text-align: center;
-	width: 100px;
-	color: #9CA3AF;
-	cursor: pointer;
-}
-
-.select_sub {
-	color: black !important;
-	font-size: 17px;
-}
- */
 .message {
 	display: block;
 	width: 100%;
@@ -131,30 +108,38 @@
 }
 
 .list {
-	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 20px;
-	padding: 0px 0px 0px 0px;
-	display: flex;
+	justify-content: flex-start;
+	padding: 0px 20px;
+	gap: 47px;
+	
 }
-
+.statusChangeMenu {
+    position: absolute;
+    top: 10px; /* 원하는 위치에 맞게 조정 */
+    right: 10px; /* 원하는 위치에 맞게 조정 */
+    z-index: 3; /* 다른 요소 위에 표시되도록 */
+}
 .product {
-	width: 200px;
-	height: 280px;
-	margin: 30px 20px 0px 20px;
+	position: relative; /* 자식 요소인 .statusChangeMenu의 기준점을 설정 */
+	background: white;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
+	border-radius: 8px;
+	width: 200px;
+	overflow: hidden;
 	transition: transform 0.3s ease-in-out;
-	padding: 5px;
-	box-sizing: border-box;
-	overflow-y: auto;
-	/* border: 1px solid green; */
+	padding: 10px 5px;
 }
 
 .product:hover {
 	transform: translateY(-5px);
 	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product_img_div {
+	margin-bottom: 30px;
+	position: relative;
 }
 
 .product_img {
@@ -168,31 +153,35 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	border-radius: 10px;
-	box-shadow: 0 5px 10px -5px lightgray;
+	border-radius: 8px;
 	position: relative;
 	z-index: 1;
+	margin: 5px;
 }
 
 .photo_status {
 	width: 40px;
 	position: absolute;
-	float: right;
+	margin-left: 145px;
 	z-index: 2;
-}
-
-.product_img:active {
-	width: 200px;
-	height: 200px;
-	object-fit: cover;
-	border-radius: 15%;
-	box-shadow: 0 5px 5px -5px lightgray;
+	padding: 15px 10px;
 }
 
 .product p {
-	/* height: 50px; */
-	margin: 3px 0px;
+	margin: 5px 0px;
 	object-fit: cover;
+	padding: 0px 10px;
+}
+
+.rankProdIntro {
+	color: gray;
+	font-size: 12px;
+	white-space: normal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
 }
 
 #productPrice {
@@ -210,7 +199,7 @@
 	text-align: center;
 	padding: 3px;
 	border-radius: 5px;
-	margin-left: 123px;
+	margin-left: 130px;
 }
 /* 이미지 흑백 처리 */
 .product_img.gray-scale img {
@@ -284,7 +273,10 @@ input[type="radio"] {
 }
 /*찜내역 */
 #deleteJjim {
-	width: 100%;
+	margin: 5px;
+	display: inline-block;
+    padding: 0px 0px 0px 0px;
+    margin: 10px 0px 20px 680px;
 }
 
 .btn_jjim {
@@ -301,43 +293,54 @@ input[type="radio"] {
 /* dropdown*/
 .dropdown-menu {
 	width: 100px;
-	height: 60px;
+	height: 90px;
 	display: none;
 	list-style: none;
 	position: absolute;
 	z-index: 2;
-	top: 40px;
-	background-color: white;
+	top: 50px;
 	text-align: center;
-	padding: 0px 0px 0px 0px;
+	padding: 5px;
+	margin-left: 90px;
+	border-radius: 8px;
 }
 
 .dropdown-menu li {
 	width: 100%;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	
 }
 
 .dropdown-menu li:hover {
+	width: 100%;
 	background-color: lightgray;
 	cursor: pointer;
 }
 
 .sub-dropdown-menu {
 	width: 100px;
-	height: 60px;
+	height: 90px;
 	display: none;
 	list-style: none;
 	position: absolute;
 	z-index: 2;
-	top: 40px;
-	background-color: white;
-	padding: 0px 0px 0px 0px;
+	top: 50px;
+	padding: 5px;
+	margin-left: 90px;
+	border-radius: 8px;
 }
 
 .sub-dropdown-menu li {
+	width: 100%;
 	height: 50%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: white;
 }
 
 .sub-dropdown-menu li:hover {

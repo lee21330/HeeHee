@@ -16,6 +16,7 @@ public class PurchaseListDTO {
 	private char P_CHECK;
 	private char S_CHECK;
 	private String articleTitle;
+	private String introduce;
 	private int productPrice;
 	private String imgName;
 }
