@@ -55,7 +55,7 @@ function updatePCheck(proSeq) {
 			} else {
 				showTost(data.message);
 			}
-			window.location.reload();
+			setTimeout(() => window.location.reload(), 1000);
 		}, error: function(data, status, err) {
 			console.log(err);
 			showTost(data.message);

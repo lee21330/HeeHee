@@ -52,8 +52,8 @@
 		<div id="price_area">
 			<div class="order">
 				<p id="total">구매가</p>
-				<p class="order_right">
-					<fmt:formatNumber value="${saleDetail.aucPrice}" pattern="#,###" />
+				<p id="total_price">
+					<fmt:formatNumber value="${saleDetail.aucPrice}" pattern="#,###" />원
 				</p>
 			</div>
 		</div>

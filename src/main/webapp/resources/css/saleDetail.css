@@ -58,7 +58,6 @@
 	width: 110px;
 	height: 45px;
 	border: none;
-	display: none;
 }
 
 #prod_intro {
@@ -118,7 +117,10 @@
 #price_area {
 	margin-top: 75px;
 }
-
+.order{
+	display: flex;
+	justify-content: space-between;
+}
 .order p{
 	display: inline-block;
 }
