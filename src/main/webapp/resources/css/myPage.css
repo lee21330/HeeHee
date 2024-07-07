@@ -325,3 +325,6 @@ input[type="radio"] {
 	border-radius: 5px;
 	color: orangered;
 }
+#deal_auc{
+	display:none;
+}

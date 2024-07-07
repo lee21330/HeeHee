@@ -181,7 +181,7 @@ function completePayment(payInfo) {
                 })
             })
             .then(resp => resp.text())
-            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq), window.location.reload())
+            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq), window.location.href = '/heehee/main')
             .catch(err => console.log(err));
             
             return true;
