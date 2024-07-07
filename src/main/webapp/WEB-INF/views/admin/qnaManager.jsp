@@ -17,10 +17,8 @@
 	<p class="mainTitle">1:1 상담문의</p>
 		<p class="searchTitle">문의사항 검색</p>
 		<div id="searchContainer">
-			<div id="btmContainer">
-				<div class="containerHeadBlock">
-					<p class="searchContext">검색어</p>
-				</div>
+			<div id="midContainer">
+			<p class="searchContext">검색어</p>
 			<select id="searchCategory">
 				<option value="number">번호</option>
 				<option value="qnaCategory">유형</option>
@@ -32,10 +30,10 @@
 			<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
 			</div>
 		</div>
-		<div id="btmContainer">
+		<div id="detailContainer">
 		<p class="detailTitle">문의 내용</p>
-		<button class="commonSmallBtn" id="editButton">열람/답변</button>
-		<button class="commonSmallBtn" id="deleteButton">삭제</button>
+		<button class="commonSmallDetailBtn2" id="editButton">열람/답변</button>
+		<button class="commonSmallDetailBtn3" id="deleteButton">삭제</button>
 		</div>
 		<div class="qnaTable">
 			<table>

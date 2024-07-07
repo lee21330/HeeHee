@@ -31,6 +31,9 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var createDatePas = new Date(item.createDate).toLocaleDateString();
+					var createDateRev = createDatePas.substring(0, createDatePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.productSeq + "'></td>" + 
@@ -39,7 +42,7 @@ $(document).ready(function() {
 							"<td>" + item.detailCategory + "</td>" + 
 							"<td>" + item.id + "</td>" + 
 							"<td>" + item.articleTitle + "</td>" + 
-							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
+							"<td>" + createDateRev + "</td>" + 
 							"<td>" + item.proStatus + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
@@ -54,7 +57,7 @@ $(document).ready(function() {
 	// 수정 버튼 클릭 시
 	$('#editButton').click(function() {
 		var selected = getSelectedRow();
-
+		
 		if (selected.length === 1) {
 			var row = selected.closest('tr');
 			var id = selected.data('id');
@@ -75,20 +78,20 @@ $(document).ready(function() {
 								"<tr class='editRow'>" + 
 									"<td colspan='8'>" + 
 										"<div class='updateContainer'>" + 
-										"<p class='productUpdate'>판매상태<br>수정</p>" + 
-										"</div>" + 
-										"<select id='editStatus" + id + "'>" + 
+										"<p class='editTitle'>판매상태<br>수정</p>" + 
+										"<select id='editStatus" + id + "' class='selectStatus'>" + 
 										"<option value='판매중' " + (row.find('td').eq(7).text() === '판매중' ? 'selected' : '') + ">판매중</option>" + 
 										"<option value='판매중지' " + (row.find('td').eq(7).text() === '판매중지' ? 'selected' : '') + ">판매중지</option>" + 
 										"</select>" + 
-										"<input type='text' id='editInput" + id + "' class='singleInput' placeholder='판매중지 사유를 입력해주세요'>" + 
-										"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+										"<input type='text' id='editInput" + id + "' class='singleInputPro' placeholder='판매중지 사유를 입력해주세요'>" + 
+										"<button id='saveEditButton' class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+										"</div>" + 
 									"</td>" + 
 								"</tr>";
 
 							var banReason = 
 								"<tr class='banReason'>" + 
-									"<td colspan='6'>" + 
+									"<td colspan='8'>" + 
 										"<div class='productBanReason'>" + 
 										"<p class='productUpdate'>판매중지 사유</p>" + 
 										"<p>" + contentData.productBanReason + "</p>" + 
@@ -111,14 +114,14 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시
-	$(document).on('click', '.saveEditButton', function() {
+	$(document).on('click', '#saveEditButton', function() {
 		var productSeq = $(this).attr('data-id');
 		var proStatus = $("#editStatus" + productSeq).val();
 		var productBanReason = $("#editInput" + productSeq).val();
 		var currProStatus = getSelectedRow().closest('tr').find('td').eq(7).text();
 		var userid = getSelectedRow().closest('tr').find('td').eq(4).text();
 
-		if(currProStatus == '예약중' || currProStatus == '거래완료'){
+		if(currProStatus == '예약중' || currProStatus == '거래완료' || currProStatus == '판매보류'){
 			alert('거래상태를 변경할 수 없습니다.');
 			} else {
 				$.ajax({
@@ -147,7 +150,7 @@ $(document).ready(function() {
 			if (confirm('선택된 항목을 삭제하시겠습니까?')) {
 				selected.each(function() {
 				var productSeq = $(this).attr('data-id');
-
+				
 				$.ajax({
 					url: '/heehee/admin/deleteProduct',
 					method: 'POST',

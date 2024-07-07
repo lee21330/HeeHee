@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import com.shinhan.heehee.dto.request.AdminAuctionDTO;
 import com.shinhan.heehee.dto.request.AdminCategoryDTO;
 import com.shinhan.heehee.dto.request.AdminFaqManagerDTO;
+import com.shinhan.heehee.dto.request.AdminMainDTO;
 import com.shinhan.heehee.dto.request.AdminProductDTO;
 import com.shinhan.heehee.dto.request.AdminQnaManagerDTO;
 import com.shinhan.heehee.dto.request.AdminUserBanDTO;
@@ -45,14 +48,59 @@ public class AdminController {
 		return "/admin/main";
 	}
 
-	// 전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
-
+	//전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
+	//전체 주문현황
+	@GetMapping("/searchTotalOrder")
+	@ResponseBody
+	public List<AdminMainDTO> searchTotalOrder() {
+		List<AdminMainDTO> selectSearch = adminService.searchTotalOrder();
+		return selectSearch;
+	}
+	
+	//일반상품 주문현황
+	@GetMapping("/searchProStatus")
+	@ResponseBody
+	public List<AdminMainDTO> searchProStatus() {
+		List<AdminMainDTO> selectSearch = adminService.searchProStatus();
+		return selectSearch;
+	}
+	
+	//경매상품 주문현황
+	@GetMapping("/searchAucStatus")
+	@ResponseBody
+	public List<AdminMainDTO> searchAucStatus() {
+		List<AdminMainDTO> selectSearch = adminService.searchAucStatus();
+		return selectSearch;
+	}
+	
+	
+	
 	// 최근 주문내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회)
-
+	@GetMapping("/searchRecentProduct")
+	@ResponseBody
+	public List<AdminProductDTO> searchRecentProduct() {
+		List<AdminProductDTO> selectSearch = adminService.searchRecentProduct();
+		return selectSearch;
+	}
+	
 	// 최근 문의내역 조회 (기능: 최근 문의관련 모니터링용 대시보드 항목 조회)
-
+	@GetMapping("/searchRecentQuestion")
+	@ResponseBody
+	public List<AdminQnaManagerDTO> searchRecentQuestion() {
+		List<AdminQnaManagerDTO> selectSearch = adminService.searchRecentQuestion();
+		return selectSearch;
+	}
+	
+	//최근 회원가입 조회 (기능: 최근 가입회원 모니터링용 대시보드 항목 조회)
+	@GetMapping("/searchRecentJoin")
+	@ResponseBody
+	public List<AdminUserDTO> searchRecentJoin(){
+		List<AdminUserDTO> selectSearch = adminService.searchRecentJoin();
+		return selectSearch;
+	}
+	
 	// 관리자 홈 끝
-
+	
 	// 회원정보 관리 관련 SQL문
 
 	@GetMapping("/user")
@@ -90,7 +138,7 @@ public class AdminController {
 				+ ", " + startDate + ", " + endDate);
 		List<AdminUserBanDTO> filterSearch = adminService.userBanSearch(category, categoryDate, keyword, startDate,
 				endDate);
-		System.out.println(filterSearch.size());
+		System.out.println("++++++++++++++++++++++++++++++ filterSearch: " + filterSearch);
 		return filterSearch;
 	}
 
@@ -111,9 +159,28 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지 등록 진행 중 오류가 발생했습니다.");
 		}
 	}
-
-	// 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의
-	// 정지일을 변경할 수 있도록 구성 예정)
+	
+	// 회원정보 관리 - 이용상태 관리 - 삭제 기능 (기능 : 선택된 회원의 정지기록을 삭제함)
+	@PostMapping("/deleteUserBan")
+	@ResponseBody
+	public ResponseEntity<String> deleteUserBan(
+			@RequestParam("id") String id, 
+			@RequestParam("banStr") String banStr) {
+		System.out.println("Controller id : " + id);
+		System.out.println("Controller banStr : " + banStr);
+		try {
+            adminService.deleteUserBan(id, banStr);
+            
+            System.out.println("service로 전달되어야 하는 값 : id: " + id + " banStr: " + banStr);
+			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 진행 중 오류가 발생했습니다.");
+		}
+	}
+	
+	/* 기능 변경 : 수정기능 삭제 후 삭제기능 추가
+	// 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 정지일을 변경할 수 있도록 구성 예정)
 	@PostMapping("/updateBanUser")
 	@ResponseBody
 	public ResponseEntity<String> updateBanUser (String id, String banContent, Date banStr, Date banEnd){
@@ -128,9 +195,9 @@ public class AdminController {
 			System.out.println(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정지상태 수정 중 오류가 발생했습니다.");
 		}
-		
 	}
-
+	 */
+	
 	// 회원정보 끝
 
 	// 상품 관리 관련 SQL문
@@ -388,19 +455,19 @@ public class AdminController {
 	}
 
 	// 고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	@PostMapping("/deleteQna")
+	@PostMapping("/deleteQnaContent")
 	@ResponseBody
-	public ResponseEntity<String> deleteQna(Integer seqQnaBno) {
+	public ResponseEntity<String> deleteQnaContent(Integer seqQnaBno) {
 		System.out.println("Controller seqQnaBno : " + seqQnaBno);
 		try {
-			adminService.deleteQna(seqQnaBno);
+			adminService.deleteQnaContent(seqQnaBno);
 			return ResponseEntity.ok("삭제가 성공적으로 완료되었습니다.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 진행 중 오류가 발생했습니다.");
 		}
 	}
-
+	
 	@GetMapping("/faqManager")
 	public String admin_faqManager() {
 		return "/admin/faqManager";
