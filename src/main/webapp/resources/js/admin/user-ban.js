@@ -39,14 +39,23 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var banStrRev = new Date(item.banStr).toLocaleDateString();
+					var banEndRev = new Date(item.banEnd).toLocaleDateString();
+					var replaceStrRev = banStrRev.substring(0, banStrRev.length - 1).replaceAll(". ", "-");
+					var replaceEndRev = banEndRev.substring(0, banEndRev.length - 1).replaceAll(". ", "-");
+					
+
+					console.log("ISOString 원래값 banStrRev : " + replaceStrRev);
+					console.log("ISOString 원래값 banEndRev : " + replaceEndRev);
+					
 					var row = 
 						"<tr>" + 
-							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.id + "'></td>" + 
+							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.id + "' data-banStr='" + replaceStrRev + "'></td>" + 
 							"<td>" + item.name + "</td>" + 
 							"<td>" + item.id + "</td>" + 
 							"<td>" + item.banContent + "</td>" + 
-							"<td>" + new Date(item.banStr).toLocaleDateString() + "</td>" + 
-							"<td>" + new Date(item.banEnd).toLocaleDateString() + "</td>" + 
+							"<td>" + replaceStrRev + "</td>" + 
+							"<td>" + replaceEndRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 					});
@@ -57,6 +66,104 @@ $(document).ready(function() {
 			});
 	};
 
+	
+	//정지 등록 버튼 클릭 시 (정지 신규추가)
+	$('#addButton').click(function(){
+		var id = 'new';
+		
+		//기존의 수정 행 제거
+		if ($('.editRow').length > 0){
+			$('.editRow').remove();
+			}
+		
+		if ($('#tableBody').children('.newRow').length > 0){
+			$('.newRow').remove();
+			} else {
+				var newRow = 
+					"<tr class='newRow'>" + 
+						"<td colspan='6'>" + 
+							"<div class='updateContainer'>" + 
+								"<p class='editTitle'>사용자<br>이용정지</p>" + 
+								"<input type='text' id='newBanId' class='userBanIdInput' placeholder='정지할 사용자 ID 입력'>" + 
+								"<input type='text' id='newBanContent' class='userBanContentInput' placeholder='이용정지 사유를 입력해주세요'>" + 
+								"<input type='date' id='startDateSelect' class='userBanStr2'>" + 
+								"<input type='date' id='endDateSelect' class='userBanEnd2'>" + 
+								"<button id='saveNewButton' class='saveNewButtonBan' data-id='" + id + "'>정지 등록</button>" + 
+							"</div>" + 
+						"</td>" + 
+					"</tr>";
+				$('#tableBody').append(newRow);
+			}
+	});
+	
+	// 저장 버튼 클릭 시 (신규등록)
+	$(document).on('click', '#saveNewButton', function(){
+		var id = $('#newBanId').val();
+		var banContent = $('#newBanContent').val();
+		var banStr = $('#startDateSelect').val();
+		var banEnd = $('#endDateSelect').val();
+		
+		console.log("신규등록 id : " + id);
+		console.log("신규등록 banContent : " + banContent);
+		console.log("신규등록 banStr : " + banStr);
+		console.log("신규등록 banEnd : " + banEnd);
+		
+		$.ajax({
+			url:'/heehee/admin/insertBanUser', 
+			method:'POST', 
+			data: { 'id': id, 
+					'banContent': banContent, 
+					'banStr': banStr,
+					'banEnd': banEnd 
+					},
+			success: function(){
+				loadTable();
+			},
+			error: function(){
+				alert('정지상태 신규등록 중 오류가 발생했습니다.');
+			}
+		});
+	});
+
+	//삭제 기능
+	$('#deleteButton').click(function() {
+		var selected = getSelectedRow();
+		
+		console.log('삭제 버튼 selected : ' + selected)
+		
+		if (selected.length > 0) {
+			if (confirm('선택된 항목을 삭제하시겠습니까?')) {
+				selected.each(function(){
+					var id = $(this).data('id');
+					var banStr = $(this).attr('data-banStr');
+					
+					console.log('데이터 값 확인 id : ' + id);
+					console.log('데이터 값 확인 banStr : ' + banStr);
+					
+					$.ajax({
+						url:'/heehee/admin/deleteUserBan', 
+						method:'POST', 
+						data: { 'id': id, 
+								'banStr': banStr 
+								}, 
+						success: function(){
+							loadTable();
+						},
+						error: function(){
+							alert('삭제 중 오류가 발생했습니다.');
+						}
+					}); //ajax
+				}); //selected.each (Confirm)
+			} //if문 (Confirm)
+		} //if문 (selected.length)
+	}); //기능 메인
+
+	function getSelectedRow(){
+		return $('input.rowCheckbox:checked');
+	}
+	
+ });
+	/* 기능 변경 : 수정기능 삭제 후 삭제기능 추가
 	// 수정 버튼 클릭 시
 	$('#editButton').click(function() {
 		var selected = getSelectedRow();
@@ -99,35 +206,6 @@ $(document).ready(function() {
 				}
 	});
 	
-	//정지 등록 버튼 클릭 시 (정지 신규추가)
-	$('#addButton').click(function(){
-		var id = 'new';
-		
-		//기존의 수정 행 제거
-		if ($('.editRow').length > 0){
-			$('.editRow').remove();
-			}
-		
-		if ($('#tableBody').children('.newRow').length > 0){
-			$('.newRow').remove();
-			} else {
-				var newRow = 
-					"<tr class='newRow'>" + 
-						"<td colspan='6'>" + 
-							"<div class='updateContainer'>" + 
-								"<p class='editTitle'>사용자<br>이용정지</p>" + 
-								"<input type='text' id='newBanId' class='userBanIdInput' placeholder='정지할 사용자 ID 입력'>" + 
-								"<input type='text' id='newBanContent' class='userBanContentInput' placeholder='이용정지 사유를 입력해주세요'>" + 
-								"<input type='date' id='startDateSelect' class='userBanStr2'>" + 
-								"<input type='date' id='endDateSelect' class='userBanEnd2'>" + 
-								"<button id='saveNewButton' class='saveNewButtonBan' data-id='" + id + "'>정지 등록</button>" + 
-							"</div>" + 
-						"</td>" + 
-					"</tr>";
-				$('#tableBody').append(newRow);
-			}
-	});
-
 	// 저장 버튼 클릭 시(수정등록)
 	$(document).on('click', '#saveEditButton', function() {
 		var id = $(this).attr('data-id');
@@ -156,39 +234,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
-	// 저장 버튼 클릭 시 (신규등록)
-	$(document).on('click', '#saveNewButton', function(){
-		var id = $('#newBanId').val();
-		var banContent = $('#newBanContent').val();
-		var banStr = $('#startDateSelect').val();
-		var banEnd = $('#endDateSelect').val();
-		
-		console.log("신규등록 id : " + id);
-		console.log("신규등록 banContent : " + banContent);
-		console.log("신규등록 banStr : " + banStr);
-		console.log("신규등록 banEnd : " + banEnd);
-		
-		$.ajax({
-			url:'/heehee/admin/insertBanUser', 
-			method:'POST', 
-			data: { 'id': id, 
-					'banContent': banContent, 
-					'banStr': banStr,
-					'banEnd': banEnd 
-					},
-			success: function(){
-				loadTable();
-			},
-			error: function(){
-				alert('정지상태 신규등록 중 오류가 발생했습니다.');
-			}
-		});
-	});
-
-	function getSelectedRow(){
-		return $('input.rowCheckbox:checked');
-	}
+	*/
 
 	/* 향후 개선하여 추가 구현 예정
 	// 라디오 버튼 클릭 시 날짜 필터 설정
@@ -218,4 +264,3 @@ $(document).ready(function() {
 		$('#endDate').val(endDate);
 			loadTable();
 	});*/
- });

@@ -81,6 +81,9 @@ $(document).ready(function() {
 
 				data.forEach(function(item) {
 					var buyerId = (!item.buyerId || item.buyerId.trim() === '' ) ? '' : item.buyerId ;
+					var createDatePas = new Date(item.createDate).toLocaleDateString();
+					var createDateRev = createDatePas.substring(0, createDatePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td>" + item.productSeq + "</td>" + 
@@ -89,7 +92,7 @@ $(document).ready(function() {
 							"<td>" + item.articleTitle + "</td>" + 
 							"<td>" + item.proStatus + "</td>" + 
 							"<td>" + item.productPrice.toLocaleString() + "</td>" + 
-							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
+							"<td>" + createDateRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 				});
@@ -113,12 +116,16 @@ $(document).ready(function() {
 
 				data.forEach(function(item) {
 					var ansStatus = (!item.qnaAns || item.qnaAns.trim() === '' ) ? '처리대기' : '답변완료';
+					var qnaDatePas = new Date(item.qnaTime).toLocaleDateString();
+					var qnaDateRev = qnaDatePas.substring(0, qnaDatePas.length -1).replaceAll(". ", "-");
+					
+					
 					var row = 
 						"<tr>" + 
 							"<td>" + item.id + "</td>" + 
 							"<td>" + ansStatus + "</td>" + 
 							"<td>" + item.qnaTitle + "</td>" + 
-							"<td>" + new Date(item.qnaTime).toLocaleDateString() + "</td>" + 
+							"<td>" + qnaDateRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 				});
@@ -140,13 +147,16 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var createDatePas = new Date(item.createDate).toLocaleDateString();
+					var createDateRev = createDatePas.substring(0, createDatePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td>" + item.id + "</td>" + 
 							"<td>" + item.name + "</td>" + 
 							"<td>" + item.email + "</td>" + 
 							"<td>" + item.phoneNum + "</td>" + 
-							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
+							"<td>" + createDateRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 				});

@@ -52,6 +52,9 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var createDatePas = new Date(item.createDate).toLocaleDateString();
+					var createDateRev = createDatePas.substring(0, createDatePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td>" + item.name + "</td>" + 
@@ -59,7 +62,7 @@ $(document).ready(function() {
 							"<td>" + item.email + "</td>" + 
 							"<td>" + item.phoneNum + "</td>" + 
 							"<td>" + item.address + "</td>" + 
-							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
+							"<td>" + createDateRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 				});

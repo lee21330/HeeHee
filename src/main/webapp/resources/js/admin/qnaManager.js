@@ -32,6 +32,9 @@ $(document).ready(function() {
 
 				data.forEach(function(item) {
 					var ansStatus = (!item.qnaAns || item.qnaAns.trim() === '' ) ? '처리대기' : '답변완료';
+					var qnaTimePas = new Date(item.qnaTime).toLocaleDateString();
+					var qnaTimeRev = qnaTimePas.substring(0, qnaTimePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.seqQnaBno + "'></td>" + 
@@ -40,7 +43,7 @@ $(document).ready(function() {
 							"<td>" + item.qnaOption + "</td>" + 
 							"<td>" + item.qnaTitle + "</td>" + 
 							"<td>" + item.id + "</td>" + 
-							"<td>" + new Date(item.qnaTime).toLocaleDateString() + "</td>" + 
+							"<td>" + qnaTimeRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 				});

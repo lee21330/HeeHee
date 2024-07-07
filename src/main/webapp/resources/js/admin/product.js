@@ -31,6 +31,9 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var createDatePas = new Date(item.createDate).toLocaleDateString();
+					var createDateRev = createDatePas.substring(0, createDatePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.productSeq + "'></td>" + 
@@ -39,7 +42,7 @@ $(document).ready(function() {
 							"<td>" + item.detailCategory + "</td>" + 
 							"<td>" + item.id + "</td>" + 
 							"<td>" + item.articleTitle + "</td>" + 
-							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
+							"<td>" + createDateRev + "</td>" + 
 							"<td>" + item.proStatus + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
@@ -54,7 +57,7 @@ $(document).ready(function() {
 	// 수정 버튼 클릭 시
 	$('#editButton').click(function() {
 		var selected = getSelectedRow();
-
+		
 		if (selected.length === 1) {
 			var row = selected.closest('tr');
 			var id = selected.data('id');
@@ -147,7 +150,7 @@ $(document).ready(function() {
 			if (confirm('선택된 항목을 삭제하시겠습니까?')) {
 				selected.each(function() {
 				var productSeq = $(this).attr('data-id');
-
+				
 				$.ajax({
 					url: '/heehee/admin/deleteProduct',
 					method: 'POST',

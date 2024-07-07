@@ -32,6 +32,9 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var createDatePas = new Date(item.createDate).toLocaleDateString();
+					var createDateRev = createDatePas.substring(0, createDatePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.productCateSeq + "'></td>" + 
@@ -39,7 +42,7 @@ $(document).ready(function() {
 							"<td>" + item.category + "</td>" + 
 							"<td>" + item.detailCategory + "</td>" + 
 							"<td>" + item.id + "</td>" + 
-							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
+							"<td>" + createDateRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 				});

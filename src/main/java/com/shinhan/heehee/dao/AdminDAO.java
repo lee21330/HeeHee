@@ -98,12 +98,20 @@ public class AdminDAO {
 		return result;
 	}
 	
-    //회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정)
+	// 회원정보 관리 - 이용상태 관리 - 삭제 기능 (기능 : 선택된 회원의 정지기록을 삭제함)
+	public void deleteUserBan(String id, String banStrSt){
+		AdminUserBanDTO dto = new AdminUserBanDTO(id, banStrSt);
+		sqlSession.delete("deleteUserBan", dto);
+	}
+	
+	/* 기능 변경 : 수정기능 삭제 후 삭제기능 추가
+	// 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 정지일을 변경할 수 있도록 구성 예정)
 	public int updateBanUser(String id, String banContent, Date banStr, Date banEnd) {
 		AdminUserBanDTO dto = new AdminUserBanDTO(id, banContent, banStr, banEnd);
 		int result = sqlSession.update("updateBanUser", dto);
 		return result;
 	}
+	*/
 	
 	//회원정보 관리 끝
 	

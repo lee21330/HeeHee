@@ -31,6 +31,10 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var expTimePas = new Date(item.expTime).toLocaleDateString();
+					var expTimeRev = expTimePas.substring(0, expTimePas.length -1).replaceAll(". ", "-");
+					
+					
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.productSeq + "'></td>" + 
@@ -39,7 +43,7 @@ $(document).ready(function() {
 							"<td>" + item.detailCategory + "</td>" + 
 							"<td>" + item.sellerId + "</td>" + 
 							"<td>" + item.auctionTitle + "</td>" + 
-							"<td>" + new Date(item.expTime).toLocaleDateString() + "</td>" + 
+							"<td>" + expTimeRev + "</td>" + 
 							"<td>" + item.aucStatus + "</td>" + 
 						"</tr>";
 					tableBody.append(row);

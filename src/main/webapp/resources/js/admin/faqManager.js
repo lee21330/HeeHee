@@ -30,6 +30,9 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var faqTimePas = new Date(item.faqTime).toLocaleDateString();
+					var faqTimeRev = faqTimePas.substring(0, faqTimePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.seqFaqBno + "'></td>" + 
@@ -37,7 +40,7 @@ $(document).ready(function() {
 							"<td>" + item.qnaOption + "</td>" + 
 							"<td>" + item.faqContent + "</td>" + 
 							"<td>" + item.id + "</td>" + 
-							"<td>" + new Date(item.faqTime).toLocaleDateString() + "</td>" + 
+							"<td>" + faqTimeRev + "</td>" + 
 						"</tr>";
 						tableBody.append(row);
 					});
