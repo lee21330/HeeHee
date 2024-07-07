@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
 });
 
 // 채팅룸 커넥트
+//send(destination(보낼 목적지), header, body)
+//subscribe(destination(구독할 목적지), callback(목적지에서 메시지 왔을때 호출할 함수), header)
 function chatConnect(chatRoomId) {
 	disconnect();
 	var ChatSocket = new SockJS('/heehee/chatws');
@@ -30,10 +32,10 @@ function chatConnect(chatRoomId) {
 	    ChatStompClient.send("/app/joinRoom", {}, JSON.stringify({"userId": loginMemberNo, "roomId": chatRoomId}));
 	        ChatStompClient.subscribe('/topic/chatroom/' + chatRoomId, function (chatMessage) {
 	        	var json = JSON.parse(chatMessage.body);
-	        	if(json.userId != null) {
-					selectChattingFn();
-	        	} else {
-		            showMessage(json);
+	        	if(json.userId != null) { // 사용자가 채팅방에 참가할때
+					selectChattingFn(); // 채팅방 메시지 목록 전체 재출력(안 읽음 -> 읽음)
+	        	} else { // 사용자가 채팅방에 존재하지 않을 때
+		            showMessage(json); // 보낸 채팅 메시지만 화면에 출력
 	            }
 	        });
         });
