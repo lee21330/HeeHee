@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.service.AlarmService;
+import com.shinhan.heehee.service.AuctionService;
 import com.shinhan.heehee.service.MainService;
 
 @Controller
@@ -21,21 +22,38 @@ public class MainController {
 	@Autowired
 	AlarmService alarmService;
 	
+	@Autowired
+	AuctionService auctionService;
+	
 	@GetMapping("/main")
 	public String main(Model model, Principal principal) {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList();
 		model.addAttribute("mainCateList", mainCateList); // 카테고리 서비스 호출
+		String loginId = (principal != null) ? principal.getName() : "admin";
+		model.addAttribute("userId",loginId);
 		
-		if(principal != null) {
-			model.addAttribute("userId",principal.getName());
-			int alarmCount = alarmService.alarmCount(principal.getName());
-			model.addAttribute("alarmCount",alarmCount);
-		}
+		int alarmCount = alarmService.alarmCount(loginId);
+		model.addAttribute("alarmCount",alarmCount);
+	
+		
 		model.addAttribute("rankProdList", mainservice.rankProdList());
-		model.addAttribute("recommandList", mainservice.recommandList());
+		model.addAttribute("recommandList", mainservice.recommandList(loginId));
 		model.addAttribute("recentprodList", mainservice.recentprodList());
-		model.addAttribute("lastURL", "main");
 		return "/main/main";
 	}
 	
+	
+	@GetMapping("/main/search")
+	public String search(Model model, Principal principal) {
+		model.addAttribute("rankProdList", mainservice.rankProdList());
+		
+		String loginId = (principal != null) ? principal.getName() : "admin";
+		int alarmCount = alarmService.alarmCount(loginId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+
+		List<CategoryDTO> mainCateList = mainservice.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
+		
+		return "/main/search";
+	}
 }

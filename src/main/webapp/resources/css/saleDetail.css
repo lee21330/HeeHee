@@ -17,37 +17,36 @@
 
 #img {
 	margin-top: 10px;
-	width: 300px;
-	height: 300px;
+	width: 270px;
+	height: 270px;
 	object-fit: contain;
 	box-shadow: 2px 3px 5px 0px #acacac;
 	border-radius: 10px;
 	display: inline-block;
 }
 .title-container {
-   display: inline-block;
-  /*   justify-content: space-between; 텍스트와 링크를 양쪽 끝으로 정렬
-    align-items: center;
-    width: 100%;
-    color: black; */
-    border: 1px solid green;
+ 
+   margin: 0px 70px;
+   height: 270px;
 } 
 
-#url_copy {
-    width: 50px;
-    height: 25px;
-    object-fit: contain;
+#product_category{
+	display: inline-block;
 }
 #date {
+	display: inline-block;
 	color: #acacac;
-	font-size: 22px;
-	margin-left: 30px;
+	/* font-size: 22px; */
+	margin-left: 10px;
 }
 
 #articleTitle {
 	font-size: 28px;
-	margin-left: 30px;
 	color: #4949e9;
+	margin: 16px 0px;
+}
+#dealTitle, #deal{
+	display: inline-block;
 }
 
 #enter_invoice {
@@ -65,6 +64,17 @@
 #prod_intro {
 	font-size: 17px;
 	margin-left: 30px;
+}
+#accuracy{
+	background-color: #4949e9;
+	border-radius: 10px;
+	color: white;
+	font-size: 16px;
+	float: right;
+	margin-top: 30px;
+	width: 90px;
+	height: 45px;
+	border: none;
 }
 
 #progress {
@@ -84,7 +94,16 @@
 	height: 45px;
 	border: none;
 }
+#delivery{
+	border: 2px solid lightgray;
+	padding: 10px;
+	border-radius: 10px;
+	width: 300px;
+}
 
+#rateSeq, #pCheck,#sCheck, #dStatus{
+	display: none;
+}
 #graph {
 	margin-top: 20px;
 	width: 100%;

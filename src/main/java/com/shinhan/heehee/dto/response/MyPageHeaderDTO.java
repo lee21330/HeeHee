@@ -1,5 +1,7 @@
 package com.shinhan.heehee.dto.response;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +21,8 @@ public class MyPageHeaderDTO {
 	private String userIntroduce;
 	private int userRating;
 	private int userPoint;
+	private String PW;
+	private Date createDate;
+	private int createDiff;
 	
 }

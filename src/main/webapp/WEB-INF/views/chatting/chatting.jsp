@@ -14,7 +14,6 @@
 </head>
 <body>
 	<div id="headerArea">
-		<!-- headerInclude 해줘야 해요 -->
 		<jsp:include page="../common/header.jsp"></jsp:include>
 	</div>
 
@@ -201,11 +200,9 @@
 			</div>
 			<!-- 채팅 메시지 내역 -->
 			<div class="content-body">
-            <c:if test="${fn:length(roomList) == 0}">
-		    	<div class = "noneRoomChat">
-              	  <span>대화방을 선택해주세요💭</span>
-          	  </div>
-            </c:if>
+			<div class = "noneRoomChat">
+                채팅을 시작해보세요💭
+            </div>
 				<%-- <div class="message-list">
 				    <!-- 내 메세지 -->
 					<div class="my-chat">
@@ -245,6 +242,8 @@
 			</div>
 		</div>
 	</div>
+	
+		<jsp:include page="../common/footer.jsp"></jsp:include>
 
 	<!--------------------------------------- sockjs를 이용한 WebSocket 구현을 위해 라이브러리 추가 ---------------------------------------------->
 	<!-- https://github.com/sockjs/sockjs-client -->
@@ -253,7 +252,7 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-	
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<script>
 		// 로그인한 회원 번호 => 추후 수정
 		loginMemberNo = "${userId}";

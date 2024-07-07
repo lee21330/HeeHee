@@ -15,7 +15,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/product.js"></script> <!-- 이미지파일 업로드때문에 필요 -->
 	<script src="/heehee/resources/js/productregiCategory.js"></script>
-	<form action="/heehee/sell/productModify" method="POST" enctype="multipart/form-data">
+	<form id="modify_form" action="/heehee/sell/productModify" method="POST" enctype="multipart/form-data">
 	<input type="hidden" value="${info.productSeq}" name="prodSeq">
 	<div class="productRegistrate">
 	<div id="test">
@@ -76,11 +76,11 @@
 			</div>
 	<div class="regi_item">
 		<p class="setmargin">글 제목</p>
-		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." value="${info.articleTitle}" name="articleTitle">
+		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." value="${info.articleTitle}" name="articleTitle" required>
 	</div>
 	<div class="regi_item">
 		<p>상품 이름</p>
-		<input type="text" class="input_name" placeholder="상품명을 입력해주세요." value="${info.prodName}" name="prodName">
+		<input type="text" class="input_name" placeholder="상품명을 입력해주세요." value="${info.prodName}" name="prodName" required>
 	</div>
 	<div class="regi_item">
 		<p>상품 상태</p>
@@ -100,11 +100,11 @@
 	</div>
 	<div class="regi_item">
 		<p>상품 설명</p>
-		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요.">${info.introduce}</textarea>
+		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요." required>${info.introduce}</textarea>
 	</div>
 	<div class="regi_item">
 		<p>상품 가격</p>
-		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요." value="${info.productPrice}">
+		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요." value="${info.productPrice}" required max="2000000000">
 	</div>
 	<div class="regi_item">
     <p>거래 유형</p>
@@ -118,7 +118,7 @@
 	</div>
 	<div class="regi_item">
 	    <p class="setmargin">배송비</p>
-	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." value="${info.DCharge}" disabled>
+	    <input id="d_charge" type="number" class="input_name" name="dCharge" placeholder="배송비를 입력해주세요." value="${info.DCharge}" disabled required max="2000000000">
 	</div>
 		</main>
 		</div>
@@ -126,9 +126,8 @@
 	<div id="sub_button">
 		<input type="submit" value="수정하기">
 	</div>
-	
 	</form>
-	
+		
 	<script>
 	$(document).ready(function() {
 		$('form').on('submit', function(e) {
@@ -272,38 +271,38 @@
 	        var cateSeq = $(this).attr('data');
 	        $("#selCateSeq").val(cateSeq);
 	    });
+	    
+	    
+	    
 	});
 	
+	
 	function validateForm() {
-	    // 이미지 파일 검사
-	    var inputFile = $('#input_file1')[0];
-	    var existingImages = ${prodImgList.size()};
-	    var newImages = inputFile.files.length;
-	    if (existingImages + newImages < 1) {
-	        alert('적어도 하나의 이미지를 추가해주세요.');
-	        return false;
-	    }
-
-	    // 이미지 파일 타입 검사
-	    var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/jpg"];
-	    for (var i = 0; i < inputFile.files.length; i++) {
-	        var file = inputFile.files[i];
-	        if ($.inArray(file.type, validImageTypes) === -1) {
-	            alert('올바른 이미지 파일 형식이 아닙니다.');
-	            return false;
-	        }
-	    }
-
-	    // 카테고리 검사
-	    var selectedCategory = $("#selCateSeq").val();
-	    if (!selectedCategory) {
-	        alert('카테고리를 선택해주세요.');
-	        return false;
-	    }
-
-	    return true;
-	}
-
+        // 이미지 파일 검사
+        var inputFile = $('#input_file1')[0];
+        var existingImages = "${prodImgList.size()}";
+        var newImages = inputFile.files.length;
+        if (existingImages + newImages < 1) {
+            alert('적어도 하나의 이미지를 추가해주세요.');
+            return false;
+        }
+        // 이미지 파일 타입 검사
+        var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/jpg"];
+        for (var i = 0; i < inputFile.files.length; i++) {
+            var file = inputFile.files[i];
+            if ($.inArray(file.type, validImageTypes) === -1) {
+                alert('올바른 이미지 파일 형식이 아닙니다.');
+                return false;
+            }
+        }
+        // 카테고리 검사
+        var selectedCategory = $("#selCateSeq").val();
+        if (!selectedCategory) {
+            alert('카테고리를 선택해주세요.');
+            return false;
+        }
+        return true;
+    }
 </script>
 </body>
 

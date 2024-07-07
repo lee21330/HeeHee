@@ -5,19 +5,68 @@
 	margin: 0 auto;
 }
 
-.classifyTitle {
-	font-size: 25px;
+.search_order {
+    cursor: pointer;
+    color: black;
+}
+
+.search_order.active {
+    color: #ABC3FF;
+}
+
+#search_text {
+	margin-top: 20px;
+}
+
+.searchTitle {
+	font-size: 20px;
+}
+
+#search_result {
+	color: orangered;
 }
 
 .rankProdDiv {
-	width: 170px;
-    padding: 10px;
-    margin: 7px 23px 7px 0;
-    display: inline-block;
+	background: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    width: 170px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    padding-top: 5px;
 }
 
 .rankProdTitle {
 	height: 40px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+    -webkit-box-orient: vertical;
+}
+
+.rankProdInfo {
+	padding: 10px; /* 내용과의 여백 */
+}
+
+.rankProdTitle, .rankProdIntro, .rankProdPrice {
+    display: block;
+    margin: 5px 0;
+    text-align: justify !important;
+}
+
+.rankProdPrice {
+	font-size: 18px;
+}
+
+#date_diff {
+	display: block;
+    text-align: right;
+    color: #888;
+    margin-top: 5px;
+    font-size: 12px;
 }
 
 .rankProdDiv:nth-child(6n) {
@@ -25,7 +74,8 @@
 }
 
 .rankProdDiv:hover {
-	background: #ececec;
+	transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 .recommandProdDiv:hover {
@@ -45,7 +95,7 @@
 }
 
 .rankProdDiv img {
-	width: 95%;
+	width: 160px;
 	height: 160px;
 	margin: 0 2.5%;
 }
@@ -57,11 +107,42 @@
 .rankProdIntro {
 	color: gray;
 	font-size: 12px;
-	height: 30px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+#search_menu_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#search_menu_wrap {
+	
+}
+
+#search_menu {
+	text-align: right;	
+}
+
+.search_order {
+	font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 #rankListArea {
-	width: 100%;
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 20px;
+    gap: 20px;
 }
 
 #recommandListArea {
@@ -192,4 +273,35 @@
 .nowRegProdUpTime {
 	color: lightgray;
     font-size: 12px;
+}
+
+.imgContainer {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.product_img {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#overlay1 {
+	position: absolute;
+    top: 129px;
+    right: 104px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#auc_intro {
+	width: 40px;
+	font-size: 14px;
+	color: orangered;
+	background-color : rgb(255,255,255,0.7);
+	padding: 7px 7px;
+    border-radius: 10px;
+    margin: 0;
 }

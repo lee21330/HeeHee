@@ -24,4 +24,5 @@ public class MainProdRecoDTO {
 	private int imgCateSeq;
 	private String proStatus;
 	private int productSeq;
+	private String userId;
 }

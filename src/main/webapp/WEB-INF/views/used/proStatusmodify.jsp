@@ -18,10 +18,12 @@
                         $("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
                     }
                     
-                    $("#to_reserve_btn").on("click", toReserve);
-                    $("#cancel_reserve_btn").on("click", cancelReserve);
+                    /* $("#to_reserve_btn").on("click", toReserve);
+                    $("#cancel_reserve_btn").on("click", cancelReserve); */
+                    
                     $(".btn_putoff").on("click", toPutOff);
                     $(".btn_delete").on("click", toDelete);
+                    $(".btn_selling").on("click", cancelReserve);
                 });
                 
                 function toReserve() {
@@ -131,8 +133,8 @@
 					<c:if test="${info.proStatus == '판매중'}">
                        <div class="btn_modal">
                            <!-- <button id="to_reserve_btn" class="btn_selected">예약하기</button> -->
-                           <button class="btn_nonsel btn_putoff">판매보류</button>
-                           <button class="btn_nonsel btn_delete">삭제하기</button>
+                           <button class="btn_nonsel btn_putoff">판매 보류하기</button>
+                           <button class="btn_nonsel btn_delete">물품 삭제하기</button>
                        </div>
                     </c:if>
                     <%-- <c:if test="${info.proStatus == '예약중'}">
@@ -142,6 +144,13 @@
                            <button class="btn_nonsel btn_delete">삭제하기</button>
                        </div>
                     </c:if> --%>
+                    <c:if test="${info.proStatus == '판매보류'}">
+                       <div class="btn_modal">
+                           <!-- <button id="to_reserve_btn" class="btn_selected">예약하기</button> -->
+                           <button class="btn_nonsel btn_selling">판매중으로 변경</button>
+                           <button class="btn_nonsel btn_delete">물품 삭제하기</button>
+                       </div>
+                    </c:if>
                 </div>
             </div>
         </body>

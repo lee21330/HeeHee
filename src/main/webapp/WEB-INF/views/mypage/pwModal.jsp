@@ -22,7 +22,33 @@
 				$("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
 			}
 		});
+		function changePW() {
+			var currentPassword = $("#currentPassword").val();
+			var password = $("#password").val();
+			var confirmPassword = $("#confirmPassword").val();
 
+			$.ajax({
+				url : '/heehee/mypage/profile/updatePw',
+				method : 'PUT',
+				contentType : 'application/json',
+				data : JSON.stringify({
+					currentPassword : currentPassword,
+					password : password,
+					confirmPassword : confirmPassword
+				}),
+				success : function(data) {
+					if (data.able === true) {
+						// 성공 시 처리 
+					} else {
+						// 실패 시 처리 
+					}
+					$("#new_pw_check").text(data.message);
+				},
+				error : function(xhr, status, error) {
+					console.error(error);
+				}
+			});
+		}
 	</script>
 
 	<div class="mModal" id="wModal">
@@ -33,14 +59,12 @@
 			<form class="modal_form">
 				<p class="modal_info">비밀번호 변경</p>
 				<input type="password" id="currentPassword" name="currentPassword"
-					placeholder="현재 비밀번호 확인" />
-				<div id="my_pw_check" class="dup_result"></div>
-				<input type="password" id="password" name="password"
-					placeholder="새로운 비밀번호" /> <input type="password"
+					placeholder="현재 비밀번호 확인" /> <input type="password" id="password"
+					name="password" placeholder="새로운 비밀번호" /> <input type="password"
 					id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인" />
 				<div id="new_pw_check" class="dup_result"></div>
 				<div>
-					<button class="btn_submit">수정하기</button>
+					<button class="btn_submit" onclick="changePW()">수정하기</button>
 					<div class="btn_cancel">취소하기</div>
 				</div>
 			</form>

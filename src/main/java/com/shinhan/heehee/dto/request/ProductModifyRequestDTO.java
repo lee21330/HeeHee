@@ -29,4 +29,5 @@ public class ProductModifyRequestDTO {
 	private int cateSeq;
 	private String prodName;
 	private String userId;
+	private int selectSeq;
 }

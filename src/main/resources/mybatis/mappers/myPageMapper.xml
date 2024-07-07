@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.myPage">
-	<update id="chargePoint" parameterType="map">
-		UPDATE HH_USER
-		SET
-		USER_POINT = #{userPoint}
-		WHERE ID = #{userId}
-	</update>
 	<select id="saleList" parameterType="map" resultType="salevo">
 		SELECT *
 		FROM SELL_PRODUCT SELL, IMG_FILES IMG
@@ -94,13 +88,11 @@
 		WHERE PRODUCT_SEQ = #{productSeq}
 	</update>
 	<insert id="insertDelivery" parameterType="deliveryvo">
-		<selectKey keyProperty="dSeq" order="BEFORE"
-			resultType="int">
-			SELECT DELIVERY_SEQ.nextval FROM DUAL
-		</selectKey>
+	<selectKey keyProperty="dSeq" order="BEFORE" resultType="int">
+         SELECT DELIVERY_SEQ.nextval FROM DUAL
+     </selectKey>
 		INSERT INTO DELIVERY
-		VALUES (#{dSeq}, #{dCompanySeq}, #{dNumber},
-		'발송완료', #{sSeq})
+		VALUES (#{dSeq}, #{dCompanySeq}, #{dNumber}, '발송완료', #{sSeq})
 	</insert>
 	<update id="updateSCheck" parameterType="int">
 		UPDATE DEAL_HISTORY
@@ -108,8 +100,6 @@
 		S_CHECK = SYSDATE
 		WHERE SELL_SEQ = #{proSeq}
 	</update>
-	<!-- <update id="updatePCheck" parameterType="int"> UPDATE DEAL_HISTORY 
-		SET P_CHECK = SYSDATE WHERE SELL_SEQ = #{proSeq} </update> -->
 	<select id="dcOption" resultType="dcvo">
 		SELECT * FROM DELIVERY_COMPANY
 	</select>
@@ -150,6 +140,7 @@
 		TABLE_PK)
 	</select>
 
+
 	<select id="jjimList" parameterType="string" resultType="jjimvo">
 		SELECT *
 		FROM JJIM j, SELL_PRODUCT sp, IMG_FILES img
@@ -180,18 +171,16 @@
 		FROM HH_USER
 		WHERE HH_USER.ID = #{USER_ID}
 	</select>
-	<select id="bankList"
-		resultType="com.shinhan.heehee.dto.response.BankKindDTO">
+	<select id="bankList" resultType="com.shinhan.heehee.dto.response.BankKindDTO">
 		SELECT *
 		FROM BANK_KIND
 	</select>
 	<select id="profile" parameterType="String"
 		resultType="profilevo">
 		SELECT *
-		FROM HH_USER hu
-		LEFT OUTER JOIN BANK_KIND bk ON
-		hu.BANK_SEQ = bk.BANK_SEQ WHERE hu.ID =
-		#{userId}
+		FROM HH_USER hu ,BANK_KIND bk 
+		WHERE hu.BANK_SEQ = bk.BANK_SEQ 
+		AND hu.ID = #{USER_ID}
 	</select>
 	<update id="editProfile" parameterType="map">
 		UPDATE HH_USER
@@ -203,63 +192,20 @@
 		MODIFY_DATE = SYSDATE
 		WHERE ID = #{id}
 	</update>
-	<select id="dupNickCheck" parameterType="String"
-		resultType="int">
+	<select id="dupNickCheck" parameterType="String" resultType="int">
 		SELECT COUNT(*)
-		FROM HH_USER
+		FROM HH_USER 
 		WHERE NICK_NAME = #{nickName}
 	</select>
 	<update id="updateAcc" parameterType="map">
 		UPDATE HH_USER
 		SET
-		BANK_SEQ =
-		#{bankSeq},
+		BANK_SEQ = #{bankSeq},
 		ACCOUNT_NUM = #{accountNum},
 		MODIFY_DATE = SYSDATE
-		WHERE ID =
-		#{id}
+		WHERE ID = #{id}
 	</update>
-	<update id="updatePhone" parameterType="map">
-		UPDATE HH_USER
-		SET
-		PHONE_NUM = #{phone}
-		WHERE ID = #{userId}
-	</update>
-	<update id="updateAddress" parameterType="map">
-		UPDATE HH_USER
-		SET
-		ADDRESS = #{address},
-		DETAIL_ADDRESS = #{detailAddress}
-		WHERE ID =
-		#{userId}
-	</update>
-	<delete id="deleteUser" parameterType="string">
-		DELETE FROM HH_USER WHERE
-		ID = #{userId}
-	</delete>
-	<update id="deleteAucId" parameterType="string">
-		UPDATE AUC_PRODUCT
-		SET
-		SELLER_ID = ''
-		WHERE SELLER_ID =
-		#{userId}
-	</update>
-	<update id="deleteId" parameterType="string">
-		UPDATE SELL_PRODUCT
-		SET ID =
-		NULL
-		WHERE ID = #{userId}
-	</update>
-	<update id="deleteChatBySeller" parameterType="string">
-		UPDATE CHAT_ROOM
-		SET SELLER = NULL
-		WHERE SELLER = #{userId}
-	</update>
-	<update id="deleteChatByBuyer" parameterType="string">
-		UPDATE CHAT_ROOM
-		SET BUYER = NULL
-		WHERE BUYER = #{userId}
-	</update>
+
 	<select id="qnaOption" resultType="qnavo">
 		SELECT * FROM QNA_OPTION
 	</select>
@@ -299,31 +245,32 @@
 		AND table_pk = #{seqQnaBno}
 	</delete>
 	<insert id="insertQna" parameterType="insertQnavo">
-		<selectKey keyProperty="seqQnaBno" order="BEFORE"
+		<selectKey keyProperty="tablePk" order="BEFORE"
 			resultType="int">
 			SELECT SEQ_QNA_BNO.nextval FROM dual
 		</selectKey>
-		INSERT INTO QNA_BOARD VALUES (#{seqQnaBno}, #{id}, #{qnaTitle},
-		#{qnaContent},null,SYSDATE,#{seqQnaOption})
-
+		 <![CDATA[
+		INSERT INTO QNA_BOARD VALUES (#{tablePk}, #{id}, #{qnaTitle}, #{qnaContent},null,SYSDATE,#{seqQnaOption});
+		INSERT INTO IMG_FILES VALUES (SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id});
+		 ]]>
 	</insert>
-	<insert id="insertQnaImg" parameterType="insertQnaImgvo"> INSERT INTO
-		IMG_FILES
-		VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id})
+	
+	<insert id="insertRating" parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+		<selectKey keyProperty="selectedRating" order="BEFORE" resultType="int">
+        	SELECT SEQ_RATE.NEXTVAL FROM DUAL
+	    </selectKey>
+		INSERT INTO RATE_ADMIN
+		VALUES(#{selectedRating}, #{productSeq}, #{sellerId}, #{userRating})
 	</insert>
-	<select id="searchDeal" parameterType="String">
-		SELECT * FROM DEAL_HISTORY
-		WHERE #{id}
-	</select>
-	<select id="searchPoint" parameterType="String"
-		resultType="com.shinhan.heehee.dto.response.PointListDTO">
-		SELECT *
-		FROM PAY_HISTORY
-		WHERE AUC_SEQ IS NULL
-		AND SELL_SEQ IS NULL
-		AND PAY_HISTORY.BUYER_ID = #{id}
-		AND MONTH(PAY_DATE) = #{month}
-		AND YEAR(PAY_DATE) = #{year}
-	</select>
+	
+	<update id="updateRating" parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+		UPDATE HH_USER
+		SET USER_RATING = ROUND(#{selectedRating}, 0)
+		WHERE ID = #{sellerId}
+	</update>
+	
 
+	<!-- <insert id="insertQnaImg" parameterType="insertQnaImgvo"> INSERT INTO 
+		IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName}, #{tablePk}, 4, #{id}) 
+		</insert> -->
 </mapper>
