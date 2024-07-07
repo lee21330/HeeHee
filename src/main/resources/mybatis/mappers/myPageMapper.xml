@@ -97,40 +97,31 @@
 		resultType="com.shinhan.heehee.dto.response.SaleDetailAucDTO">
 		SELECT
 		ap.*,
-		TYPE.*,
-		CATE.*,
 		IMG.*,
 		DH.*,
 		D.*,
 		DC.*,
-		NVL((SELECT
-		MAX(ah.BID_PRICE)
+		TYPE.*,
+		CATE.*,
+		NVL((SELECT MAX(ah.BID_PRICE)
 		FROM AUCTION_HISTORY ah
-		WHERE ap.PRODUCT_SEQ =
-		ah.AUC_PROD_SEQ), 0) AS aucPrice
+		WHERE ap.PRODUCT_SEQ = ah.AUC_PROD_SEQ), 0) AS aucPrice
 		FROM AUC_PRODUCT ap
-		JOIN PRODUCT_TYPE
-		TYPE ON ap.AUCTION_SEQ = TYPE.PRODUCT_SEQ
-		JOIN PRODUCT_CATEGORY CATE ON
-		TYPE.PRODUCT_CATE_SEQ =
-		CATE.PRODUCT_CATE_SEQ
-		JOIN IMG_FILES IMG ON
-		ap.PRODUCT_SEQ = IMG.TABLE_PK
-		LEFT OUTER JOIN DEAL_HISTORY DH ON
-		ap.PRODUCT_SEQ = DH.AUC_SEQ
-		LEFT OUTER JOIN DELIVERY D ON DH.S_SEQ =
-		D.S_SEQ
-		LEFT OUTER JOIN DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ =
-		DC.D_COMPANY_SEQ
-		WHERE IMG.IMG_SEQ IN (
+		JOIN IMG_FILES IMG ON ap.PRODUCT_SEQ = IMG.TABLE_PK
+		LEFT JOIN PRODUCT_CATEGORY CATE ON CATE.PRODUCT_CATE_SEQ = ap.AUCTION_SEQ
+		LEFT JOIN PRODUCT_TYPE TYPE ON CATE.PRODUCT_CATE_SEQ =
+		TYPE.PRODUCT_CATE_SEQ
+		LEFT JOIN DEAL_HISTORY DH ON ap.PRODUCT_SEQ = DH.AUC_SEQ
+		LEFT JOIN DELIVERY D ON DH.S_SEQ = D.S_SEQ
+		LEFT JOIN DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ = DC.D_COMPANY_SEQ
+		WHERE ap.PRODUCT_SEQ = #{proSeq}
+		AND IMG.IMG_SEQ IN (
 		SELECT MIN(IMG_SEQ)
-		FROM
-		IMG_FILES
+		FROM IMG_FILES
 		WHERE IMG_CATE_SEQ = 3
 		GROUP BY TABLE_PK
 		)
-		AND ap.PRODUCT_SEQ =
-		#{proSeq}
+
 	</select>
 	<delete id="proStatusDelete"
 		parameterType="com.shinhan.heehee.dto.request.ProdDetailDTO">
@@ -436,19 +427,24 @@
 		FROM DELIVERY d
 		WHERE D_STATUS = '발송완료')
 	</update>
-	
-	<insert id="insertRating" parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
-		<selectKey keyProperty="selectedRating" order="BEFORE" resultType="int">
-        	SELECT SEQ_RATE.NEXTVAL FROM DUAL
-	    </selectKey>
+
+	<insert id="insertRating"
+		parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+		<selectKey keyProperty="selectedRating" order="BEFORE"
+			resultType="int">
+			SELECT SEQ_RATE.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO RATE_ADMIN
-		VALUES(#{selectedRating}, #{productSeq}, #{sellerId}, #{userRating})
+		VALUES(#{selectedRating}, #{productSeq},
+		#{sellerId}, #{userRating})
 	</insert>
-	
-	<update id="updateRating" parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
+
+	<update id="updateRating"
+		parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
 		UPDATE HH_USER
-		SET USER_RATING = ROUND(#{selectedRating}, 0)
+		SET USER_RATING = ROUND(#{selectedRating},
+		0)
 		WHERE ID = #{sellerId}
 	</update>
-	
+
 </mapper>

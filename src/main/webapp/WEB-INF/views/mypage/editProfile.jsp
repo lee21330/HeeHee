@@ -59,12 +59,12 @@
 								<th>닉네임</th>
 								<td><input type="text" id="nickName" name="nickName"
 									value="${profile.nickName}" required="required"
-									oninput="changeBtn(${profile.nickName})">
+									oninput="changeBtn(${profile.nickName})" maxlength='5'>
 							</tr>
 							<tr>
 								<th>소개글</th>
-								<td><input type="text" id="userIntroduce"
-									name="userIntroduce" value="${profile.userIntroduce}"></td>
+								<td><textarea id="userIntroduce"
+									name="userIntroduce" maxlength='100'>${profile.userIntroduce}</textarea></td>
 							</tr>
 						</tbody>
 					</table>
