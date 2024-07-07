@@ -112,6 +112,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auc").authenticated()
                 .antMatchers("/auc/**").authenticated()
                 .antMatchers("/mypage/**").authenticated()
+                .antMatchers("/sell/productregi").authenticated()
+                .antMatchers("/sell/productmodify/**").authenticated()
                 .antMatchers("/user/**").permitAll()
                 .and()
             .logout()

@@ -1,6 +1,7 @@
 <%@ page session="false" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
@@ -11,72 +12,32 @@
 <title>희희낙찰 홈페이지</title>
 <link rel="icon" href="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png">
 <link rel="stylesheet" href="${path}/resources/css/main/main.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-	// 슬라이드 효과 js
-	$(function() {
-		const sliderWrap = $("#prodRecommandArea");
-		const sliderInner = $(".recommandListArea"); // 움직이는 영역
-		const slider = $(".recommandProdDiv"); // 개별 이미지
-		const sliderDots = $(".swiper-pagination .pagination-bullet"); // dot
-
-		let currentIndex = 0; // 현재 이미지
-		let sliderCount = slider.length; // 이미지 개수
-		let sliderWidth = sliderWrap.width(); // 이미지 가로값
-
-		function gotoSlider(index) {
-			sliderInner.css("transform", `translateX(${-index * sliderWidth}px)`);
-			currentIndex = index;
-			updateDots();
-		}
-
-		function updateDots() {
-			sliderDots.removeClass("pagination-bullet-active");
-			sliderDots.eq(currentIndex).addClass("pagination-bullet-active");
-		}
-
-		$(".prevBtn").on("click", function() {
-			let prevIndex = (currentIndex + (sliderCount - 1)) % sliderCount;
-			gotoSlider(prevIndex);
-		});
-
-		$(".nextBtn").on("click", function() {
-			let nextIndex = (currentIndex + 1) % sliderCount;
-			gotoSlider(nextIndex);
-		});
-
-		sliderDots.on("click", function() {
-			let dotIndex = $(this).index();
-			gotoSlider(dotIndex);
-		});
-		
-		updateDots(); // 화면 새로고침 시 초기화
-	});
-</script>
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 	<%-- <%@ include file="/WEB-INF/views/common/loginModal.jsp"%> --%>
-	<div class="home_container">
+	
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
-		<div></div>
+		<div class="home_container">
 		<div id="main_container">
 			<div>
 				<div id="prodRankArea">
 					<p class="classifyTitle">실시간 인기 상품</p>
 					<div id="rankListArea">
-						<c:forEach var="rankProd" items="${rankProdList}" varStatus="status">
-						    <div class="rankProdDiv">
-						        <p>${status.count}위</p>
-						        <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}" 
-						            onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">
-						        <div class="rankProdInfo">
-						            <p class="rankProdTitle" onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">${rankProd.articleTitle}</p>
-						            <p class="rankProdIntro">${rankProd.introduce}</p>
-						            <p class="rankProdPrice">${rankProd.productPrice}원</p>
-						        </div>
-						    </div>
-						</c:forEach>
+					<c:forEach var="rankProd" items="${rankProdList}" varStatus="status">
+					    <div class="rankProdDiv">
+					        <p>${status.count}위</p>
+					        <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}" 
+					            onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">
+					        <div class="rankProdInfo">
+					            <p class="rankProdTitle" onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">${rankProd.articleTitle}</p>
+					            <p class="rankProdIntro">${rankProd.introduce}</p>
+					            <p class="rankProdPrice"><fmt:formatNumber value="${rankProd.productPrice}" pattern="#,###" />원</p>
+					        </div>
+					    </div>
+					</c:forEach>
+				
 					</div>
 				</div>
 				<div id="prodRecommandArea">
@@ -87,10 +48,10 @@
 						<div id="classifyNext" class="nextBtn">&gt;</div>
 						<div class="recommandProdDiv">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recommandprod.imgName}" 
-							onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'">
+							onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'" style="cursor: pointer">
 							<div class="recommandProdInfo">
-								<p class="recommandTitle" onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'">${recommandprod.articleTitle}</p>
-								<p class="recommandPrice">${recommandprod.productPrice}원</p>
+								<p class="recommandTitle" onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'" style="cursor: pointer">${recommandprod.articleTitle}</p>
+								<p class="recommandPrice"><fmt:formatNumber value="${recommandprod.productPrice}" pattern="#,###" />원</p>
 								<p class="recommandUpTime">${recommandprod.agoTime}</p>
 							</div>
 						</div>
@@ -112,10 +73,10 @@
 						<c:forEach var="recentprod" items="${recentprodList}" varStatus="status">
 						<div class="nowRegProdDiv">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recentprod.imgName}" 
-							onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'">
+							onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'" style="cursor: pointer">
 							<div class="nowRegProdInfo">
-								<p class="nowRegProdTitle" onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'">${recentprod.articleTitle}</p>
-								<p class="nowRegProdPrice">${recentprod.productPrice}원</p>
+								<p class="nowRegProdTitle" onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'" style="cursor: pointer">${recentprod.articleTitle}</p>
+								<p class="nowRegProdPrice"><fmt:formatNumber value="${recentprod.productPrice}" pattern="#,###" />원</p>
 								<p class="nowRegProdUpTime">${recentprod.agoTime}</p>
 							</div>
 						</div>
@@ -132,5 +93,7 @@
 			</div>
 		</div>
 	</div>
+		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	
 </body>
 </html>

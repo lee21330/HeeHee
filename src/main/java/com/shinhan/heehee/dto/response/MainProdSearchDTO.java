@@ -1,21 +1,24 @@
 package com.shinhan.heehee.dto.response;
 
+
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class AuctionProdDTO {
-	private int productSeq;
-	private int aucPrice;
-	private String auctionTitle;
-	private String expDate;
-	private String expTime;
+@AllArgsConstructor
+@NoArgsConstructor
+public class MainProdSearchDTO {
 	private String imgName;
+	private String articleTitle;
+	private int productPrice;
+	private Date createDate;
+	private int tablePk;
+	
 }

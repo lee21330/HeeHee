@@ -110,17 +110,5 @@ public class AppConfig implements WebMvcConfigurer {
     public DataSourceTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
-    
-	/*
-	 * @Override public void configurePathMatch(PathMatchConfigurer configurer) {
-	 * configurer.setUseRegisteredSuffixPatternMatch(true); }
-	 * 
-	 * @Override public void
-	 * configureHandlerExceptionResolvers(List<HandlerExceptionResolver>
-	 * exceptionResolvers) { exceptionResolvers.add((request, response, handler, ex)
-	 * -> { if (ex instanceof NoHandlerFoundException) { try {
-	 * response.sendRedirect("/heehee/404error"); } catch (IOException e) {
-	 * e.printStackTrace(); } return new ModelAndView(); } return null; }); }
-	 */
 
 }

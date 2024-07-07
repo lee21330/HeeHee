@@ -7,7 +7,8 @@
 		<selectKey keyProperty="paySeq" order="BEFORE" resultType="int">
 	         SELECT SEQ_PAY_HISTORY.NEXTVAL FROM DUAL
 	     </selectKey>
-		INSERT INTO PAY_HISTORY VALUES(#{paySeq}, #{amount}, #{buyerId}, #{aucSeq}, #{sellSeq}, '대기')
+		INSERT INTO PAY_HISTORY VALUES(#{paySeq}, #{amount}, #{buyerId}, #{aucSeq}, #{sellSeq}, '대기', SYSDATE)
+
 	</insert>
 	
 	<update id="completePay" parameterType="int">

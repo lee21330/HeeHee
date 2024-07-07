@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shinhan.heehee.dto.response.UserDTO;
 import com.shinhan.heehee.service.UserService;
+import com.shinhan.heehee.util.CookieUtil;
 import com.shinhan.heehee.util.JwtUtil;
 
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -38,6 +40,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	@Autowired
 	AuthenticationFailure failure;
+	
+	@Autowired
+	JwtUtil jwtUtil;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -131,20 +136,25 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     
     private void authenticationHandle(HttpServletRequest request, HttpServletResponse response, 
     							String userId, String userPw) throws IOException, ServletException {
-    	try {
-			// 사용자 인증을 위한 UsernamePasswordAuthenticationToken 객체 생성
-			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, userPw);
-			// AuthenticationManager를 사용하여 인증 수행
-			Authentication authentication = authenticationManager.authenticate(token);
-			// 인증 성공 후 SecurityContext에 인증 객체 설정
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+    	String token = jwtUtil.generateToken(userId);
+		token = String.format("Bearer %s", token);
+		
+		Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", "success");
+        responseBody.put("message", "인증 성공");
+        responseBody.put("token", token);
 
-			success.onAuthenticationSuccess(request, response, authentication);
+        // JWT 토큰을 Response Header에 설정
+        response.addHeader("Authorization", token);
+        CookieUtil.addCookie("Authorization", token, response);
+        
+        Cookie sessionCookie = new Cookie("JSESSIONID", null);
+        
+        sessionCookie.setMaxAge(0);
+        sessionCookie.setPath("/");
+        response.addCookie(sessionCookie);
 
-		} catch (Exception e) {
-			System.err.println(e);
-			failure.onAuthenticationFailure(request, response, null);
-		}
+        response.sendRedirect("/heehee/main");
     }
 
 }

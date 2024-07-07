@@ -1,21 +1,43 @@
 $(document).ready(function() {
-    $('#month_list').on('click', function() {
-        var dropdown = $('#month_dropdown');
-        if (dropdown.css('display') === 'none' || dropdown.css('display') === '') {
-            dropdown.css('display', 'block');
-        } else {
-            dropdown.css('display', 'none');
-        }
-    });
+	var todayDate = $("#month_option").val(new Date().toISOString().slice(0,7));
+	searchPointList(todayDate);
+ //   $('#month_list').on('click', function() {
+ //       $('#month_option').click();
+  //      $('#month_option').show();
+ 
+    //});
 
-    $('.month_option').on('click', function() { // 월 선택 시
-        $('#month_dropdown').css('display', 'none'); // 월 선택상자 사라짐
-    	// 여기다 월별 포인트 내역 구현하면 될거야 아마도..?
-    });
-
-    $(document).on('click', function(event) {
-        if (!$(event.target).closest('#month_list, #month_dropdown').length) {
-            $('#month_dropdown').css('display', 'none');
-        }
-    });
 });
+
+function searchPointList(){
+	var month = $("#month_option").val();
+
+	$.ajax({
+		url: '/heehee/mypage/pointlist/searchPoint',
+		method: 'GET',
+		data: { 'month': month },
+		success: function(data) {
+			var pointHistory = $('#point_history');
+			var output = '';
+			if (data.length === 0) {
+				output = "<p class='message'>충전 내역이 없습니다.</p>";
+			} else {
+
+				data.forEach(function(p) {
+					let dt = new Date(p.payDate).toLocaleDateString();
+					const formattedPoint = new Intl.NumberFormat().format(p.amount);
+					output += `
+                            <div class="detail">
+						<p class="detail_date">${dt}</p>
+						<p id="detail_point">${formattedPoint}원</p>
+					</div>`;
+				});
+			}
+
+			pointHistory.html(output);
+		},
+		error: function(xhr, status, error) {
+			alert('데이터를 가져오는 중 오류가 발생했습니다.');
+		}
+	});
+}

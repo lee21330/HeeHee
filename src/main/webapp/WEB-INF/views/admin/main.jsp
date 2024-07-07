@@ -17,22 +17,30 @@
 		<div id="mainTitleContainerTop"><p class="mainTitle">전체 주문통계</p></div>
 		<div class="mainTopTableContainer">
 			<div class="totalOrderDiv">
-			<p class="tableSubTitle">전체 주문현황</p>
+			<p class="tableSubTitle">전체 주문현황(일반/경매)</p>
 			<table class="totalOrderTable">
 				<thead>
 					<tr>
-						<th>총 주문건수</th>
-						<th>총 주문액</th>
+						<th>일반 주문건수</th>
+						<th>일반 주문액</th>
+						<th>경매 주문건수</th>
+						<th>경매 주문액</th>
 					</tr>
 				</thead>
 				<tbody id="totalOrderBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td id="sellProCtn"></td>
+						<td id="sellProPriceSum"></td>
+						<td id="aucProCtn"></td>
+						<td id="aucProPriceSum"></td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
 
 			<div class="proStatusDiv">
-			<p class="tableSubTitle">주문상태 현황</p>
+			<p class="tableSubTitle">일반상품 주문현황</p>
 			<table class="proStatusTable">
 				<thead>
 					<tr>
@@ -44,44 +52,56 @@
 				</thead>
 				<tbody id="proStatusTableBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td id="sellIng"></td>
+						<td id="sellRes"></td>
+						<td id="sellEnd"></td>
+						<td id="sellStop"></td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
 
 			<div class="aucStatusDiv">
-			<p class="tableSubTitle">구매확정/클래임 현황</p>
+			<p class="tableSubTitle">경매상품 주문현황</p>
 			<table class="aucStatusTable">
 				<thead>
 					<tr>
 						<th>입찰</th>
 						<th>낙찰</th>
-						<th>거래완료<th>
+						<th>거래완료</th>
 						<th>판매중지</th>
 					</tr>
 				</thead>
 				<tbody id="aucStatusTableBody">
 				<!-- Ajax로 동적 업데이트 -->
+					<tr>
+						<td id="aucIng"></td>
+						<td id="aucRes"></td>
+						<td id="aucEnd"></td>
+						<td id="aucStop"></td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
 		</div>
 		
-		<div id="recentOrderContainer">
-			<div id="mainTitleContainer"><p class="mainTitle">최근 주문내역</p><button class="productDetailBtn" onclick="location.href='${path}/admin/product'">상세정보 바로가기</button></div>
-			<div class="recentOrderDiv">
-			<table class="recentOrderTable">
+		<div id="recentProductContainer">
+			<div id="mainTitleContainer"><p class="mainTitle">최근 등록내역</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/product'">상세정보 바로가기</button></div>
+			<div class="recentProductDiv">
+			<table class="recentProductTable">
 				<thead>
 					<tr>
-						<th>주문번호</th>
-						<th>구매자명</th>
-						<th>판매자명</th>
+						<th>등록번호</th> <!-- AdminProductDTO -->
+						<th>구매자ID</th>
+						<th>판매자ID</th>
 						<th>품목명</th>
-						<th>거래방식</th>
+						<th>거래상태</th>
 						<th>거래금액</th>
-						<th>거래일</th>
+						<th>등록일</th>
 					</tr>
 				</thead>
-				<tbody id="recentOrderTableBody">
+				<tbody id="recentProductTableBody">
 				<!-- Ajax로 동적 업데이트 -->
 				</tbody>
 			</table>
@@ -89,13 +109,12 @@
 		</div> <!-- recentOrder -->
 		
 		<div id="recentQuestionContainer">
-			<div id="mainTitleContainer"><p class="mainTitle">최근 문의내역</p><button class="questionsBtn" onclick="location.href='${path}/admin/qnaManager'">1:1문의 바로가기</button></div>
+			<div id="mainTitleContainer"><p class="mainTitle">최근 문의내역</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/qnaManager'">1:1문의 바로가기</button></div>
 			<div id="recentQuestionDiv">
 			<table class="recentQuestionTable">
 				<thead>
 					<tr>
-						<th>작성자ID</th>
-						<th>회원명</th>
+						<th>작성자ID</th> <!-- AdminQnaManagerDTO -->
 						<th>처리현황</th>
 						<th>제목</th>
 						<th>작성일</th>
@@ -109,19 +128,19 @@
 		</div> <!-- recentQuestion -->
 		
 		<div id="recentJoinContainer">
-		<div id="mainTitleContainer"><p class="mainTitle">최근 회원가입</p><button class="questionsBtn" onclick="location.href='${path}/admin/user'">회원정보 관리 바로가기</button></div>
+		<div id="mainTitleContainer"><p class="mainTitle">최근 회원가입</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/user'">회원정보 관리 바로가기</button></div>
 			<div id="recentJoinDiv">
 			<table class="recentJoinTable">
 				<thead>
 					<tr>
+						<th>회원ID</th> <!-- AdminUserDTO -->
 						<th>회원명</th>
-						<th>아이디</th>
 						<th>이메일</th>
 						<th>전화번호</th>
 						<th>가입일</th>
 					</tr>
 				</thead>
-				<tbody id="recentQuestionTableBody">
+				<tbody id="recentJoinTableBody">
 				<!-- Ajax로 동적 업데이트 -->
 				</tbody>
 			</table>
@@ -129,5 +148,6 @@
 		</div> <!-- recentJoinContainer -->
 	</div> <!-- mainMenuContainer -->
 	</div> <!-- bodyContainer -->
+	<script type="text/javascript" src="${path}/resources/js/admin/main.js"></script>
 </body>
 </html>

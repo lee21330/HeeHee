@@ -30,6 +30,9 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var faqTimePas = new Date(item.faqTime).toLocaleDateString();
+					var faqTimeRev = faqTimePas.substring(0, faqTimePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td><input type='checkbox' class='rowCheckbox' data-id='" + item.seqFaqBno + "'></td>" + 
@@ -37,7 +40,7 @@ $(document).ready(function() {
 							"<td>" + item.qnaOption + "</td>" + 
 							"<td>" + item.faqContent + "</td>" + 
 							"<td>" + item.id + "</td>" + 
-							"<td>" + new Date(item.faqTime).toLocaleDateString() + "</td>" + 
+							"<td>" + faqTimeRev + "</td>" + 
 						"</tr>";
 						tableBody.append(row);
 					});
@@ -103,13 +106,13 @@ $(document).ready(function() {
 								"<tr class='editRow'>" + 
 									"<td colspan='6'>" + 
 										"<div class='updateContainer'>" + 
-										"<p class='productUpdate'>FAQ내용<br>열람/수정</p>" + 
-										"</div>" + 
-										"<select id='editCategory" + id + "' class='doubleInputSmall'></select>" + 
-										"<input type='text' id='editTitleInput" + id + "' class='doubleInputBigger' placeholder='수정하실 제목을 입력하세요.'>" + 
+										"<p class='editTitle'>FAQ내용<br>열람/수정</p>" + 
+										"<select id='editCategory" + id + "' class='selectStatus'></select>" + 
+										"<input type='text' id='editTitleInput" + id + "' class='editFaqContentInput' placeholder='수정하실 제목을 입력하세요.'>" + 
 										"<br>" + 
-										"<input type='text' id='editContentInput" + id + "' class='doubleInputBigger' placeholder='수정하실 내용을 입력하세요.'>" + 
-										"<button class='saveEditButton' data-id='" + id + "'>수정 등록</button>" + 
+										"<input type='text' id='editContentInput" + id + "' class='editFaqAnsInput' placeholder='수정하실 내용을 입력하세요.'>" + 
+										"<button id='saveEditButton' class='saveEditButtonFaq' data-id='" + id + "'>수정 등록</button>" + 
+										"</div>" + 
 									"</td>" + 
 								"</tr>";
 
@@ -158,14 +161,14 @@ $(document).ready(function() {
 			} else {
 				var newRow = 
 					"<tr class='newRow'>" + 
-						"<td colspan='6'>" + 
+						"<td colspan='5'>" + 
 							"<div class='updateContainer'>" + 
-							"<p class='productUpdate'>FAQ내용<br>신규 등록</p>" + 
+							"<p class='editTitle'>FAQ내용<br>신규 등록</p>" + 
+							"<select id='editCategory" + id + "' class='selectStatus'></select>" + 
+							"<input type='text' id='newContentInput' class='editFaqContentInput' placeholder='등록하실 제목을 입력하세요.'>" + 
+							"<input type='text' id='newAnsInput' class='editFaqAnsInput' placeholder='등록하실 내용을 입력하세요.'>" +
+							"<button id='saveNewButton' class='saveNewButtonFaq' data-id='" + id + "'>신규 등록</button>" + 
 							"</div>" + 
-							"<select id='editCategory" + id + "' class='doubleInputSmall' placeholder='수정할 유형 입력'></select>" + 
-							"<input type='text' id='newContentInput' class='doubleInputSmall' placeholder='신규 유형 입력'>" + 
-							"<input type='text' id='newAnsInput' class='doubleInputBigger' placeholder='신규 내용 입력'>" +
-							"<button class='saveNewButton' data-id='" + id + "'>신규 등록</button>" + 
 						"</td>" + 
 					"</tr>";
 				$('#tableBody').append(newRow);
@@ -175,7 +178,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시 (수정 등록)
-	$(document).on('click', '.saveEditButton', function() {
+	$(document).on('click', '#saveEditButton', function() {
 		var seqFaqBno = $(this).attr('data-id');
 		var seqQnaOption = $("#editCategory" + seqFaqBno).val();
 		var faqContent = $("#editTitleInput" + seqFaqBno).val();
@@ -199,7 +202,7 @@ $(document).ready(function() {
 	});
 
 	// 저장 버튼 클릭 시 (신규 등록)
-	$(document).on('click', '.saveNewButton', function() {
+	$(document).on('click', '#saveNewButton', function() {
 		var seqFaqBno = $(this).attr('data-id');
 		var seqQnaOption = $("#editCategory" + seqFaqBno).val();
 		var faqContent = $("#newContentInput").val();

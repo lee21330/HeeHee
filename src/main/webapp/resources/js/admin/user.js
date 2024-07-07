@@ -8,13 +8,25 @@ $(document).ready(function() {
 	$('#searchButton').click(function() {
 		loadTable();
 	});
-
+	
+/* 원문
 	// 초기화 버튼 클릭 시
 	$('#resetButton').click(function() {
 		$('#searchInput').val('');
 		$('#startDate').val('');
 		$('#endDate').val('');
 		$('#input[name="dateSelect"]').prop('checked', false);
+		loadTable();
+	});
+	*/
+	
+	// 초기화 버튼 클릭 시
+	$('#resetButton').on('click', function() {
+		$('#searchInput').val('');
+		$('#startDate').val('');
+		$('#endDate').val('');
+		$('#input[name="dateSelect"]').prop('checked', false);
+		$('.radioContainer label').css('color', 'white');
 		loadTable();
 	});
 
@@ -40,6 +52,9 @@ $(document).ready(function() {
 				tableBody.empty();
 
 				data.forEach(function(item) {
+					var createDatePas = new Date(item.createDate).toLocaleDateString();
+					var createDateRev = createDatePas.substring(0, createDatePas.length -1).replaceAll(". ", "-");
+					
 					var row = 
 						"<tr>" + 
 							"<td>" + item.name + "</td>" + 
@@ -47,7 +62,7 @@ $(document).ready(function() {
 							"<td>" + item.email + "</td>" + 
 							"<td>" + item.phoneNum + "</td>" + 
 							"<td>" + item.address + "</td>" + 
-							"<td>" + new Date(item.createDate).toLocaleDateString() + "</td>" + 
+							"<td>" + createDateRev + "</td>" + 
 						"</tr>";
 					tableBody.append(row);
 				});
@@ -63,7 +78,12 @@ $(document).ready(function() {
 	$('input[name="dateSelect"]').click(function() {
 		var today = new Date();
 		var startDate, endDate;
-
+		
+	// label.radioLabel 인라인 스타일 제거
+    $('.radioContainer label').each(function() {
+	$(this).css('color', ''); // 인라인 스타일 제거
+	});
+		
 		if (this.id === 'today') {
 			startDate = endDate = today.toISOString().split('T')[0];
 		} else if (this.id === 'week') {

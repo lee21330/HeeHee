@@ -3,32 +3,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
-<link rel="stylesheet" href="${path}/resources/css/myPageModal.css">
-
 <body>
 	<script>
 		$(function() {
+			$("#accountModal").hide();
+			
 			$("#btn-account").on("click", show);
-			$(".mModal_close").on("click", hide);
-			$(".btn_cancel").on("click", hide);
+			$("#accountModalClose").on("click", hide);
+			$("#btn_aModal_cancel").on("click", hide);
 			function show() {
-				$("#aModal").addClass("show");
-				$("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
+				$("#accountModal").show();
+				$("body").css("overflow", "hidden"); 
 			}
 			function hide() {
-				$("#aModal").removeClass("show");
-				$(".Modal_bank input").val("");
-				$(".Modal_bank select").val("은행");
-				$("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
+				$("#accountModal").hide();
+				$("body").css("overflow", "scroll"); 
 			}
 		});
 	</script>
 
-	<div class="mModal" id="aModal">
-		<div class="mModal_body">
+	<div id="accountModal" class="profileModal">
+		<div class="profileModalBody">
 			<img
 				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
-				alt="로그인 창 닫기 아이콘" class="mModal_close">
+				alt="로그인 창 닫기 아이콘" class ="profileModalClose" id="accountModalClose">
 			<form class="modal_form" action="${path}/mypage/profile/updateAcc" method="post">
 
 				<p class="modal_info">현재 계좌:</p>
@@ -51,8 +49,7 @@
 				</div>
 
 				<div class="btn_modal">
-					<button type="submit" class="btn_submit">수정하기</button>
-					<input type="button" class="btn_cancel" value="취소하기">
+					<button type="submit" class="btn_submit">저장</button>
 				</div>
 			</form>
 		</div>

@@ -128,7 +128,7 @@ body {
             <div class="inner">
                 <!--BEGIN CONTENT-->
                 <div class="inner-circle"><i class="fa fa-home" onclick="gohome()"></i><span>404</span></div>
-                <span class="inner-status">해당하는 물품을 찾을 수 없습니다.</span>
+                <span class="inner-status">물품을 찾을 수 없습니다.</span>
                 <span class="inner-detail">
                     집 아이콘을 클릭해 메인으로 돌아가세요!
                 </span>

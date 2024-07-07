@@ -28,7 +28,9 @@
 		WHERE 
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
 		AND
-			SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+			SELL.PRO_STATUS NOT IN('거래완료','예약중')
+		AND
+			SELL.ID IS NOT NULL
 	</select>
 	
 	<select id="productImg" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
@@ -39,17 +41,20 @@
         AND IMG.TABLE_PK = #{PROD_SEQ}
 	</select>
 	
-	<select id="prodrecoDetail" parameterType="int" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
+	<!-- 귀찮아서 response에 있는 DTO 재활용 했읍니다.. -->
+	<select id="prodrecoDetail" parameterType="com.shinhan.heehee.dto.request.ProductDetailRequestDTO" resultType="com.shinhan.heehee.dto.response.ProdDetailRecoDTO">
 		SELECT *
 		FROM (SELECT IMG.IMG_NAME, SELL.PRODUCT_SEQ
-		FROM IMG_FILES IMG
-		JOIN SELL_PRODUCT SELL ON IMG.TABLE_PK = SELL.PRODUCT_SEQ
-		WHERE IMG.IMG_CATE_SEQ = 2
-		AND CREATE_DATE >= SYSDATE - 30
-		AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
-		ORDER BY DBMS_RANDOM.RANDOM)
-		WHERE ROWNUM &lt; 6
-		AND PRODUCT_SEQ != #{PROD_SEQ}
+		      FROM IMG_FILES IMG
+		      JOIN SELL_PRODUCT SELL ON IMG.TABLE_PK = SELL.PRODUCT_SEQ
+		      WHERE IMG.IMG_CATE_SEQ = 2
+		        AND CREATE_DATE >= SYSDATE - 30
+		        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
+		        AND SELL.ID IS NOT NULL
+		        AND SELL.ID != #{userId}
+		      ORDER BY DBMS_RANDOM.RANDOM)
+		WHERE ROWNUM <![CDATA[<]]> 6
+		  AND PRODUCT_SEQ != #{PROD_SEQ}
 	</select>
 	
 	<select id="prodRank" resultType="com.shinhan.heehee.dto.response.MainProdRankDTO">
@@ -62,12 +67,13 @@
                                 WHERE IMG_CATE_SEQ = 2
                                 GROUP BY TABLE_PK)
         AND ROWNUM <![CDATA[<]]> 13
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
+        AND SELL.ID IS NOT NULL
         GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.INTRODUCE, SELL.PRODUCT_PRICE, SELL.PRODUCT_SEQ
         ORDER BY IMG_SEQ
 	</select>
 	
-	<select id="prodreco" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
+	<select id="prodreco" parameterType="String" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
 		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
             SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ, SELL.PRODUCT_SEQ,
             CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
@@ -79,7 +85,9 @@
         INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
         WHERE IMG.IMG_CATE_SEQ = 2
         AND ROWNUM <![CDATA[<]]> 35
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
+        AND SELL.ID IS NOT NULL
+        AND SELL.ID != #{userId}
         GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
         ORDER BY DBMS_RANDOM.RANDOM
 	</select>
@@ -95,8 +103,9 @@
         FROM SELL_PRODUCT SELL
         INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
         WHERE IMG.IMG_CATE_SEQ = 2
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
         AND ROWNUM <![CDATA[<]]> 35
+        AND SELL.ID IS NOT NULL
         GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
         ORDER BY (SYSDATE - CREATE_DATE)
 	</select>
@@ -116,7 +125,7 @@
 	   AND IMG.IMG_SEQ IN (SELECT MIN(IMG_SEQ) 
 	                    FROM IMG_FILES
 	                    WHERE IMG_CATE_SEQ = 2
-	                    AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료')
+	                    AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
 	                    GROUP BY TABLE_PK)
 	   <!-- AND ROWNUM <![CDATA[<]]> 6 -->
 	   ORDER BY DBMS_RANDOM.RANDOM
@@ -175,12 +184,15 @@
          	SELECT SEQ_SELL_PROD.NEXTVAL FROM DUAL
      	</selectKey>
 		INSERT INTO SELL_PRODUCT
-		VALUES (#{prodSeq}, #{articleTitle}, #{productPrice}, #{introduce}, #{state}, '판매중', #{deal}, #{dCharge}, 5, #{userId}, SYSDATE, NULL)
+		VALUES (#{prodSeq}, #{articleTitle}, #{productPrice}, #{introduce}, #{state}, '판매중', #{deal}, #{dCharge}, #{selectSeq}, #{userId}, SYSDATE, NULL)
 	</insert>
 	
 	<insert id="insertProductCategory" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
+		<selectKey keyProperty="selectSeq" order="BEFORE" resultType="int">
+         	SELECT SEQ_PROD_TYPE.NEXTVAL FROM DUAL
+     	</selectKey>
 		INSERT INTO PRODUCT_TYPE
-		VALUES (SEQ_PROD_TYPE.nextval, #{cateSeq}, #{prodName})
+		VALUES (#{selectSeq}, #{cateSeq}, #{prodName})
 	</insert>
 	
 	<insert id="insertProductName" parameterType="com.shinhan.heehee.dto.request.ProductModifyRequestDTO">
@@ -251,17 +263,28 @@
 	
 	<select id="selectRecently" parameterType="String" resultType="com.shinhan.heehee.dto.response.ProdDetailImgDTO">
 		SELECT *
-		FROM (SELECT *
-		FROM (
-		SELECT VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME, MAX(CREATE_DATE) CRE_DATE
-		  FROM VIEW_LOG VLOG, IMG_FILES IMG
-		 WHERE VLOG.PRODUCT_SEQ = IMG.TABLE_PK
-		   AND VLOG.ID = #{userId}
-		   AND IMG.IMG_CATE_SEQ = 2
-		   AND IMG.IMG_SEQ = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = VLOG.PRODUCT_SEQ AND IMG_CATE_SEQ = 2)
-		 GROUP BY VLOG.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME)
-		 ORDER BY CRE_DATE DESC)
-		 WHERE ROWNUM <![CDATA[<]]> 3
+  FROM (
+    SELECT *
+    FROM (
+      SELECT SELL.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME, MAX(VLOG.CREATE_DATE) CRE_DATE
+        FROM VIEW_LOG VLOG
+        JOIN IMG_FILES IMG ON VLOG.PRODUCT_SEQ = IMG.TABLE_PK
+        JOIN SELL_PRODUCT SELL ON VLOG.PRODUCT_SEQ = SELL.PRODUCT_SEQ
+       WHERE VLOG.ID = #{userId}
+         AND IMG.IMG_CATE_SEQ = 2
+         AND IMG.IMG_SEQ = (
+           SELECT MIN(IMG_SEQ)
+             FROM IMG_FILES
+            WHERE TABLE_PK = VLOG.PRODUCT_SEQ
+              AND IMG_CATE_SEQ = 2
+         )
+         AND SELL.ID IS NOT NULL
+       GROUP BY SELL.PRODUCT_SEQ, IMG.IMG_SEQ, IMG.IMG_NAME
+    )
+    ORDER BY CRE_DATE DESC
+  )
+WHERE ROWNUM <![CDATA[<]]> 5
+
 	</select>
 	
 	

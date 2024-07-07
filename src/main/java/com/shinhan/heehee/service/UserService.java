@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.Response;
 import com.shinhan.heehee.dao.UserDAO;
 import com.shinhan.heehee.dto.request.BanUserDTO;
 import com.shinhan.heehee.dto.response.UserDTO;
@@ -25,6 +26,7 @@ public class UserService {
 	BCryptPasswordEncoder passwordEncoder;
 	
 	public ResponseEntity<?> signup(UserDTO userDto) {
+		Map<String,Object> response = new HashMap<String,Object>();
 		if (!userDto.getPassword().equals(null)) {
 			// BCryptPasswordEncoder 생성
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -33,9 +35,13 @@ public class UserService {
 		}
 
         if(userDao.signup(userDto) > 0) {
-            return ResponseEntity.ok("회원 가입에 성공했습니다!");
+        	response.put("success", true);
+        	response.put("message", "회원 가입에 성공했습니다!");
+            return ResponseEntity.ok(response);
         } else {
-        	return ResponseEntity.ok("회원 가입에 실패했습니다.");
+        	response.put("success", false);
+        	response.put("message", "회원 가입에 실패했습니다.");
+        	return ResponseEntity.ok(response);
         }
 	}
 	

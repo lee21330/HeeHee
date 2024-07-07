@@ -29,8 +29,10 @@ import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
 import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
+import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 import com.shinhan.heehee.exception.ProductNotFoundException;
+import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.ProductDetailService;
 import com.shinhan.heehee.service.ProductModifyService;
@@ -52,9 +54,15 @@ public class ProductController {
 	@Autowired
 	MainService mainservice;
 	
+	@Autowired
+	AlarmService alarmService;
+	
 	@GetMapping("/productdetail/{prod_seq}")
 	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
+		
+		int alarmCount = alarmService.alarmCount(userId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
@@ -65,6 +73,7 @@ public class ProductController {
 		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
 		
+		
 		ProdDetailDTO prodInfo = productservice.prodInfo(sampleDTO);
 
 		if(prodInfo == null) throw new ProductNotFoundException();
@@ -72,7 +81,7 @@ public class ProductController {
 		
 		model.addAttribute("info", prodInfo);
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
-		model.addAttribute("prodRecoList",productservice.prodReco(prodSeq));
+		model.addAttribute("prodRecoList",productservice.prodReco(sampleDTO));
 		model.addAttribute("recentlyList",productservice.selectRecently(userId));
 		
 		
@@ -88,15 +97,14 @@ public class ProductController {
 	public String modify(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
 		
-		if(principal == null) throw new ProductNotFoundException();
-		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
+		
+		int alarmCount = alarmService.alarmCount(userId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 
-		
-		
 		/* if(prodInfo == null) return "/"; */
 		model.addAttribute("userId", userId);
 		
@@ -110,21 +118,24 @@ public class ProductController {
 	// 수정하는거
 	@PostMapping("/productModify")
 	public String prodModify(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
-							,ProductModifyRequestDTO modiDTO, Model model) throws IOException {
+							,ProductModifyRequestDTO modiDTO, Principal principal, Model model) throws IOException {
+		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		
 		modiDTO.setUploadFiles(uploadImgs);
-		productservice.prodModify(modiDTO);
+		productservice.prodModify(modiDTO, principal.getName());
 		return "redirect:/sell/productdetail/" + modiDTO.getProdSeq();
 	}
 	
 	// 등록하기 페이지
 	@GetMapping("/productregi")
 	public String registry(Model model, Principal principal) {
-		if(principal == null) throw new ProductNotFoundException();
 		
 		String userId = principal.getName();
+		
+		int alarmCount = alarmService.alarmCount(userId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
@@ -155,7 +166,10 @@ public class ProductController {
 	}
 	
 	@GetMapping("/sellerProfile/{id}")
-	public String home(@PathVariable("id") String id, Model model) {
+	public String home(@PathVariable("id") String id, Model model, Principal principal) {
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		

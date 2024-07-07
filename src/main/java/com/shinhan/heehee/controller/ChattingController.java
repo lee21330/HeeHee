@@ -12,7 +12,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +28,7 @@ import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ChatRoomDTO;
 import com.shinhan.heehee.dto.response.RoomDetailDTO;
 import com.shinhan.heehee.service.AWSS3Service;
+import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.ChattingService;
 import com.shinhan.heehee.service.MainService;
 
@@ -41,6 +41,9 @@ public class ChattingController {
 	
 	@Autowired
 	private MainService mainservice;
+	
+	@Autowired
+	private AlarmService alarmService;
 
 	@Autowired
 	private AWSS3Service s3Service;
@@ -55,13 +58,18 @@ public class ChattingController {
 	@GetMapping
 	public String chatting(Model model, Principal principal) {
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
-		model.addAttribute("mainCateList", mainCateList);
+		
 		String userId = "";
 		if (principal != null)
 			userId = principal.getName();
+		
+		int alarmCount = alarmService.alarmCount(userId);
+
 		// model에 담을 것: 유저별 채팅방 목록
 		model.addAttribute("roomList", cService.getRoomList(userId));
 		model.addAttribute("userId", userId);
+		model.addAttribute("mainCateList", mainCateList);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		return "chatting/chatting";
 	}
 
@@ -113,7 +121,7 @@ public class ChattingController {
 		return cService.updatePoint(map);
 	}
 
-	//약속 잡기
+	//약속 잡기 / 결제
 	@PostMapping("/reserve")
 	@ResponseBody
 	public void reserve(@RequestBody Map<String, Object> map) {
@@ -132,6 +140,13 @@ public class ChattingController {
     @ResponseBody
 	public int insertChatRoom(@RequestBody Map<String, Object> map) {
 		return cService.insertChatRoom(map);
+    }
+    
+   //채팅방 생성: 경매 낙찰 후 채팅 클릭 시
+    @PostMapping("/auction")
+    @ResponseBody
+	public int insertAuctionChat(@RequestBody Map<String, Object> map) {
+		return cService.insertAuctionChat(map);
     }
 
     //이미지 업로드: js에서 사용
@@ -156,6 +171,7 @@ public class ChattingController {
 	
 	// 소켓: 메시지(+이미지) insert
 	// @SendTo 대신 convertAndSend 사용
+	//convertAndSend(destination, payload)
 	@MessageMapping("/chat")
 	public void sendMessage(ChatMessageDTO message) throws IOException {
 		int subscribeCount = webSocketEventListener.getSubscribersCount("/topic/chatroom/" + message.getRoomId());
@@ -167,7 +183,7 @@ public class ChattingController {
 		}
 		
 		cService.saveMessage(message);
-
+		
 		messagingTemplate.convertAndSend("/topic/chatroom/" + message.getRoomId(), message);
 	}
 	

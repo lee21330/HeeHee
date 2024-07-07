@@ -1,0 +1,307 @@
+@charset "UTF-8";
+
+#main_container {
+	width: 1280px;
+	margin: 0 auto;
+}
+
+.search_order {
+    cursor: pointer;
+    color: black;
+}
+
+.search_order.active {
+    color: #ABC3FF;
+}
+
+#search_text {
+	margin-top: 20px;
+}
+
+.searchTitle {
+	font-size: 20px;
+}
+
+#search_result {
+	color: orangered;
+}
+
+.rankProdDiv {
+	background: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    width: 170px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.rankProdTitle {
+	height: 40px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+    -webkit-box-orient: vertical;
+}
+
+.rankProdInfo {
+	padding: 10px; /* 내용과의 여백 */
+}
+
+.rankProdTitle, .rankProdIntro, .rankProdPrice {
+    display: block;
+    margin: 5px 0;
+    text-align: justify !important;
+}
+
+.rankProdPrice {
+	font-size: 18px;
+}
+
+#date_diff {
+	display: block;
+    text-align: right;
+    color: #888;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.rankProdDiv:nth-child(6n) {
+	margin-right: 0;
+}
+
+.rankProdDiv:hover {
+	transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.recommandProdDiv:hover {
+	background: #ececec;
+}
+
+.nowRegProdDiv:hover {
+	background: #ececec;
+}
+
+.product_img:hover {
+	cursor: pointer;
+}
+
+.rankProdTitle:hover {
+	cursor: pointer;
+}
+
+.rankProdDiv img {
+	width: 160px;
+	height: 160px;
+	margin: 0 2.5%;
+}
+
+.rankProdDiv>p {
+	margin: 5px 0;
+}
+
+.rankProdIntro {
+	color: gray;
+	font-size: 12px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+#search_menu_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#search_menu_wrap {
+	
+}
+
+#search_menu {
+	text-align: right;	
+}
+
+.search_order {
+	font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#rankListArea {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 20px;
+    gap: 20px;
+}
+
+#recommandListArea {
+	position: relative;
+	/* height: 290px; */
+	text-align: center;
+}
+
+.prevBtn {
+	cursor: pointer;
+	position: absolute;
+	top: 18%;
+	left: 0;
+	background: #d3d3d330;
+	padding: 17px;
+}
+
+.nextBtn {
+	cursor: pointer;
+	position: absolute;
+	top: 18%;
+	right: 0;
+	background: #d3d3d330;
+	padding: 17px;
+}
+
+.recommandProdDiv {
+	display: inline-block;
+	width: 170px;
+	margin: 7px 23px 7px 0;
+	padding: 10px;
+}
+
+.recommandProdDiv:last-child {
+	margin-right: 0;
+}
+
+.recommandProdDiv img{
+	width: 170px;
+    height: 170px;
+    border-radius: 5px;
+}
+
+#prodRecommandArea {
+	margin-top: 60px;
+	position: relative;
+	/* height: 370px; */
+}
+
+.swiper-pagination {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.recommandTitle {
+	height: 40px;
+	font-size: 15px;
+}
+
+.recommandPrice {
+	
+}
+
+
+.recommandUpTime {
+	color: lightgray;
+    font-size: 12px;
+}
+
+.pagination-bullet {
+	width: 4px;
+	height: 4px;
+	background-color: hsla(0, 4%, 5%, .16);
+	margin: 0 2px;
+	border: 0;
+	border-radius: 8px;
+    transition: all .3s ease-in-out;
+    opacity: 1;
+    display: inline-block;
+}
+
+.pagination-bullet-active {
+	width: 24px;
+	background-color: #000;
+}
+
+#prodNowRegArea {
+	margin-top: 60px;
+	position: relative;
+	/* height: 370px; */
+}
+
+#nowRegListArea {
+	position: relative;
+    /* height: 290px; */
+    text-align: center;
+}
+
+.nowRegProdDiv {
+	display: inline-block;
+	width: 170px;
+	margin: 7px 23px 7px 0;
+	padding: 10px;
+}
+
+.nowRegProdDiv:last-child {
+	margin-right: 0;
+}
+
+.nowRegProdDiv img{
+	width: 170px;
+    height: 170px;
+    border-radius: 5px;
+}
+
+.nowRegProdTitle {
+	height: 40px;
+	font-size: 15px;
+}
+
+.nowRegProdPrice {
+	
+}
+
+.nowRegProdUpTime {
+	color: lightgray;
+    font-size: 12px;
+}
+
+.imgContainer {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.product_img {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#overlay1 {
+	position: absolute;
+    top: 129px;
+    right: 104px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#auc_intro {
+	width: 40px;
+	font-size: 14px;
+	color: orangered;
+	background-color : rgb(255,255,255,0.7);
+	padding: 7px 7px;
+    border-radius: 10px;
+    margin: 0;
+}

@@ -1,0 +1,81 @@
+@charset "EUC-KR";
+
+@font-face {
+	font-family: 'SEBANG_Gothic_Bold';
+	src:
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff')
+		format('woff');
+	font-weight: 700;
+	font-style: normal;
+}
+
+/* footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+    z-index: 3;
+} */
+
+body {
+    font-family: 'SEBANG_Gothic_Bold';
+}
+
+.footer {
+    padding: 20px;
+    font-size: 14px;
+    color: #7B7B7B;
+}
+
+.title{
+	color: #000000;
+}
+
+.fix-container{
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+}
+
+.main-container {
+	width: 100%;
+	display:flex;
+	flex-direction: column;
+}
+
+.container1, .container2{
+	display:flex;
+	flex-direction: row;
+}
+
+.container1{
+	border-top: 1px solid #D3D3D3;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.container2{
+	border-top: 1px solid #E6E6E6;
+	padding-top: 10px;
+}
+
+.section1, .section2, .section3, .section4{
+	width: 50%;
+}
+
+.section1, .section3{
+	padding-left: 250px;
+}
+
+.section3{
+	margin-top: 50px;
+}
+
+.section2, .section4{
+	padding-right: 200px;
+}
+
+.section4{
+	line-height: 25px;
+	font-size: 12px;
+}

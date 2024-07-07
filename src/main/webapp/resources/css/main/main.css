@@ -28,6 +28,14 @@
 	background: #ececec;
 }
 
+.recommandProdDiv:hover {
+	background: #ececec;
+}
+
+.nowRegProdDiv:hover {
+	background: #ececec;
+}
+
 .product_img:hover {
 	cursor: pointer;
 }
@@ -49,6 +57,7 @@
 .rankProdIntro {
 	color: gray;
 	font-size: 12px;
+	height: 30px;
 }
 
 #rankListArea {

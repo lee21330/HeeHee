@@ -1,4 +1,4 @@
-package com.shinhan.heehee.dto.response;
+package com.shinhan.heehee.dto.response.auction;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,10 +17,15 @@ public class AuctionProdInfoDTO {
 	private int increasePrice;
 	private String auctionTitle;
 	private String introduce;
+	private String condition;
 	private String expDate;
 	private String expTime;
 	private String aucStatus;
 	private int auctionSeq;
+	private String category;
+	private String detailCategory;
 	private String sellerId;
-	private String imgName;
+	private int joinCount;
+	private String currentId;
+	private String currentNick;
 }

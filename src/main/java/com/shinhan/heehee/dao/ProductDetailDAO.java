@@ -1,7 +1,7 @@
 
+
 package com.shinhan.heehee.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,9 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.JjimDTO;
-import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
-import com.shinhan.heehee.dto.request.RecentlyDTO;
 import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
+import com.shinhan.heehee.dto.request.ProductModifyRequestDTO;
 import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
 import com.shinhan.heehee.dto.response.ProdDetailImgDTO;
@@ -39,8 +38,8 @@ public class ProductDetailDAO {
 	 * sqlSession.selectOne(namespace + "userIntroduce", prodSeq); }
 	 */
 
-	public List<ProdDetailRecoDTO> prodReco(Integer prodSeq) {
-		return sqlSession.selectList(namespace + "prodrecoDetail", prodSeq);
+	public List<ProdDetailRecoDTO> prodReco(ProductDetailRequestDTO detailRecoDTO) {
+		return sqlSession.selectList(namespace + "prodrecoDetail", detailRecoDTO);
 	}
 	
 	/*

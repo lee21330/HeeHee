@@ -1,4 +1,4 @@
-package com.shinhan.heehee.dto.request;
+package com.shinhan.heehee.dto.request.auction;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +15,7 @@ public class AuctionHistoryDTO {
 	private int aucProdSeq;
 	private String userId;
 	private int bidPrice;
+	private String userNickName;
+	private int joinCount;
+	private int remainingPoint;
 }

@@ -2,6 +2,7 @@ $(document).ready(function() {
 	jQuery.noConflict(); // 충돌 방지
 	
 	$(".seller-chat").on("click", function() {
+		if(checkNick == '') {openLogin(); return false;}
 		const loginUserId = $(".seller-chat").attr("loginUserId");
 		const sellerId = $(".seller-chat").attr("sellerId");
 		const sellSeq = $(".seller-chat").attr("sellSeq");
@@ -38,7 +39,12 @@ $(document).ready(function() {
     // 맨 위로 스크롤하는 이벤트 리스너
     $('#gotop').on('click', function(e) {
         e.preventDefault();
-        $('html, body').animate({scrollTop: 0}, 500);
+        $('html, body').animate({scrollTop: 0}, 200);
+    });
+    
+     $('#top_img').on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({scrollTop: 0}, 200);
     });
     
     
@@ -98,6 +104,8 @@ $(document).ready(function() {
         slidesToScroll: 1
     });
 });
+
+
 	
 function payForSell(payName, amount, sellSeq, sellerId) {
 	$.ajax({
@@ -173,7 +181,7 @@ function completePayment(payInfo) {
                 })
             })
             .then(resp => resp.text())
-            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq), window.location.reload())
+            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq), window.location.href = '/heehee/main')
             .catch(err => console.log(err));
             
             return true;
@@ -182,6 +190,7 @@ function completePayment(payInfo) {
             console.log(err);
         }
     });
+    
 }
 
 

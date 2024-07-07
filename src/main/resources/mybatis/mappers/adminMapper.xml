@@ -9,13 +9,71 @@
 	<!-- 관리자 홈 관련 SQL문 -->
 	
 	<!-- 전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회) -->
+	<!-- 전체 주문현황 -->
+	<select id="searchTotalOrder" resultType="adminMainVO">
+		SELECT
+		    (SELECT COUNT(*) FROM SELL_PRODUCT) AS SELL_PRO_CTN,
+		    (SELECT SUM(PRODUCT_PRICE) FROM SELL_PRODUCT) AS SELL_PRO_PRICE_SUM,
+		    (SELECT COUNT(*) FROM AUC_PRODUCT) AS AUC_PRO_CTN,
+		    (SELECT SUM(START_PRICE) FROM AUC_PRODUCT) AS AUC_PRO_PRICE_SUM
+		FROM DUAL
+	</select>
 	
+	<!-- 일반상품 주문현황 -->
+	<select id="searchProStatus" resultType="adminMainVO">
+		SELECT 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='판매중') AS SELL_ING, 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='예약중') AS SELL_RES, 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='거래완료') AS SELL_END, 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='판매중지') AS SELL_STOP
+		FROM DUAL
+	</select>
 	
-	<!-- 최근 주문내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회) -->
+	<!-- 경매상품 주문현황 -->
+	<select id="searchAucStatus" resultType="adminMainVO">
+		SELECT 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='입찰') AS AUC_ING, 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='낙찰') AS AUC_RES, 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='거래완료') AS AUC_END, 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='판매중지') AS AUC_STOP
+		FROM DUAL
+	</select>
 	
+	<!-- 최근 등록내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회) -->
+	<select id="searchRecentProduct" resultType="adminProductVO">
+	<![CDATA[
+	SELECT PRODUCT_SEQ , BUYER_ID , ID , ARTICLE_TITLE , PRO_STATUS , PRODUCT_PRICE , CREATE_DATE
+	FROM (SELECT sq.PRODUCT_SEQ , dh.BUYER_ID , sq.ID , sq.ARTICLE_TITLE , sq.PRO_STATUS , sq.PRODUCT_PRICE , sq.CREATE_DATE
+			FROM SELL_PRODUCT sq
+			LEFT JOIN DEAL_HISTORY dh ON sq.PRODUCT_SEQ = dh.SELL_SEQ
+			ORDER BY CREATE_DATE DESC
+			)
+	WHERE ROWNUM <= 5
+	]]>
+	</select>
 	
 	<!-- 최근 문의내역 조회 (기능: 최근 문의관련 모니터링용 대시보드 항목 조회) -->
-	
+	<select id="searchRecentQuestion" resultType="adminQnaManagerVO">
+	<![CDATA[
+		SELECT ID , QNA_ANS , QNA_TITLE , QNA_TIME
+		FROM (SELECT ID , QNA_ANS , QNA_TITLE , QNA_TIME
+				FROM QNA_BOARD
+				ORDER BY QNA_TIME DESC
+				)
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
+	<!-- 최근 회원가입 조회 (기능: 최근 가입회원 모니터링용 대시보드 항목 조회) -->
+	<select id="searchRecentJoin" resultType="adminUserVO">
+		<![CDATA[
+		SELECT ID , NAME , EMAIL , PHONE_NUM , CREATE_DATE 
+		FROM (SELECT ID , NAME , EMAIL , PHONE_NUM , CREATE_DATE 
+				FROM HH_USER
+				ORDER BY CREATE_DATE DESC
+				)
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
 	
 	<!-- 관리자 홈 끝 -->
 	
@@ -58,19 +116,21 @@
         <if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
             <choose>
                 <when test="category == 'memberName'">
-                    AND NAME LIKE '%' || #{keyword} || '%'
+                    AND hh.NAME LIKE '%' || #{keyword} || '%'
                 </when>
                 <when test="category == 'userID'">
-                    AND ID LIKE '%' || #{keyword} || '%'
+                    AND bh.ID LIKE '%' || #{keyword} || '%'
                 </when>
             </choose>
         </if>
+        <!-- 향후 개선하여 추가 구현 예정
         <if test="startDate != null and !startDate.isEmpty()">
             AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
         </if>
         <if test="endDate != null and !endDate.isEmpty()">
             AND CREATE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
         </if>
+         -->
 	</select>
 	
 	<!-- 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯) -->
@@ -79,14 +139,21 @@
 		VALUES (#{id}, #{banContent}, #{banStr}, #{banEnd})
 	</insert>
 	
-	<!-- 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정) -->
-	<update id="updateBanUser">
+	<!-- 회원정보 관리 - 이용상태 관리 - 삭제 기능 (기능 : 선택된 회원의 정지기록을 삭제함) -->
+	<delete id="deleteUserBan">
+		DELETE FROM BAN_HISTORY bh 
+		WHERE ID = #{id} AND BAN_STR = TO_DATE(#{banStrSt} ,'YYYY-MM-DD')
+	</delete>
+	
+	<!-- 기능 변경 : 수정기능 삭제 후 삭제기능 추가 -->
+	<!-- 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 정지일을 변경할 수 있도록 구성 예정) -->
+	<!--<update id="updateBanUser">
 		UPDATE BAN_HISTORY 
 		SET BAN_CONTENT = #{banContent}, 
 			BAN_STR = #{banStr},
 			BAN_END = #{banEnd}
 		WHERE ID = #{id}
-	</update>
+	</update>-->
 	
 	<!-- 회원정보 끝 -->
 	
@@ -128,7 +195,7 @@
 	</select>
 	
 	<!-- 상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능) -->
-	<select id="getProductBanReason" resultType="AdminProductVO">
+	<select id="getProductBanReason" resultType="adminProductVO">
 		SELECT PRODUCT_SEQ, PRODUCT_BAN_REASON
 		FROM SELL_PRODUCT
 		WHERE PRODUCT_SEQ = #{productSeq}
@@ -184,7 +251,7 @@
 	</select>
 	
 	<!-- 상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능) -->
-	<select id="getAucBanReason" resultType="AdminAuctionVO">
+	<select id="getAucBanReason" resultType="adminAuctionVO">
 		SELECT PRODUCT_SEQ, AUC_BAN_REASON
 		FROM AUC_PRODUCT
 		WHERE PRODUCT_SEQ = #{productSeq}
@@ -309,7 +376,7 @@
 	</update>
 	
 	<!-- 고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
-	<delete id="deleteQna">
+	<delete id="deleteQnaContent">
 		DELETE FROM QNA_BOARD qb
 		WHERE qb.SEQ_QNA_BNO = ${seqQnaBno}
 	</delete>

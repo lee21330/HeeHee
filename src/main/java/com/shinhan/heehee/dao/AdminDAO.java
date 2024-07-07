@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.shinhan.heehee.dto.request.AdminAuctionDTO;
 import com.shinhan.heehee.dto.request.AdminCategoryDTO;
 import com.shinhan.heehee.dto.request.AdminFaqManagerDTO;
+import com.shinhan.heehee.dto.request.AdminMainDTO;
 import com.shinhan.heehee.dto.request.AdminProductDTO;
 import com.shinhan.heehee.dto.request.AdminQnaManagerDTO;
 import com.shinhan.heehee.dto.request.AdminUserBanDTO;
@@ -30,15 +31,39 @@ public class AdminDAO {
 	String namespace = "com.shinhan.heehee.admin.";
 	
 	//관리자 홈 관련 SQL문
-	
-	//전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
-	
 
-	//최근 주문내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회)
+	//전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
+	//전체 주문현황
+	public List<AdminMainDTO> searchTotalOrder() {
+		return sqlSession.selectList(namespace + "searchTotalOrder");
+	}
+	
+	//일반상품 주문현황
+	public List<AdminMainDTO> searchProStatus() {
+		return sqlSession.selectList(namespace + "searchProStatus");
+	}
+	
+	//경매상품 주문현황
+	public List<AdminMainDTO> searchAucStatus() {
+		return sqlSession.selectList(namespace + "searchAucStatus");
+	}
+	
+	
+	//최근 등록내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회)
+	public List<AdminProductDTO> searchRecentProduct() {
+		return sqlSession.selectList(namespace + "searchRecentProduct");
+	}
 	
 	
 	//최근 문의내역 조회 (기능: 최근 문의관련 모니터링용 대시보드 항목 조회)
+	public List<AdminQnaManagerDTO> searchRecentQuestion() {
+		return sqlSession.selectList(namespace + "searchRecentQuestion");
+	}
 	
+	//최근 회원가입 조회 (기능: 최근 가입회원 모니터링용 대시보드 항목 조회)
+	public List<AdminUserDTO> searchRecentJoin() {
+		return sqlSession.selectList(namespace + "searchRecentJoin");
+	}
 	
 	//관리자 홈 끝
 	
@@ -73,12 +98,20 @@ public class AdminDAO {
 		return result;
 	}
 	
-    //회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정)
+	// 회원정보 관리 - 이용상태 관리 - 삭제 기능 (기능 : 선택된 회원의 정지기록을 삭제함)
+	public void deleteUserBan(String id, String banStrSt){
+		AdminUserBanDTO dto = new AdminUserBanDTO(id, banStrSt);
+		sqlSession.delete("deleteUserBan", dto);
+	}
+	
+	/* 기능 변경 : 수정기능 삭제 후 삭제기능 추가
+	// 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 정지일을 변경할 수 있도록 구성 예정)
 	public int updateBanUser(String id, String banContent, Date banStr, Date banEnd) {
 		AdminUserBanDTO dto = new AdminUserBanDTO(id, banContent, banStr, banEnd);
 		int result = sqlSession.update("updateBanUser", dto);
 		return result;
 	}
+	*/
 	
 	//회원정보 관리 끝
 	
@@ -199,9 +232,9 @@ public class AdminDAO {
 	}
 	
 	//고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제)
-	public void deleteQna (int seqQnaBno) {
+	public void deleteQnaContent (int seqQnaBno) {
 		AdminQnaManagerDTO dto = new AdminQnaManagerDTO(seqQnaBno);
-		sqlSession.delete("deleteQna", dto);
+		sqlSession.delete("deleteQnaContent", dto);
 	}
 	
 	

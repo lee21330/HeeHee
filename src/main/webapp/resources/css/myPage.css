@@ -9,31 +9,41 @@
 #deal {
 	border-top: 1px solid #C1C1C1;
 	display: flex;
+	height: 50px;
+	width: 100%;
+	padding: 0px 0px 0px 0px;
 }
 
 #deal li {
 	list-style: none;
 	width: 50%;
+	height: 100%;
+	line-height: 50px;
 	text-align: center;
 	cursor: pointer;
+}
+
+.select_deal {
+	background-color: #ABC3FF;
 }
 /* ---------------nav--------------- */
 .menu {
-	height: 50px;
+	height: 40px;
 	display: flex;
 	margin: 10px 0px 0px;
 	padding: 0px 0px 0px 0px;
-	border-bottom: 1px solid #C1C1C1;
-	border-top: 1px solid #C1C1C1;
 }
 
 .menu li {
-	width: 33.3%;
+	width: 140px;
 	height: 100%;
-	line-height: 50px;
+	line-height: 40px;
 	list-style: none;
 	text-align: center;
 	cursor: pointer;
+	border: 1px solid #C1C1C1;
+	border-radius: 15px;
+	margin: 0px 5px;
 }
 
 .menu li:not(.select):hover {
@@ -46,6 +56,10 @@
 	color: white;
 }
 
+#dealContainer {
+	height: 750px;
+	overflow-y: auto;
+}
 /* ---------------조회--------------- */
 .checkbox {
 	height: 21px;
@@ -87,11 +101,11 @@
 	display: block;
 	width: 100%;
 	text-align: center;
-	width: 100%;
 }
 
 .list {
-	width: 100%; display : flex;
+	width: 100%;
+	display: flex;
 	flex-wrap: wrap;
 	gap: 20px;
 	padding: 0px 0px 0px 0px;
@@ -101,16 +115,34 @@
 
 .product {
 	width: 200px;
-	height: 100%;
-	margin: 0px 20px 0px 20px;
+	height: 280px;
+	margin: 10px 20px 0px 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 10%;
+	transition: transform 0.3s ease-in-out;
+	padding: 5px;
+	box-sizing: border-box;
+	overflow-y: auto;
 	/* border: 1px solid green; */
 }
 
+.product:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
 .product_img {
-	width: 200px;
-	height: 200px;
-	object-fit: contain;
-	border-radius: 15%;
+	width: 190px;
+	height: 190px;
+	position: relative;
+	z-index: 1;
+}
+
+.product_img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 10%;
 	box-shadow: 0 5px 10px -5px lightgray;
 	position: relative;
 	z-index: 1;
@@ -132,10 +164,13 @@
 }
 
 .product p {
-	width: 100%;
 	/* height: 50px; */
-	margin: 5px 0px;
+	margin: 3px 0px;
 	object-fit: cover;
+}
+
+#productPrice {
+	display: inline-block;
 }
 
 #s_statusVal {
@@ -143,7 +178,17 @@
 	font-size: 12px;
 	background-color: #ABC3FF;
 	text-align: center;
+	padding: 3px;
+	display: inline-block;
+	border-radius: 5px;
 }
+/* 이미지 흑백 처리 */
+.product_img.gray-scale img {
+	filter: grayscale(100%);
+	position: relative;
+}
+
+
 /* 상세필터 */
 #btn_search {
 	height: 21px;
@@ -213,32 +258,73 @@ input[type="radio"] {
 	width: 100%;
 }
 
-#dropdown{
-	width: 70px;
-	height: 50px;
+/* dropdown*/
+.dropdown-menu {
+	width: 100px;
+	height: 60px;
 	display: none;
 	list-style: none;
 	position: absolute;
 	z-index: 2;
+	top: 40px;
 	background-color: white;
+	text-align: center;
+	padding: 0px 0px 0px 0px;
 }
-#dropdown li{
+
+.dropdown-menu li {
 	width: 100%;
 }
-#dropdown li:hover{
+
+.dropdown-menu li:hover {
 	background-color: lightgray;
 	cursor: pointer;
 }
-#sub_dropdown{
-	width: 70px;
-	height: 50px;
+
+.sub-dropdown-menu {
+	width: 100px;
+	height: 60px;
 	display: none;
 	list-style: none;
 	position: absolute;
 	z-index: 2;
+	top: 40px;
 	background-color: white;
+	padding: 0px 0px 0px 0px;
 }
-#sub_dropdown li:hover{
+
+.sub-dropdown-menu li {
+	height: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.sub-dropdown-menu li:hover {
 	background-color: lightgray;
 	cursor: pointer;
+}
+
+.productBanReason {
+	position: absolute;
+	z-index: 2;
+	top:0;
+	width: 190px;
+	height: 190px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.productBanReason p{
+	background-color: white;
+	width: 100px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	color: orangered;
+}
+#deal_auc{
+	display:none;
 }
