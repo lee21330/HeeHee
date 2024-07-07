@@ -101,6 +101,32 @@
 	margin-left: 35px;
 }
 
+#seller_btn {
+	margin-top: 10px;
+    padding: 10px 130px;
+    border: none;
+    background-color: #8f8f8f;
+    color: #fff;
+    border-radius: 10px;
+    cursor: not-allowed;
+    font-size: 30px;
+    letter-spacing: 5px;
+    margin-left: 35px;
+}
+
+#seller_chat_btn {
+	margin-top: 10px;
+	padding: 10px 115px;
+	border: none;
+	background-color: #3b5998;
+	color: #fff;
+	border-radius: 10px;
+	cursor: pointer;
+	font-size: 30px;
+	letter-spacing: 10px;
+	margin-left: 35px;
+}
+
 .item-details {
     width: 100%;
     overflow: hidden;

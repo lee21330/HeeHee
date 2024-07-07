@@ -22,12 +22,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.shinhan.heehee.dao.AuctionDAO;
-import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
+import com.shinhan.heehee.dto.response.ElasticSyncDTO;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +44,7 @@ public class ElasticsearchService {
 
     // 검색 인덱스 생성 메서드
     public void createIndexWithNGramAnalyzer() throws IOException {
-        CreateIndexRequest request = new CreateIndexRequest("auction_index");
+        CreateIndexRequest request = new CreateIndexRequest("prod_index");
 
         // 인덱스 설정
         request.settings(Settings.builder()
@@ -61,20 +59,20 @@ public class ElasticsearchService {
         // 매핑 설정
         String mapping = "{"
             + "\"properties\": {"
+            + "  \"gubun\": {\"type\": \"text\"},"
             + "  \"productSeq\": {\"type\": \"integer\"},"
-            + "  \"aucPrice\": {\"type\": \"integer\"},"
-            + "  \"auctionTitle\": {"
+            + "  \"title\": {"
             + "    \"type\": \"text\","
             + "    \"analyzer\": \"ngram_analyzer\","
+            + "    \"search_analyzer\": \"standard\","
             + "    \"fields\": {"
             + "      \"keyword\": {"
             + "        \"type\": \"keyword\""
             + "      }"
             + "    }"
             + "  },"
-            + "  \"expDate\": {\"type\": \"date\"},"
-            + "  \"expTime\": {\"type\": \"keyword\"},"
-            + "  \"imgName\": {\"type\": \"keyword\"}"
+            + "  \"idate\": {\"type\": \"text\"},"
+            + "  \"imgName\": {\"type\": \"text\"}"
             + "}"
             + "}";
         request.mapping(mapping, XContentType.JSON);
@@ -90,8 +88,13 @@ public class ElasticsearchService {
     // 애플리케이션 시작 시 서치 인덱스 초기화
     @PostConstruct
     public void init() throws IOException {
+        recreateIndex();
+    }
+
+    // 인덱스 재생성 메소드
+    public void recreateIndex() throws IOException {
         try {
-            client.indices().delete(new DeleteIndexRequest("auction_index"), RequestOptions.DEFAULT);
+            client.indices().delete(new DeleteIndexRequest("prod_index"), RequestOptions.DEFAULT);
         } catch (Exception e) {
             // 인덱스가 존재하지 않는 경우 무시
         }
@@ -103,23 +106,17 @@ public class ElasticsearchService {
     // 1분마다 실행
     @Scheduled(fixedRate = 60000)
     public void syncDataToElasticsearch() throws IOException {
-        List<AuctionProdDTO> dataList = auctionDAO.aucProdAll();
-        for (AuctionProdDTO data : dataList) {
+        List<ElasticSyncDTO> dataList = auctionDAO.aucProdAll();
+        for (ElasticSyncDTO data : dataList) {
             Map<String, Object> jsonMap = new HashMap<>();
+            jsonMap.put("gubun", data.getGubun());
             jsonMap.put("productSeq", data.getProductSeq());
-            jsonMap.put("aucPrice", data.getAucPrice());
-            jsonMap.put("auctionTitle", data.getAuctionTitle());
-
-            // expDate를 yyyy/MM/dd 형식으로 변환 (변환 안하니까 오류 뜸..)
-            String expDateStr = data.getExpDate();
-            LocalDate date = LocalDate.parse(expDateStr, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-            String formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
-            
-            jsonMap.put("expDate", formattedDate);
-            jsonMap.put("expTime", data.getExpTime());
+            jsonMap.put("title", data.getTitle());
+            jsonMap.put("price", data.getPrice());
+            jsonMap.put("idate", data.getIdate());
             jsonMap.put("imgName", data.getImgName());
 
-            IndexRequest request = new IndexRequest("auction_index")
+            IndexRequest request = new IndexRequest("prod_index")
                     .id(String.valueOf(data.getProductSeq()))
                     .source(jsonMap, XContentType.JSON);
             client.index(request, RequestOptions.DEFAULT);
@@ -128,24 +125,26 @@ public class ElasticsearchService {
     }
 
     // 모든 데이터 검색
-    public List<AuctionProdDTO> search(String keyword) throws IOException {
-        SearchRequest searchRequest = new SearchRequest("auction_index");
+    public List<ElasticSyncDTO> search(String keyword) throws IOException {
+        SearchRequest searchRequest = new SearchRequest("prod_index");
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        sourceBuilder.query(QueryBuilders.matchQuery("auctionTitle", keyword).analyzer("standard"));
+        sourceBuilder.query(QueryBuilders.matchQuery("title", keyword).analyzer("standard"));
         searchRequest.source(sourceBuilder);
 
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-        List<AuctionProdDTO> results = new ArrayList<>();
+        List<ElasticSyncDTO> results = new ArrayList<>();
 
         searchResponse.getHits().forEach(hit -> {
             Map<?, ?> sourceAsMap = hit.getSourceAsMap();
-            AuctionProdDTO prod = new AuctionProdDTO(
+            ElasticSyncDTO prod = new ElasticSyncDTO(
+                (String) sourceAsMap.get("gubun"),
                 (Integer) sourceAsMap.get("productSeq"),
-                (Integer) sourceAsMap.get("aucPrice"),
-                (String) sourceAsMap.get("auctionTitle"),
-                (String) sourceAsMap.get("expDate"),
-                (String) sourceAsMap.get("expTime"),
-                (String) sourceAsMap.get("imgName")
+                (Integer) sourceAsMap.get("price"),
+                (String) sourceAsMap.get("title"),
+                (String) sourceAsMap.get("introduce"),
+                (String) sourceAsMap.get("idate"),
+                (String) sourceAsMap.get("imgName"),
+                (Integer) sourceAsMap.get("cateNum")
             );
             results.add(prod);
         });
@@ -155,12 +154,12 @@ public class ElasticsearchService {
     
     // 비슷한 title 그룹화
     public List<Map<String, Object>> grouppingSearch(String keyword) throws IOException {
-        SearchRequest searchRequest = new SearchRequest("auction_index");
+        SearchRequest searchRequest = new SearchRequest("prod_index");
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         
         // 검색 쿼리 및 그룹핑 설정
-        sourceBuilder.query(QueryBuilders.matchQuery("auctionTitle", keyword))
-                     .aggregation(AggregationBuilders.terms("group_by_title").field("auctionTitle.keyword"));
+        sourceBuilder.query(QueryBuilders.matchQuery("title", keyword).analyzer("standard"))
+                     .aggregation(AggregationBuilders.terms("group_by_title").field("title.keyword"));
         
         searchRequest.source(sourceBuilder);
 
@@ -170,13 +169,25 @@ public class ElasticsearchService {
         Aggregations aggregations = searchResponse.getAggregations();
         Terms terms = aggregations.get("group_by_title");
         
+        int putCnt = 0;
+        
         for (Terms.Bucket bucket : terms.getBuckets()) {
             Map<String, Object> result = new HashMap<>();
             result.put("title", bucket.getKeyAsString());
             result.put("count", bucket.getDocCount());
             results.add(result);
+            if (putCnt == 14) break;
+            putCnt++;
         }
 
         return results;
+    }
+    
+    public List<ElasticSyncDTO> searchKeyword(String keyword) {
+    	return auctionDAO.findByKeywordProd(keyword);
+    }
+    
+    public List<ElasticSyncDTO> searchCategory(int category) {
+    	return auctionDAO.findByCategoryProd(category);
     }
 }

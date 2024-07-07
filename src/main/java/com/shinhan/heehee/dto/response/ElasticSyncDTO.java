@@ -1,8 +1,5 @@
 package com.shinhan.heehee.dto.response;
 
-import java.util.List;
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +11,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CategoryDTO {
-	private String category;
-	private List<Map<String,Object>> subCategory;
-	private int productCateSeq;
+public class ElasticSyncDTO {
+	private String gubun;
+	private int productSeq;
+	private int price;
+	private String title;
+	private String introduce;
+	private String idate;
+	private String imgName;
+	private int cateNum;
 }
