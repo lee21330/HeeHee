@@ -11,8 +11,49 @@
 <title>희희낙찰 홈페이지</title>
 <link rel="icon" href="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png">
 <link rel="stylesheet" href="${path}/resources/css/main/main.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	// 슬라이드 효과 js
+	$(function() {
+		const sliderWrap = $("#prodRecommandArea");
+		const sliderInner = $(".recommandListArea"); // 움직이는 영역
+		const slider = $(".recommandProdDiv"); // 개별 이미지
+		const sliderDots = $(".swiper-pagination .pagination-bullet"); // dot
+
+		let currentIndex = 0; // 현재 이미지
+		let sliderCount = slider.length; // 이미지 개수
+		let sliderWidth = sliderWrap.width(); // 이미지 가로값
+
+		function gotoSlider(index) {
+			sliderInner.css("transform", `translateX(${-index * sliderWidth}px)`);
+			currentIndex = index;
+			updateDots();
+		}
+
+		function updateDots() {
+			sliderDots.removeClass("pagination-bullet-active");
+			sliderDots.eq(currentIndex).addClass("pagination-bullet-active");
+		}
+
+		$(".prevBtn").on("click", function() {
+			let prevIndex = (currentIndex + (sliderCount - 1)) % sliderCount;
+			gotoSlider(prevIndex);
+		});
+
+		$(".nextBtn").on("click", function() {
+			let nextIndex = (currentIndex + 1) % sliderCount;
+			gotoSlider(nextIndex);
+		});
+
+		sliderDots.on("click", function() {
+			let dotIndex = $(this).index();
+			gotoSlider(dotIndex);
+		});
+		
+		updateDots(); // 화면 새로고침 시 초기화
+	});
+</script>
+
 </head>
 <body>
 	<%-- <%@ include file="/WEB-INF/views/common/loginModal.jsp"%> --%>
@@ -24,19 +65,18 @@
 				<div id="prodRankArea">
 					<p class="classifyTitle">실시간 인기 상품</p>
 					<div id="rankListArea">
-					<c:forEach var="rankProd" items="${rankProdList}" varStatus="status">
-					    <div class="rankProdDiv">
-					        <p>${status.count}위</p>
-					        <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}" 
-					            onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">
-					        <div class="rankProdInfo">
-					            <p class="rankProdTitle" onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">${rankProd.articleTitle}</p>
-					            <p class="rankProdIntro">${rankProd.introduce}</p>
-					            <p class="rankProdPrice">${rankProd.productPrice}원</p>
-					        </div>
-					    </div>
-					</c:forEach>
-				
+						<c:forEach var="rankProd" items="${rankProdList}" varStatus="status">
+						    <div class="rankProdDiv">
+						        <p>${status.count}위</p>
+						        <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}" 
+						            onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">
+						        <div class="rankProdInfo">
+						            <p class="rankProdTitle" onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">${rankProd.articleTitle}</p>
+						            <p class="rankProdIntro">${rankProd.introduce}</p>
+						            <p class="rankProdPrice">${rankProd.productPrice}원</p>
+						        </div>
+						    </div>
+						</c:forEach>
 					</div>
 				</div>
 				<div id="prodRecommandArea">
