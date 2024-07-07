@@ -20,8 +20,9 @@ function changeDeal(deal) {
         changeStatus('all');
         $("#menu li").removeClass("select");
         $("#menu li").eq(0).addClass("select");
-        $("#sub_menu li").removeClass("select_sub");
-        $("#sub_menu li").eq(0).addClass("select_sub");
+        $('#selectMenu').val("all");
+
+    
         
     } else {
         $("#deal_auc").show();
@@ -33,8 +34,8 @@ function changeDeal(deal) {
         changeStatus_auc('all');
         $("#menu_auc li").removeClass("select");
         $("#menu_auc li").eq(0).addClass("select");
-        $("#sub_menu_auc li").removeClass("select_sub");
-        $("#sub_menu_auc li").eq(0).addClass("select_sub");
+       	$('#selectMenuAuc').val("all");
+     
     }
 }
 function show() {
@@ -56,18 +57,11 @@ function changeMenu(event) {
     $("#menu li").removeClass("select");
     $(event.target).addClass("select");
 }
-function changeSubMenu(event) {
-    $("#sub_menu li").removeClass("select_sub");
-    $(event.target).addClass("select_sub");
-}
 function changeMenuAuc(event) {
     $("#menu_auc li").removeClass("select");
     $(event.target).addClass("select");
 }
-function changeSubMenuAuc(event) {
-    $("#sub_menu_auc li").removeClass("select_sub");
-    $(event.target).addClass("select_sub");
-}
+
 function changeStatus(status) {
     $(".list").empty();
     $(".sub_menu").show();
@@ -136,7 +130,7 @@ function changeStatus(status) {
                                 </div>
                                 <p>${sale.articleTitle}</p>
                                 <p id="productPrice">${sale.productPrice}원</p>
-                                <p id="s_statusVal" style="${productStyle}">${sale.proStatus}</p>
+                                <span id="s_statusVal_div"><p id="s_statusVal" style="${productStyle}">${sale.proStatus}</p></span>
                             </div>
                         </div>`;
                 });
@@ -234,7 +228,7 @@ function showJjimList() {
         success: function(data) {
             var jjimlist = $('#jjimlist');
             console.log(data);
-            var output = '<div id="deleteJjim"><input type="button" value="삭제" class="btn" onclick="deleteJjim()"></div>';
+            var output = '<div id="deleteJjim"><input type="button" value="삭제" class="btn_jjim" onclick="deleteJjim()"></div>';
             if (data.length === 0) {
                 output = "<p class='message'>찜 내역이 없습니다.</p>";
             } else {

@@ -78,13 +78,13 @@
 				<p>판매가</p>
 				<p class="order_right">
 					<fmt:formatNumber value="${saleDetail.productPrice}"
-						pattern="#,###" />
+						pattern="#,###" />원
 				</p>
 			</div>
 			<div class="order">
 				<p>배송비</p>
 				<p class="order_right">
-					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />
+					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />원
 				</p>
 			</div>
 			<hr>
@@ -93,7 +93,7 @@
 				<p class="order_right" id="total_price">
 					<fmt:formatNumber
 						value="${saleDetail.productPrice + saleDetail.DCharge}"
-						pattern="#,###" />
+						pattern="#,###" />원
 				</p>
 			</div>
 		</div>

@@ -447,8 +447,11 @@
 	
 	<update id="updateRating" parameterType="com.shinhan.heehee.dto.request.RateAdminDTO">
 		UPDATE HH_USER
-		SET USER_RATING = ROUND(#{selectedRating}, 0)
-		WHERE ID = #{sellerId}
+		SET USER_RATING = ROUND(
+		  (SELECT AVG(USER_RATING)
+		   FROM RATE_ADMIN
+		   WHERE ID=#{sellerId}), 0)
+		WHERE ID=#{sellerId}
 	</update>
 	
 </mapper>

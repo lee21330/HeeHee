@@ -11,6 +11,7 @@
 	text-align: center;
 	display: flex;
 	justify-content: space-around;
+	margin-top: 35px;
 }
 
 .btn {
@@ -42,7 +43,7 @@
 	height: 100%;
 	object-fit: contain;
 	border-radius: 15px;
-	border: 1px solid #CECECE;
+	border: 1px solid black;
 }
 
 .profileName {
@@ -55,11 +56,11 @@
 
 .intro {
 	width: 100%;
-	border: 1px solid #CECECE;
+	border: 1px solid black;
 	border-radius: 10px;
 	height: 150px;
 	/* text-align: center; */
-	padding: 10px 10px;
+	padding: 20px 20px;
 	box-sizing: border-box;
 }
 
@@ -75,10 +76,10 @@
 }
 
 .rating {
-	width: 30%;
+	width: 20%;
 	height: 150px;
 	margin-top: 100px;
-	border: 1px solid #CECECE;
+	border: 1px solid black;
 	border-radius: 10px;
 	box-sizing: border-box;
 }
@@ -119,7 +120,7 @@
 
 /*  */
 .top-right {
-	width: 15%;
+	width: 25%;
 	height: 170px;
 	margin-top: 80px;
 	text-align: right;
@@ -143,7 +144,7 @@
 .point {
 	text-align: center;
 	height: 150px;
-	border: 1px solid #CECECE;
+	border: 1px solid black;
 	border-radius: 10px;
 	box-sizing: border-box;
 }
@@ -174,7 +175,7 @@
 	cursor: pointer;
 	width: 150px;
 	height: 30px;
-	background: #4949e9;
+	background: #3F51A1;
 	color: white;
 	border: none;
 	border-radius: 10px;

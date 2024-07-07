@@ -57,7 +57,7 @@ public class ProductController {
 	@Autowired
 	AlarmService alarmService;
 	
-	@GetMapping("/productdetail/{prod_seq}")
+	@GetMapping("/productdetail/{prod_seq}") // 해당 URL로 들어가면 아래의 return에 있는 jsp파일(페이지)을 보여줌
 	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
 		
@@ -106,9 +106,17 @@ public class ProductController {
 		model.addAttribute("mainCateList", mainCateList);
 
 		/* if(prodInfo == null) return "/"; */
+		ProdDetailDTO prodDetailDTO = productmodifyservice.prodInfo(sampleDTO);
+		if(!prodDetailDTO.getId().equals(userId)) {
+			model.addAttribute("rankProdList", mainservice.rankProdList());
+			model.addAttribute("recommandList", mainservice.recommandList(userId));
+			model.addAttribute("recentprodList", mainservice.recentprodList());
+			return "redirect:/main";
+		}
+		
 		model.addAttribute("userId", userId);
 		
-		model.addAttribute("info", productmodifyservice.prodInfo(sampleDTO));
+		model.addAttribute("info", prodDetailDTO);
 		
 		model.addAttribute("prodImgList", productmodifyservice.prodImg(prodSeq));
 		
@@ -188,7 +196,7 @@ public class ProductController {
 	
 	
 	@PutMapping(value="/reserve", produces = "text/plain; charset=UTF-8") 
-	@ResponseBody
+	@ResponseBody // 이건 return 값에 있는 jsp파일(페이지)를 보여준다는게 아닌 해당 클래스의 데이터만 가져온다는 뜻
 	public ResponseEntity<Map<String,Object>> reserve(@RequestBody Map<String,Integer> sellMap) {
 		Map<String,Object> response = new HashMap<String,Object>();
 		int productSeq = sellMap.get("productSeq");
@@ -196,10 +204,10 @@ public class ProductController {
 		int result = productservice.proStatusReserve(productSeq);
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "예약에 실패했습니다.");
+			response.put("message", "예약중으로 변경에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "예약에 성공했습니다.");
+			response.put("message", "예약중으로 변경에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
@@ -214,16 +222,16 @@ public class ProductController {
 		
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "예약 취소에 실패했습니다.");
+			response.put("message", "판매중으로 변경에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "예약 취소에 성공했습니다.");
+			response.put("message", "판매중으로 변경에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
 	
 	@PutMapping(value="/putoff", produces = "text/plain; charset=UTF-8") 
-	@ResponseBody
+	@ResponseBody 
 	public ResponseEntity<Map<String,Object>> toPutOff(@RequestBody Map<String,Integer> sellMap) {
 		Map<String,Object> response = new HashMap<String,Object>();
 		int productSeq = sellMap.get("productSeq");
@@ -232,10 +240,10 @@ public class ProductController {
 		
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "판매 보류에 실패했습니다.");
+			response.put("message", "판매 보류중으로 변경에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "판매 보류에 성공했습니다.");
+			response.put("message", "판매 보류중으로 변경에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
@@ -250,10 +258,10 @@ public class ProductController {
 		
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "삭제에 실패했습니다.");
+			response.put("message", "물품 삭제에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "삭제에 성공했습니다.");
+			response.put("message", "물품 삭제에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}

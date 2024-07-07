@@ -172,6 +172,7 @@ function completePayment(payInfo) {
             console.log(xhr);
             console.log(payInfo.buyerId);
             console.log(payInfo.sellSeq);
+            showTost("☑️ 결제가 완료되었습니다!");
             fetch("/heehee/chatting/reserve",{
                 method : "POST",
                 headers : {"Content-Type": "application/json"},
@@ -181,10 +182,10 @@ function completePayment(payInfo) {
                 })
             })
             .then(resp => resp.text())
-            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq), window.location.href = '/heehee/main')
+            .then(result => payAlarm(payInfo.sellerId, payInfo.sellSeq))
             .catch(err => console.log(err));
-            
-            return true;
+            setTimeout(() => window.location.reload(), 1000);
+            //return true;
         },
         error: function (data, status, err) {
             console.log(err);
