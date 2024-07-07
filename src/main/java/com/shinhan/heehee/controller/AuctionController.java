@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,8 @@ public class AuctionController {
 	
 	// 동시성 문제를 방지
 	private final ReentrantLock bidLock = new ReentrantLock();
+	
+	private final Map<Integer, ReentrantLock> auctionLocks = new ConcurrentHashMap<>();
 
 	@GetMapping
 	public String auction(Model model, Principal principal) {
@@ -135,14 +138,15 @@ public class AuctionController {
 	@MessageMapping("/bid/{aucSeq}")
 	public void handleBid(AuctionHistoryDTO aucHistory, @DestinationVariable("aucSeq") int aucSeq, Principal principal) {
 		// 현재 스레드가 락을 획득할 때까지 대기, 락을 획득한 후에는 다른 스레드가 이 락을 흭득할 수 없게함
-		bidLock.lock();
-		
+		ReentrantLock lock = auctionLocks.computeIfAbsent(aucSeq, k -> new ReentrantLock());
+	    lock.lock();
 		try {
 			aucHistory = auctionService.insertAucHistory(aucHistory, principal.getName());
 			aucHistory = auctionService.joinCount(aucHistory);
 			messagingTemplate.convertAndSend("/topic/auction/" + aucSeq, aucHistory);
 		} finally {
-			bidLock.unlock();
+			lock.unlock();
+	        auctionLocks.remove(aucSeq, lock);
 		}
 	}
 }

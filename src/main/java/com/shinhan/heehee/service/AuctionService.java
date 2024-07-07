@@ -3,6 +3,10 @@ package com.shinhan.heehee.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shinhan.heehee.config.AuctionLockManager;
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.AuctionDAO;
 import com.shinhan.heehee.dao.MyPageDAO;
@@ -46,6 +52,7 @@ public class AuctionService {
 	@Autowired
 	AWSS3Service awss3Service;
 
+
 	public List<AuctionProdDTO> aucProdList() {
 		return auctionDAO.aucProdList();
 	}
@@ -54,16 +61,23 @@ public class AuctionService {
 		return auctionDAO.aucPriceList(seqArr);
 	}
 
-	@Transactional
+	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public AuctionHistoryDTO insertAucHistory(AuctionHistoryDTO aucHistory, String userId) {
-		// 기존 유저에게 포인트 반환
-		auctionDAO.returnPointToUser(aucHistory.getAucProdSeq());
-		// 입찰
-		auctionDAO.insertAucHistory(aucHistory);
-		// 입찰자 포인트 차감
-		auctionDAO.deductionPointFromUser(aucHistory);
-		
-		return aucHistory;
+		int aucSeq = aucHistory.getAucProdSeq();
+	    Lock lock = AuctionLockManager.getLock(aucSeq);
+	    lock.lock();
+	    try {
+	        // 기존 유저에게 포인트 반환
+	        auctionDAO.returnPointToUser(aucSeq);
+	        // 입찰
+	        auctionDAO.insertAucHistory(aucHistory);
+	        // 입찰자 포인트 차감
+	        auctionDAO.deductionPointFromUser(aucHistory);
+	        
+	        return aucHistory;
+	    } finally {
+	        lock.unlock();
+	    }
 	}
 	
 	public int getRemainingPoint(String userId) {
@@ -108,7 +122,7 @@ public class AuctionService {
 		}
 	}
 
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(fixedRate = 30000)
 	@Transactional
 	public void updateBiddingStatus() {
 		List<SchedulerBidDTO> successArr = auctionDAO.bidSuccessList();
@@ -147,7 +161,7 @@ public class AuctionService {
 				buyerAlarmDto.setId(bid.getBuyerId());
 				buyerAlarmDto.setCateNum(3);
 				buyerAlarmDto.setReqSeq(bid.getProductSeq());
-				buyerAlarmDto.setAlContent("입찰하신 경매물품이 낙찰되었습니다.");
+				buyerAlarmDto.setAlContent("입찰하신 경매물품에 낙찰되었습니다.");
 
 				alarmDAO.alarmInsert(buyerAlarmDto);
 
@@ -172,7 +186,7 @@ public class AuctionService {
 			}
 		}
 		
-		logger.info("-------------- 낙찰, 유찰, 택 스케줄러 ---------------");
+		logger.info("-------------- 낙찰, 유찰, 택배 스케줄러 ---------------");
 	}
 
 }

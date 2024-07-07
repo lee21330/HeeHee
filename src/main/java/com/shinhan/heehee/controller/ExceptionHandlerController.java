@@ -14,12 +14,18 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.shinhan.heehee.exception.ProductNotFoundException;
 import com.shinhan.heehee.exception.UserNotFoundException;
 import com.shinhan.heehee.exception.AucListZeroException;
+import com.shinhan.heehee.exception.BanUserException;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
 
 	Logger logger = LoggerFactory.getLogger("ExceptionHandlerController.class");
 
+	@ExceptionHandler(BanUserException.class)
+	public ResponseEntity<String> banUser(BanUserException ex, HttpServletRequest request) {
+		logger.warn("사용이 중지된 사용자입니다.");
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+	}
 	
 	@ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {

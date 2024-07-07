@@ -150,7 +150,7 @@
             console.log('Connected: ' + frame);
             AucStompClient.subscribe('/topic/auction/' + aucSeq, function (response) {
             	console.log(response);
-                showResponse(JSON.parse(response.body));
+              	aucResponse(JSON.parse(response.body));
             });
         });
     }
@@ -169,9 +169,9 @@
         AucStompClient.send("/app/bid/"+aucSeq, {}, JSON.stringify({"aucProdSeq": aucSeq, "userId": userId, "bidPrice": bidPrice,"userNickName": "${userNickName}"}));
     }
 
-    function showResponse(message) {
+    function aucResponse(message) {
     	$("#auc_price").val(message.bidPrice);
-        $(".price").text(message.bidPrice + "원");
+		if(message.bidPrice != "undefined") $(".price").text(message.bidPrice + "원");
         $("#joinCount").text(message.joinCount);
         $("#current_user_nickname").text(message.userNickName);
 		getRemainingPoint();
