@@ -24,6 +24,35 @@ stompClient = Stomp.over(socket);
 $(document).ready(function() {
 	// 로그인 여부 확인
 	beforeConnectCheck();
+	
+	$('#keyword').on('input', function() {
+        var keyword = $(this).val();
+        if (keyword.length > 2) {
+            $.ajax({
+                url: '${path}/search',
+                method: 'GET',
+                data: { keyword: keyword },
+                success: function(data) {
+					$('#results').empty();
+                    if (data.length > 0) {
+                        $.each(data, function(index, result) {
+                            $('#results').append('<li>' + result.title + '</li>');
+							$("#results").attr("style", "display:block");
+                        });
+                    } else {
+                        $('#results').append('<li>No results found</li>');
+						$("#results").attr("style", "display:none");
+                    }
+                }, error: function(xhr) {
+					console.log(xhr);
+				}
+            });
+        } else {
+			$('#results').empty();
+			$("#results").attr("style", "display:none");
+            console.log("데이터 없음");
+        }
+    });
 });
 
 function beforeConnectCheck() {
@@ -93,10 +122,11 @@ function sendAlarm() {
 				</div>
 				<div class="search_container">
 					<div class="search_bar">
-						<input placeholder="어떤 상품을 찾으시나요?">
+						<input id="keyword" placeholder="어떤 상품을 찾으시나요?">
 						<a href="">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
 						</a>
+						<ul id="results"></ul>
 					</div>
 				</div>
 				<div class="menu_container">
@@ -188,7 +218,6 @@ function sendAlarm() {
 		</div>
 	</header>
 	<div id="tost_message">
-		
 	</div>
 </body>
 </html>

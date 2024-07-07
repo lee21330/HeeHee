@@ -121,7 +121,6 @@
 	<script>
 	$(document).ready(function() {
 		let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-		$("#expTime").val(date);
 		$("#expTime").attr("min", date);
 		$("#testBtn").on("click",requiredCheck);
 
@@ -220,7 +219,7 @@
 			if(uploadImg == "") {showTost("이미지를 업로드해주세요."); return false;}
 			var selCate = $("#selCateSeq").val();
 			if(selCate == "") {showTost("카테고리를 선택해주세요."); return false;}
-			return false;
+			return true;
 		}
 	});
 

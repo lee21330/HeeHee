@@ -3,7 +3,7 @@
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
         <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
-        <link rel="stylesheet" href="${path}/resources/css/myPageModal.css">
+        <link rel="stylesheet" href="${path}/resources/css/auction/pointModal.css">
 
         <body>
             <script>

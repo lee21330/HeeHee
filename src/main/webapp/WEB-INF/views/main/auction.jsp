@@ -110,7 +110,7 @@
 							<input class="seq" type="hidden" value="${aucProd.productSeq}">
 							<input class="aucExpDate" type="hidden" value="${aucProd.expDate}">
 							<input class="aucExpTime" type="hidden" value="${aucProd.expTime}">
-							<p>${aucProd.auctionTitle}</p>
+							<p align="center">${aucProd.auctionTitle}</p>
 							<div class="timer blue c_${aucProd.productSeq}">
 								<span class="h_${aucProd.productSeq}"></span>
 								:
@@ -130,8 +130,6 @@
 			</div>
 		</div>
 	</div>
-	<footer>
-        <p>&copy; 2024 희희낙찰. All rights reserved.</p>
-    </footer>
 </body>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 </html>

@@ -36,8 +36,8 @@ import java.util.Map;
 @Service
 public class ElasticsearchService {
 
-	Logger logger = LoggerFactory.getLogger(ElasticsearchService.class);
-	
+    Logger logger = LoggerFactory.getLogger(ElasticsearchService.class);
+    
     @Autowired
     private RestHighLevelClient client;
 
@@ -53,8 +53,8 @@ public class ElasticsearchService {
             .put("index.analysis.analyzer.ngram_analyzer.tokenizer", "standard")
             .putList("index.analysis.analyzer.ngram_analyzer.filter", "lowercase", "ngram_filter")
             .put("index.analysis.filter.ngram_filter.type", "ngram")
-            .put("index.analysis.filter.ngram_filter.min_gram", 1)		// 최소글자
-            .put("index.analysis.filter.ngram_filter.max_gram", 25)	// 최대 글자
+            .put("index.analysis.filter.ngram_filter.min_gram", 1)  // 최소 글자
+            .put("index.analysis.filter.ngram_filter.max_gram", 25) // 최대 글자
             .put("index.max_ngram_diff", 24)  // 최대 최소 글자 차이
         );
 
@@ -63,7 +63,15 @@ public class ElasticsearchService {
             + "\"properties\": {"
             + "  \"productSeq\": {\"type\": \"integer\"},"
             + "  \"aucPrice\": {\"type\": \"integer\"},"
-            + "  \"auctionTitle\": {\"type\": \"text\", \"analyzer\": \"ngram_analyzer\"},"
+            + "  \"auctionTitle\": {"
+            + "    \"type\": \"text\","
+            + "    \"analyzer\": \"ngram_analyzer\","
+            + "    \"fields\": {"
+            + "      \"keyword\": {"
+            + "        \"type\": \"keyword\""
+            + "      }"
+            + "    }"
+            + "  },"
             + "  \"expDate\": {\"type\": \"date\"},"
             + "  \"expTime\": {\"type\": \"keyword\"},"
             + "  \"imgName\": {\"type\": \"keyword\"}"
@@ -150,7 +158,8 @@ public class ElasticsearchService {
         SearchRequest searchRequest = new SearchRequest("auction_index");
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         
-        sourceBuilder.query(QueryBuilders.matchQuery("auctionTitle", keyword).analyzer("standard"))
+        // 검색 쿼리 및 그룹핑 설정
+        sourceBuilder.query(QueryBuilders.matchQuery("auctionTitle", keyword))
                      .aggregation(AggregationBuilders.terms("group_by_title").field("auctionTitle.keyword"));
         
         searchRequest.source(sourceBuilder);
