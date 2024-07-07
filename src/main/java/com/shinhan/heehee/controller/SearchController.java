@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shinhan.heehee.dto.response.AuctionProdDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.service.ElasticsearchService;
 
 @RestController

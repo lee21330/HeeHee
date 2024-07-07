@@ -13,7 +13,6 @@ import com.shinhan.heehee.dto.response.MainProdRankDTO;
 import com.shinhan.heehee.dto.response.MainProdRecentlyDTO;
 import com.shinhan.heehee.dto.response.MainProdRecoDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
-import com.shinhan.heehee.dto.response.SellProDTO;
 
 @Service
 public class MainService {

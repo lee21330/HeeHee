@@ -7,13 +7,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>판매 완료 페이지</title>
+<title>구매 상품 페이지</title>
 <link rel="stylesheet" href="${path}/resources/css/saleDetail.css">
 </head>
 <%@ include file="../common/header.jsp"%>
 <body>
-	<script src="/heehee/resources/js/saleDetail.js"></script>
-	<div class="purchaseDetail">
+	<script src="/heehee/resources/js/purchaseDetail.js"></script>
+	aa
+	<%-- <div class="purchaseDetail">
 		<p id="proStatus">${saleDetail.proStatus}</p>
 
 		<div id="product">
@@ -24,17 +25,12 @@
 			<div class="title-container">
 				<p id="product_category">${saleDetail.category}>
 					${saleDetail.detailCategory} (${saleDetail.prodName})</p>
-
-				<!-- </div>
-				<div class="title-container"> -->
+					
 				<p id="date">${saleDetail.psDate}</p>
 				<p id="articleTitle">${saleDetail.articleTitle}</p>
 				<p id="deal">${saleDetail.deal}</p>
-
-				<%@ include file="/WEB-INF/views/mypage/delieveryModal.jsp"%>
-				<button id="enter_invoice">송장 입력하기</button>
+				
 				<div id="delivery">
-					<!-- Ajax로 동적 업데이트 -->
 					<p>${saleDetail.DCompany}</p>
 					<p id="dNumber">${saleDetail.DNumber}</p>
 				</div>
@@ -42,14 +38,14 @@
 		</div>
 
 		<p id="progress">진행상황</p>
-		<button id="complete" onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
-		<p id="sCheck">${saleDetail.SCheck}</p>
+		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
+		<p id="pCheck">${saleDetail.PCheck}</p>
 		<progress id="graph" value="0" max="100"></progress>
-
 		<div id="deliveryText" class="progress_ing">
+			<p>결제대기</p>
 			<p>결제완료</p>
 			<p>발송완료</p>
-			<p>배송중</p>
+			<p>배송 중</p>
 			<p>배송완료</p>
 			<p>거래완료</p>
 		</div>
@@ -60,7 +56,7 @@
 
 		<div id="price_area">
 			<div class="order">
-				<p>판매가</p>
+				<p>구매가</p>
 				<p class="order_right">
 					<fmt:formatNumber value="${saleDetail.productPrice}"
 						pattern="#,###" />
@@ -74,16 +70,16 @@
 			</div>
 			<hr>
 			<div class="order">
-				<p id="total">총 판매금액</p>
+				<p id="total">총 결제금액</p>
 				<p class="order_right" id="total_price">
 					<fmt:formatNumber
 						value="${saleDetail.productPrice + saleDetail.DCharge}"
 						pattern="#,###" />
+					원
 				</p>
 			</div>
 		</div>
 
-	</div>
-
+	</div> --%>
 </body>
 </html>

@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shinhan.heehee.dto.request.AuctionHistoryDTO;
-import com.shinhan.heehee.dto.response.AuctionProdDTO;
+import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
+import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
 import com.shinhan.heehee.service.AuctionService;
 
 @Controller
@@ -34,9 +35,20 @@ public class AuctionController {
 	// 동시성 문제를 방지
 	private final ReentrantLock bidLock = new ReentrantLock();
 
+	@GetMapping
+	public String auction(Model model) {
+		model.addAttribute("aucList", auctionService.aucProdList());
+		return "/main/auction";
+	}
+	
 	@GetMapping("/detail/{aucSeq}")
 	public String detail(@PathVariable("aucSeq") int aucSeq, Model model, Principal principal) {
-		model.addAttribute("aucProdInfo", auctionService.aucProdInfo(aucSeq));
+		AuctionProdInfoDTO aucProdInfo = auctionService.aucProdInfo(aucSeq);
+		
+		if(aucProdInfo == null) return "redirect:/auc";
+		
+		model.addAttribute("aucProdInfo", aucProdInfo);
+		model.addAttribute("aucImgs", auctionService.aucProdImgList(aucSeq));
 		return "/auction/detail";
 	}
 

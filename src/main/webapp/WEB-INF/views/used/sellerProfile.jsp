@@ -73,6 +73,7 @@
 		</div>
 	</section>
 	</main>
+	<jsp:include page="../common/footer.jsp"></jsp:include>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

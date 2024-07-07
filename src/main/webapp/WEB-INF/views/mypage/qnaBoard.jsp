@@ -61,44 +61,24 @@
 				</div>
 				<div class="qna_item">
 					<p>사진첨부 최대(3개)</p>
-					<!-- <div>
-						<div>
-							<img id="img_preview1" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(1)"> 
-							<input type="file" class="input_file" id="input_file1" name="uploadImgs" accept="image/*" onchange="readURL(this,1);" /> 
-							<img id="preview1" class="preview">
-						</div>
-						<div>
-							<img id="img_preview2" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(2)"> 
-							<input type="file" class="input_file" id="input_file2" name="uploadImgs" accept="image/*" onchange="readURL(this,2);" /> 
-							<img id="preview2" class="preview">
-						</div>
-						<div>
-							<img id="img_preview3" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(3)"> 
-							<input type="file" class="input_file" id="input_file3" name="uploadImgs" accept="image/*" onchange="readURL(this,3);" /> 
-							<img id="preview3" class="preview">
-						</div>
-					</div> -->
 
-					<!-- <div id="regi_img">
-						<div class="img_container">
-							<img id="img_preview1" class="img_preview" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg" onclick="selectFileInput(1)">
-							<h6 class="preview" id="prv_img1" style="cursor: pointer;">사진추가</h6>
-							<input type="file" id="input_file1" class="input_file" name="uploadImgs" accept="image/*" multiple>
-						</div>
-					</div> -->
-			
-					<!-- <div id="new_preview_container"></div> -->
-					
 					<div>
-						<!-- <input type="file" id="uploadImgs" name="uploadImgs" accept="image/*" multiple onchange="previewImages(event)"> -->
-						<input type="file" id="uploadImgs" name="uploadImgs" accept="image/*" multiple>
+						<img id="img_preview" class="img_preview"
+							src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/file.jpg"
+							onclick="selectFileInput()"> 
+							
+						<!-- 	<input type="file"
+							class="input_file" id="input_file" name="uploadImgs"
+							accept="image/*" onchange="readURL(this);" /> -->
+							 <input type="file" id="input_file" class="input_file" name="uploadImgs" accept="image/*" multiple onchange="previewImages(event);">
+
+						<div id="preview_container">
+							<!-- <img id="preview" class="preview"> <button type="button" class="remove_img">x</button>  -->
+						</div>
 					</div>
-					<div id="image_preview"></div>
-
-
 				</div>
 				<div class="btn">
-					<div id="cancel" class="btn_cancel">취소</div>
+					<%-- <div id="cancel" class="btn_cancel" onclick="location.href='${path}/mypage/qnaBoard'">취소</div> --%>
 					<button class="btn_submit">작성하기</button>
 				</div>
 			</form>

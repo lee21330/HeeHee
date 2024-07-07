@@ -1,52 +1,4 @@
-@charset "UTF-8";
-/* 공통  */
-@font-face {
-	font-family: 'SEBANG_Gothic_Bold';
-	src:
-		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
 
-* {
-	font-family: 'SEBANG_Gothic_Bold';
-}
-
-.myModal {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.4);
-	z-index: 100;
-}
-
-.myModal_body {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 600px;
-	height: 300px;
-	background-color: rgb(255, 255, 255);
-	border-radius: 10px;
-	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-	transform: translateX(-50%) translateY(-60%);
-	padding: 40px;
-	z-index: 99;
-}
-
-.show {
-	display: block;
-}
-
-.hide {
-	display: none;
-}
 
 #phone_close {
 	position: absolute;
@@ -82,6 +34,7 @@
     padding: 40px;
     
 }
+>>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 .input {
     width: 100%;
     display: flex;
@@ -95,9 +48,15 @@
     padding: 20px 0px 20px 0px;
 }
 .modal_form p {
+<<<<<<< HEAD
+	margin: 0px 5px 60px 5px !important;
+	font-size: 27px;
+	display: inline-block;
+=======
     margin: 0px 5px 60px 5px !important;
     font-size: 27px;
     display: inline-block;
+>>>>>>> branch 'feat/sondonghee' of https://github.com/Sh03Team05/HeeHee.git
 }
 .modal_info {
     color: #4949E9;
@@ -148,6 +107,7 @@ accountModal
     border-radius: 10px;
     padding-left: 10px;
 }
+
 Modal_delivery
 #dMdal_p {
     margin-left: 0px;
@@ -178,7 +138,7 @@ Modal_delivery
     align-items: center;
     justify-content: center;
 }
-pointModal.jsp
+
 #charge {
     width: 400px;
     height: 60px;
@@ -186,7 +146,7 @@ pointModal.jsp
     margin: 0px 0px 60px 0px;
     font-size: 20px;
 }
-withdrawalModal.jsp
+
 .wModal_h {
     color: #4949e9;
     height: 30px;
@@ -203,6 +163,10 @@ withdrawalModal.jsp
     text-align: center;
 }
 .text{
+
+	font-size: 15px !important;
+}
+
+
     font-size: 15px !important;
 }
-account */

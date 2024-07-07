@@ -16,7 +16,7 @@
     </select>
     
     <select id="findByUserEmail" parameterType="string" resultType="com.shinhan.heehee.dto.response.UserDTO">
-        SELECT ID user_id, NAME username, PW password, ROLE role
+        SELECT ID username, NAME realName, PW password, ROLE role
         FROM HH_USER
         WHERE EMAIL = #{email}
     </select>
@@ -28,8 +28,8 @@
     </select>
     
     <insert id="signup" parameterType="com.shinhan.heehee.dto.response.UserDTO">
-        INSERT INTO HH_USER (ID, PW, NAME, EMAIL, PHONE_NUM, ROLE)
-        VALUES ( #{username}, #{password}, #{realName}, #{email}, #{phone_num}, 'ROLE_USER' )
+        INSERT INTO HH_USER (ID, PW, NAME, EMAIL, PHONE_NUM, ROLE, NICK_NAME, ADDRESS, DETAIL_ADDRESS)
+        VALUES ( #{username}, #{password}, #{realName}, #{email}, #{phoneNum}, 'ROLE_USER', #{nickName}, #{address}, #{detailAddress})
     </insert>
     
     <select id="getBuyerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.UserDTO">

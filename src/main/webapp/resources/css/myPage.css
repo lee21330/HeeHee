@@ -17,7 +17,11 @@
 	text-align: center;
 	cursor: pointer;
 }
+.select_deal{
+	background-color: #ABC3FF;
+}
 /* ---------------nav--------------- */
+
 .menu {
 	height: 50px;
 	display: flex;
