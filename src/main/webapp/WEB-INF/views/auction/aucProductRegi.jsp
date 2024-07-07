@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>물품 등록 페이지</title>
-<link rel="stylesheet" href="/heehee/resources/css/auc/aucProdRegi.css">
+<link rel="stylesheet" href="/heehee/resources/css/auction/aucProdRegi.css">
 </head>
 <%@ include file="../common/header.jsp" %>
 <body>
@@ -15,9 +15,11 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="/heehee/resources/js/product.js"></script> <!-- 이미지파일 업로드때문에 필요 -->
 	<script src="/heehee/resources/js/productregiCategory.js"></script>
-	<form action="/heehee/sell/productRegistry" method="POST" enctype="multipart/form-data">
+	
+	<form id="auctionForm" action="/heehee/auc/regi" method="POST" enctype="multipart/form-data">
+	
 	<div class="productRegistrate">
-	<div id="test">
+	<div id="main_container">
 		<main>
 			<p id="regi_title">경매 등록</p>
 			<div id="regi_info">
@@ -66,47 +68,47 @@
 	                         <ul class="content_list1" id="subCategoryList">
 	                             <!-- 여기에 소분류 항목들 추가됨 -->
 	                         </ul>
-	                         <input id="selCateSeq" type="hidden" value="" name="cateSeq">
+	                         <input id="selCateSeq" type="hidden" value="" name="auctionSeq">
                         </div>
 			        </div>
 			    </div>
 			</div>
 	<div class="regi_item">
 		<p class="setmargin">글 제목</p>
-		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." name="articleTitle">
+		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." name="auctionTitle" required>
 	</div>
 
 	<div class="regi_item">
 		<p>상품 상태</p>
 		<div class="state_radio">
-		    <input type="radio" id="new" name="state" value="신품" checked="checked">
+		    <input type="radio" id="new" name="condition" value="신품" checked="checked">
 		    <label for="new">신품(미사용)</label>
 		
-		    <input type="radio" id="slightly_used" name="state" value="사용감 적음" class="radio_order">
+		    <input type="radio" id="slightly_used" name="condition" value="사용감 적음" class="radio_order">
 		    <label for="slightly_used">사용감 적음</label>
 		
-		    <input type="radio" id="used" name="state" value="사용감 많음" class="radio_order">
+		    <input type="radio" id="used" name="condition" value="사용감 많음" class="radio_order">
 		    <label for="used">사용감 많음</label>
 		
-		    <input type="radio" id="damaged" name="state" value="고장/파손" class="radio_order">
+		    <input type="radio" id="damaged" name="condition" value="고장/파손" class="radio_order">
 		    <label for="damaged">고장/파손</label>
 		</div>
 	</div>
 	<div class="regi_item">
 		<p>상품 설명</p>
-		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요."></textarea>
+		<textarea id="introduce_box" class="input_name1" name="introduce" placeholder="설명을 입력해주세요." required></textarea>
 	</div>
 	<div class="regi_item">
 		<p>경매 마감일(시간)</p>
-		<input type="datetime-local" class="input_name" name="aucExpTime">
+		<input id="expTime" type="datetime-local" class="input_name" name="expTime" required>
 	</div>
 	<div class="regi_item">
 		<p>경매 시작가</p>
-		<input type="number" class="input_name" name="productPrice" placeholder="가격을 입력해주세요.">
+		<input type="number" class="input_name" name="startPrice" placeholder="가격을 입력해주세요." required>
 	</div>
 	<div class="regi_item">
 		<p>경매 증가 금액</p>
-		<input type="number" class="input_name" name="productIncPrice" placeholder="증가금액을 입력해주세요.">
+		<input type="number" class="input_name" name="increasePrice" placeholder="증가금액을 입력해주세요." required>
 	</div>
 		</main>
 		</div>
@@ -114,34 +116,14 @@
 	<div id="sub_button">
 		<input type="submit" value="등록하기">
 	</div>
-	
 	</form>
 	
 	<script>
 	$(document).ready(function() {
-		var delArr = [];
-		
-		var selectedStatus = "${info.condition}";
-        if (selectedStatus === "신품") {
-            $("#new").prop("checked", true);
-        } else if (selectedStatus === "사용감 적음") {
-        	$("#slightly_used").prop("checked", true);
-        } else if (selectedStatus === "사용감 많음") {
-        	$("#used").prop("checked", true);
-        } else if (selectedStatus === "파손") {
-        	$("#damaged").prop("checked", true);
-        }
-    	
-        var selectedDeal = "${info.deal}";
-        if (selectedDeal === "택배") {
-            $("#package").prop("checked", true);
-            $('#d_charge').attr('disabled', false);
-            /* $('#d_charge').focus(); */
-        } else if (selectedDeal === "직거래") {
-            $("#direct").prop("checked", true);
-            $('#d_charge').val('');
-            $('#d_charge').attr('disabled', true);
-        }
+		let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+		$("#expTime").val(date);
+		$("#expTime").attr("min", date);
+		$("#testBtn").on("click",requiredCheck);
 
 	    $('.content_list1 p').click(function(event) {
 	        event.preventDefault();
@@ -149,23 +131,6 @@
 	        $(this).addClass('selected');
 	    });
 
-	    $('.radio_order').on('click', function() {
-	        var valueCheck = $('input[name="deal"]:checked').attr('id');
-	        if (valueCheck === 'package') {
-	            $('#d_charge').attr('disabled', false);
-	            $('#d_charge').focus();
-	        } else {
-	            $('#d_charge').val('');
-	            $('#d_charge').attr('disabled', true);
-	        }
-	    });
-
-	    if ($('#package').is(':checked')) {
-	        $('#d_charge').attr('disabled', false);
-	    } else {
-	        $('#d_charge').attr('disabled', true);
-	    }
-	    
 	    $("#prv_img1").click(function() {
 	        $("#input_file1").click(); // 이미지 클릭 시 파일 입력 필드를 활성화
 	    });
@@ -194,18 +159,6 @@
 	            }
 	        }
 	        
-	    });
-
-	    // 이미지 삭제 기능 추가
-	    $(document).on('click', '.remove_img', function() {
-	    	var imgSeq = $(this).closest('.img_container').attr('data');
-	    	var newIdx = $(this).closest('.img_container').attr('newIdx');
-
-	    	if(imgSeq != undefined) delArr.push(imgSeq);
-	    	if(newIdx != undefined) removeFile(newIdx);
-	    	$("#delArr").val(delArr);
-	    	console.log(imgSeq);
-	        $(this).closest('.img_container').remove();
 	    });
 	    
 	    function removeFile(index) {
@@ -253,15 +206,25 @@
 	        
 	        var cateSeq = $(this).attr('data');
 	        $("#selCateSeq").val(cateSeq);
-	        console.log(cateSeq);
 	    });
+		
+		$("#auctionForm").submit(function(event) {
+			if (!requiredCheck()) {
+				event.preventDefault(); // 조건이 만족되지 않으면 submit 이벤트 중지
+			}
+		});
+		
+		function requiredCheck() {
+			console.log($("#input_file1").val());
+			var uploadImg = $("#input_file1").val();
+			if(uploadImg == "") {showTost("이미지를 업로드해주세요."); return false;}
+			var selCate = $("#selCateSeq").val();
+			if(selCate == "") {showTost("카테고리를 선택해주세요."); return false;}
+			return false;
+		}
 	});
-	
-	
 
+	
 </script>
 </body>
-
-
-
 </html>

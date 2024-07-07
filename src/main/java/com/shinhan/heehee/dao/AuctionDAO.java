@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
+import com.shinhan.heehee.dto.request.auction.AuctionInsertDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
@@ -67,5 +69,29 @@ public class AuctionDAO {
 	
 	public int updateBidFail(List<Integer> seqArr) {
 		return sqlSession.update(namespace + "updateBidFail", seqArr);
+	}
+	
+	public int insertAucProd(AuctionInsertDTO aucInsertDto) {
+		return sqlSession.insert(namespace + "insertAucProd", aucInsertDto);
+	}
+	
+	public List<AuctionProdDTO> recommandAucProd(int aucSeq) {
+		return sqlSession.selectList(namespace + "recommandAucProd", aucSeq);
+	}
+	
+	public int insertImgFile(ImageFileDTO imageFileDto) {
+		return sqlSession.insert(namespace + "insertImgFile", imageFileDto);
+	}
+	
+	public int returnPointToUser(int aucSeq) {
+		return sqlSession.update(namespace + "returnPointToUser", aucSeq);
+	}
+	
+	public int deductionPointFromUser(AuctionHistoryDTO aucHistory) {
+		return sqlSession.update(namespace + "deductionPointFromUser", aucHistory);
+	}
+	
+	public int remainingPointsFromUser(String userId) {
+		return sqlSession.selectOne(namespace + "remainingPointsFromUser", userId);
 	}
 }

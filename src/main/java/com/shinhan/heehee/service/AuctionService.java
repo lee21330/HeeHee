@@ -1,5 +1,6 @@
 package com.shinhan.heehee.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,14 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dao.AlarmDAO;
 import com.shinhan.heehee.dao.AuctionDAO;
 import com.shinhan.heehee.dao.MyPageDAO;
+import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
+import com.shinhan.heehee.dto.request.auction.AuctionInsertDTO;
 import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
@@ -38,6 +42,9 @@ public class AuctionService {
 
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
+	
+	@Autowired
+	AWSS3Service awss3Service;
 
 	public List<AuctionProdDTO> aucProdList() {
 		return auctionDAO.aucProdList();
@@ -47,10 +54,23 @@ public class AuctionService {
 		return auctionDAO.aucPriceList(seqArr);
 	}
 
-	public void insertAucHistory(AuctionHistoryDTO aucHistory) {
+	@Transactional
+	public AuctionHistoryDTO insertAucHistory(AuctionHistoryDTO aucHistory, String userId) {
+		// 기존 유저에게 포인트 반환
+		auctionDAO.returnPointToUser(aucHistory.getAucProdSeq());
+		// 입찰
 		auctionDAO.insertAucHistory(aucHistory);
+		// 입찰자 포인트 차감
+		auctionDAO.deductionPointFromUser(aucHistory);
+		
+		return aucHistory;
+	}
+	
+	public int getRemainingPoint(String userId) {
+		return auctionDAO.remainingPointsFromUser(userId);
 	}
 
+	@Transactional
 	public AuctionHistoryDTO joinCount(AuctionHistoryDTO aucHistory) {
 		int joinCount = auctionDAO.joinCount(aucHistory.getAucProdSeq());
 		aucHistory.setJoinCount(joinCount);
@@ -67,6 +87,25 @@ public class AuctionService {
 
 	public SellerInfoResponseDTO sellerInfo(String userId) {
 		return auctionDAO.sellerInfo(userId);
+	}
+	
+	public void insertAucProd(AuctionInsertDTO aucInsertDto, String userId) throws IOException {
+		String filePath = "images/auction/";
+		List<MultipartFile> files = aucInsertDto.getUploadFiles();
+		
+		auctionDAO.insertAucProd(aucInsertDto);
+		
+		// 파일 업로드 로직
+		for(MultipartFile file : files) {
+			if(file.getSize() != 0) {
+				ImageFileDTO imgfile = new ImageFileDTO();
+				String fileName = awss3Service.uploadOneObject(file, filePath);
+				imgfile.setImgName(fileName);
+				imgfile.setTablePk(aucInsertDto.getProductSeq());
+				imgfile.setUserId(userId);
+				auctionDAO.insertImgFile(imgfile);
+			}
+		}
 	}
 
 	@Scheduled(fixedRate = 60000)

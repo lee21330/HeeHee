@@ -107,6 +107,7 @@
 	var tSplit = expT.split(":");
 	var exp = new Date(dSplit[0],dSplit[1] - 1,dSplit[2],tSplit[0],tSplit[1],tSplit[2]);
 	
+	
 	var userRating = "${sellerInfo.userRating}";
 	
 	$(document).ready(function() {
@@ -173,9 +174,24 @@
         $(".price").text(message.bidPrice + "원");
         $("#joinCount").text(message.joinCount);
         $("#current_user_nickname").text(message.userNickName);
+		getRemainingPoint();
     }
 
-   
+   	function getRemainingPoint() {
+		$.ajax({
+			    url: '/heehee/auc/remaining',
+			    method: 'GET',
+			    success: function (data, status, xhr) {
+					var remainingPoint = data;
+					remainingPoint = remainingPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+					$(".my_point_amount").text(remainingPoint);
+					point = data;
+			    },
+			    error: function (xhr, status, err) {
+			    	console.log(xhr);
+			    }
+			});
+	}
     
     function fGet2char(num) {
     	return num < 10 ? "0" + num : String(num);
@@ -199,6 +215,26 @@
 	    $(".m").html(MM);
 	    $(".s").html(SS);
 	}
+	
+	//판매자와 채팅하기
+	function sellerChat(loginUserId, sellerId, sellSeq){
+	     fetch("/heehee/chatting/auction",{
+	             method : "POST",
+	             headers : {"Content-Type": "application/json"},
+	             body : JSON.stringify({"sellerId" : ${sellerInfo.id},
+	                                    "loginUserId" : ${userId},
+	                                    "aucSeq" : ${aucProdInfo.productSeq}})
+	            })
+	            .then(resp => resp.text())
+	            .then(result => {
+	                console.log(result);
+	                if (result > 0) {
+	                    window.location.href = "/heehee/chatting";
+	                }
+	            })
+	            .catch(err => console.log(err));
+	}
+
 	
     </script>
 </html>

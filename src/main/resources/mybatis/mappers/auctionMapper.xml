@@ -147,4 +147,33 @@
 		WHERE ROWNUM <![CDATA[<]]> 6
 	</select>
 	
+	<insert id="insertAucProd" parameterType="com.shinhan.heehee.dto.request.auction.AuctionInsertDTO">
+		<selectKey keyProperty="productSeq" order="BEFORE" resultType="int">
+         	SELECT SEQ_AUC_PROD.NEXTVAL FROM DUAL
+     	</selectKey>
+		INSERT INTO AUC_PRODUCT (PRODUCT_SEQ, START_PRICE, INCREASE_PRICE, AUCTION_TITLE, CONDITION, INTRODUCE, EXP_TIME, AUC_STATUS, AUCTION_SEQ, SELLER_ID, INSERT_DATE)
+		VALUES (#{productSeq}, #{startPrice}, #{increasePrice}, #{auctionTitle}, #{condition},#{introduce}, TO_DATE(#{expTime}, 'YYYY-MM-DD hh24:mi'), '입찰', #{auctionSeq}, #{sellerId}, SYSDATE)
+	</insert>
+	
+	<insert id="insertImgFile" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
+		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName},#{tablePk},3,#{userId})
+	</insert>
+	
+	<update id="returnPointToUser" parameterType="int">
+		UPDATE HH_USER
+		SET USER_POINT = USER_POINT  + (SELECT * FROM (SELECT BID_PRICE FROM AUCTION_HISTORY WHERE AUC_PROD_SEQ  = #{aucSeq} ORDER BY BID_PRICE DESC) WHERE ROWNUM = 1)
+		WHERE HH_USER.ID  = (SELECT * FROM (SELECT USER_ID FROM AUCTION_HISTORY WHERE AUC_PROD_SEQ  = #{aucSeq} ORDER BY BID_PRICE DESC) WHERE ROWNUM = 1)
+		AND 0 <![CDATA[<]]> (SELECT COUNT(*) FROM AUCTION_HISTORY ah WHERE ah.AUC_PROD_SEQ = #{aucSeq})
+	</update>
+	
+	<update id="deductionPointFromUser" parameterType="com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO">
+		UPDATE HH_USER
+		SET USER_POINT  = USER_POINT - #{bidPrice}
+		WHERE ID = #{userId}
+	</update>
+	
+	<select id="remainingPointsFromUser" parameterType="String" resultType="int">
+		SELECT USER_POINT FROM HH_USER WHERE ID = #{userId}
+	</select>
+	
 </mapper>

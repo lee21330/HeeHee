@@ -17,4 +17,5 @@ public class AuctionHistoryDTO {
 	private int bidPrice;
 	private String userNickName;
 	private int joinCount;
+	private int remainingPoint;
 }
