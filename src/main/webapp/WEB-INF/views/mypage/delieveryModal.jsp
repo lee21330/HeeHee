@@ -144,7 +144,7 @@
 					</div>
 
 					<div class="Modal_delivery">
-						<input type="number" placeholder="운송장 번호 -없이 입력" name="dNumber"maxlength="10" oninput="maxLengthCheck(this)">
+						<input type="number" placeholder="운송장 번호 -없이 입력" name="dNumber"maxlength="9" oninput="maxLengthCheck(this)">
 					</div>
 					<input type="hidden" name="buyerId" value="${saleDetail.buyerId}">
 					<input type="hidden" name="sSeq" value="${saleDetail.SSeq}">
