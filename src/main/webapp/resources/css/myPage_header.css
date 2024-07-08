@@ -65,13 +65,6 @@
 	box-sizing: border-box;
 }
 
-/* textarea {
-	width: 95%;
-	height: 60px;
-	margin: 5px 0px 0px;
-	border: none;
-	resize: none;
-} */
 #btn-intro {
 	float: right;
 }
