@@ -124,7 +124,7 @@
                     <div class="right-info">
                         <p>내 계좌</p>
                         <div class="right-information" id="btn-account">
-                            <p>${profile.bank}${profile.accountNum}</p>
+                            <p>${profile.bank}&ensp;${profile.accountNum}</p>
                             <img class="photo-arrow"
                                 src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
                         </div>
@@ -135,7 +135,7 @@
                         <p>주소</p>
                         <div class="right-information" id="address"
                             onclick="showAddress()">
-                            <p>${profile.address}${profile.detailAddress}</p>
+                            <p>${profile.address}&ensp;${profile.detailAddress}</p>
                             <img class="photo-arrow"
                                 src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/photo-arrow.png">
                         </div>
