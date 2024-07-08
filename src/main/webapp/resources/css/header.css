@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-
 input[type=button] {
 	cursor: pointer;
 }
@@ -55,6 +54,7 @@ header {
 
 body {
     padding-top: 200px;
+    margin: 0;
 }
 
 /* 로그인, 회원가입 */

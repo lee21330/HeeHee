@@ -17,14 +17,14 @@
     z-index: 3;
 } */
 
-body {
-    font-family: 'SEBANG_Gothic_Bold';
-}
 
 .footer {
-    padding: 20px;
+	font-family: 'SEBANG_Gothic_Bold';
     font-size: 14px;
     color: #7B7B7B;
+    /* background-color: #f5f5f5; */
+    background-color: rgb(249, 249, 249);
+    box-sizing: border-box;
 }
 
 .title{
@@ -35,6 +35,7 @@ body {
 	width: 1280px;
 	height: auto;
 	margin: 0 auto;
+	
 }
 
 .main-container {
@@ -49,13 +50,12 @@ body {
 }
 
 .container1{
-	border-top: 1px solid #D3D3D3;
 	padding-top: 20px;
 	padding-bottom: 10px;
 }
 
 .container2{
-	border-top: 1px solid #E6E6E6;
+	border-top: 1px solid #D3D3D3;
 	padding-top: 10px;
 }
 
