@@ -32,7 +32,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shinhan.heehee.config.AuthenticationFailure;
 import com.shinhan.heehee.config.AuthenticationSuccess;
+import com.shinhan.heehee.dto.request.BanUserDTO;
 import com.shinhan.heehee.dto.response.UserDTO;
+import com.shinhan.heehee.exception.BanUserException;
 import com.shinhan.heehee.exception.UserNotFoundException;
 import com.shinhan.heehee.service.UserService;
 
@@ -66,7 +68,13 @@ public class UserController {
 		String userPw = request.getParameter("userPw");
 
 		UserDTO user = userService.login(userId, userPw);
-
+		BanUserDTO banUserDto = userService.banCheck(userId);
+		
+		// 회원 상태 확인
+		if(banUserDto != null) {
+			throw new BanUserException("정지된 사용자입니다.");
+		}
+		
 		if (user == null) throw new UserNotFoundException();
 
 		try {

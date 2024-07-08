@@ -149,6 +149,7 @@ body {
     padding: 0px 15px;
     display: flex;
     align-items: center;
+	position: relative;
 }
 
 .search_bar input {
@@ -484,10 +485,22 @@ body {
     color: #fff;
     box-shadow: 3px 4px 11px 0px #00000040;
     transition: all 0.5s;
-    z-index: 50;
+    z-index: 200;
 }
 /*토스트 메시지 활성화 되었을 때*/
 #tost_message.active {
     opacity: 100%;
     bottom: 50px;
 }
+
+#results {
+	position: absolute;
+    left: -2px;
+    top: 26px;
+    border: 1px solid;
+    height: auto;
+    width: 458px;
+    background: white;
+	display: none;
+}
+
