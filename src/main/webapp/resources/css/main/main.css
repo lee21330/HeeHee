@@ -18,6 +18,12 @@
 
 .rankProdTitle {
 	height: 40px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+    -webkit-box-orient: vertical;
 }
 
 .rankProdDiv:nth-child(6n) {
@@ -57,7 +63,13 @@
 .rankProdIntro {
 	color: gray;
 	font-size: 12px;
-	height: 30px;
+	height: 28px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+    -webkit-box-orient: vertical;
 }
 
 #rankListArea {
@@ -65,9 +77,11 @@
 }
 
 #recommandListArea {
-	position: relative;
 	/* height: 290px; */
 	text-align: center;
+	display: flex;
+	transition: transform 0.5s ease-in-out;
+	
 }
 
 .prevBtn {
@@ -89,7 +103,7 @@
 }
 
 .recommandProdDiv {
-	display: inline-block;
+	display: flex;
 	width: 170px;
 	margin: 7px 23px 7px 0;
 	padding: 10px;
@@ -109,6 +123,7 @@
 	margin-top: 60px;
 	position: relative;
 	/* height: 370px; */
+	overflow: hidden;
 }
 
 .swiper-pagination {

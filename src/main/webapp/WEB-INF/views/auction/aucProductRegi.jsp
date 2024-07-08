@@ -123,6 +123,17 @@
 		let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 		$("#expTime").attr("min", date);
 		$("#testBtn").on("click",requiredCheck);
+		
+		$(document).on('click', '.remove_img', function() {
+	    	var imgSeq = $(this).closest('.img_container').attr('data');
+	    	var newIdx = $(this).closest('.img_container').attr('newIdx');
+
+	    	if(imgSeq != undefined) delArr.push(imgSeq);
+	    	if(newIdx != undefined) removeFile(newIdx);
+	    	$("#delArr").val(delArr);
+	    	console.log(imgSeq);
+	        $(this).closest('.img_container').remove();
+	    });
 
 	    $('.content_list1 p').click(function(event) {
 	        event.preventDefault();
