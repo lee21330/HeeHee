@@ -168,6 +168,7 @@
     }
 
     function sendBid() {
+    	if("${userId}" == "") {openLogin(); return false;}
     	var now = new Date();
 		var currentPrice = $('#auc_price').val();
 		var bidPrice = parseInt(currentPrice) + ${aucProdInfo.increasePrice};

@@ -13,6 +13,7 @@
                     $(".mModal_close").on("click", hide);
                     $(".btn_cancel").on("click", hide);
                     function show() {
+                    	if("${userId}" == "") {openLogin(); return false;}
                         $("#pModal").addClass("show");
                         $("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
                     }
