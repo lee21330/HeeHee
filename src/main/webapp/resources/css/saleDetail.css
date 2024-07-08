@@ -12,7 +12,7 @@
 }
 
 #product {
-    display: flex;
+	display: flex;
 }
 
 #img {
@@ -24,15 +24,16 @@
 	border-radius: 10px;
 	display: inline-block;
 }
-.title-container {
- 
-   margin: 0px 70px;
-   height: 270px;
-} 
 
-#product_category{
+.title-container {
+	margin: 0px 50px;
+	height: 270px;
+}
+
+#product_category {
 	display: inline-block;
 }
+
 #date {
 	display: inline-block;
 	color: #acacac;
@@ -42,30 +43,32 @@
 
 #articleTitle {
 	font-size: 28px;
-	color: #4949e9;
+	color: #3F51A1;
 	margin: 16px 0px;
 }
-#dealTitle, #deal{
+
+#dealTitle, #deal {
 	display: inline-block;
 }
 
 #enter_invoice {
-	margin-left: 30px;
-	background-color: #4949e9;
+	background-color: #3F51A1;
 	border-radius: 10px;
 	color: white;
-	font-size: 16px;
-	width: 110px;
-	height: 45px;
+	font-size: 14px;
+	width: 100px;
+	height: 30px;
 	border: none;
+	margin: 10px;
 }
 
 #prod_intro {
 	font-size: 17px;
 	margin-left: 30px;
 }
-#accuracy{
-	background-color: #4949e9;
+
+#accuracy {
+	background-color: #3F51A1;
 	border-radius: 10px;
 	color: white;
 	font-size: 16px;
@@ -83,7 +86,7 @@
 }
 
 #complete {
-	background-color: #4949e9;
+	background-color: #3F51A1;
 	border-radius: 10px;
 	color: white;
 	font-size: 16px;
@@ -93,20 +96,21 @@
 	height: 45px;
 	border: none;
 }
-#delivery{
+
+#delivery {
 	border: 2px solid lightgray;
-	padding: 10px;
+	padding: 12px;
 	border-radius: 10px;
 	width: 300px;
 }
 
-#rateSeq, #pCheck,#sCheck, #dStatus{
+#rateSeq, #pCheck, #sCheck, #dStatus {
 	display: none;
 }
+
 #graph {
 	margin-top: 20px;
 	width: 100%;
-	
 }
 
 .progress_ing {
@@ -117,11 +121,13 @@
 #price_area {
 	margin-top: 75px;
 }
-.order{
+
+.order {
 	display: flex;
 	justify-content: space-between;
 }
-.order p{
+
+.order p {
 	display: inline-block;
 }
 
@@ -129,7 +135,7 @@
 	float: right;
 }
 
-hr{
+hr {
 	margin: 0 auto 15px auto;
 	background-color: #acacac;
 	height: 2px;
@@ -142,4 +148,24 @@ hr{
 #total_price {
 	color: red;
 	font-size: 24px;
+}
+
+.button-container {
+	display: flex;
+	gap: 5%;
+	width: 100%;
+	justify-content: left;
+}
+
+#gochat {
+	margin-top: 235px;
+	width: 200px;
+	height: 45px;
+	background: #dcf343;
+	color: #3F51A1;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+	border-radius: 10px;
 }
