@@ -1,5 +1,6 @@
 package com.shinhan.heehee.dao;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -58,5 +59,9 @@ public class UserDAO {
 
 	public BanUserDTO banCheck(String userId) {
 		return sqlSession.selectOne(namespace + "banCheck", userId);
+	}
+	
+	public List<Map<String,Object>> getBankKind() {
+		return sqlSession.selectList(namespace + "getBankKind");
 	}
 }

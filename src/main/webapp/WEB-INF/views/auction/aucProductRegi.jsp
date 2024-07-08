@@ -74,8 +74,8 @@
 			    </div>
 			</div>
 	<div class="regi_item">
-		<p class="setmargin">제품 명</p>
-		<input type="text" class="input_name" placeholder="글 제목을 입력해주세요." name="auctionTitle" required>
+		<p class="setmargin">제품명</p>
+		<input type="text" class="input_name" placeholder="제품명을 입력해주세요." name="auctionTitle" required>
 	</div>
 
 	<div class="regi_item">

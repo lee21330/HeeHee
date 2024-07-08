@@ -1,6 +1,7 @@
 package com.shinhan.heehee.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,5 +97,9 @@ public class UserService {
 	
 	public BanUserDTO banCheck(String userId) {
 		return userDao.banCheck(userId);
+	}
+	
+	public List<Map<String,Object>> getBankKind() {
+		return userDao.getBankKind();
 	}
 }

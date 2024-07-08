@@ -60,4 +60,9 @@
 					AND BAN_STR <![CDATA[<=]]> SYSDATE
 					AND BAN_END <![CDATA[>=]]> SYSDATE
 	</select>
+	
+	<select id="getBankKind" resultType="map">
+		SELECT *
+	  	FROM BANK_KIND
+	</select>
 </mapper>
