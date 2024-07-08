@@ -63,7 +63,7 @@ alert(sellSeq);
 		body: JSON.stringify({
 			"loginUserId": loginUserId,
 			"sellerId": sellerId,
-			"sellSeq": sellSeq
+			"aucSeq": sellSeq
 		})
 	})
 		.then(resp => resp.text())

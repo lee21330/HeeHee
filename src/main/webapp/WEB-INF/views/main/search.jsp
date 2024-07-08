@@ -34,7 +34,6 @@
 						검색 결과 <fmt:formatNumber value="${resultCount}" pattern="#,###" /> 개</span>
 						<div id="search_menu">
 							<span id="accuracy" class="search_order">정확도순</span>
-							<%@include file="/WEB-INF/views/mypage/ratingModal.jsp" %>
 							<span id="recently" class="search_order">최신순</span>
 							<span id="lowPrice" class="search_order">저가순</span> 
 							<span id="highPrice" class="search_order">고가순</span>

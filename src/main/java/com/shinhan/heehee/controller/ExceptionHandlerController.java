@@ -54,4 +54,14 @@ public class ExceptionHandlerController {
 	public void AucListZeroException(HttpServletRequest request,AucListZeroException ex) {
 		logger.warn("=====현재 진행중인 경매가 없습니다.======");
 	}
+	
+	@ExceptionHandler(NoHandlerFoundException.class)
+	public String noHandlerFoundException (NoHandlerFoundException ex) {
+		logger.warn("=====NoHandlerFoundException.======");
+		logger.warn(ex.getClass().getPackageName());
+		logger.warn(ex.getClass().getSimpleName());
+		logger.warn(ex.getMessage());
+		ex.printStackTrace();
+		return "error/404error";
+	}
 }

@@ -118,6 +118,7 @@ body {
 	font-weight: normal;
 	border: none;
 	justify-content: left;
+	border-radius: 10px;
 }
 
 #disabled_btn {
