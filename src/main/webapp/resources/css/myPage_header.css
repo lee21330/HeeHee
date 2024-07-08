@@ -20,6 +20,7 @@
 	background-color: white;
 	color: #787878;
 	border: 1px solid #EAEAEA;
+	box-sizing: border-box;
 }
 
 .profile {
@@ -43,20 +44,23 @@
 	height: 100%;
 	object-fit: contain;
 	border-radius: 15px;
-	border: 1px solid black;
+	border: 1px solid #CECECE;
 }
 
 .profileName {
 	height: 50px;
+	display: flex;
+	align-items: top;
 }
 
 .profile h2 {
 	display: inline-block;
+	margin: 0px 5px 0px 0px;
 }
 
 .intro {
 	width: 100%;
-	border: 1px solid black;
+	border: 1px solid #D3D3D3;
 	border-radius: 10px;
 	height: 150px;
 	/* text-align: center; */
@@ -79,7 +83,7 @@
 	width: 20%;
 	height: 150px;
 	margin-top: 100px;
-	border: 1px solid black;
+	border: 1px solid #D3D3D3;
 	border-radius: 10px;
 	box-sizing: border-box;
 }
@@ -144,7 +148,7 @@
 .point {
 	text-align: center;
 	height: 150px;
-	border: 1px solid black;
+	border: 1px solid #D3D3D3;
 	border-radius: 10px;
 	box-sizing: border-box;
 }
