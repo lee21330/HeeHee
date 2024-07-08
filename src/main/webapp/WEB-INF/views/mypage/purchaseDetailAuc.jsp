@@ -38,6 +38,10 @@
 			</div>
 		</div>
 		<p id="progress">진행상황</p>
+		<c:if
+			test="${saleDetail.PCheck != null && saleDetail.aucStatus != '거래완료'}">
+			<p>판매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
+		</c:if>
 		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
 		<p id="pCheck">${saleDetail.PCheck}</p>
 		<progress id="graph" value="0" max="100"></progress>

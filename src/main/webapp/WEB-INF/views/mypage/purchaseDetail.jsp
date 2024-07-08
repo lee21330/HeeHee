@@ -41,6 +41,10 @@
 		</div>
 
 		<p id="progress">진행상황</p>
+		<c:if
+			test="${saleDetail.PCheck != null && saleDetail.proStatus != '거래완료'}">
+			<p>판매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
+		</c:if>
 		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
 		<c:if test="${saleDetail.proStatus == '거래완료' && saleDetail.rateSeq == 0}">
 			<button id="accuracy">평점 매기기</button>

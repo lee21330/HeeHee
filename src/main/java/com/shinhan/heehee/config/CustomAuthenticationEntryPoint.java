@@ -20,7 +20,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 //        response.getWriter().write("{\"error\": \"Unauthorized access\"}");
 
 //         또는 특정 페이지로 리디렉션할 때
-		/* response.sendRedirect("/heehee/main"); */
+		response.sendRedirect("/heehee/main");
 		
 	}
 

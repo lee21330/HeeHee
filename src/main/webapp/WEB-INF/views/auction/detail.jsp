@@ -29,7 +29,7 @@
             <div class="auction-item">
                 <div class="item-image product_slider">
                 	<c:forEach var="product" items="${aucImgs}">
-						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${product.imgName}">
+						<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${product.imgName}" >
 					</c:forEach>
                 </div>
                 <div>
@@ -82,7 +82,7 @@
                     <hr>
                     <div id="seller_score">
 	                    <img id="sellerimg" onclick="location.href='/heehee/sell/sellerProfile/${sellerInfo.id}'" 
-	                    style="cursor: pointer" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerInfo.profileImg}">
+	                    style="cursor: pointer" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerInfo.profileImg}" onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 	                    <div>
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">
 							<img class="star" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/star0.png">

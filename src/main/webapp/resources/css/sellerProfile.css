@@ -44,7 +44,6 @@ main {
 	margin-top: 50px;
 	object-fit: cover;
 	border-radius: 15%;
-	border: 1px solid black;
 	
 }
 
@@ -61,12 +60,11 @@ main {
 	resize: none;
 	margin: 0px 0px 0px 0px;
 	bottom: 0px;
-	border: 1px solid black;
+	border: 1px solid #D3D3D3;
 	border-radius: 10px;
 	width: 610px;
 	height: 180px;
 	padding: 10px;
-	border: 1px solid black;
 }
 
 #btn-intro {
@@ -77,7 +75,7 @@ main {
 	width: 25%;
 	height: 200px;
 	margin-top: 100px;
-	border: 1px solid black;
+	border: 1px solid #D3D3D3;
 	border-radius: 10px;
 	box-sizing: border-box;
 }
@@ -114,9 +112,6 @@ main {
 	color: rgb(63, 81, 161);
 }
 
-.summing_body {
-	
-}
 
 #rating_title {
 	font-size: 22px;
@@ -126,7 +121,7 @@ main {
 	width: 25%;
 	height: 100px;
 	margin-top: 100px;
-	border: 1px solid black;
+	border: 1px solid #D3D3D3;
 	border-radius: 10px;
 }
 
