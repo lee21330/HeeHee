@@ -40,7 +40,9 @@
 				</div>
 			</div>
 			<div class="button-container">
-				<button loginUserId="${userId}" sellerId="${saleDetail.id}" sellSeq="${saleDetail.productSeq}" id="gochat" class="auc-chat" style="cursor: pointer">판매자와 채팅하기</button>
+				<button loginUserId="${userId}" sellerId="${saleDetail.id}"
+					sellSeq="${saleDetail.productSeq}" id="gochat" class="auc-chat"
+					style="cursor: pointer">판매자와 채팅하기</button>
 			</div>
 		</div>
 		<p id="progress">진행상황</p>
@@ -48,7 +50,11 @@
 			test="${saleDetail.PCheck != null && saleDetail.aucStatus != '거래완료'}">
 			<p>판매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
 		</c:if>
-		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
+		<c:if
+			test="${saleDetail.PCheck == null && saleDetail.aucStatus != '판매중지' && saleDetail.DNumber != null}">
+			<button id="complete"
+				onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
+		</c:if>
 		<p id="pCheck">${saleDetail.PCheck}</p>
 		<progress id="graph" value="0" max="100"></progress>
 		<div id="deliveryText" class="progress_ing">

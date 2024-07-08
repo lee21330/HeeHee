@@ -45,8 +45,12 @@
 			test="${saleDetail.PCheck != null && saleDetail.proStatus != '거래완료'}">
 			<p>판매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
 		</c:if>
-		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
-		<c:if test="${saleDetail.proStatus == '거래완료' && saleDetail.rateSeq == 0}">
+		<c:if test="${saleDetail.PCheck == null && saleDetail.proStatus != '판매중지' && (saleDetail.deal != '택배' || (saleDetail.deal == '택배' && saleDetail.DNumber != null))}">
+			<button id="complete"
+				onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
+		</c:if>
+		<c:if
+			test="${saleDetail.proStatus == '거래완료' && saleDetail.rateSeq == 0}">
 			<button id="accuracy">평점 매기기</button>
 		</c:if>
 		<%@ include file="/WEB-INF/views/mypage/ratingModal.jsp"%>
@@ -70,13 +74,15 @@
 				<p>구매가</p>
 				<p class="order_right">
 					<fmt:formatNumber value="${saleDetail.productPrice}"
-						pattern="#,###" />원
+						pattern="#,###" />
+					원
 				</p>
 			</div>
 			<div class="order">
 				<p>배송비</p>
 				<p class="order_right">
-					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />원
+					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />
+					원
 				</p>
 			</div>
 			<hr>
