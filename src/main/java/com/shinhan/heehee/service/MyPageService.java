@@ -104,22 +104,27 @@ public class MyPageService {
         return mypageDao.dcOption();
     }
     @Transactional
-    public int insertDelivery(InsertDeliveryDTO delivery) {
+    public int insertDelivery(InsertDeliveryDTO delivery, int productSeq) {
         int result = mypageDao.insertDelivery(delivery);
+        
         if (result == 1) {
             // 알림 insert
             AlarmDTO alarmDTO = new AlarmDTO();
             String buyerId = delivery.getBuyerId();
-            alarmDTO.setId(buyerId);
-            alarmDTO.setCateNum(5); // 알림 분류 코드 (채팅)
-            alarmDTO.setReqSeq(delivery.getDSeq());
+            
+            alarmDTO.setId(buyerId); // 구매자 아이디
+            alarmDTO.setCateNum(5); // 알림 분류 코드 (배송)
+            alarmDTO.setReqSeq(productSeq); // 상품 시퀀스
             alarmDTO.setAlContent("송장 번호가 입력되었습니다.");
+            
             alarmDao.alarmInsert(alarmDTO);
+            
             int alarmCnt = alarmDao.alarmCount(buyerId);
             messagingTemplate.convertAndSend("/topic/alarm/" + buyerId, alarmCnt);
         }
         return result;
     }
+    
     public ResponseEntity<?>  updateSCheck(int proSeq) {
         Map<String, Object> response = new HashMap<String, Object>();
         int result = mypageDao.updateSCheck(proSeq);

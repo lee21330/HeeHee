@@ -57,7 +57,7 @@
 											JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = DH.SELL_SEQ)
 					WHERE A.ID = #{userId}
 								AND A.CATE_NUM = 5 -- 배송
-								AND A.AL_REQ_SEQ = D.D_SEQ
+								AND A.AL_REQ_SEQ = DH.SELL_SEQ
 								AND D.D_STATUS = '발송완료'
 					UNION ALL
 					SELECT NVL(Q.QNA_TITLE, '📢 From. 희희낙찰') sender,
@@ -238,7 +238,7 @@
 					  JOIN DELIVERY D ON (DH.S_SEQ = D.S_SEQ) 
 					  JOIN SELL_PRODUCT S ON (S.PRODUCT_SEQ = DH.SELL_SEQ) 
 		 WHERE A.CATE_NUM = 5 -- 배송 
-			   AND A.AL_REQ_SEQ = D.D_SEQ
+			   AND A.AL_REQ_SEQ = DH.SELL_SEQ
 	           AND AL_CHECK = 'N' 
 			   AND A.ID = #{userId} 
 			   AND D.D_STATUS = '발송완료'
