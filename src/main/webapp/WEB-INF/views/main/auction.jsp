@@ -1,6 +1,7 @@
 <%@ page session="false" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}" />
 
@@ -43,13 +44,17 @@
 		    dataType : 'json',
 		    success: function (data, status, xhr) {
 		    	for(let i = 0; i < data.length; i++) {
-		    		$("#pr_" + data[i].productSeq).text(data[i].aucPrice + "원")
+		    		$("#pr_" + data[i].productSeq).text(formatNumberWithCommas(data[i].aucPrice) + "원")
 		    	}
 		    },
 		    error: function (data, status, err) {
 		    	console.log(err);
 		    }
 		});
+	}
+	
+	function formatNumberWithCommas(number) {
+	    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 	
 	function getExpTime() {
@@ -121,7 +126,8 @@
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${aucProd.imgName}" alt="${aucProd.imgName}">
 							<div class="price">
 								<p>입찰가</p>
-								<p id="pr_${aucProd.productSeq}">${aucProd.aucPrice}원</p>
+								<fmt:parseNumber var="parsedPrice" value="${aucProd.aucPrice}" type="number" />
+								<p id="pr_${aucProd.productSeq}"><fmt:formatNumber value="${parsedPrice}" type="number" groupingUsed="true" />원</p>
 							</div>
 						</div>
 						</c:forEach>
