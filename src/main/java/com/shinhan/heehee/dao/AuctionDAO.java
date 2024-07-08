@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.request.auction.AuctionInsertDTO;
+import com.shinhan.heehee.dto.request.auction.InsertDealHistoryDTO;
+import com.shinhan.heehee.dto.response.ElasticSyncDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
@@ -39,7 +41,7 @@ public class AuctionDAO {
 		return sqlSession.selectOne(namespace + "aucProdInfo", aucSeq);
 	}
 	
-	public List<AuctionProdDTO> aucProdAll() {
+	public List<ElasticSyncDTO> aucProdAll() {
 		return sqlSession.selectList(namespace + "aucProdAll");
 	}
 	
@@ -93,5 +95,17 @@ public class AuctionDAO {
 	
 	public int remainingPointsFromUser(String userId) {
 		return sqlSession.selectOne(namespace + "remainingPointsFromUser", userId);
+	}
+	
+	public int insertDealHistory(InsertDealHistoryDTO insDto) {
+		return sqlSession.insert(namespace + "insertDealHistory", insDto);
+	}
+	
+	public List<ElasticSyncDTO> findByKeywordProd(String keyword) {
+		return sqlSession.selectList(namespace + "findByKeywordProd", keyword);
+	}
+	
+	public List<ElasticSyncDTO> findByCategoryProd(int cateNum) {
+		return sqlSession.selectList(namespace + "findByCategoryProd", cateNum);
 	}
 }

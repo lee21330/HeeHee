@@ -499,8 +499,20 @@ body {
     top: 26px;
     border: 1px solid;
     height: auto;
-    width: 458px;
+    width: 498px;
     background: white;
 	display: none;
+	list-style: none;
+	padding: 0;
 }
 
+
+#results li{
+	font-size: 15px;
+	color: rgb(63, 81, 161);
+	padding: 0px 14px;
+}
+
+#results li:hover {
+	background-color: #ededed;
+}
