@@ -14,6 +14,10 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
 <link rel="stylesheet" href="${path}/resources/css/footer.css">
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
@@ -25,6 +29,21 @@ stompClient = Stomp.over(socket);
 $(document).ready(function() {
     // 로그인 여부 확인
     beforeConnectCheck();
+    
+    // bxSlider 호출
+    $(".mainSlider").bxSlider({
+    	mode: 'horizontal',// 가로 방향 수평 슬라이드
+    	speed: 500,        // 이동 속도를 설정
+    	pager: true,      // 현재 위치 페이징 표시 여부 설정
+    	moveSlides: 6,     // 슬라이드 이동시 개수
+    	slideWidth: 1280,   // 슬라이드 너비
+    	minSlides: 6,      // 최소 노출 개수
+    	maxSlides: 30,      // 최대 노출 개수
+    	slideMargin: 5,    // 슬라이드간의 간격
+    	auto: false,        // 자동 실행 여부
+    	autoHover: true,   // 마우스 호버시 정지 여부
+    	controls: true    // 이전 다음 버튼 노출 여부
+    });
 
     $('#keyword').on('input', function() {
         var keyword = $(this).val();
@@ -69,45 +88,6 @@ $(document).ready(function() {
             location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
         }
     });
-
-	/*
-    const sliderWrap = $("#prodRecommandArea");
-    const sliderInner = $(".recommandListArea"); // 움직이는 영역
-    const slider = $(".recommandProdDiv"); // 개별 이미지
-    const sliderDots = $(".swiper-pagination .pagination-bullet"); // dot
-
-    let currentIndex = 0; // 현재 이미지
-    let sliderCount = slider.length; // 이미지 개수
-    let sliderWidth = sliderWrap.width(); // 이미지 가로값
-
-    function gotoSlider(index) {
-        sliderInner.css("transform", `translateX(${-index * sliderWidth}px)`);
-        currentIndex = index;
-        updateDots();
-    }
-
-    function updateDots() {
-        sliderDots.removeClass("pagination-bullet-active");
-        sliderDots.eq(currentIndex).addClass("pagination-bullet-active");
-    }
-
-    $(".prevBtn").on("click", function() {
-        let prevIndex = (currentIndex + (sliderCount - 1)) % sliderCount;
-        gotoSlider(prevIndex);
-    });
-
-    $(".nextBtn").on("click", function() {
-        let nextIndex = (currentIndex + 1) % sliderCount;
-        gotoSlider(nextIndex);
-    });
-
-    sliderDots.on("click", function() {
-        let dotIndex = $(this).index();
-        gotoSlider(dotIndex);
-    });
-
-    updateDots(); // 초기화
-    */
 });
 
 function beforeConnectCheck() {
