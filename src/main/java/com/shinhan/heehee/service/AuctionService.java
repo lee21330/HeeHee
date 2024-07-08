@@ -1,6 +1,7 @@
 package com.shinhan.heehee.service;
 
 import java.io.IOException;
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -171,8 +172,10 @@ public class AuctionService {
 				
 				auctionDAO.insertDealHistory(dealHistoryDto);
 				
+				auctionDAO.updateWinningBId(bid);
+				
 				alarmDAO.alarmInsert(buyerAlarmDto);
-
+				
 				int buyerAlarmCnt = alarmDAO.alarmCount(bid.getBuyerId());
 				messagingTemplate.convertAndSend("/topic/alarm/" + bid.getBuyerId(), buyerAlarmCnt);
 			}

@@ -240,4 +240,10 @@
 		INSERT INTO DEAL_HISTORY (S_SEQ, BUYER_ID, AUC_SEQ) VALUES (DEAL_SEQ.NEXTVAL, #{buyerId}, #{aucSeq})
 	</insert>
 	
+	<update id="updateWinningBId" parameterType="com.shinhan.heehee.dto.response.auction.SchedulerBidDTO">
+		UPDATE HH_USER
+		SET USER_POINT = USER_POINR + #{bidPrice}
+		WHERE ID = #{sellerId}
+	</update>
+	
 </mapper>

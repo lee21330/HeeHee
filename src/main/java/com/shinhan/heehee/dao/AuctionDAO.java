@@ -108,4 +108,8 @@ public class AuctionDAO {
 	public List<ElasticSyncDTO> findByCategoryProd(int cateNum) {
 		return sqlSession.selectList(namespace + "findByCategoryProd", cateNum);
 	}
+	
+	public int updateWinningBId(SchedulerBidDTO dto) {
+		return sqlSession.update(namespace + "updateWinningBId",dto);
+	}
 }
