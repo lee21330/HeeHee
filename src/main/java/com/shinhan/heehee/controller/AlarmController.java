@@ -31,8 +31,6 @@ public class AlarmController {
 	// 알림 전체 조회
 	@ResponseBody
 	@GetMapping("/alarmAll")
-	// @GetMapping("/alarmAll/{userId}")
-	// public List<AlarmChatDTO> alarmList(@PathVariable("userId") String userId) {
 	public List<AlarmChatDTO> alarmList(Principal principal) {
 		String userId = "";
 		
@@ -46,8 +44,6 @@ public class AlarmController {
 	// 미확인 알림 조회
 	@ResponseBody
 	@GetMapping("/alarmUnck")
-	// @GetMapping("/alarmUnck/{userId}")
-	// public List<AlarmChatDTO> alarmUnck(@PathVariable("userId") String userId) {
 	public List<AlarmChatDTO> alarmUnck(Principal principal) {
 		String userId = "";
 		
@@ -59,13 +55,14 @@ public class AlarmController {
 	}
 	
 	// 알림 확인 시 N => Y 업데이트 (마지막 알림이 조회되므로 전부 다 변경하지 않으면 N인 값이 계속 조회됨)
-	@ResponseBody
 	@PostMapping("/alarmUpdate/{alNum}")
+	@ResponseBody
 	public int alarmUpdate(@PathVariable("alNum") int alNum) {
 		int result = alarmService.alarmUpdate(alNum);
 		
 		return result;
 	}
+	
 	
 	/*
 	 @PostMapping("/app/alarmInsert")
@@ -76,6 +73,7 @@ public class AlarmController {
 	 }
 	 */
 	
+	// 알림 웹소켓
 	@MessageMapping("/alarm/{fromUser}")
 	public void handleBid(AlarmDTO alarmDto, @DestinationVariable("fromUser") String fromUser) {
 		alarmDto.setId(fromUser); // 알림 받을 유저

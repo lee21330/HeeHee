@@ -18,6 +18,12 @@
 
 .rankProdTitle {
 	height: 40px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+    -webkit-box-orient: vertical;
 }
 
 .rankProdDiv:nth-child(6n) {
@@ -57,6 +63,13 @@
 .rankProdIntro {
 	color: gray;
 	font-size: 12px;
+	height: 28px;
+	white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+    -webkit-box-orient: vertical;
 }
 
 #rankListArea {

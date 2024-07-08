@@ -1,5 +1,6 @@
 package com.shinhan.heehee.dao;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shinhan.heehee.dto.request.BanUserDTO;
 import com.shinhan.heehee.dto.response.UserDTO;
 
 @Repository("userDao")
@@ -53,5 +55,13 @@ public class UserDAO {
 	
 	public int dupEmailCheck(String email) {
 		return sqlSession.selectOne(namespace + "dupEmailCheck", email);
+	}
+
+	public BanUserDTO banCheck(String userId) {
+		return sqlSession.selectOne(namespace + "banCheck", userId);
+	}
+	
+	public List<Map<String,Object>> getBankKind() {
+		return sqlSession.selectList(namespace + "getBankKind");
 	}
 }

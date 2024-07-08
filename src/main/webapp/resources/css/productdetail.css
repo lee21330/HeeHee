@@ -1,0 +1,412 @@
+@charset "UTF-8";
+
+body {
+	
+	padding-top: 200px;
+}
+
+.productDetail {
+	width: 1280px;
+	height: auto;
+	margin: 0 auto;
+}
+
+.slick-prev, .slick-next:hover {
+	background-color: gray !important;
+}
+
+.slick-prev:before, .slick-next:before {
+	line-height: 1.2 !important; /* 라이브러리때문에 써야함 */
+}
+
+.slick-arrow {
+	border-radius: 25px;
+	background-color: lightgray !important;
+}
+
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
+/* body {
+	width: 100%;
+	margin: 0 auto;
+    line-height: 2;
+    white-space: nowrap;
+} */
+
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 주석으로 변경 */
+/* nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+.title-container {
+	display: flex;
+	justify-content: space-between; /* 텍스트와 링크를 양쪽 끝으로 정렬 */
+	align-items: center;
+	width: 100%;
+	color: black;
+}
+
+.price-check-link {
+	margin-left: 20px;
+	text-decoration: none;
+	color: blue;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.product-container {
+	width: 100%;
+	height: auto;
+	display: flex;
+	align-items: flex-start; /* 이미지와 텍스트를 상단에 맞춥니다 */
+	gap: 20px; /* 이미지와 텍스트 사이의 간격을 설정합니다 */
+	color: black;
+}
+
+#url_copy {
+	width: 50px;
+	height: 25px;
+	object-fit: contain;
+}
+
+.product_slider {
+	width: 350px;
+	height: 350px;
+}
+
+.product_item {
+	position: relative;
+}
+
+.product_img {
+	width: 350px;
+	height: 350px;
+}
+
+.product-details {
+	display: flex;
+	flex-direction: column; /* 텍스트를 세로로 정렬합니다 */
+	justify-content: center;
+	width: 850px;
+	margin-left: 70px;
+}
+
+.product-details p, .product-details ul {
+	margin: 5px 0; /* 텍스트 요소 사이의 간격을 설정합니다 */
+}
+
+#gochat {
+	margin-top: 25px;
+	width: 200px;
+	height: 45px;
+	background: #3F51A1;
+	color: white;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+	border-radius: 10px;
+}
+
+#gobuy {
+	margin-top: 25px;
+	width: 200px;
+	height: 45px;
+	background: #dcf343;
+	color: #3F51A1;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+	border-radius: 10px;
+}
+
+#disabled_btn {
+	margin-top: 25px;
+	width: 200px;
+	height: 45px;
+	background: #acacac;
+	color: #3F51A1;
+	font-size: 22px;
+	font-weight: normal;
+	border: none;
+	justify-content: left;
+	cursor: default;
+	border-radius: 10px;
+}
+
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 동희한테 물어보기 */
+#plusArea {
+	position: fixed;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	right: 7%;
+	margin-left: 1280px;
+}
+
+#plusArea p {
+	margin-top: 0px;
+}
+
+#recentArea {
+	background-color: white;
+	gap: 15px;
+	display: flex;
+	flex-direction: column; /* 세로 정렬 */
+	justify-content: center; /* 중앙 정렬 */
+	align-items: center; /* 수직 방향으로 중앙 정렬 */
+	border: 1px solid #acacac;
+}
+
+#plus_container {
+	cursor: pointer;
+	text-align: center;
+	border: 1px solid #acacac;
+	margin-top: 5px;
+}
+
+#gotop {
+	background-color: white;
+	cursor: pointer;
+	padding: 3px;
+	width: 68px;
+	text-align: center;
+	margin-bottom: 0px;
+}
+
+#top_img {
+	width: 30px;
+	object-fit: contain;
+	margin-top: 8px;
+}
+
+.recentimg {
+	width: 75px;
+	height: 50px;
+	object-fit: contain;
+	display: block;
+	margin-top: 7%;
+	margin-bottom: 7%;
+}
+
+#product_category {
+	font-size: 15px;
+}
+
+#product_name {
+	font-size: 28px;
+}
+
+#product_price {
+	font-size: 24px;
+}
+
+#product_etc {
+	font-size: 13px;
+	height: 22px;
+}
+
+#fullHeart {
+	cursor: pointer;
+	margin-left: 1ch;
+	font-size: 20px;
+}
+
+#emptyHeart {
+	cursor: pointer;
+	margin-left: 1ch;
+	font-size: 20px;
+}
+
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 속성 추가함 */
+#product_state {
+	font-size: 15px;
+	line-height: 2;
+	padding: 0%;
+	box-sizing: border-box;
+	height: 101px;
+}
+
+#d_charge_info {
+	height: 30px;
+}
+
+.button-container {
+	display: flex;
+	gap: 5%;
+	width: 100%;
+	justify-content: left;
+}
+
+.text-container {
+	gap: 5%;
+	width: 100%;
+	justify-content: left;
+}
+
+#paused_explanation {
+	font-size: 22px;
+}
+
+#banReason {
+	font-size: 18px;
+}
+
+#reserve_explanation {
+	font-size: 30px;
+	color: orangered;
+}
+
+#overlay {
+	position: absolute;
+	z-index: 1; /* 1px 대신 1을 사용하며, z-index는 정수 값만 유효 */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+#postpone {
+	font-size: 28px;
+	color: orangered;
+	background-color: white;
+	padding: 10px 10px;
+	border-radius: 10px;
+}
+
+.info-container {
+	width: 100%;
+	display: flex;
+	margin-bottom: 10px;
+	margin-top: 70px;
+}
+
+hr {
+	margin: 0 auto 15px auto;
+	color: #acacac;
+	width: 80%;
+}
+
+.info_title {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 22px;
+	color: #3F51A1;
+}
+
+#info {
+	margin-left: 10%;
+	margin-bottom: 10px;
+	text-align: left;
+	width: 80%;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+.product-info-container {
+	width: 60%;
+	text-align: left;
+	border: 1px solid;
+	border-radius: 10px;
+	border-color: #acacac;
+}
+
+.seller-info-container {
+	margin-left: 40px;
+	width: 40%;
+	text-align: left;
+	border: 1px solid;
+	border-radius: 10px;
+	border-color: #acacac;
+}
+
+#seller_info {
+	margin-left: 10%;
+	align-items: left;
+	width: 80%;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+#seller_score {
+	margin-right: 10%;
+	margin-left: 10%;
+	line-height: 80px;
+	display: flex;
+	justify-content: space-between;
+}
+
+#sellerimg {
+	width: 70px;
+	height: 65px;
+}
+
+.star {
+	width: 30px;
+	height: 28px;
+	margin-right: 5px;
+}
+
+.seller {
+	margin-top: 7px;
+	margin-bottom: 10px;
+}
+
+.seller_comm {
+	margin-top: 7px;
+	margin-bottom: 10px;
+	overflow: hidden;
+	/* text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break:break-all */
+}
+
+#recommand_title {
+	text-align: center;
+	margin-top: 25px;
+	font-size: 25px;
+	color: #3F51A1;
+}
+
+#recommand {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 60px;
+	margin-top: 10px;
+}
+
+/* 바뀐 부분 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 속성 추가함 */
+.reco {
+	width: 200px;
+	height: 200px;
+	object-fit: contain;
+	padding: 25px 25px 25px 25px;
+	border: 1px solid #acacac;
+	border-radius: 10px;
+	padding: 0%;
+	box-sizing: border-box;
+}
+
+.burger {
+	display: none;
+	cursor: pointer;
+}
+
+/* Main content styles */
+main {
+	padding: 20px;
+	margin-top: 40px;
+}
+
+p {
+	line-height: 1.6;
+}

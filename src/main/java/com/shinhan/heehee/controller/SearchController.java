@@ -2,6 +2,7 @@ package com.shinhan.heehee.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,10 @@ public class SearchController {
 	ElasticsearchService elasticsearchService;
 	
 	@GetMapping("/search")
-	public List<AuctionProdDTO> search(@RequestParam("keyword") String keyword) {
+	@ResponseBody
+	public List<Map<String, Object>> search(@RequestParam("keyword") String keyword) {
         try {
-            return elasticsearchService.search(keyword);
+            return elasticsearchService.grouppingSearch(keyword);
         } catch (IOException e) {
             e.printStackTrace();
             return List.of();

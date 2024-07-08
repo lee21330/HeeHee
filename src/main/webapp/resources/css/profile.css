@@ -80,10 +80,9 @@ form {
 	font-size: 15px;
 	text-align: center;
 	color: #929294;
-	/* height: 70px;
-	border: 1px solid #acacac;
-	border-radius: 7px; */
 	margin: 10px auto;
+	padding: 10px;
+	
 }
 
 #btn_photo {
@@ -299,7 +298,6 @@ form {
 	cursor: pointer;
 }
 
-/* 모달 */
 .profileModal_h {
 	color: #3F51A1;
 	height: 30px;

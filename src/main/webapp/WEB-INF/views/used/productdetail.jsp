@@ -61,10 +61,10 @@
 				    <div class="product_slider">
 				        <c:forEach var="product" items="${prodImgList}">
 				            <div class="product_item">
-				            <div id="overlay">
-				                <p id="postpone">예약중인 상품입니다.</p>
-				            </div>
-				                <img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
+					            <div id="overlay">
+					                <p id="postpone">예약중인 상품입니다.</p>
+					            </div>
+				                	<img class="product_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}">
 				            </div>
 				        </c:forEach>
 				    </div>
@@ -177,9 +177,11 @@
 					<ul id="product_state">
 						<li>제품 상태: ${info.condition}</li>
 						<li>거래 방식: ${info.deal}</li>
+						
 						<c:if test="${info.deal == '택배'}">
 							<li>배송비: <fmt:formatNumber value="${info.DCharge}" pattern="#,###"/>원</li>
 						</c:if>
+					
 					</ul>
 					<c:if test="${userId == info.id && info.proStatus == '판매중'}">
 						<div class="button-container">
@@ -256,7 +258,7 @@
 					</div>
 				</c:if>
 				<div id="plus_container">
-					<img id="top_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png">
+					<!-- <img id="top_img" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/logo_favicon.png"> -->
 					<p id="gotop">TOP</p>
 				</div>
 				</div>
@@ -297,6 +299,9 @@
 				</c:forEach>
 			</div>
 		</main>
+	</div>
+	<div id="footerArea">
+    	<jsp:include page="../common/footer.jsp"></jsp:include>
 	</div>
 	
 	
@@ -418,6 +423,7 @@
     
     
 	</script>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </body>
 </html>
 

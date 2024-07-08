@@ -24,36 +24,63 @@
 			<div>
 				<div id="prodRankArea">
 					<div id="search_menu_wrap">
-						<span class="searchTitle"><span id="search_result">현상이형</span> 검색 결과 50,778개</span>
+						<span class="searchTitle">
+						<c:if test="${param.cateName != null}">
+							<span id="search_result">${param.cateName}</span> 
+						</c:if>
+						<c:if test="${param.keyword != null}">
+							<span id="search_result">${param.keyword}</span> 
+						</c:if>
+						검색 결과 <fmt:formatNumber value="${resultCount}" pattern="#,###" /> 개</span>
 						<div id="search_menu">
-							<span id="accuracy" class="search_order">정확도순</span> <span
-								id="recently" class="search_order">최신순</span> <span
-								id="lowPrice" class="search_order">저가순</span> <span
-								id="highPrice" class="search_order">고가순</span>
+							<span id="accuracy" class="search_order">정확도순</span>
+							<span id="recently" class="search_order">최신순</span>
+							<span id="lowPrice" class="search_order">저가순</span> 
+							<span id="highPrice" class="search_order">고가순</span>
 						</div>
 					</div>
 					<div id="rankListArea">
-						<c:forEach var="rankProd" items="${rankProdList}"
+						<c:forEach var="product" items="${productArr}"
 							varStatus="status">
-							<div class="rankProdDiv">
-								<div class="imgContainer">
-									<img class="product_img"
-										src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${rankProd.imgName}"
-										onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">
-									<div id="overlay">
-										<p id="auc_intro">경매품</p>
+							<c:if test="${product.gubun == 'AUC'}">
+								<div class="rankProdDiv">
+									<div class="imgContainer">
+										<img class="product_img"
+											src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${product.imgName}"
+											onclick="location.href='${path}/auc/detail/${product.productSeq}'">
+										<div id="overlay1">
+											<p id="auc_intro">경매품</p>
+										</div>
+									</div>
+									<div class="rankProdInfo">
+										<p class="rankProdTitle"
+											onclick="location.href='${path}/auc/detail/${product.productSeq}'">${product.title}</p>
+										<p class="rankProdIntro">${product.introduce}</p>
+										<span class="rankProdPrice">
+											<fmt:formatNumber value="${product.price}"
+												pattern="#,###" />원</span>
+										<span id="date_diff">12일전</span>
 									</div>
 								</div>
-								<div class="rankProdInfo">
-									<p class="rankProdTitle"
-										onclick="location.href='${path}/sell/productdetail/${rankProd.productSeq}'">${rankProd.articleTitle}</p>
-									<p class="rankProdIntro">${rankProd.introduce}</p>
-									<span class="rankProdPrice">
-										<fmt:formatNumber value="${rankProd.productPrice}"
-											pattern="#,###" />원</span>
-									<span id="date_diff">12일전</span>
+							</c:if>
+							<c:if test="${product.gubun == 'SELL'}">
+								<div class="rankProdDiv">
+									<div class="imgContainer">
+										<img class="product_img"
+											src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${product.imgName}"
+											onclick="location.href='${path}/sell/productdetail/${product.productSeq}'">
+									</div>
+									<div class="rankProdInfo">
+										<p class="rankProdTitle"
+											onclick="location.href='${path}/sell/productdetail/${product.productSeq}'">${product.title}</p>
+										<p class="rankProdIntro">${product.introduce}</p>
+										<span class="rankProdPrice">
+											<fmt:formatNumber value="${product.price}"
+												pattern="#,###" />원</span>
+										<span id="date_diff">12일전</span>
+									</div>
 								</div>
-							</div>
+							</c:if>
 						</c:forEach>
 					</div>
 

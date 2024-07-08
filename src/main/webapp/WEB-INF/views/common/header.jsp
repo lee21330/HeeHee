@@ -14,8 +14,8 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<link rel="stylesheet" href="${path}/resources/css/footer.css">
 <script src="/heehee/resources/js/headerCategory.js"></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
 <script src="/heehee/resources/js/common.js"></script>
 <script>
@@ -25,10 +25,53 @@ stompClient = Stomp.over(socket);
 $(document).ready(function() {
 	// 로그인 여부 확인
 	beforeConnectCheck();
+	
+	$('#keyword').on('input', function() {
+        var keyword = $(this).val();
+        if (keyword.length > 2) {
+            $.ajax({
+                url: '${path}/search',
+                method: 'GET',
+                data: { keyword: keyword },
+                success: function(data) {
+					$('#results').empty();
+                    if (data.length > 0) {
+                        $.each(data, function(index, result) {
+                            $('#results').append('<li>' + result.title + '</li>');
+							$("#results").attr("style", "display:block");
+                        });
+                    } else {
+                        $('#results').append('<li>No results found</li>');
+						$("#results").attr("style", "display:none");
+                    }
+                    $("#results li").on("click", function() {
+            			var keyword = $(this).text();
+            			location.href = "/heehee/main/search?keyword=" + keyword;
+            		});
+                }, error: function(xhr) {
+					console.log(xhr);
+				}
+            });
+        } else {
+			$('#results').empty();
+			$("#results").attr("style", "display:none");
+            console.log("데이터 없음");
+        }
+       
+    });
+	
+	$("#searchIcon").on("click", function() {
+		location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
+	});
+	
+	$("#keyword").on("keyup",function(key){
+		if(key.keyCode==13) {
+			location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
+		}
+	 });
 });
 
 function beforeConnectCheck() {
-	console.log("타는거야?");
 	 // 로그인 하면 소켓 연결
 	if("${userId}" != "") alarmConnect();
 }
@@ -43,6 +86,7 @@ function alarmConnect() {
         stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
 			showResponse(JSON.parse(response.body));
         });
+        //alarmUnck();
     });
 }
 
@@ -58,12 +102,10 @@ function showResponse(res) {
 }
 
 // 웹소켓 연결 테스트
-/*
 function sendAlarm() {
     var userId = 'b';
     stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 208, 'alContent': "새로운 메시지가 있습니다."}));
 }
-*/
 
 </script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
@@ -76,7 +118,7 @@ function sendAlarm() {
 			<div class="login_container">
 				<div class="login_menu">
 					<%@ include file="/WEB-INF/views/common/loginCheck.jsp"%>
-					<button onclick="sendAlarm() ">소켓</button>
+					<%-- <button onclick="sendAlarm() ">소켓</button> --%>
 				</div>
 			</div>
 			<div class="header_container">
@@ -96,18 +138,29 @@ function sendAlarm() {
 				</div>
 				<div class="search_container">
 					<div class="search_bar">
-						<input placeholder="어떤 상품을 찾으시나요?">
+						<input id="keyword" placeholder="어떤 상품을 찾으시나요?">
 						<a href="">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
+							<img id="searchIcon" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
 						</a>
+						<ul id="results"></ul>
 					</div>
 				</div>
 				<div class="menu_container">
 					<div class="menu_div">
-						<a href="${path}/sell/productregi">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
-							<span>물품등록</span>
-						</a>
+						<c:choose>
+							<c:when test="${lastURL eq 'auc'}">
+								<a onclick="beforeCheckLocation('${path}/auc/regi')">
+									<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
+									<span>경매등록</span>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a onclick="beforeCheckLocation('${path}/sell/productregi')">
+									<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_sale.png" alt="물품등록 아이콘">
+									<span>물품등록</span>
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</div>
 					<div class="menu_div">
 						<a href="/heehee/chatting">
@@ -165,7 +218,7 @@ function sendAlarm() {
 												<ul class="sub-category-list">
 													<c:forEach var="subCategory" items="${mainCategory.subCategory}">
 														<a>
-															<li>${subCategory}</li>
+															<li onclick="location.href='/heehee/main/search?category=${subCategory.cateSeq}&cateName=${subCategory.detailCate}'">${subCategory.detailCate}</li>
 														</a>
 													</c:forEach>
 												</ul>
@@ -181,7 +234,6 @@ function sendAlarm() {
 		</div>
 	</header>
 	<div id="tost_message">
-		
 	</div>
 </body>
 </html>

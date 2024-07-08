@@ -112,4 +112,13 @@ public class ChattingService {
 		return result;
 	}
 
+	//채팅방 생성: 경매 낙찰 후 채팅 클릭 시
+	public int insertAuctionChat(Map<String, Object> map) {
+		Integer result = cDao.checkAuctionChat(map);
+		if(result==0) {
+			result = cDao.insertAuctionChat(map);
+		}
+		return result;
+	}
+
 }

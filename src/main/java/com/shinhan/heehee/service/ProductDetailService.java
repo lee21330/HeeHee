@@ -42,16 +42,14 @@ public class ProductDetailService {
 	 * productDetailDao.userIntroduce(prodSeq); }
 	 */
 
-	public List<ProdDetailRecoDTO> prodReco(Integer prodSeq) {
-		return productDetailDao.prodReco(prodSeq);
+	public List<ProdDetailRecoDTO> prodReco(ProductDetailRequestDTO detailRecoDTO) {
+		return productDetailDao.prodReco(detailRecoDTO);
 	}
 	
 	@Transactional
 	public void prodModify(ProductModifyRequestDTO modiDTO, String userId) throws IOException {
 		String filePath = "images/sell/";
 		List<MultipartFile> files = modiDTO.getUploadFiles();
-		
-		System.out.println("**********************************" + modiDTO);
 		
 		// 파일 업로드 전 기존 파일 삭제
 		if(modiDTO.getDelArr() != null) {
@@ -98,10 +96,15 @@ public class ProductDetailService {
 		}
 		
 		// SELL_PRODUCT 테이블 Insert
-		productDetailDao.insertProduct(regiDTO);
 		productDetailDao.insertProductCategory(regiDTO);
+		// insertProductCategory 쿼리문이 먼저 실행된 후에 insertProduct가 해당 컬럼 중 하나인(selectSeq)를 참조함
+		// 서로 DTO가 같기 때문에 아래의 prodSeq 처럼 변수에 따로 넣어주지 않아도 됨
+		productDetailDao.insertProduct(regiDTO);
 		
-		Integer prodseq = regiDTO.getProdSeq();
+		
+		Integer prodseq = regiDTO.getProdSeq(); 
+		// 매퍼에서의 id값이 updateProduct인 쿼리문이 insertProduct의 (prodSeq)를 참조해야하기에 변수에 따로 넣어줘야함 (서로 DTO가 다르기 때문)
+		
 		
 		// 파일 업로드 로직
 		for(MultipartFile file : files) {

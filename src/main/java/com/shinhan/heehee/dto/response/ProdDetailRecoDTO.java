@@ -14,4 +14,5 @@ public class ProdDetailRecoDTO {
 	private int tablePk;
 	private int productSeq;
 	private String proStatus;
+	private String userId;
 }

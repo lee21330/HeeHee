@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
 });
 
 // 채팅룸 커넥트
+//send(destination(보낼 목적지), header, body)
+//subscribe(destination(구독할 목적지), callback(목적지에서 메시지 왔을때 호출할 함수), header)
 function chatConnect(chatRoomId) {
 	disconnect();
 	var ChatSocket = new SockJS('/heehee/chatws');
@@ -30,10 +32,10 @@ function chatConnect(chatRoomId) {
 	    ChatStompClient.send("/app/joinRoom", {}, JSON.stringify({"userId": loginMemberNo, "roomId": chatRoomId}));
 	        ChatStompClient.subscribe('/topic/chatroom/' + chatRoomId, function (chatMessage) {
 	        	var json = JSON.parse(chatMessage.body);
-	        	if(json.userId != null) {
-					selectChattingFn();
-	        	} else {
-		            showMessage(json);
+	        	if(json.userId != null) { // 사용자가 채팅방에 참가할때
+					selectChattingFn(); // 채팅방 메시지 목록 전체 재출력(안 읽음 -> 읽음)
+	        	} else { // 사용자가 채팅방에 존재하지 않을 때
+		            showMessage(json); // 보낸 채팅 메시지만 화면에 출력
 	            }
 	        });
         });
@@ -49,6 +51,7 @@ function disconnect() {
 
 // 채팅 보여주기
 function showMessage(chatMessage){
+	if(document.querySelector(".noneRoomChat")){document.querySelector(".noneRoomChat").remove();}
     const messageList = document.querySelector(".message-list");
     
     const contentBody = document.querySelector(".content-body");
@@ -323,7 +326,7 @@ function completePayment(payInfo, payButton) {
                 method : "POST",
                 headers : {"Content-Type": "application/json"},
                 body : JSON.stringify({
-                "buyerId" : selectReceiverId,
+                "buyerId" : loginMemberNo,
                 "productSeq" : payInfo.sellSeq
                 })
             })
@@ -331,6 +334,7 @@ function completePayment(payInfo, payButton) {
             .then(result => console.log(result))
             .catch(err => console.log(err));
             payButton.disabled = true;
+            showTost("결제에 성공하였습니다!");
             return true;
         },
         error: function (data, status, err) {
@@ -363,8 +367,12 @@ function selectChattingFn(){
         const sellingImage = document.createElement("img");
         sellingImage.classList.add("selling-image");
         
-        const imgName = roomDetail.roomProductDTO.productSeq ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
+        var imgName = "mypage/logo_profile.jpg";
         
+        if(roomDetail.roomProductDTO.productSeq){
+        	imgName = roomDetail.roomProductDTO.productImg ? `${roomDetail.roomProductDTO.productType}/${roomDetail.roomProductDTO.productImg}` : "mypage/logo_profile.jpg";
+        }
+        	
         const imgUrl = `https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/${imgName}`;
         sellingImage.setAttribute("src", imgUrl);
         
@@ -598,7 +606,6 @@ function selectChattingFn(){
                     }
                 }
             }
-            contentBody.append(messageList);
         }
         
         else if(roomDetail.roomMessageDTO.length == 0){
@@ -607,6 +614,8 @@ function selectChattingFn(){
             noneRoomChat.innerHTML = "채팅을 시작해보세요💭";
             contentBody.append(noneRoomChat);
         }
+        
+        contentBody.append(messageList);
         
         const chattingInput = document.createElement("div");
         chattingInput.classList.add("chatting-input");
@@ -715,7 +724,10 @@ function editPrice(productPrice, productSeq){
              body : JSON.stringify({"newPrice" : newPrice, "productSeq" : productSeq})
             })
             .then(resp => resp.text())
-            .then(result => console.log(result))
+            .then(result => {
+            	console.log(result);
+            	showTost("가격 수정에 성공하였습니다!");
+        	})
             .catch(err => console.log(err));
         });
         
@@ -821,17 +833,17 @@ function fetchChatRoomList() {
 function updateChatRoomList(data) {
     // 채팅방 목록 출력 영역 선택
     const chattingList = document.querySelector(".chatting-list");
-
-    // 현재 목록에 있는 채팅방의 ID를 추적하기 위한 집합
-    const existingChatRoomIds = new Set();
     
     // 조회한 채팅방 목록을 순회
     for (let room of data) {
-        existingChatRoomIds.add(room.id);
-
+    
+    	let existingChatRoom = null;
+    	let li = null;
+    
         // 채팅방 아이템을 찾기
-        const existingChatRoom = chattingList.querySelector(`li[room-id="${room.id}"]`);
+        existingChatRoom = chattingList.querySelector(`li[room-id="${room.id}"]`);
         //console.log(chattingList.querySelector(`li[room-id="${room.id}"]`));
+        
         
         // 이미 있는 채팅방이면 unreadCount, sendTime, lastContent만 업데이트
         if (existingChatRoom) {
@@ -857,21 +869,23 @@ function updateChatRoomList(data) {
                         unreadCount.classList.add("unread-count");
                         unreadCount.innerText = room.unreadcount;
                     
-                        const nameCount = document.querySelector(".name-count");
+                        const nameCount = existingChatRoom.querySelector(".name-count");
                        	nameCount.append(unreadCount);
                     }
                    	
                     existingChatRoom.querySelector(".send-time").innerText = room.sendtime;
-          	        existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent.startsWith("[img_asdfzv]") ? "사진" : room.lastcontent;
+                    if(room.lastcontent){
+          	        	existingChatRoom.querySelector(".recent-message").innerHTML = room.lastcontent.startsWith("[img_asdfzv]") ? "사진" : room.lastcontent;
+                	}
                 }
           	    
           	    //업데이트 후 목록 맨 위로 이동
-          	    chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
+          	    //chattingList.insertBefore(existingChatRoom, chattingList.children[1]);
             }
             
         } else {
             // 새로운 채팅방이면 목록 위에 추가
-            const li = document.createElement("li");
+            li = document.createElement("li");
             li.classList.add("chatting-item");
             li.setAttribute("room-id", room.id);
             li.setAttribute("receiver-id", room.receiverid);
@@ -930,40 +944,47 @@ function updateChatRoomList(data) {
             
             //클릭 이벤트 추가
             li.addEventListener("click", e => {
-            // 전역변수에 채팅방 번호, 상대 id, 상대 닉네임 저장
-            selectRoomId = li.getAttribute("room-id");
-            selectReceiverId = li.getAttribute("receiver-id");
+            	// 전역변수에 채팅방 번호, 상대 id, 상대 닉네임 저장
+            	selectRoomId = li.getAttribute("room-id");
+            	selectReceiverId = li.getAttribute("receiver-id");
 
-            selectReceiverName = li.children[1].children[0].children[0].innerText;
+            	selectReceiverName = li.children[1].children[0].children[0].innerText;
 
-            const unreadCountElem = li.querySelector(".unread-count");
-            if (unreadCountElem) {
-                unreadCountElem.remove();
-            }
+            	const unreadCountElem = li.querySelector(".unread-count");
+            	if (unreadCountElem) {
+                	unreadCountElem.remove();
+            	}
 
-            // 모든 채팅방에서 select 클래스를 제거
-            const chattingItemList = chattingList.querySelectorAll(".chatting-item");
-            chattingItemList.forEach(item => item.classList.remove("select"));
+           	 	// 모든 채팅방에서 select 클래스를 제거
+            	const chattingItemList = chattingList.querySelectorAll(".chatting-item");
+            	chattingItemList.forEach(item => item.classList.remove("select"));
 
-            // 현재 클릭한 채팅방에 select 클래스 추가
-            li.classList.add("select");
+            	// 현재 클릭한 채팅방에 select 클래스 추가
+            	li.classList.add("select");
 
-            // 채팅 메시지가 있는 경우
-            // 비동기로 메시지 목록을 조회하는 함수 호출
-            selectChattingFn();
+            	// 채팅 메시지가 있는 경우
+            	// 비동기로 메시지 목록을 조회하는 함수 호출
+            	selectChattingFn();
 
-            fetch("/heehee/chatting/read", {
-                method : "PUT",
-                headers : {"Content-Type": "application/json"},
-                body : JSON.stringify({"chatRoomId" : selectRoomId, "loginUserId" : loginMemberNo})
-            })
-            .then(resp => resp.text())
-            .then(result => console.log(result))
-            .catch(err => console.log(err));
-        });
+            	fetch("/heehee/chatting/read", {
+                	method : "PUT",
+                	headers : {"Content-Type": "application/json"},
+                	body : JSON.stringify({"chatRoomId" : selectRoomId, "loginUserId" : loginMemberNo})
+            	})
+            	.then(resp => resp.text())
+            	.then(result => console.log(result))
+            	.catch(err => console.log(err));
+        	});
 
             // 새로운 채팅방을 목록의 맨 위에 추가
-            chattingList.insertBefore(li, chattingList.children[1]);
+            //chattingList.insertBefore(li, chattingList.children[1]);
         }
+        if(existingChatRoom){
+			chattingList.querySelector(`li[room-id="${room.id}"]`).remove();
+			chattingList.appendChild(existingChatRoom);
+		}
+		else if(li){
+			chattingList.appendChild(li);
+		}
     }
 }

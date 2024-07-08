@@ -2,17 +2,75 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shinhan.auction">
-
-	<select id="aucProdAll" resultType="com.shinhan.heehee.dto.response.auction.AuctionProdDTO">
-	  	SELECT PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
-		, AUCTION_TITLE, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
-       	, TO_CHAR(EXP_TIME, 'hh24:mi:ss') AS EXP_TIME, IMG.IMG_NAME
+	<select id="aucProdAll" resultType="com.shinhan.heehee.dto.response.ElasticSyncDTO">
+	  	SELECT 'AUC' AS guBun, PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS PRICE
+		, AUCTION_TITLE AS TITLE
+		, INTRODUCE
+		, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS IDATE, IMG.IMG_NAME
   		FROM AUC_PRODUCT AUC, IMG_FILES IMG
  		WHERE IMG.TABLE_PK = AUC.PRODUCT_SEQ
    		AND IMG.IMG_CATE_SEQ = 3
    		AND AUC_STATUS = '입찰'
-  		AND ROWNUM  <![CDATA[<]]>  15
- 		ORDER BY EXP_DATE, EXP_TIME
+        AND IMG.IMG_SEQ  = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = AUC.PRODUCT_SEQ AND IMG_CATE_SEQ = 3)
+        UNION ALL
+		SELECT 'SELL' AS guBun, PRODUCT_SEQ, PRODUCT_PRICE, ARTICLE_TITLE
+		, INTRODUCE
+		, TO_CHAR(CREATE_DATE, 'yyyy/mm/dd') AS EXP_DATE, IMG.IMG_NAME
+		FROM SELL_PRODUCT SELL, IMG_FILES IMG
+		WHERE IMG.TABLE_PK = SELL.PRODUCT_SEQ
+		AND IMG.IMG_CATE_SEQ = 2
+		AND PRO_STATUS = '판매중'
+		AND IMG.IMG_SEQ  = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = SELL.PRODUCT_SEQ AND IMG_CATE_SEQ = 2)
+	</select>
+	
+	<select id="findByKeywordProd" resultType="com.shinhan.heehee.dto.response.ElasticSyncDTO" parameterType="String">
+		SELECT *
+		FROM (
+		SELECT 'AUC' AS guBun, PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS PRICE
+		, AUCTION_TITLE AS TITLE
+		, INTRODUCE
+		, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS IDATE, IMG.IMG_NAME
+  		FROM AUC_PRODUCT AUC, IMG_FILES IMG
+ 		WHERE IMG.TABLE_PK = AUC.PRODUCT_SEQ
+   		AND IMG.IMG_CATE_SEQ = 3
+   		AND AUC_STATUS = '입찰'
+        AND IMG.IMG_SEQ  = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = AUC.PRODUCT_SEQ AND IMG_CATE_SEQ = 3)
+        UNION ALL
+        SELECT 'SELL' AS guBun, PRODUCT_SEQ, PRODUCT_PRICE, ARTICLE_TITLE
+        , INTRODUCE
+        , TO_CHAR(CREATE_DATE, 'yyyy/mm/dd') AS EXP_DATE, IMG.IMG_NAME
+        FROM SELL_PRODUCT SELL, IMG_FILES IMG
+        WHERE IMG.TABLE_PK = SELL.PRODUCT_SEQ
+        AND IMG.IMG_CATE_SEQ = 2
+        AND PRO_STATUS = '판매중'
+        AND IMG.IMG_SEQ  = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = SELL.PRODUCT_SEQ AND IMG_CATE_SEQ = 2))
+		WHERE TITLE LIKE '%'||#{keyword}||'%'
+	</select>
+	
+	<select id="findByCategoryProd" resultType="com.shinhan.heehee.dto.response.ElasticSyncDTO" parameterType="int">
+		SELECT *
+		FROM(
+		SELECT 'AUC' AS guBun, PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS PRICE
+		, AUCTION_TITLE AS TITLE
+		, INTRODUCE
+		, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS IDATE, IMG.IMG_NAME
+        , AUCTION_SEQ AS CATE_NUM
+  		FROM AUC_PRODUCT AUC, IMG_FILES IMG
+ 		WHERE IMG.TABLE_PK = AUC.PRODUCT_SEQ
+   		AND IMG.IMG_CATE_SEQ = 3
+   		AND AUC_STATUS = '입찰'
+        AND IMG.IMG_SEQ  = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = AUC.PRODUCT_SEQ AND IMG_CATE_SEQ = 3)
+        UNION ALL
+        SELECT 'SELL' AS guBun, PRODUCT_SEQ, PRODUCT_PRICE, ARTICLE_TITLE
+        , INTRODUCE
+        , TO_CHAR(CREATE_DATE, 'yyyy/mm/dd') AS EXP_DATE, IMG.IMG_NAME
+        , SELECT_SEQ AS CATE_NUM
+        FROM SELL_PRODUCT SELL, IMG_FILES IMG
+        WHERE IMG.TABLE_PK = SELL.PRODUCT_SEQ
+        AND IMG.IMG_CATE_SEQ = 2
+        AND PRO_STATUS = '판매중'
+        AND IMG.IMG_SEQ  = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = SELL.PRODUCT_SEQ AND IMG_CATE_SEQ = 2))
+        WHERE CATE_NUM = #{cateNum}
 	</select>
 	
 	<select id="aucProdList" resultType="com.shinhan.heehee.dto.response.auction.AuctionProdDTO">
@@ -26,6 +84,7 @@
    		AND IMG.IMG_CATE_SEQ = 3
    		AND AUC_STATUS = '입찰'
    		AND AUC.EXP_TIME > SYSDATE
+   		AND IMG.IMG_SEQ  = (SELECT MIN(IMG_SEQ) FROM IMG_FILES WHERE TABLE_PK = AUC.PRODUCT_SEQ AND IMG_CATE_SEQ = 3)
   		AND ROWNUM <![CDATA[<]]> 15)
         GROUP BY PRODUCT_SEQ, AUC_PRICE, AUCTION_TITLE, EXP_DATE ,EXP_TIME,IMG_NAME
  		ORDER BY EXP_DATE, EXP_TIME
@@ -52,18 +111,31 @@
 	
 	<select id="aucProdInfo" parameterType="int"
 		resultType="com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO">
+		SELECT A.*, U.NICK_NAME AS CURRENT_NICK FROM
+		(SELECT * FROM(
 		SELECT PRODUCT_SEQ
 	    , NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
 	    , INCREASE_PRICE
 	    , AUCTION_TITLE
 	    , INTRODUCE
+        , CONDITION
 	    , TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
 	    , TO_CHAR(EXP_TIME, 'hh24:mi:ss') AS EXP_TIME
 	    , AUC_STATUS
 	    , AUCTION_SEQ
+        , CATE.CATEGORY
+        , CATE.DETAIL_CATEGORY
 	    , SELLER_ID
-		FROM AUC_PRODUCT AUC 
-		WHERE PRODUCT_SEQ = #{aucSeq}
+        , (SELECT COUNT(DISTINCT(USER_ID)) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ) AS JOIN_COUNT
+        , HIS. USER_ID AS CURRENT_ID
+		FROM AUC_PRODUCT AUC , PRODUCT_CATEGORY CATE , AUCTION_HISTORY HIS
+		WHERE AUC.AUCTION_SEQ  = CATE.PRODUCT_CATE_SEQ
+        AND HIS.AUC_PROD_SEQ(+) = AUC.PRODUCT_SEQ
+        AND PRODUCT_SEQ = #{aucSeq}
+        ORDER BY BID_PRICE DESC)
+		WHERE ROWNUM = 1) A,
+		HH_USER U
+		WHERE A.CURRENT_ID = U.ID(+)
 	</select>
 	
 	<select id="aucProdImgList" parameterType="int" resultType="com.shinhan.heehee.dto.response.auction.AuctionImgsDTO">
@@ -72,4 +144,100 @@
 		WHERE TABLE_PK = #{aucSeq}
 		AND IMG_CATE_SEQ = 3
 	</select>
+	
+	<select id="sellerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.auction.SellerInfoResponseDTO">
+		SELECT ID, NICK_NAME, PROFILE_IMG, USER_INTRODUCE, USER_RATING FROM HH_USER WHERE ID = #{userId}
+	</select>
+	
+	<select id="joinCount" parameterType="int" resultType="int">
+		SELECT COUNT(DISTINCT(USER_ID)) AS JOIN_COUNT FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = #{aucSeq}
+	</select>
+	
+	<select id="bidSuccessList" resultType="com.shinhan.heehee.dto.response.auction.SchedulerBidDTO">
+		SELECT AUC.PRODUCT_SEQ
+		,AUC.EXP_TIME
+		,AUC.AUC_STATUS
+		,AUC.SELLER_ID
+		,HIS.USER_ID AS BUYER_ID
+		,HIS.BID_PRICE
+		FROM AUC_PRODUCT AUC, AUCTION_HISTORY HIS
+		WHERE AUC.PRODUCT_SEQ = HIS.AUC_PROD_SEQ
+		AND EXP_TIME <![CDATA[<]]> SYSDATE
+		AND AUC_STATUS = '입찰'
+		AND HIS.BID_PRICE = (SELECT MAX(INH.BID_PRICE) FROM AUCTION_HISTORY INH WHERE INH.AUC_PROD_SEQ = AUC.PRODUCT_SEQ)
+		AND PRODUCT_SEQ IN (SELECT AUC_PROD_SEQ FROM AUCTION_HISTORY GROUP BY AUC_PROD_SEQ)
+	</select>
+	
+	<select id="bidFailList" resultType="com.shinhan.heehee.dto.response.auction.SchedulerBidDTO">
+		SELECT *
+		FROM AUC_PRODUCT
+		WHERE EXP_TIME <![CDATA[<]]> SYSDATE
+		AND AUC_STATUS = '입찰'
+		AND PRODUCT_SEQ NOT IN (SELECT AUC_PROD_SEQ FROM AUCTION_HISTORY GROUP BY AUC_PROD_SEQ)
+	</select>
+	
+	<update id="updateBidSuccess" parameterType="java.util.List">
+		UPDATE AUC_PRODUCT 
+		SET AUC_STATUS = '낙찰' 
+		WHERE PRODUCT_SEQ IN
+		<foreach item="seqArr" collection="list" open="(" close=")" separator=",">
+        	#{seqArr}
+		</foreach>
+	</update>
+	
+	<update id="updateBidFail" parameterType="java.util.List">
+		UPDATE AUC_PRODUCT 
+		SET AUC_STATUS = '유찰' 
+		WHERE PRODUCT_SEQ IN
+		<foreach item="seqArr" collection="list" open="(" close=")" separator=",">
+        	#{seqArr}
+		</foreach>
+	</update>
+	
+	<select id="recommandAucProd" parameterType="int" resultType="com.shinhan.heehee.dto.response.auction.AuctionProdDTO">
+		SELECT PRODUCT_SEQ, NVL((SELECT MAX(BID_PRICE) FROM AUCTION_HISTORY HISTORY WHERE HISTORY.AUC_PROD_SEQ = AUC.PRODUCT_SEQ), START_PRICE) AS AUC_PRICE
+		, AUCTION_TITLE, TO_CHAR(EXP_TIME, 'yyyy/mm/dd') AS EXP_DATE
+       	, TO_CHAR(EXP_TIME, 'hh24:mi:ss') AS EXP_TIME, IMG.IMG_NAME
+		FROM (
+		SELECT *
+		FROM AUC_PRODUCT
+		WHERE AUCTION_SEQ = (SELECT AUCTION_SEQ FROM AUC_PRODUCT ap WHERE PRODUCT_SEQ = 62)
+		AND AUC_PRODUCT.EXP_TIME > SYSDATE
+		ORDER BY EXP_TIME DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+	</select>
+	
+	<insert id="insertAucProd" parameterType="com.shinhan.heehee.dto.request.auction.AuctionInsertDTO">
+		<selectKey keyProperty="productSeq" order="BEFORE" resultType="int">
+         	SELECT SEQ_AUC_PROD.NEXTVAL FROM DUAL
+     	</selectKey>
+		INSERT INTO AUC_PRODUCT (PRODUCT_SEQ, START_PRICE, INCREASE_PRICE, AUCTION_TITLE, CONDITION, INTRODUCE, EXP_TIME, AUC_STATUS, AUCTION_SEQ, SELLER_ID, INSERT_DATE)
+		VALUES (#{productSeq}, #{startPrice}, #{increasePrice}, #{auctionTitle}, #{condition},#{introduce}, TO_DATE(#{expTime}, 'YYYY-MM-DD hh24:mi'), '입찰', #{auctionSeq}, #{sellerId}, SYSDATE)
+	</insert>
+	
+	<insert id="insertImgFile" parameterType="com.shinhan.heehee.dto.request.ImageFileDTO">
+		INSERT INTO IMG_FILES VALUES(SEQ_IMG_FILES.nextval, #{imgName},#{tablePk},3,#{userId})
+	</insert>
+	
+	<update id="returnPointToUser" parameterType="int">
+		UPDATE HH_USER
+		SET USER_POINT = USER_POINT  + (SELECT * FROM (SELECT BID_PRICE FROM AUCTION_HISTORY WHERE AUC_PROD_SEQ  = #{aucSeq} ORDER BY BID_PRICE DESC) WHERE ROWNUM = 1)
+		WHERE HH_USER.ID  = (SELECT * FROM (SELECT USER_ID FROM AUCTION_HISTORY WHERE AUC_PROD_SEQ  = #{aucSeq} ORDER BY BID_PRICE DESC) WHERE ROWNUM = 1)
+		AND 0 <![CDATA[<]]> (SELECT COUNT(*) FROM AUCTION_HISTORY ah WHERE ah.AUC_PROD_SEQ = #{aucSeq})
+	</update>
+	
+	<update id="deductionPointFromUser" parameterType="com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO">
+		UPDATE HH_USER
+		SET USER_POINT  = USER_POINT - #{bidPrice}
+		WHERE ID = #{userId}
+	</update>
+	
+	<select id="remainingPointsFromUser" parameterType="String" resultType="int">
+		SELECT USER_POINT FROM HH_USER WHERE ID = #{userId}
+	</select>
+	
+	<insert id="insertDealHistory" parameterType="com.shinhan.heehee.dto.request.auction.InsertDealHistoryDTO">
+		INSERT INTO DEAL_HISTORY (S_SEQ, BUYER_ID, AUC_SEQ) VALUES (DEAL_SEQ.NEXTVAL, #{buyerId}, #{aucSeq})
+	</insert>
+	
 </mapper>

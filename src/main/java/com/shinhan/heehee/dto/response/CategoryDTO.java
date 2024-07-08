@@ -1,6 +1,7 @@
 package com.shinhan.heehee.dto.response;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,6 @@ import lombok.ToString;
 @ToString
 public class CategoryDTO {
 	private String category;
-	private List<String> subCategory;
+	private List<Map<String,Object>> subCategory;
 	private int productCateSeq;
 }

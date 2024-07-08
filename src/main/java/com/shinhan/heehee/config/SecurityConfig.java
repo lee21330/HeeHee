@@ -109,10 +109,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(customAccessDeniedHandler())
                 .and()
             .authorizeRequests()
-                .antMatchers("/auc").authenticated()
-                .antMatchers("/auc/**").authenticated()
+            	.antMatchers("/main").permitAll()
+            	.antMatchers("/main/**").permitAll()
+            	.antMatchers("/user/**").permitAll()
+                .antMatchers("/auc").permitAll()
+                .antMatchers("/auc/detail/**").permitAll()
                 .antMatchers("/mypage/**").authenticated()
-                .antMatchers("/user/**").permitAll()
+                .antMatchers("/sell/productregi").authenticated()
+                .antMatchers("/sell/productmodify/**").authenticated()
+                .antMatchers("/auc/regi").authenticated()
+                .antMatchers("/admin").hasAnyRole("ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .and()
             .logout()
                 .logoutUrl("/user/logout")
@@ -138,7 +145,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
             .ignoring()
-            .antMatchers("/resources/css/**", "/resources/js/**", "/resources/images/**");
-    } 
-
+            .antMatchers("/resources/css/**", "/resources/js/**", "/resources/images/**", "/search");
+    }
 }

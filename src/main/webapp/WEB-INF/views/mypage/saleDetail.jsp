@@ -29,47 +29,66 @@
 				<div class="title-container"> -->
 				<p id="date">${saleDetail.psDate}</p>
 				<p id="articleTitle">${saleDetail.articleTitle}</p>
+				<p id="dealTitle">거래방식:</p>
 				<p id="deal">${saleDetail.deal}</p>
 
 				<%@ include file="/WEB-INF/views/mypage/delieveryModal.jsp"%>
-				<button id="enter_invoice">송장 입력하기</button>
-				<div id="delivery">
-					<!-- Ajax로 동적 업데이트 -->
-					<p>${saleDetail.DCompany}</p>
-					<p id="dNumber">${saleDetail.DNumber}</p>
-				</div>
+				<c:if
+					test="${saleDetail.deal == '택배' && saleDetail.DNumber == null && saleDetail.proStatus == '예약중'}">
+					<button id="enter_invoice">송장 입력하기</button>
+				</c:if>
+				<c:if test="${saleDetail.deal == '택배'}">
+					<div id="delivery">
+						<!-- Ajax로 동적 업데이트 -->
+						<p>택배사: ${saleDetail.DCompany}</p>
+						<p id="dNumber">송장번호: ${saleDetail.DNumber}</p>
+						<p id="dStatus">${saleDetail.DStatus}</p>
+					</div>
+				</c:if>
 			</div>
 		</div>
 
 		<p id="progress">진행상황</p>
-		<button id="complete" onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
+		<c:if
+			test="${saleDetail.SCheck != null && saleDetail.proStatus != '거래완료'}">
+			<p>구매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
+		</c:if>
+		<c:if
+			test="${saleDetail.SCheck == null && saleDetail.proStatus != '판매중지' && saleDetail.DNumber != null}">
+			<button id="complete"
+				onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
+		</c:if>
 		<p id="sCheck">${saleDetail.SCheck}</p>
+		<p id="dStatus">${saleDetailDStatus}</p>
 		<progress id="graph" value="0" max="100"></progress>
 
-		<div id="deliveryText" class="progress_ing">
-			<p>결제완료</p>
-			<p>발송완료</p>
-			<p>배송중</p>
-			<p>배송완료</p>
-			<p>거래완료</p>
-		</div>
-		<div id="directText" class="progress_ing">
-			<p>예약중</p>
-			<p>거래완료</p>
-		</div>
-
+		<c:if test="${saleDetail.deal == '택배'}">
+			<div id="deliveryText" class="progress_ing">
+				<p>결제완료</p>
+				<p>발송완료</p>
+				<p>배송중</p>
+				<p>배송완료</p>
+				<p>거래완료</p>
+			</div>
+		</c:if>
+		<c:if test="${saleDetail.deal == '직거래'}">
+			<div id="directText" class="progress_ing">
+				<p>예약중</p>
+				<p>거래완료</p>
+			</div>
+		</c:if>
 		<div id="price_area">
 			<div class="order">
 				<p>판매가</p>
 				<p class="order_right">
 					<fmt:formatNumber value="${saleDetail.productPrice}"
-						pattern="#,###" />
+						pattern="#,###" />원
 				</p>
 			</div>
 			<div class="order">
 				<p>배송비</p>
 				<p class="order_right">
-					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />
+					<fmt:formatNumber value="${saleDetail.DCharge}" pattern="#,###" />원
 				</p>
 			</div>
 			<hr>
@@ -78,12 +97,14 @@
 				<p class="order_right" id="total_price">
 					<fmt:formatNumber
 						value="${saleDetail.productPrice + saleDetail.DCharge}"
-						pattern="#,###" />
+						pattern="#,###" />원
 				</p>
 			</div>
 		</div>
 
 	</div>
-
+	<div id="footerArea">
+		<jsp:include page="../common/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

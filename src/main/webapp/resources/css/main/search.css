@@ -95,7 +95,7 @@
 }
 
 .rankProdDiv img {
-	width: 95%;
+	width: 160px;
 	height: 160px;
 	margin: 0 2.5%;
 }
@@ -287,7 +287,7 @@
     border-top-right-radius: 8px;
 }
 
-#overlay {
+#overlay1 {
 	position: absolute;
     top: 129px;
     right: 104px;
@@ -297,6 +297,7 @@
 }
 
 #auc_intro {
+	width: 40px;
 	font-size: 14px;
 	color: orangered;
 	background-color : rgb(255,255,255,0.7);

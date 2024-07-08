@@ -29,8 +29,10 @@ import com.shinhan.heehee.dto.request.ProductDetailRequestDTO;
 import com.shinhan.heehee.dto.request.ViewLogDTO;
 import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.ProdDetailDTO;
+import com.shinhan.heehee.dto.response.ProdDetailRecoDTO;
 import com.shinhan.heehee.dto.response.ProductCategoryDTO;
 import com.shinhan.heehee.exception.ProductNotFoundException;
+import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.ProductDetailService;
 import com.shinhan.heehee.service.ProductModifyService;
@@ -52,9 +54,15 @@ public class ProductController {
 	@Autowired
 	MainService mainservice;
 	
-	@GetMapping("/productdetail/{prod_seq}")
+	@Autowired
+	AlarmService alarmService;
+	
+	@GetMapping("/productdetail/{prod_seq}") // 해당 URL로 들어가면 아래의 return에 있는 jsp파일(페이지)을 보여줌
 	public String detail(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
+		
+		int alarmCount = alarmService.alarmCount(userId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
@@ -65,6 +73,7 @@ public class ProductController {
 		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
 		
+		
 		ProdDetailDTO prodInfo = productservice.prodInfo(sampleDTO);
 
 		if(prodInfo == null) throw new ProductNotFoundException();
@@ -72,7 +81,7 @@ public class ProductController {
 		
 		model.addAttribute("info", prodInfo);
 		model.addAttribute("prodImgList",productservice.prodImg(prodSeq));
-		model.addAttribute("prodRecoList",productservice.prodReco(prodSeq));
+		model.addAttribute("prodRecoList",productservice.prodReco(sampleDTO));
 		model.addAttribute("recentlyList",productservice.selectRecently(userId));
 		
 		
@@ -88,17 +97,26 @@ public class ProductController {
 	public String modify(@PathVariable("prod_seq") Integer prodSeq, Model model, Principal principal) {
 		String userId = (principal != null) ? principal.getName() : "admin";
 		
-		if(principal == null) throw new ProductNotFoundException();
-		
 		ProductDetailRequestDTO sampleDTO = new ProductDetailRequestDTO(prodSeq, userId);
+		
+		int alarmCount = alarmService.alarmCount(userId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 
 		/* if(prodInfo == null) return "/"; */
+		ProdDetailDTO prodDetailDTO = productmodifyservice.prodInfo(sampleDTO);
+		if(!prodDetailDTO.getId().equals(userId)) {
+			model.addAttribute("rankProdList", mainservice.rankProdList());
+			model.addAttribute("recommandList", mainservice.recommandList(userId));
+			model.addAttribute("recentprodList", mainservice.recentprodList());
+			return "redirect:/main";
+		}
+		
 		model.addAttribute("userId", userId);
 		
-		model.addAttribute("info", productmodifyservice.prodInfo(sampleDTO));
+		model.addAttribute("info", prodDetailDTO);
 		
 		model.addAttribute("prodImgList", productmodifyservice.prodImg(prodSeq));
 		
@@ -109,6 +127,7 @@ public class ProductController {
 	@PostMapping("/productModify")
 	public String prodModify(@RequestParam("uploadImgs") List<MultipartFile> uploadImgs
 							,ProductModifyRequestDTO modiDTO, Principal principal, Model model) throws IOException {
+		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		
@@ -120,9 +139,11 @@ public class ProductController {
 	// 등록하기 페이지
 	@GetMapping("/productregi")
 	public String registry(Model model, Principal principal) {
-		if(principal == null) throw new ProductNotFoundException();
 		
 		String userId = principal.getName();
+		
+		int alarmCount = alarmService.alarmCount(userId);
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
 		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
@@ -153,7 +174,10 @@ public class ProductController {
 	}
 	
 	@GetMapping("/sellerProfile/{id}")
-	public String home(@PathVariable("id") String id, Model model) {
+	public String home(@PathVariable("id") String id, Model model, Principal principal) {
+		int alarmCount = alarmService.alarmCount(principal.getName());
+		model.addAttribute("alarmCount", alarmCount); // 알림 개수
+		
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		
@@ -172,7 +196,7 @@ public class ProductController {
 	
 	
 	@PutMapping(value="/reserve", produces = "text/plain; charset=UTF-8") 
-	@ResponseBody
+	@ResponseBody // 이건 return 값에 있는 jsp파일(페이지)를 보여준다는게 아닌 해당 클래스의 데이터만 가져온다는 뜻
 	public ResponseEntity<Map<String,Object>> reserve(@RequestBody Map<String,Integer> sellMap) {
 		Map<String,Object> response = new HashMap<String,Object>();
 		int productSeq = sellMap.get("productSeq");
@@ -180,10 +204,10 @@ public class ProductController {
 		int result = productservice.proStatusReserve(productSeq);
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "예약에 실패했습니다.");
+			response.put("message", "예약중으로 변경에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "예약에 성공했습니다.");
+			response.put("message", "예약중으로 변경에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
@@ -198,16 +222,16 @@ public class ProductController {
 		
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "예약 취소에 실패했습니다.");
+			response.put("message", "판매중으로 변경에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "예약 취소에 성공했습니다.");
+			response.put("message", "판매중으로 변경에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
 	
 	@PutMapping(value="/putoff", produces = "text/plain; charset=UTF-8") 
-	@ResponseBody
+	@ResponseBody 
 	public ResponseEntity<Map<String,Object>> toPutOff(@RequestBody Map<String,Integer> sellMap) {
 		Map<String,Object> response = new HashMap<String,Object>();
 		int productSeq = sellMap.get("productSeq");
@@ -216,10 +240,10 @@ public class ProductController {
 		
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "판매 보류에 실패했습니다.");
+			response.put("message", "판매 보류중으로 변경에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "판매 보류에 성공했습니다.");
+			response.put("message", "판매 보류중으로 변경에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}
@@ -234,10 +258,10 @@ public class ProductController {
 		
 		if(result == 0) {
 			response.put("success", false);
-			response.put("message", "삭제에 실패했습니다.");
+			response.put("message", "물품 삭제에 실패했습니다.");
 		} else {
 			response.put("success", true);
-			response.put("message", "삭제에 성공했습니다.");
+			response.put("message", "물품 삭제에 성공했습니다.");
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 	}

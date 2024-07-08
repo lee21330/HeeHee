@@ -38,8 +38,8 @@ public class ProductDetailDAO {
 	 * sqlSession.selectOne(namespace + "userIntroduce", prodSeq); }
 	 */
 
-	public List<ProdDetailRecoDTO> prodReco(Integer prodSeq) {
-		return sqlSession.selectList(namespace + "prodrecoDetail", prodSeq);
+	public List<ProdDetailRecoDTO> prodReco(ProductDetailRequestDTO detailRecoDTO) {
+		return sqlSession.selectList(namespace + "prodrecoDetail", detailRecoDTO);
 	}
 	
 	/*

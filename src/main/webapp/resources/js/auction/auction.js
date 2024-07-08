@@ -93,17 +93,17 @@ $(document).ready(function() {
 
 
 $(function() {
-			$(".category_list li").mouseenter(function() {
-			 	var categoryName = $(this).text();
-				$(".detail_category .category_name p").text(categoryName); 
-				$(".detail_category").show();
-				$(".category_list li").css({
-					"background" : "white",
-					"color" : "black"
-				});
-				$(this).css({
-					"background" : "#3F51A1",
-					"color" : "white"
-				});
-			});
+	$(".category_list li").mouseenter(function() {
+	 	var categoryName = $(this).text();
+		$(".detail_category .category_name p").text(categoryName); 
+		$(".detail_category").show();
+		$(".category_list li").css({
+			"background" : "white",
+			"color" : "black"
 		});
+		$(this).css({
+			"background" : "#3F51A1",
+			"color" : "white"
+		});
+	});
+});

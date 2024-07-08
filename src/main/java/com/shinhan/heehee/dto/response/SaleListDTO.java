@@ -15,6 +15,7 @@ public class SaleListDTO {
 	private String proStatus;
 	private String articleTitle;
 	private int productPrice;
+	private String introduce;
 	private String deal;
 	private String id;
 	private String imgName;

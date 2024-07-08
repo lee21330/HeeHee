@@ -33,4 +33,6 @@ public class SaleDetailDTO {
 	private String deal;
 	private String imgName;
 	private String buyerId;
+	private String id;
+	private int rateSeq;
 }
