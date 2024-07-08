@@ -36,33 +36,33 @@ public class AdminService {
 
 	// 관리자 홈 관련 SQL문
 
-	//전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
-	//전체 주문현황
+	// 전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
+	// 전체 주문현황
 	public List<AdminMainDTO> searchTotalOrder() {
 		return adminDAO.searchTotalOrder();
 	}
 	
-	//일반상품 주문현황
+	// 일반상품 주문현황
 	public List<AdminMainDTO> searchProStatus() {
 		return adminDAO.searchProStatus();
 	}
 	
-	//경매상품 주문현황
+	// 경매상품 주문현황
 	public List<AdminMainDTO> searchAucStatus() {
 		return adminDAO.searchAucStatus();
 	}
 	
-	//최근 등록내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회)
+	// 최근 등록내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회)
 	public List<AdminProductDTO> searchRecentProduct() {
 		return adminDAO.searchRecentProduct();
 	}
 	
-	//최근 문의내역 조회 (기능: 최근 문의관련 모니터링용 대시보드 항목 조회)
+	// 최근 문의내역 조회 (기능: 최근 문의관련 모니터링용 대시보드 항목 조회)
 	public List<AdminQnaManagerDTO> searchRecentQuestion() {
 		return adminDAO.searchRecentQuestion();
 	}
 	
-	//최근 회원가입 조회 (기능: 최근 가입회원 모니터링용 대시보드 항목 조회)
+	// 최근 회원가입 조회 (기능: 최근 가입회원 모니터링용 대시보드 항목 조회)
 	public List<AdminUserDTO> searchRecentJoin() {
 		return adminDAO.searchRecentJoin();
 	}
@@ -77,15 +77,13 @@ public class AdminService {
 		return adminDAO.searchAllUser(category, categoryDate, keyword, startDate, endDate);
 	}
 
-	// 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능, 수정사항 : 시작일,종료일이 null 이거나 현재
-	// 날짜가 시작일과 종료일 사이에 포함되지 않는 회원은 조회되지 않도록 수정 예정)
+	// 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능)
 	public List<AdminUserBanDTO> userBanSearch(String category, String categoryDate, String keyword, String startDate,
 			String endDate) {
 		return adminDAO.userBanSearch(category, categoryDate, keyword, startDate, endDate);
 	}
 
-	// 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를
-	// 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯)
+	// 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지대상 회원 ID, 정지사유, 정지 시작일, 종료일 신규입력)
 	@Transactional
 	public int insertBanUser(String id, String BanContent, Date banStr, Date banEnd) {
 		int result = adminDAO.insertBanUser(id, BanContent, banStr, banEnd);
@@ -129,9 +127,7 @@ public class AdminService {
 		return adminDAO.getProductBanReason(productSeq);
 	}
 
-	// 상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야
-	// 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null ->
-	// 텍스트) 될 것임)
+	// 상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 수정)
 	@Transactional
 	public int updateProductStatus(int productSeq, String proStatus, String productBanReason, String id) {
 		int result = adminDAO.updateProductStatus(productSeq, proStatus, productBanReason);
@@ -157,9 +153,7 @@ public class AdminService {
 		return adminDAO.getAucBanReason(productSeq);
 	}
 
-	// 상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야
-	// 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될
-	// 것임)
+	// 상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 수정)
 	@Transactional
 	public int updateAucStatus(int productSeq, String aucStatus, String aucBanReason, String id) {
 		int result = adminDAO.updateAucStatus(productSeq, aucStatus, aucBanReason);
@@ -175,8 +169,7 @@ public class AdminService {
 		adminDAO.deleteAuction(productSeq);
 	}
 
-	// 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면
-	// 기능이 늘어날 수 있음
+	// 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음)
 	public List<AdminCategoryDTO> searchCategoryInfo(String category, String keyword) {
 		return adminDAO.searchCategoryInfo(category, keyword);
 	}
@@ -186,8 +179,7 @@ public class AdminService {
 		adminDAO.insertCategory(category, detailCategory, id);
 	}
 
-	// 상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update
-	// 함)
+	// 상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
 	public void updateCategory(int productCateSeq, String category, String detailCategory, String id) {
 		adminDAO.updateCategory(productCateSeq, category, detailCategory, id);
 	}
@@ -196,11 +188,6 @@ public class AdminService {
 	public void deleteCategory(int productCateSeq) {
 		adminDAO.deleteCategory(productCateSeq);
 	}
-
-	/*
-	 * 데이터 한번에 넣기용 public void dbset (int productCateSeq) {
-	 * adminDAO.dbset(productCateSeq); }
-	 */
 
 	// 상품 관리 끝
 
@@ -216,8 +203,7 @@ public class AdminService {
 		return adminDAO.getQnaContent(seqQnaBno);
 	}
 
-	// 고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 이미지 불러오기 (기능 : 선택된 항목의 문의 상세내용 열람 가능 - 이미지
-	// 불러오기 기능)
+	// 고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 이미지 불러오기 (기능 : 선택된 항목의 문의 상세내용 열람 가능 - 이미지 불러오기 기능)
 	public List<AdminQnaManagerDTO> getQnaImage(int seqQnaBno) {
 		return adminDAO.getQnaImage(seqQnaBno);
 	}
@@ -254,8 +240,7 @@ public class AdminService {
 		return adminDAO.searchFaqAll(category, keyword);
 	}
 
-	// 고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select하여 선택된 유형과, 수기
-	// 입력받은 FAQ 제목, 내용을 Insert 함)
+	// 고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select 하여 선택된 유형과, 수기 입력받은 FAQ 제목, 내용을 Insert 함)
 	public void insertFaq(int seqQnaOption, String faqContent, String faqAns, String id) {
 		adminDAO.insertFaq(seqQnaOption, faqContent, faqAns, id);
 	}

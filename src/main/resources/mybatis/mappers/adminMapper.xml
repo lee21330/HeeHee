@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- mapper의 namespace와 DAO의 네임스페이스가 일치해야 한다. (다만, DAO에는 경로때문에 뒤에 . 이 붙어있음. -->
+
 <mapper namespace="com.shinhan.heehee.admin">
-<!--id는 DAO에서 namespace + "여기" 들어가는 것과 일치해야 한다. -->
-<!-- resultType은 SqlMapConfig의 typeAlia 중 alias에 작성해놓은 명칭과 일치하도록 쓴다. -->
 
 	<!-- 관리자 홈 관련 SQL문 -->
 	
@@ -106,7 +104,7 @@
         ORDER BY CREATE_DATE ASC
 	</select>
 	
-	<!-- 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능, 수정사항 : 시작일,종료일이 null 이거나 현재 날짜가 시작일과 종료일 사이에 포함되지 않는 회원은 조회되지 않도록 수정 예정) -->
+	<!-- 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
 	<select id="userBanSearch" resultType="adminUserBanVO">
 		SELECT hh.NAME, hh.ID, bh.BAN_CONTENT, bh.BAN_STR, bh.BAN_END
 	    FROM HH_USER hh
@@ -133,7 +131,7 @@
          -->
 	</select>
 	
-	<!-- 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯) -->
+	<!-- 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지대상 회원 ID, 정지사유, 정지 시작일, 종료일 신규입력) -->
 	<insert id="insertBanUser">
 		INSERT INTO BAN_HISTORY (ID, BAN_CONTENT, BAN_STR, BAN_END)
 		VALUES (#{id}, #{banContent}, #{banStr}, #{banEnd})
@@ -202,7 +200,7 @@
 	</select>
 	
 	
-	<!-- 상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임) -->
+	<!-- 상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 수정) -->
 	<update id="updateProductStatus">
 		UPDATE SELL_PRODUCT 
 		SET PRO_STATUS = #{proStatus},
@@ -257,7 +255,7 @@
 		WHERE PRODUCT_SEQ = #{productSeq}
 	</select>
 
-	<!-- 상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될 것임) -->
+	<!-- 상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 수정) -->
 	<update id="updateAucStatus">
 		UPDATE AUC_PRODUCT 
 		SET AUC_STATUS = #{aucStatus},
@@ -308,14 +306,6 @@
 			pc.CREATE_DATE = SYSDATE
 		WHERE pc.PRODUCT_CATE_SEQ = #{productCateSeq}
 	</update>
-	
-	<!-- id, date 추가용 임시-->
-	<!--<update id="dbset" parameterType="int">
-		UPDATE PRODUCT_CATEGORY 
-		SET CREATE_DATE = '2024-06-01',
-			ID = 'admin'
-		WHERE PRODUCT_CATE_SEQ = #{productCateSeq}
-	</update>-->
 	
 	<!-- 상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
 	<delete id="deleteCategory">
@@ -378,7 +368,7 @@
 	<!-- 고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
 	<delete id="deleteQnaContent">
 		DELETE FROM QNA_BOARD qb
-		WHERE qb.SEQ_QNA_BNO = ${seqQnaBno}
+		WHERE qb.SEQ_QNA_BNO = #{seqQnaBno}
 	</delete>
 	
 	<!-- 고객 지원 - FAQ 내용관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->

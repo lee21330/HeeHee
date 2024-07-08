@@ -92,7 +92,7 @@
 			<table class="recentProductTable">
 				<thead>
 					<tr>
-						<th>등록번호</th> <!-- AdminProductDTO -->
+						<th>등록번호</th>
 						<th>구매자ID</th>
 						<th>판매자ID</th>
 						<th>품목명</th>
@@ -106,7 +106,7 @@
 				</tbody>
 			</table>
 			</div>
-		</div> <!-- recentOrder -->
+		</div>
 		
 		<div id="recentQuestionContainer">
 			<div id="mainTitleContainer"><p class="mainTitle">최근 문의내역</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/qnaManager'">1:1문의 바로가기</button></div>
@@ -114,7 +114,7 @@
 			<table class="recentQuestionTable">
 				<thead>
 					<tr>
-						<th>작성자ID</th> <!-- AdminQnaManagerDTO -->
+						<th>작성자ID</th>
 						<th>처리현황</th>
 						<th>제목</th>
 						<th>작성일</th>
@@ -125,7 +125,7 @@
 				</tbody>
 			</table>
 			</div>
-		</div> <!-- recentQuestion -->
+		</div>
 		
 		<div id="recentJoinContainer">
 		<div id="mainTitleContainer"><p class="mainTitle">최근 회원가입</p><button class="mainMenuBtn" onclick="location.href='${path}/admin/user'">회원정보 관리 바로가기</button></div>
@@ -133,7 +133,7 @@
 			<table class="recentJoinTable">
 				<thead>
 					<tr>
-						<th>회원ID</th> <!-- AdminUserDTO -->
+						<th>회원ID</th>
 						<th>회원명</th>
 						<th>이메일</th>
 						<th>전화번호</th>
@@ -145,9 +145,9 @@
 				</tbody>
 			</table>
 			</div>
-		</div> <!-- recentJoinContainer -->
-	</div> <!-- mainMenuContainer -->
-	</div> <!-- bodyContainer -->
+		</div>
+	</div>
+	</div>
 	<script type="text/javascript" src="${path}/resources/js/admin/main.js"></script>
 </body>
 </html>

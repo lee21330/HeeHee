@@ -211,5 +211,3 @@ $(document).ready(function() {
 		return $('input.rowCheckbox:checked');
 	};
 });
-
-/* https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/ */
