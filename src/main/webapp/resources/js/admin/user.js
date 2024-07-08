@@ -9,17 +9,6 @@ $(document).ready(function() {
 		loadTable();
 	});
 	
-/* 원문
-	// 초기화 버튼 클릭 시
-	$('#resetButton').click(function() {
-		$('#searchInput').val('');
-		$('#startDate').val('');
-		$('#endDate').val('');
-		$('#input[name="dateSelect"]').prop('checked', false);
-		loadTable();
-	});
-	*/
-	
 	// 초기화 버튼 클릭 시
 	$('#resetButton').on('click', function() {
 		$('#searchInput').val('');

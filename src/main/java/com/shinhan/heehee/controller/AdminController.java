@@ -48,8 +48,8 @@ public class AdminController {
 		return "/admin/main";
 	}
 
-	//전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
-	//전체 주문현황
+	// 전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회)
+	// 전체 주문현황
 	@GetMapping("/searchTotalOrder")
 	@ResponseBody
 	public List<AdminMainDTO> searchTotalOrder() {
@@ -57,7 +57,7 @@ public class AdminController {
 		return selectSearch;
 	}
 	
-	//일반상품 주문현황
+	// 일반상품 주문현황
 	@GetMapping("/searchProStatus")
 	@ResponseBody
 	public List<AdminMainDTO> searchProStatus() {
@@ -65,7 +65,7 @@ public class AdminController {
 		return selectSearch;
 	}
 	
-	//경매상품 주문현황
+	// 경매상품 주문현황
 	@GetMapping("/searchAucStatus")
 	@ResponseBody
 	public List<AdminMainDTO> searchAucStatus() {
@@ -127,8 +127,7 @@ public class AdminController {
 		return "/admin/user-ban";
 	}
 
-	// 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능, 수정사항 : 시작일,종료일이 null 이거나 현재
-	// 날짜가 시작일과 종료일 사이에 포함되지 않는 회원은 조회되지 않도록 수정 예정)
+	// 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능)
 	@GetMapping("/userBanSearch")
 	@ResponseBody
 	public List<AdminUserBanDTO> userBanSearch(@RequestParam(required = false) String category,
@@ -142,8 +141,7 @@ public class AdminController {
 		return filterSearch;
 	}
 
-	// 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를
-	// 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯)
+	// 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지대상 회원 ID, 정지사유, 정지 시작일, 종료일 신규입력)
 	@PostMapping("/insertBanUser")
 	@ResponseBody
 	public ResponseEntity<String> insertBanUser(String id, String banContent, Date banStr, Date banEnd){
@@ -227,9 +225,7 @@ public class AdminController {
 		return detailSearch;
 	}
 
-	// 상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 "판매중지"로 업데이트 가능해야
-	// 함, 입력된 텍스트는 판매 중지사유(SELL_PRODUCT 테이블 -> PRODUCT_BAN_REASON 컬럼)로 입력(null ->
-	// 텍스트) 될 것임)
+	// 상품 관리 - 일반상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(SELL_STATUS)를 수정)
 	@PostMapping("/updateProductStatus")
 	@ResponseBody
 	public ResponseEntity<String> updateProductStatus(Integer productSeq, String proStatus, String productBanReason, String id) {
@@ -282,9 +278,7 @@ public class AdminController {
 		return detailSearch;
 	}
 
-	// 상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 "판매중지"로 업데이트 가능해야
-	// 함, 입력된 텍스트는 판매 중지사유(AUC_PRODUCT 테이블 -> AUC_BAN_REASON 컬럼)로 입력(null -> 텍스트) 될
-	// 것임)
+	// 상품 관리 - 경매상품 상세조회 - 수정 기능 (기능 : 선택된 상품의 판매상태(AUC_STATUS)를 수정)
 	@PostMapping("/updateAucStatus")
 	@ResponseBody
 	public ResponseEntity<String> updateAucStatus(Integer productSeq, String aucStatus, String aucBanReason, String id) {
@@ -317,8 +311,7 @@ public class AdminController {
 		return "/admin/category";
 	}
 
-	// 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면
-	// 기능이 늘어날 수 있음
+	// 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음)
 	@GetMapping("/searchCategoryInfo")
 	@ResponseBody
 	public List<AdminCategoryDTO> searchCategoryInfo(
@@ -346,8 +339,7 @@ public class AdminController {
 		}
 	}
 
-	// 상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update
-	// 함)
+	// 상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함)
 	@PostMapping("/updateCategory")
 	@ResponseBody
 	public ResponseEntity<String> updateCategory(Integer productCateSeq, String category, String detailCategory, Principal principal) {
@@ -380,14 +372,6 @@ public class AdminController {
 		}
 	}
 
-	/*
-	 * 데이터 한번에 넣기용
-	 * 
-	 * @GetMapping("/dbset") public void dbset() { List<AdminCategoryDTO> all =
-	 * adminService.searchCategoryInfo(null, null); for(AdminCategoryDTO part :all)
-	 * { adminService.dbset(part.getProductCateSeq()); } }
-	 */
-
 	// 상품 관리 끝
 
 	// 고객 지원 관련 SQL문
@@ -398,8 +382,6 @@ public class AdminController {
 	}
 
 	// 고객 지원 - 1:1 상담문의 - 조회 기능 (기능 : 키워드로 필터검색 가능)
-	// @GetMapping(value = "/searchQnaAll", produces =
-	// MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping("/searchQnaAll")
 	@ResponseBody
 	public List<AdminQnaManagerDTO> searchQnaAll(@RequestParam(required = false) String category,
@@ -484,8 +466,7 @@ public class AdminController {
 		return filterSearch;
 	}
 
-	// 고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select하여 선택된 유형과, 수기
-	// 입력받은 FAQ 제목, 내용을 Insert 함)
+	// 고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select 하여 선택된 유형과, 수기 입력받은 FAQ 제목, 내용을 Insert 함)
 	@PostMapping("/insertFaq")
 	@ResponseBody
 	public ResponseEntity<String> insertFaq(int seqQnaOption, String faqContent, String faqAns, Principal principal){

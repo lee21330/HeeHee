@@ -51,7 +51,6 @@
 					<!-- Ajax로 동적 업데이트 -->
 				</tbody>
 			</table>
-			<div id="pagination"></div> <!-- 페이징 버튼 영역 -->
 		</div>
 	</div>
 	</div>

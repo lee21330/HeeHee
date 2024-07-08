@@ -31,7 +31,7 @@
 		</div>
 		<div id="detailContainer">
 		<p class="detailTitle">FAQ 내용</p>
-		<button class="commonSmallDetailBtn4" id="addButton">신규 등록</button> <!-- 기능구현 추가 필요함 -->
+		<button class="commonSmallDetailBtn4" id="addButton">신규 등록</button>
 		<button class="commonSmallDetailBtn2" id="editButton">열람/수정</button>
 		<button class="commonSmallDetailBtn3" id="deleteButton">삭제</button>
 		</div>
