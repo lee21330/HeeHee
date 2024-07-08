@@ -42,9 +42,9 @@
 				</div>
 				<div id="prodRecommandArea">
 					<p class="classifyTitle">당신을 위한 추천 상품</p>
-					<div id="recommandListArea">
+					<div id="recommandListArea" class="mainSlider">
 					<c:forEach var="recommandprod" items="${recommandList}">
-						<div class="recommandProdDiv">
+						<div class="recommandProdDiv" >
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recommandprod.imgName}" 
 							onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'" style="cursor: pointer">
 							<div class="recommandProdInfo">
@@ -58,7 +58,7 @@
 				</div>
 				<div id="prodNowRegArea">
 					<p class="classifyTitle">방금 등록된 상품</p>
-					<div id="nowRegListArea">
+					<div id="nowRegListArea" class="mainSlider">
 						<c:forEach var="recentprod" items="${recentprodList}" varStatus="status">
 						<div class="nowRegProdDiv">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recentprod.imgName}" 
