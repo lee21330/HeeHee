@@ -1,5 +1,5 @@
 $(function() {
-	var dNumberText = $("#dNumber").text().trim();
+	var dNumberText = $("#dStatus").text().trim();
 	var proStatus = $("#proStatus").text().trim();
 	var pCheck = $("#pCheck").text().trim();
 	var dStatus = $("#dStatus").text().trim();

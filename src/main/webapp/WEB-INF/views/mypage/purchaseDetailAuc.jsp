@@ -52,10 +52,9 @@
 		<p id="pCheck">${saleDetail.PCheck}</p>
 		<progress id="graph" value="0" max="100"></progress>
 		<div id="deliveryText" class="progress_ing">
-			<p>결제대기</p>
 			<p>결제완료</p>
 			<p>발송완료</p>
-			<p>배송 중</p>
+			<p>배송중</p>
 			<p>배송완료</p>
 			<p>거래완료</p>
 		</div>
