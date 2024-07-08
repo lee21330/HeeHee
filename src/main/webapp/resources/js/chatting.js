@@ -334,6 +334,7 @@ function completePayment(payInfo, payButton) {
             .then(result => console.log(result))
             .catch(err => console.log(err));
             payButton.disabled = true;
+            showTost("결제에 성공하였습니다!");
             return true;
         },
         error: function (data, status, err) {
@@ -723,7 +724,10 @@ function editPrice(productPrice, productSeq){
              body : JSON.stringify({"newPrice" : newPrice, "productSeq" : productSeq})
             })
             .then(resp => resp.text())
-            .then(result => console.log(result))
+            .then(result => {
+            	console.log(result);
+            	showTost("가격 수정에 성공하였습니다!");
+        	})
             .catch(err => console.log(err));
         });
         
@@ -749,7 +753,7 @@ function reserve(productSeq){
              method : "POST",
              headers : {"Content-Type": "application/json"},
              body : JSON.stringify({
-             "buyerId" : loginMemberNo,
+             "buyerId" : selectReceiverId,
              "productSeq" : productSeq
              })
             })
@@ -784,7 +788,7 @@ function cancelReserve(productSeq){
              method : "POST",
              headers : {"Content-Type": "application/json"},
              body : JSON.stringify({
-             "buyerId" : loginMemberNo,
+             "buyerId" : selectReceiverId,
              "productSeq" : productSeq
              })
             })
