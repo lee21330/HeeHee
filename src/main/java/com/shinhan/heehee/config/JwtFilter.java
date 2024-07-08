@@ -28,12 +28,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	JwtUtil jwtUtil;
 	CustomUserDetailsService customUserDetailsService;
 	
-	
-	/*
-	 * @Autowired public JwtFilter(@Qualifier("customUserDetailsService")
-	 * CustomUserDetailsService customUserDetailsService) { this.jwtUtil = new
-	 * JwtUtil(); this.customUserDetailsService = customUserDetailsService; }
-	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -83,7 +77,6 @@ public class JwtFilter extends OncePerRequestFilter {
 			}
 		}
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
-
 	}
 
 }
