@@ -115,6 +115,7 @@ form{
 	border: none;
     box-sizing: border-box;
     margin-top: 10px;
+    border-radius: 10px;
 }
 
 .input_file {
@@ -330,7 +331,8 @@ form{
 }
 
 #sub_button {
-	margin-top: 25px;
+	margin-top: 40px;
+	margin-bottom: 40px;
 	display: flex;
 	justify-content: center;
 }
@@ -343,6 +345,7 @@ input[type="submit"] {
 	cursor: pointer;
 	border: none;
 	font-size: 15px;
+	border-radius: 10px;
 }
 
 footer {

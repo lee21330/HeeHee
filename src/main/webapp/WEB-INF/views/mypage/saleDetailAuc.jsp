@@ -42,6 +42,10 @@
 		</div>
 
 		<p id="progress">진행상황</p>
+		<c:if
+			test="${saleDetail.SCheck != null && saleDetail.aucStatus != '거래완료'}">
+			<p>구매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
+		</c:if>
 		<button id="complete" onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
 		<p id="sCheck">${saleDetail.SCheck}</p>
 		<p id="dStatus">${saleDetailDStatus}</p>
@@ -60,7 +64,7 @@
 				<p id="total">판매금액</p>
 				<p class="order_right">
 					<fmt:formatNumber value="${saleDetail.aucPrice}"
-						pattern="#,###" />
+						pattern="#,###" />원
 				</p>
 			</div>
 

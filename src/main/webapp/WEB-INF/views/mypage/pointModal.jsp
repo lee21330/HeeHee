@@ -153,7 +153,6 @@
                 		}, function(rsp) {
                 			if (rsp.success) {
                 				completePayment(payInfo.paySeq, newPoint, point);
-                				console.log("결제 완료 테스트입니다.");
                 				return true;
                 			}
                 		}
@@ -179,7 +178,7 @@
                                 })
                             })
                             .then(resp => resp.text())
-                            .then(result => window.location.reload())
+                            .then(result => console.log(result))
                             .catch(err => console.log(err));
                             return true;
                         },
@@ -187,7 +186,7 @@
                             console.log(err);
                         }
                     });
-                    
+                	setTimeout(() => window.location.reload(), 1000);
                 }
             </script>
 

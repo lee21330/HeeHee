@@ -202,7 +202,7 @@ function changePW() {
 			if (data.able === true) {
 				$("#new_pw_check").text("");
 				showTost(data.message);
-				window.location.reload();
+				setTimeout(() => window.location.reload(), 1000);
 			} else {
 				$("#new_pw_check").text(data.message);
 			}

@@ -37,7 +37,7 @@ $(function() {
 
 
 	// 판매 확정날짜가 있으면 '거래완료' 버튼 안 보임
-	if (sCheck != '' || proStatus === '판매중지') {
+	if (sCheck != '' || proStatus === '판매중지' ||dNumberText == null) {
 		$("#complete").hide();
 	}
 

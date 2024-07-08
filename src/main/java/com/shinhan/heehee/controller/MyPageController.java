@@ -335,13 +335,6 @@ public class MyPageController {
 
 	}
 
-	// 마이페이지_프로필 수정 페이지:아이디 중복체크
-	@GetMapping("/profile/dupNickCheck")
-	@ResponseBody
-	public Map<String, Object> dupNickCheck(@RequestParam String nickName) {
-		return mypageservice.dupNickCheck(nickName);
-	}
-
 	// 마이페이지_프로필 수정 페이지: 전화번호 수정
 	@PostMapping("/profile/updatePhone")
 	@ResponseBody

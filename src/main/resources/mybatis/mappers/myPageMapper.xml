@@ -38,13 +38,18 @@
 		AUC_STATUS as aucStatus,
 		AUC_BAN_REASON as
 		accBanReason,
-		nvl((SELECT max(bid_price) from auction_history ah where
-		ap.PRODUCT_SEQ=ah.auc_prod_seq and ap.AUC_STATUS IN ('낙찰','거래완료')),0)
+		INTRODUCE as introduce,
+		nvl((SELECT max(bid_price) from
+		auction_history ah where
+		ap.PRODUCT_SEQ=ah.auc_prod_seq and
+		ap.AUC_STATUS IN ('낙찰','거래완료')),0)
 		as
 		aucPrice,
-		(SELECT img_name from img_files i
+		(SELECT img_name from
+		img_files i
 		where
-		ap.PRODUCT_SEQ=i.table_pk and i.img_cate_seq=3 and rownum=1) as
+		ap.PRODUCT_SEQ=i.table_pk and i.img_cate_seq=3 and
+		rownum=1) as
 		imgName
 		from auc_product ap
 		where ap.SELLER_ID = #{userId}
@@ -95,25 +100,24 @@
 	</select>
 	<select id="saledetailAuc" parameterType="int"
 		resultType="com.shinhan.heehee.dto.response.SaleDetailAucDTO">
+
 		SELECT
 		ap.*,
 		IMG.*,
 		DH.*,
 		D.*,
 		DC.*,
-		TYPE.*,
-		CATE.*,
 		NVL((SELECT MAX(ah.BID_PRICE)
 		FROM AUCTION_HISTORY ah
-		WHERE ap.PRODUCT_SEQ = ah.AUC_PROD_SEQ), 0) AS aucPrice
+		WHERE ap.PRODUCT_SEQ = ah.AUC_PROD_SEQ), 0) AS aucPrice,
+		PC.CATEGORY,
+		PC.DETAIL_CATEGORY
 		FROM AUC_PRODUCT ap
 		JOIN IMG_FILES IMG ON ap.PRODUCT_SEQ = IMG.TABLE_PK
-		LEFT JOIN PRODUCT_CATEGORY CATE ON CATE.PRODUCT_CATE_SEQ = ap.AUCTION_SEQ
-		LEFT JOIN PRODUCT_TYPE TYPE ON CATE.PRODUCT_CATE_SEQ =
-		TYPE.PRODUCT_CATE_SEQ
 		LEFT JOIN DEAL_HISTORY DH ON ap.PRODUCT_SEQ = DH.AUC_SEQ
 		LEFT JOIN DELIVERY D ON DH.S_SEQ = D.S_SEQ
 		LEFT JOIN DELIVERY_COMPANY DC ON D.D_COMPANY_SEQ = DC.D_COMPANY_SEQ
+		LEFT JOIN PRODUCT_CATEGORY PC ON ap.AUCTION_SEQ = PC.PRODUCT_CATE_SEQ
 		WHERE ap.PRODUCT_SEQ = #{proSeq}
 		AND IMG.IMG_SEQ IN (
 		SELECT MIN(IMG_SEQ)
@@ -121,6 +125,7 @@
 		WHERE IMG_CATE_SEQ = 3
 		GROUP BY TABLE_PK
 		)
+
 
 	</select>
 	<delete id="proStatusDelete"
@@ -200,17 +205,20 @@
 		ap.EXP_TIME AS expTime,
 		ap.AUC_STATUS AS aucStatus,
 		ap.AUC_BAN_REASON AS accBanReason,
+		ap.INTRODUCE AS introduce,
 		NVL((SELECT MAX(bid_price)
 		FROM
 		auction_history ah
-		WHERE ap.PRODUCT_SEQ = ah.auc_prod_seq
+		WHERE ap.PRODUCT_SEQ =
+		ah.auc_prod_seq
 		AND
 		ap.AUC_STATUS IN ('낙찰','거래완료')), 0) AS aucPrice,
 		(SELECT img_name
 		FROM
 		img_files i
 		WHERE ap.PRODUCT_SEQ = i.table_pk
-		AND i.img_cate_seq = 3
+		AND
+		i.img_cate_seq = 3
 		AND
 		ROWNUM = 1) AS imgName
 		FROM
@@ -219,7 +227,8 @@
 		DEAL_HISTORY dh ON
 		ap.PRODUCT_SEQ = dh.AUC_SEQ
 		WHERE
-		dh.BUYER_ID = #{userId}
+		dh.BUYER_ID =
+		#{userId}
 	</select>
 
 	<select id="jjimList" parameterType="string" resultType="jjimvo">

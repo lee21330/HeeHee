@@ -127,6 +127,9 @@
 		<input type="submit" value="수정하기">
 	</div>
 	</form>
+	<div id="footerArea">
+    	<jsp:include page="../common/footer.jsp"></jsp:include>
+	</div>
 		
 	<script>
 	$(document).ready(function() {
