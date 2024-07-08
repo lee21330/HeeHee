@@ -19,7 +19,8 @@
 
 		<div id="product">
 			<img id="img"
-				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${saleDetail.imgName}">
+				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${saleDetail.imgName}"
+				onclick="location.href='/heehee/auc/detail/${saleDetail.productSeq}'">
 
 			<!-- 카테고리, 거래확정일자, 글제목, 시세조회 -->
 			<div class="title-container">
@@ -28,6 +29,8 @@
 
 				<p id="date">${saleDetail.psDate}</p>
 				<p id="articleTitle">${saleDetail.auctionTitle}</p>
+				<p id="dealTitle">거래방식:</p>
+				<p id="deal">택배</p>
 
 				<div id="delivery">
 					<!-- Ajax로 동적 업데이트 -->
@@ -36,8 +39,15 @@
 					<p id="dStatus">${saleDetail.DStatus}</p>
 				</div>
 			</div>
+			<div class="button-container">
+				<button loginUserId="${userId}" sellerId="${saleDetail.id}" sellSeq="${saleDetail.productSeq}" id="gochat" class="auc-chat" style="cursor: pointer">판매자와 채팅하기</button>
+			</div>
 		</div>
 		<p id="progress">진행상황</p>
+		<c:if
+			test="${saleDetail.PCheck != null && saleDetail.aucStatus != '거래완료'}">
+			<p>판매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
+		</c:if>
 		<button id="complete" onclick="updatePCheck(${saleDetail.productSeq})">거래완료</button>
 		<p id="pCheck">${saleDetail.PCheck}</p>
 		<progress id="graph" value="0" max="100"></progress>
@@ -53,7 +63,8 @@
 			<div class="order">
 				<p id="total">구매가</p>
 				<p id="total_price">
-					<fmt:formatNumber value="${saleDetail.aucPrice}" pattern="#,###" />원
+					<fmt:formatNumber value="${saleDetail.aucPrice}" pattern="#,###" />
+					원
 				</p>
 			</div>
 		</div>

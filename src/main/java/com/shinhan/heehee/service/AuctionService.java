@@ -25,6 +25,7 @@ import com.shinhan.heehee.dao.MyPageDAO;
 import com.shinhan.heehee.dto.request.ImageFileDTO;
 import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.request.auction.AuctionInsertDTO;
+import com.shinhan.heehee.dto.request.auction.InsertDealHistoryDTO;
 import com.shinhan.heehee.dto.response.AlarmDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionImgsDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
@@ -133,6 +134,8 @@ public class AuctionService {
 
 		AlarmDTO buyerAlarmDto = new AlarmDTO();
 		AlarmDTO sellerAlarmDto = new AlarmDTO();
+		
+		InsertDealHistoryDTO dealHistoryDto = new InsertDealHistoryDTO();
 
 		// 낙찰 리스트 PROD_SEQ 담기
 		for (SchedulerBidDTO bid : successArr) {
@@ -162,7 +165,12 @@ public class AuctionService {
 				buyerAlarmDto.setCateNum(3);
 				buyerAlarmDto.setReqSeq(bid.getProductSeq());
 				buyerAlarmDto.setAlContent("입찰하신 경매물품에 낙찰되었습니다.");
-
+				
+				dealHistoryDto.setAucSeq(bid.getProductSeq());
+				dealHistoryDto.setBuyerId(bid.getBuyerId());
+				
+				auctionDAO.insertDealHistory(dealHistoryDto);
+				
 				alarmDAO.alarmInsert(buyerAlarmDto);
 
 				int buyerAlarmCnt = alarmDAO.alarmCount(bid.getBuyerId());

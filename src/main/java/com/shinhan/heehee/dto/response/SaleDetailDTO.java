@@ -25,7 +25,7 @@ public class SaleDetailDTO {
 	private String dCompany;
 	private String dNumber;
 	private String dStatus;
-	private int sSeq;
+	private Integer sSeq;
 	private Date pCheck;
 	private Date sCheck;
 	private int productPrice;

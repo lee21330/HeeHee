@@ -28,7 +28,7 @@
 		WHERE 
 		    SELL.PRODUCT_SEQ = #{PROD_SEQ}
 		AND
-			SELL.PRO_STATUS NOT IN('거래완료','예약중')
+			SELL.PRO_STATUS NOT IN('거래완료')
 		AND
 			SELL.ID IS NOT NULL
 	</select>

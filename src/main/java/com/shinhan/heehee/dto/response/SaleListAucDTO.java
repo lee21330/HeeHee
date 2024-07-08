@@ -16,6 +16,7 @@ public class SaleListAucDTO {
     private int aucPrice;
     private String auctionTitle;
     private String expTime;
+    private String introduce;
     private String imgName;
     private String aucStatus;
     private String accBanReason;

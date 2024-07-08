@@ -8,16 +8,16 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
-public class JjimDTO {
+@AllArgsConstructor
+@ToString
+public class ElasticSyncDTO {
+	private String gubun;
 	private int productSeq;
-	private String articleTitle;
+	private int price;
+	private String title;
 	private String introduce;
-	private int productPrice;
-	private String deal;
-	private String id;
+	private String idate;
 	private String imgName;
-	private String userId;
+	private int cateNum;
 }

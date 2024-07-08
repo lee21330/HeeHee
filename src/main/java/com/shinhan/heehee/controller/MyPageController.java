@@ -183,20 +183,25 @@ public class MyPageController {
 
 	// 마이페이지 - 판매 상품 상세페이지_송장입력 모달
 	@PostMapping("/saledetail/{productSeq}/insertDelivery")
-	public String insertDelivery(@PathVariable("productSeq") int productSeq,  InsertDeliveryDTO delivery, String buyerId, RedirectAttributes redirectAttr) {
-		delivery.setBuyerId(buyerId);  // 알림 insert 하려면 구매자 아이디 필요
+	public String insertDelivery(@PathVariable("productSeq") int productSeq, InsertDeliveryDTO delivery, String buyerId,
+			RedirectAttributes redirectAttr) {
+		delivery.setBuyerId(buyerId); // 알림 insert 하려면 구매자 아이디 필요
 		int result = mypageservice.insertDelivery(delivery, productSeq); // 알림 insert 하려면 상품 시퀀스 필요
-		
-		String message;
-		
-		if (result > 0) {
-			message = "insert success";
-		} else {
-			message = "insert fail";
-		}
-		
-		redirectAttr.addFlashAttribute("result", message);
+	
 		return "redirect:/mypage/saledetail/{productSeq}";
+	}
+	
+	// 마이페이지 - 경매 상품 상세페이지_송장입력 모달
+	@PostMapping("/saledetailAuc/{productSeq}/insertDeliveryAuc")
+	public String insertDeliveryAuc(@PathVariable("productSeq") int productSeq, InsertDeliveryDTO delivery, String buyerId,
+			RedirectAttributes redirectAttr) {
+		
+		System.out.print("================================");
+		System.out.print(buyerId);
+		delivery.setBuyerId(buyerId); // 알림 insert 하려면 구매자 아이디 필요
+		int result = mypageservice.insertDelivery(delivery, productSeq); // 알림 insert 하려면 상품 시퀀스 필요
+	
+		return "redirect:/mypage/saledetailAuc/{productSeq}";
 	}
 
 	// 마이페이지 - 판매 상품 상세페이지:거래완료 버튼
@@ -333,13 +338,6 @@ public class MyPageController {
 		mypageservice.updateAcc(userId, bankSeq, accountNum);
 		return "redirect:/mypage/profile";
 
-	}
-
-	// 마이페이지_프로필 수정 페이지:아이디 중복체크
-	@GetMapping("/profile/dupNickCheck")
-	@ResponseBody
-	public Map<String, Object> dupNickCheck(@RequestParam String nickName) {
-		return mypageservice.dupNickCheck(nickName);
 	}
 
 	// 마이페이지_프로필 수정 페이지: 전화번호 수정
@@ -542,8 +540,5 @@ public class MyPageController {
 			return response;
 		}
 	}
-	
 
 }
-
-

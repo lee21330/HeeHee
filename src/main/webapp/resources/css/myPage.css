@@ -8,30 +8,34 @@
 
 #deal {
 	border-top: 1px solid #C1C1C1;
+	border-bottom: 1px solid #C1C1C1;
 	display: flex;
-	height: 50px;
+	height: 55px;
 	width: 100%;
 	padding: 0px 0px 0px 0px;
+	background-color: #3F51A1;
+	color: white;
 }
 
 #deal li {
 	list-style: none;
 	width: 50%;
 	height: 100%;
-	line-height: 50px;
+	line-height: 55px;
 	text-align: center;
 	cursor: pointer;
+	font-size: 18px;
 }
 
 .select_deal {
-	background-color: #ABC3FF;
+	color: #DCF343;
 }
 /* ---------------nav--------------- */
 .menu {
-	height: 40px;
-	display: flex;
-	margin: 10px 0px 0px;
+	margin: 10px 0px 20px;
 	padding: 0px 0px 0px 0px;
+	display: inline-block;
+	width: 470px;
 }
 
 .menu li {
@@ -41,9 +45,11 @@
 	list-style: none;
 	text-align: center;
 	cursor: pointer;
-	border: 1px solid #C1C1C1;
+	border: 2px solid #3F51A1;
 	border-radius: 15px;
 	margin: 0px 5px;
+	display: inline-block;
+	box-sizing: border-box;
 }
 
 .menu li:not(.select):hover {
@@ -52,8 +58,27 @@
 }
 
 .select {
-	background-color: #4949E9;
+	background-color: #3F51A1;
 	color: white;
+}
+
+.sub_menu {
+	display: inline-block;
+	padding: 0px 0px 0px 0px;
+	margin: 10px 0px 20px 640px;
+}
+
+.sub_menu select {
+	width: 150px;
+	height: 40px;
+	font-size: 18px;
+	border-radius: 10px;
+}
+
+.sub_menu select option {
+	width: 200px;
+	height: 40px;
+	font-size: 18px;
 }
 
 #dealContainer {
@@ -75,60 +100,47 @@
 	border: 1px solid #EAEAEA;
 }
 
-.sub_menu {
-	border-bottom: 1px solid #C1C1C1;
-}
-
-.sub_menu ul {
-	display: inline-block;
-}
-
-.sub_menu li {
-	float: left;
-	list-style: none;
-	text-align: center;
-	width: 100px;
-	color: #9CA3AF;
-	cursor: pointer;
-}
-
-.select_sub {
-	color: black !important;
-	font-size: 17px;
-}
-
 .message {
 	display: block;
 	width: 100%;
 	text-align: center;
+	font-size: 20px;
 }
 
 .list {
-	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 20px;
-	padding: 0px 0px 0px 0px;
-	margin: 10px 0px;
-	display: flex;
+	justify-content: flex-start;
+	padding: 0px 20px;
+	gap: 47px;
+	margin-bottom: 20px;
+	
 }
-
+.statusChangeMenu {
+    position: absolute;
+    top: 10px; /* 원하는 위치에 맞게 조정 */
+    right: 10px; /* 원하는 위치에 맞게 조정 */
+    z-index: 3; /* 다른 요소 위에 표시되도록 */
+}
 .product {
-	width: 200px;
-	height: 280px;
-	margin: 10px 20px 0px 20px;
+	position: relative; /* 자식 요소인 .statusChangeMenu의 기준점을 설정 */
+	background: white;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 10%;
+	border-radius: 8px;
+	width: 200px;
+	overflow: hidden;
 	transition: transform 0.3s ease-in-out;
-	padding: 5px;
-	box-sizing: border-box;
-	overflow-y: auto;
-	/* border: 1px solid green; */
+	padding: 10px 5px;
 }
 
 .product:hover {
 	transform: translateY(-5px);
 	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product_img_div {
+	margin-bottom: 30px;
+	position: relative;
 }
 
 .product_img {
@@ -142,35 +154,43 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	border-radius: 10%;
-	box-shadow: 0 5px 10px -5px lightgray;
+	border-radius: 8px;
 	position: relative;
 	z-index: 1;
+	margin: 5px;
 }
 
 .photo_status {
 	width: 40px;
 	position: absolute;
-	float: right;
+	margin-left: 145px;
 	z-index: 2;
-}
-
-.product_img:active {
-	width: 200px;
-	height: 200px;
-	object-fit: cover;
-	border-radius: 15%;
-	box-shadow: 0 5px 5px -5px lightgray;
+	padding: 15px 10px;
 }
 
 .product p {
-	/* height: 50px; */
-	margin: 3px 0px;
+	margin: 5px 0px;
 	object-fit: cover;
+	padding: 0px 10px;
+}
+
+.rankProdIntro {
+	color: gray;
+	font-size: 12px;
+	white-space: normal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
 }
 
 #productPrice {
 	display: inline-block;
+}
+
+#s_statusVal_div {
+	width: 100%;
 }
 
 #s_statusVal {
@@ -179,15 +199,14 @@
 	background-color: #ABC3FF;
 	text-align: center;
 	padding: 3px;
-	display: inline-block;
 	border-radius: 5px;
+	margin-left: 130px;
 }
 /* 이미지 흑백 처리 */
 .product_img.gray-scale img {
 	filter: grayscale(100%);
 	position: relative;
 }
-
 
 /* 상세필터 */
 #btn_search {
@@ -255,49 +274,74 @@ input[type="radio"] {
 }
 /*찜내역 */
 #deleteJjim {
-	width: 100%;
+	margin: 5px;
+	display: inline-block;
+    padding: 0px 0px 0px 0px;
+    margin: 10px 0px 20px 680px;
+}
+
+.btn_jjim {
+	width: 100px;
+	height: 40px;
+	margin-left: 10px;
+	background-color: white;
+	border: 2px solid orangered;
+	color: orangered;
+	font-size: 15px;
+	border-radius: 13px;
 }
 
 /* dropdown*/
 .dropdown-menu {
 	width: 100px;
-	height: 60px;
+	height: 90px;
 	display: none;
 	list-style: none;
 	position: absolute;
 	z-index: 2;
-	top: 40px;
-	background-color: white;
+	top: 50px;
 	text-align: center;
-	padding: 0px 0px 0px 0px;
+	padding: 5px;
+	margin-left: 90px;
+	border-radius: 8px;
 }
 
 .dropdown-menu li {
 	width: 100%;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	
 }
 
 .dropdown-menu li:hover {
+	width: 100%;
 	background-color: lightgray;
 	cursor: pointer;
 }
 
 .sub-dropdown-menu {
 	width: 100px;
-	height: 60px;
+	height: 90px;
 	display: none;
 	list-style: none;
 	position: absolute;
 	z-index: 2;
-	top: 40px;
-	background-color: white;
-	padding: 0px 0px 0px 0px;
+	top: 50px;
+	padding: 5px;
+	margin-left: 90px;
+	border-radius: 8px;
 }
 
 .sub-dropdown-menu li {
+	width: 100%;
 	height: 50%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: white;
 }
 
 .sub-dropdown-menu li:hover {
@@ -308,14 +352,15 @@ input[type="radio"] {
 .productBanReason {
 	position: absolute;
 	z-index: 2;
-	top:0;
+	top: 0;
 	width: 190px;
 	height: 190px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.productBanReason p{
+
+.productBanReason p {
 	background-color: white;
 	width: 100px;
 	height: 30px;
@@ -325,6 +370,7 @@ input[type="radio"] {
 	border-radius: 5px;
 	color: orangered;
 }
-#deal_auc{
-	display:none;
+
+#deal_auc {
+	display: none;
 }

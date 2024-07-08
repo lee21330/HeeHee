@@ -8,8 +8,8 @@ import lombok.Data;
 public class InsertDeliveryDTO {
 	private Integer dSeq;
 	private Integer dCompanySeq;
-	private String dNumber;
+	private Integer dNumber;
 	private String dStatus;
-	private int sSeq;
+	private Integer sSeq;
 	private String buyerId;
 }

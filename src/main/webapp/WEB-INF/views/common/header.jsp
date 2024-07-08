@@ -44,6 +44,10 @@ $(document).ready(function() {
                         $('#results').append('<li>No results found</li>');
 						$("#results").attr("style", "display:none");
                     }
+                    $("#results li").on("click", function() {
+            			var keyword = $(this).text();
+            			location.href = "/heehee/main/search?keyword=" + keyword;
+            		});
                 }, error: function(xhr) {
 					console.log(xhr);
 				}
@@ -53,7 +57,18 @@ $(document).ready(function() {
 			$("#results").attr("style", "display:none");
             console.log("데이터 없음");
         }
+       
     });
+	
+	$("#searchIcon").on("click", function() {
+		location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
+	});
+	
+	$("#keyword").on("keyup",function(key){
+		if(key.keyCode==13) {
+			location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
+		}
+	 });
 });
 
 function beforeConnectCheck() {
@@ -118,14 +133,14 @@ function sendAlarm() {
 					</div>
 					<div class="div_line"></div>
 					<div>
-						<a class="a_color" onclick="beforeCheckLocation('/heehee/auc')">경매물품</a>
+						<a class="a_color" href="/heehee/auc">경매물품</a>
 					</div>
 				</div>
 				<div class="search_container">
 					<div class="search_bar">
 						<input id="keyword" placeholder="어떤 상품을 찾으시나요?">
 						<a href="">
-							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
+							<img id="searchIcon" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_search.png" alt="검색 버튼 아이콘">
 						</a>
 						<ul id="results"></ul>
 					</div>
@@ -203,7 +218,7 @@ function sendAlarm() {
 												<ul class="sub-category-list">
 													<c:forEach var="subCategory" items="${mainCategory.subCategory}">
 														<a>
-															<li>${subCategory}</li>
+															<li onclick="location.href='/heehee/main/search?category=${subCategory.cateSeq}&cateName=${subCategory.detailCate}'">${subCategory.detailCate}</li>
 														</a>
 													</c:forEach>
 												</ul>
