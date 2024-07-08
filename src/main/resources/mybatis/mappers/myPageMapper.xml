@@ -408,8 +408,8 @@
 		#{MONTH}
 		AND BUYER_ID = #{userId}
 		AND AUC_SEQ IS NULL
-		AND SELL_SEQ IS
-		NULL
+		AND SELL_SEQ IS NULL
+		AND STATUS = '완료'
 
 		ORDER BY PAY_DATE
 	</select>
