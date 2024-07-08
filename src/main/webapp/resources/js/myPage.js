@@ -328,7 +328,7 @@ function changeStatus_auc(status) {
 					var formattedPrice = new Intl.NumberFormat('ko-KR').format(sale.aucPrice) + '원';
 					var productStyle = sale.aucStatus === '판매중지' ? 'background-color: orangered;' : '';
 					var imgClass = sale.aucStatus === '판매중지' ? 'gray-scale' : '';
-					var detailUrl = sale.aucStatus === '입찰' ? '/heehee/auc/detail/' + sale.productSeq : '/heehee/mypage/saledetailAuc/' + sale.productSeq;
+					var detailUrl = sale.aucStatus != '낙찰' ? '/heehee/auc/detail/' + sale.productSeq : '/heehee/mypage/saledetailAuc/' + sale.productSeq;
 					// 가격 표시를 조건부로 설정
 					var priceDisplay = (sale.aucStatus === '낙찰' || sale.aucStatus === '거래 완료') ? `<p id="productPrice">${formattedPrice}</p>` : '';
 					var productBanReason = sale.aucStatus === '판매중지' ? `<div class="productBanReason"><p>판매중지</p></div>` : '';
