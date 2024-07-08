@@ -163,7 +163,7 @@ textarea {
     margin-bottom: 15px;
     cursor: pointer; /* 추가 */
     position: relative; /* 추가 */
-    left: 27px; /* 추가 */
+    /* left: 27px; */ /* 추가 */
     margin-right: 15px;
 }
 
