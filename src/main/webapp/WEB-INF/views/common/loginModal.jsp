@@ -86,6 +86,8 @@
 	function openSignup() {
 		$("#loginModal").addClass("show");
 		$("body").css("overflow", "hidden"); /* 모달 열리면 스크롤 불가능 */
+		$(".modal_body").css("margin-top", "70px"); /* 입력칸이 많아서 맨 윗부분 가려짐, 간격주기 */
+		console.log("이거 타니?");
 	}
 
 	function initLogin() {
@@ -104,16 +106,16 @@
             $("#signupArea").addClass("show");
             $(".modal_body").css("width", "400px");
             $(".modal_body").css("height", "auto");
-			
+            $(".modal_body").css("margin-top", "70px"); /* 입력칸이 많아서 맨 윗부분 가려짐, 간격주기 */
 		} else {
 			// 회원가입 화면 보여주기
 			$("#loginArea").removeClass("show");
 			$("#signupArea").addClass("show");
-			$(".modal_body").css("margin-top", "70px"); /* 입력칸이 많아서 맨 윗부분 가려짐, 간격주기 */
 			$(".selDiv").children().removeClass("topSel");
 			$(".signupBox").addClass("topSel");
 			$(".modal_body").css("width", "350px"); /* 본인인증 화면이랑 가로 넓이 다름, 기존 크기로 변경 */
 			$(".modal_body").css("height", "auto");
+			
 		}
 	}
 	

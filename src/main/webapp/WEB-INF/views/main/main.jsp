@@ -44,8 +44,6 @@
 					<p class="classifyTitle">당신을 위한 추천 상품</p>
 					<div id="recommandListArea">
 					<c:forEach var="recommandprod" items="${recommandList}">
-						<div id="classifyPrev" class="prevBtn">&lt;</div>
-						<div id="classifyNext" class="nextBtn">&gt;</div>
 						<div class="recommandProdDiv">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recommandprod.imgName}" 
 							onclick="location.href='${path}/sell/productdetail/${recommandprod.productSeq}'" style="cursor: pointer">
@@ -57,19 +55,10 @@
 						</div>
 					</c:forEach>
 					</div>
-					<div class="swiper-pagination">
-						<span class="pagination-bullet pagination-bullet-active"></span>
-						<span class="pagination-bullet"></span>
-						<span class="pagination-bullet"></span>
-						<span class="pagination-bullet"></span>
-						<span class="pagination-bullet"></span>
-					</div>
 				</div>
 				<div id="prodNowRegArea">
 					<p class="classifyTitle">방금 등록된 상품</p>
 					<div id="nowRegListArea">
-						<div id="classifyPrev" class="prevBtn">&lt;</div>
-						<div id="classifyNext" class="nextBtn">&gt;</div>
 						<c:forEach var="recentprod" items="${recentprodList}" varStatus="status">
 						<div class="nowRegProdDiv">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recentprod.imgName}" 
@@ -81,13 +70,6 @@
 							</div>
 						</div>
 						</c:forEach>
-					</div>
-					<div class="swiper-pagination">
-						<span class="pagination-bullet pagination-bullet-active"></span>
-						<span class="pagination-bullet"></span>
-						<span class="pagination-bullet"></span>
-						<span class="pagination-bullet"></span>
-						<span class="pagination-bullet"></span>
 					</div>
 				</div>
 			</div>

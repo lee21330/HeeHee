@@ -53,8 +53,7 @@
 			test="${saleDetail.SCheck != null && saleDetail.proStatus != '거래완료'}">
 			<p>구매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
 		</c:if>
-		<c:if
-			test="${saleDetail.SCheck == null && saleDetail.proStatus != '판매중지' && saleDetail.DNumber != null}">
+		<c:if test="${saleDetail.SCheck == null && saleDetail.proStatus != '판매중지' && (saleDetail.deal != '택배' || (saleDetail.deal == '택배' && saleDetail.DNumber != null))}">
 			<button id="complete"
 				onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
 		</c:if>

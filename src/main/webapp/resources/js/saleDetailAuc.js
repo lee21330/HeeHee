@@ -1,13 +1,8 @@
 $(function() {
-	var dNumberText = $("#dNumber").text().trim();
+	var dNumberText = $("#dStatus").text().trim();
 	var proStatus = $("#proStatus").text().trim();
 	var sCheck = $("#sCheck").text().trim();
 	var dStatus = $("#dStatus").text().trim();
-
-	/* 예약중인 상품이고 송장 내역 없으면 '송장 입력하기' 버튼 보임 */
-	if (dNumberText === '' && proStatus === '예약중') {
-		$("#enter_invoice").show();
-	}
 
 
 	// 진행 상황에 따라 progress value 값 조절 
@@ -30,6 +25,8 @@ $(function() {
 	//'발송완료(25%)': 송장을 입력했을 때(송장 내역이 있을 때)
 	else if (dNumberText != '') {
 		$("#graph").attr('value', 25);
+		
+		
 	}
 
 

@@ -3,7 +3,7 @@ $(function() {
 	var sCheck = $("#sCheck").text().trim();
 	var dStatus = $("#dStatus").text().trim();
 	var dealText = $("#deal").text().trim();
-	var dNumberText = $("#dNumber").text().trim();
+	var dNumberText = $("#dStatus").text().trim();
 	
 
 	/* 거래방식(deal)에 따라 progress_ing가 다르게 보임*/

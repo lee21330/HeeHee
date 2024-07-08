@@ -430,11 +430,11 @@
 
 	<update id="updateSecondDstatus">
 		UPDATE DELIVERY
-		SET D_STATUS = '배송중'
+		SET D_STATUS = '배송완료'
 		WHERE D_SEQ IN (
 		SELECT D_SEQ
 		FROM DELIVERY d
-		WHERE D_STATUS = '발송완료')
+		WHERE D_STATUS = '배송중')
 	</update>
 
 	<insert id="insertRating"

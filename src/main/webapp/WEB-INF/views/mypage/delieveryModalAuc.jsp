@@ -130,7 +130,7 @@
 				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_login_close.png"
 				alt="로그인 창 닫기 아이콘" class="profileModalClose">
 			<form class="modal_form"
-				action="${path}/mypage/saledetail/${saleDetail.productSeq}/insertDelivery"
+				action="${path}/mypage/saledetailAuc/${saleDetail.productSeq}/insertDeliveryAuc"
 				method="post">
 				<p id="dMdal_p">송장 입력하기</p>
 				<div class="input" id="input_d">

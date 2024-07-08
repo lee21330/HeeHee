@@ -1,5 +1,5 @@
 $(function() {
-	var dNumberText = $("#dNumber").text().trim();
+	var dNumberText = $("#dStatus").text().trim();
 	var proStatus = $("#proStatus").text().trim();
 	var pCheck = $("#pCheck").text().trim();
 	var dStatus = $("#dStatus").text().trim();
@@ -40,7 +40,41 @@ $(function() {
 	}
 
 
+
+	$(".auc-chat").on("click", function() {
+		if (checkNick == '') { openLogin(); return false; }
+		const loginUserId = $(".auc-chat").attr("loginUserId");
+		const sellerId = $(".auc-chat").attr("sellerId");
+		const sellSeq = $(".auc-chat").attr("sellSeq");
+
+		aucChat(loginUserId, sellerId, sellSeq);
+	});
+
+
 });
+
+function aucChat(loginUserId, sellerId, sellSeq) {
+alert(loginUserId);
+alert(sellerId);
+alert(sellSeq);
+	fetch("/heehee/chatting/auction", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			"loginUserId": loginUserId,
+			"sellerId": sellerId,
+			"aucSeq": sellSeq
+		})
+	})
+		.then(resp => resp.text())
+		.then(result => {
+			console.log(result);
+			if (result > 0) {
+				window.location.href = "/heehee/chatting";
+			}
+		})
+		.catch(err => console.log(err));
+}
 
 function updatePCheck(proSeq) {
 	$.ajax({
