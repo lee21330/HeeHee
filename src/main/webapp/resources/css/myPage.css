@@ -113,7 +113,7 @@
 	justify-content: flex-start;
 	padding: 0px 20px;
 	gap: 47px;
-	margin-bottom: 20px;
+	
 	
 }
 .statusChangeMenu {
@@ -184,7 +184,9 @@
 	-webkit-line-clamp: 1;
 	-webkit-box-orient: vertical;
 }
-
+.dealList{
+	margin-bottom: 20px;
+}
 #productPrice {
 	display: inline-block;
 }
