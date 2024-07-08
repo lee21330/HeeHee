@@ -42,8 +42,9 @@ $(document).ready(function() {
     	maxSlides: 30,      // 최대 노출 개수
     	slideMargin: 5,    // 슬라이드간의 간격
     	auto: false,        // 자동 실행 여부
-    	autoHover: true,   // 마우스 호버시 정지 여부
-    	controls: true    // 이전 다음 버튼 노출 여부
+    	autoHover: false,   // 마우스 호버시 정지 여부
+    	controls: true,    // 이전 다음 버튼 노출 여부
+    	touchEnabled : false
     });
 
     $('#keyword').on('input', function() {

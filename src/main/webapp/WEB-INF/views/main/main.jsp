@@ -60,7 +60,7 @@
 					<p class="classifyTitle">방금 등록된 상품</p>
 					<div id="nowRegListArea" class="mainSlider">
 						<c:forEach var="recentprod" items="${recentprodList}" varStatus="status">
-						<div class="nowRegProdDiv">
+						<div class="nowRegProdDiv" onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'">
 							<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/sell/${recentprod.imgName}" 
 							onclick="location.href='${path}/sell/productdetail/${recentprod.productSeq}'" style="cursor: pointer">
 							<div class="nowRegProdInfo">

@@ -173,7 +173,7 @@
 	        var valueCheck = $('input[name="deal"]:checked').attr('id');
 	        if (valueCheck === 'package') {
 	            $('#d_charge').attr('disabled', false);
-	            $('#d_charge').focus();
+	            // $('#d_charge').focus();
 	        } else {
 	            $('#d_charge').val('');
 	            $('#d_charge').attr('disabled', true);
