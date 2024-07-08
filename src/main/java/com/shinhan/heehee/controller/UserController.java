@@ -58,6 +58,7 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<?> singUp(UserDTO userDto, HttpServletResponse response) throws Exception {
 		response.setContentType("text/plain;charset=UTF-8");
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + userDto);
 		return userService.signup(userDto);
 	}
 

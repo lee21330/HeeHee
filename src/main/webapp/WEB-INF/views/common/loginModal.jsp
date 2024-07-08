@@ -312,13 +312,13 @@
 		var authNo = $("#sms_auth_input").val();
 		var userName =  $("#signId").val();
 		var realName = $("#realName").val();
-		var password = $("#password").val();
-		var email = $("#email").val();
-		var phoneNum = $("#phoneNum").val();
-		var accountNum = $("#accountNum").val();
-		var nickName = $("#nickName").val();
-		var address = $("#address").val();
-		var detailAddress = $("#detailAddress").val();
+		var password = $("#signPw").val();
+		var email = $("#signEmail").val();
+		var phoneNum = $("#phone_input").val();
+		var accountNum = $("#acc_num_input").val();
+		var nickName = $("#signNickName").val();
+		var address = $("#addr_input").val();
+		var detailAddress = $("#detail_addr_input").val();
 		
 		if(realName == "") {showTost("이름을 입력해주세요."); return false;}
 		if(userName == "") {showTost("아이디를 입력해주세요."); return false;}
@@ -340,15 +340,15 @@
 		    url: '/heehee/user/signup',
 		    method: 'POST',
 		    data: {
-		    	"username": userName,
-		    	"realName": realName,
-		    	"password": password,
-		    	"email": email,
-		    	"phoneNum": phoneNum,
-		    	"accountNum": accountNum,
-		    	"nickName": nickName,
-		    	"address": address,
-		    	"detailAddress": detailAddress
+		    	"username": $("#signId").val(),
+		    	"realName": $("#realName").val(),
+		    	"password": $("#signPw").val(),
+		    	"email": $("#signEmail").val(),
+		    	"phoneNum": $("#phone_input").val(),
+		    	"accountNum": $("#acc_num_input").val(),
+		    	"nickName": $("#signNickName").val(),
+		    	"address": $("#addr_input").val(),
+		    	"detailAddress": $("#detail_addr_input").val()
 		    	},
 		    success: function (data) {
 		    	console.log(data);
@@ -356,12 +356,10 @@
 		    		closeLogin();
 		    		showTost("회원가입에 성공했습니다.");
 		    	} else {
-		    		closeLogin();
 		    		showTost("회원가입에 실패했습니다. 관리자에게 문의 바랍니다.");
 		    	}
 		    },error: function (data, status, err) {
 		    	console.log(err);
-		    	closeLogin();
 		    	showTost("회원가입에 실패했습니다. 관리자에게 문의 바랍니다.");
 		    }
 		});
