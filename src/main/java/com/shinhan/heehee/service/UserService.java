@@ -27,6 +27,7 @@ public class UserService {
 	BCryptPasswordEncoder passwordEncoder;
 	
 	public ResponseEntity<?> signup(UserDTO userDto) {
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++" + userDto);
 		Map<String,Object> response = new HashMap<String,Object>();
 		if (!userDto.getPassword().equals(null)) {
 			// BCryptPasswordEncoder 생성
