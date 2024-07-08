@@ -306,6 +306,7 @@
 	
 	
 	<script>
+	id = "${userId}";
 	$(function () {
 		
 		$("#emptyHeart").on("click", addJjim);

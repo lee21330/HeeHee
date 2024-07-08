@@ -108,6 +108,8 @@ $(document).ready(function() {
 
 	
 function payForSell(payName, amount, sellSeq, sellerId) {
+	console.log("id : " + id);
+	if(id == 'admin') {openLogin(); return false;}
 	$.ajax({
 	    url: '/heehee/pay/before',
 	    method: 'POST',
