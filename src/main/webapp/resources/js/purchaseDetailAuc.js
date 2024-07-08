@@ -54,6 +54,9 @@ $(function() {
 });
 
 function aucChat(loginUserId, sellerId, sellSeq) {
+alert(loginUserId);
+alert(sellerId);
+alert(sellSeq);
 	fetch("/heehee/chatting/auction", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },

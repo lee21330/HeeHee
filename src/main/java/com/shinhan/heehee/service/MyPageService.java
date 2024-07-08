@@ -85,12 +85,14 @@ public class MyPageService {
 		if (result == 1 && uploadImgs != null && !uploadImgs.isEmpty()) {
 			for (MultipartFile img : uploadImgs) {
 				try {
-					String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaBoard/");
-					InsertQnAImgDTO qnaImg = new InsertQnAImgDTO();
-					qnaImg.setImgName(imgName);
-					qnaImg.setTablePk(qna.getSeqQnaBno());
-					qnaImg.setId(qna.getId());
-					mypageDao.insertQnaImg(qnaImg);
+					if(img.getSize() != 0 ) {
+						String imgName = s3Service.uploadOneObject(img, "images/mypage/qnaBoard/");
+						InsertQnAImgDTO qnaImg = new InsertQnAImgDTO();
+						qnaImg.setImgName(imgName);
+						qnaImg.setTablePk(qna.getSeqQnaBno());
+						qnaImg.setId(qna.getId());
+						mypageDao.insertQnaImg(qnaImg);
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
