@@ -18,7 +18,8 @@
 
 		<div id="product">
 			<img id="img"
-				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${saleDetail.imgName}">
+				src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/auction/${saleDetail.imgName}"
+				onclick="location.href='/heehee/auc/detail/${saleDetail.productSeq}'">
 
 			<!-- 카테고리, 거래확정일자, 글제목, 시세조회 -->
 			<div class="title-container">
@@ -29,9 +30,13 @@
 				<div class="title-container"> -->
 				<p id="date">${saleDetail.psDate}</p>
 				<p id="articleTitle">${saleDetail.auctionTitle}</p>
+				<p id="dealTitle">거래방식:</p>
+				<p id="deal">택배</p>
 
-				<%@ include file="/WEB-INF/views/mypage/delieveryModal.jsp"%>
-				<button id="enter_invoice">송장 입력하기</button>
+				<%@ include file="/WEB-INF/views/mypage/delieveryModalAuc.jsp"%>
+				<c:if test="${saleDetail.DNumber == null && saleDetail.aucStatus == '낙찰'}">
+					<button id="enter_invoice">송장 입력하기</button>
+				</c:if>
 				<div id="delivery">
 					<!-- Ajax로 동적 업데이트 -->
 					<p>택배사: ${saleDetail.DCompany}</p>
@@ -46,7 +51,11 @@
 			test="${saleDetail.SCheck != null && saleDetail.aucStatus != '거래완료'}">
 			<p>구매자가 아직 거래 완료 버튼을 누르지 않았습니다.</p>
 		</c:if>
-		<button id="complete" onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
+		<c:if
+			test="${saleDetail.SCheck == null && saleDetail.DNumber != null}">
+			<button id="complete"
+				onclick="updateSCheck(${saleDetail.productSeq})">거래완료</button>
+		</c:if>
 		<p id="sCheck">${saleDetail.SCheck}</p>
 		<p id="dStatus">${saleDetailDStatus}</p>
 		<progress id="graph" value="0" max="100"></progress>
@@ -63,15 +72,15 @@
 			<div class="order">
 				<p id="total">판매금액</p>
 				<p class="order_right">
-					<fmt:formatNumber value="${saleDetail.aucPrice}"
-						pattern="#,###" />원
+					<fmt:formatNumber value="${saleDetail.aucPrice}" pattern="#,###" />
+					원
 				</p>
 			</div>
 
 		</div>
 
 	</div>
-	
+
 	<div id="footerArea">
 		<jsp:include page="../common/footer.jsp"></jsp:include>
 	</div>
