@@ -38,7 +38,7 @@
 				<div class="qna_item">
 					<p>문의제목</p>
 					<input type="text" id="qna_title" name="qnaTitle"
-						required="required">
+						required="required" maxlength='100'>
 				</div>
 				<div class="qna_item">
 					<p>문의유형</p>
@@ -57,7 +57,7 @@
 				</div>
 				<div class="qna_item">
 					<p>문의내용</p>
-					<input type="text" name="qnaContent" required="required">
+					<input type="text" name="qnaContent" required="required" maxlength='300'>
 				</div>
 				<div class="qna_item">
 					<p>사진첨부 최대(3개)</p>

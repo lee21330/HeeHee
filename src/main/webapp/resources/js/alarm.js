@@ -137,7 +137,7 @@ function alarmAll() {
 						output += "</ul>";
 						
 					} else if (item.alDate != null && item.cateNum == 7) {
-						// 중고물품 판매중지 (경로 수정 필)
+						// 중고물품 판매중지
 						// output += "<ul onclick='urlClick(\"/heehee/mypage/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						
 						output += "<ul onclick='urlClick(\"/heehee/sell/productdetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
@@ -147,7 +147,7 @@ function alarmAll() {
 						output += "</ul>";
 						
 					} else if (item.alDate != null && item.cateNum == 8) {
-						// 경매물품 판매중지 (경로 수정 필)
+						// 경매물품 판매중지
 						// output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
 						
 						output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
@@ -273,7 +273,7 @@ function alarmUnck() {
                         	output += "</ul>";
 							
                         } else if (item.alDate != null && item.cateNum == 7) {
-                        	// 중고물품 판매중지 (경로 수정 필)
+                        	// 중고물품 판매중지
                         	// output += "<ul onclick='urlClick(\"/heehee/mypage/saledetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                         	
                         	output += "<ul onclick='urlClick(\"/heehee/sell/productdetail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
@@ -283,7 +283,7 @@ function alarmUnck() {
                         	output += "</ul>";
 							
                         } else if (item.alDate != null && item.cateNum == 8) {
-                        	// 경매물품 판매중지 (경로 수정 필)
+                        	// 경매물품 판매중지
                         	// output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";
                         	
                         	output += "<ul onclick='urlClick(\"/heehee/auc/detail\/" + item.reqSeq + "\")'" + " alNum=" + item.alNum + " alCheck=" + item.alCheck + ">";

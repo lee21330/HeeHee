@@ -7,6 +7,7 @@
     margin: 0 auto;
 
     margin-top: 30px; /* 추가 */
+    margin-bottom: 100px;
 }
 
 /* 추가 */
@@ -75,8 +76,8 @@ h1 {
 }
 
 .preview_item img {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
 }
 
 /*----문의유형----*/
@@ -163,7 +164,6 @@ textarea {
     margin-bottom: 15px;
     cursor: pointer; /* 추가 */
     position: relative; /* 추가 */
-    /* left: 27px; */ /* 추가 */
     margin-right: 15px;
 }
 
@@ -179,8 +179,8 @@ textarea {
     width: 22px;
     height: 22px;
     position: relative;
-    right: -15px;
-    bottom: 25px;
+    right: -7px;
+    bottom: 6px;
     border: 1px solid #D3D3D3;
     background-color: rgb(249, 249, 249);
     border-radius: 3px;
@@ -206,7 +206,7 @@ textarea {
     border: none;
     border-radius: 5px;
     color: white;
-    margin: 0px 5px 0px 5px; /* 변경 */
+    margin: 35px 5px 0px 5px; /* 변경 */
 }
 
 /* 추가 */
@@ -276,6 +276,7 @@ textarea {
     /* border-bottom: 1px solid gray; */
     display: flex;
     align-items: center;
+    word-break: break-all;
 }
 
 .header:hover {
@@ -285,6 +286,7 @@ textarea {
 
 .header.select {
     background-color: rgb(210, 223, 81);  /* 변경 */
+    word-break: break-all;
 }
 
 #img_q {
@@ -302,6 +304,7 @@ textarea {
     /* 배경 주석 처리 */
     /* background-color: #EFEFEF; */
     padding: 10px 10px;
+    word-break: break-all;
 }
 
 /*-------나의 문의-------*/
@@ -335,6 +338,7 @@ textarea {
     align-items: center;
     justify-content: center;
     border-radius: 4px; /* 추가 */
+    margin-left: 10px; /* 추가추가추가추가 */
 }
 
 .qnaContent {
@@ -365,14 +369,21 @@ textarea {
     background-color: rgb(63, 81, 161);
     border: 1px solid rgb(63, 81, 161);;
     border-radius: 5px;
-    position: absolute;
+    /* position: absolute;
     bottom: 5px;
-    right: 0;
+    right: 0; */
     cursor: pointer;
+    margin-top: 10px;
 }
 
 /* 추가 */
 #delete:hover {
     transform: translateY(-2px);
     color: rgb(210,223,81);
+}
+
+.qnaImgDiv {
+	width: 100%;
+	height: 100%;
+	border: 1px solid red;
 }

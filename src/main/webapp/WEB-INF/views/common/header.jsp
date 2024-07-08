@@ -14,6 +14,10 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
 <link rel="stylesheet" href="${path}/resources/css/footer.css">
 <script src="/heehee/resources/js/headerCategory.js"></script>
 <script src="/heehee/resources/js/alarm.js"></script>
@@ -23,10 +27,25 @@ var socket = new SockJS('/heehee/ws'); // WebSocketConfig 설정에서 sockJS �
 stompClient = Stomp.over(socket);
 
 $(document).ready(function() {
-	// 로그인 여부 확인
-	beforeConnectCheck();
-	
-	$('#keyword').on('input', function() {
+    // 로그인 여부 확인
+    beforeConnectCheck();
+    
+    // bxSlider 호출
+    $(".mainSlider").bxSlider({
+    	mode: 'horizontal',// 가로 방향 수평 슬라이드
+    	speed: 500,        // 이동 속도를 설정
+    	pager: true,      // 현재 위치 페이징 표시 여부 설정
+    	moveSlides: 6,     // 슬라이드 이동시 개수
+    	slideWidth: 1280,   // 슬라이드 너비
+    	minSlides: 6,      // 최소 노출 개수
+    	maxSlides: 30,      // 최대 노출 개수
+    	slideMargin: 5,    // 슬라이드간의 간격
+    	auto: false,        // 자동 실행 여부
+    	autoHover: true,   // 마우스 호버시 정지 여부
+    	controls: true    // 이전 다음 버튼 노출 여부
+    });
+
+    $('#keyword').on('input', function() {
         var keyword = $(this).val();
         if (keyword.length > 2) {
             $.ajax({
@@ -34,57 +53,57 @@ $(document).ready(function() {
                 method: 'GET',
                 data: { keyword: keyword },
                 success: function(data) {
-					$('#results').empty();
+                    $('#results').empty();
                     if (data.length > 0) {
                         $.each(data, function(index, result) {
                             $('#results').append('<li>' + result.title + '</li>');
-							$("#results").attr("style", "display:block");
+                            $("#results").css("display", "block");
                         });
                     } else {
                         $('#results').append('<li>No results found</li>');
-						$("#results").attr("style", "display:none");
+                        $("#results").css("display", "none");
                     }
                     $("#results li").on("click", function() {
-            			var keyword = $(this).text();
-            			location.href = "/heehee/main/search?keyword=" + keyword;
-            		});
-                }, error: function(xhr) {
-					console.log(xhr);
-				}
+                        var keyword = $(this).text();
+                        location.href = "/heehee/main/search?keyword=" + keyword;
+                    });
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
             });
         } else {
-			$('#results').empty();
-			$("#results").attr("style", "display:none");
+            $('#results').empty();
+            $("#results").css("display", "none");
             console.log("데이터 없음");
         }
-       
     });
-	
-	$("#searchIcon").on("click", function() {
-		location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
-	});
-	
-	$("#keyword").on("keyup",function(key){
-		if(key.keyCode==13) {
-			location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
-		}
-	 });
+
+    $("#searchIcon").on("click", function() {
+        location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
+    });
+
+    $("#keyword").on("keyup", function(key) {
+        if (key.keyCode == 13) {
+            location.href = "/heehee/main/search?keyword=" + $("#keyword").val();
+        }
+    });
 });
 
 function beforeConnectCheck() {
-	 // 로그인 하면 소켓 연결
-	if("${userId}" != "") alarmConnect();
+    // 로그인 하면 소켓 연결
+    if ("${userId}" != "") alarmConnect();
 }
 
 function alarmConnect() {
-	console.log("알람 커넥트 이벤트");
-    stompClient.connect({}, function (frame) {
-    	// setConnected(true);
+    console.log("알람 커넥트 이벤트");
+    stompClient.connect({}, function(frame) {
+        // setConnected(true);
         console.log('Connected: ' + frame);
-        
+
         // topic/alarm/{userId} 구독
-        stompClient.subscribe('/topic/alarm/' + "${userId}", function (response) {
-			showResponse(JSON.parse(response.body));
+        stompClient.subscribe('/topic/alarm/' + "${userId}", function(response) {
+            showResponse(JSON.parse(response.body));
         });
         //alarmUnck();
     });
@@ -92,21 +111,20 @@ function alarmConnect() {
 
 // 소켓 연결 후 실행
 function showResponse(res) {
-	console.log(res);
+    console.log(res);
 
-	// 알림 올 경우 아이콘 변경, 애니메이션 효과 추가
-	$("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png");
-	$("#alarmImg").addClass("alarmImg");
-	$("#alarmCnt").text(res);
-	showTost('📮 새로운 알림이 있습니다 ✨');
+    // 알림 올 경우 아이콘 변경, 애니메이션 효과 추가
+    $("#alarmImg").attr("src", "https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/header/icon_alarm_O.png");
+    $("#alarmImg").addClass("alarmImg");
+    $("#alarmCnt").text(res);
+    showTost('📮 새로운 알림이 있습니다 ✨');
 }
 
 // 웹소켓 연결 테스트
 function sendAlarm() {
     var userId = 'b';
-    stompClient.send("/app/alarm/"+userId, {}, JSON.stringify({'cateNum': 1, 'reqSeq': 208, 'alContent': "새로운 메시지가 있습니다."}));
+    stompClient.send("/app/alarm/" + userId, {}, JSON.stringify({ 'cateNum': 1, 'reqSeq': 208, 'alContent': "새로운 메시지가 있습니다." }));
 }
-
 </script>
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 </head>
