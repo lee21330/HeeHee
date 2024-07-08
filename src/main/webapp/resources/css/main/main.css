@@ -17,7 +17,7 @@
 }
 
 .rankProdTitle {
-	height: 40px;
+	height: 38px;
 	white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -103,7 +103,6 @@
 }
 
 .recommandProdDiv {
-	display: flex;
 	width: 170px;
 	margin: 7px 23px 7px 0;
 	padding: 10px;
