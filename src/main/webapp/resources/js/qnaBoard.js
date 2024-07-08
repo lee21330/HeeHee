@@ -55,7 +55,7 @@ function previewImages(event) {
 	// 이미 선택된 파일 수 체크
 	var selectedFiles = $('#preview_container').find('.preview_item').length;
 
-	// 최대 3개 제한
+	// 최대 3개
 	if (selectedFiles + files.length > 3) {
 		alert("최대 3개까지만 첨부할 수 있습니다.");
 		return;
