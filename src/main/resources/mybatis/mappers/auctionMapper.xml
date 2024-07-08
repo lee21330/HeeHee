@@ -236,7 +236,7 @@
 		SELECT USER_POINT FROM HH_USER WHERE ID = #{userId}
 	</select>
 	
-	<insert id="" parameterType="com.shinhan.heehee.dto.request.auction.InsertDealHistoryDTO">
+	<insert id="insertDealHistory" parameterType="com.shinhan.heehee.dto.request.auction.InsertDealHistoryDTO">
 		INSERT INTO DEAL_HISTORY (S_SEQ, BUYER_ID, AUC_SEQ) VALUES (DEAL_SEQ.NEXTVAL, #{buyerId}, #{aucSeq})
 	</insert>
 	

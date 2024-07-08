@@ -151,7 +151,7 @@
 		    	console.log(data);
 		    	console.log(status);
 		    	console.log(xhr);
-		    	location.reload();
+		    	location.href = "/heehee/main";
 		    },error: function (xhr, status, err) {
 		    	showTost("로그아웃 중 오류가 발생했습니다. 다시 시도해 주세요.");
 		    }
