@@ -19,7 +19,8 @@
 	<div class="mypage_container">
 			<div class="top">
 				<div class="profileImg">
-					<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerinfo.profileImg}">
+					<img src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/${sellerinfo.profileImg}" 
+					onerror="this.src='https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/mypage/logo_profile.jpg'">
 				</div>
 				<div class="profile">
 						<h2>${sellerinfo.nickName}</h2>

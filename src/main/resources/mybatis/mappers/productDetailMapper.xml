@@ -74,40 +74,114 @@
 	</select>
 	
 	<select id="prodreco" parameterType="String" resultType="com.shinhan.heehee.dto.response.MainProdRecoDTO">
-		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
-            SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ, SELL.PRODUCT_SEQ,
-            CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
+WITH MIN_IMG_SEQ AS (
+    SELECT 
+        SELL.ARTICLE_TITLE,
+        MIN(IMG.IMG_SEQ) AS MIN_IMG_SEQ
+    FROM 
+        SELL_PRODUCT SELL
+    INNER JOIN 
+        IMG_FILES IMG 
+    ON 
+        SELL.PRODUCT_SEQ = IMG.TABLE_PK
+    WHERE 
+        IMG.IMG_CATE_SEQ = 2
+        AND SELL.PRO_STATUS NOT IN ('판매중지', '판매보류', '거래완료', '예약중')
+        AND SELL.ID IS NOT NULL
+        AND SELL.ID != #{userId}
+    GROUP BY 
+        SELL.ARTICLE_TITLE
+),
+SELECTED_ROWS AS (
+    SELECT 
+        IMG.IMG_SEQ, 
+        IMG.IMG_NAME, 
+        SELL.ARTICLE_TITLE,
+        SELL.PRODUCT_PRICE, 
+        SELL.CREATE_DATE, 
+        SELL.PRODUCT_SEQ,
+        CASE 
+            WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 3600 THEN ROUND((SYSDATE - CREATE_DATE)*24*60) || '분전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 86400 THEN ROUND((SYSDATE - CREATE_DATE)*24) || '시간전'
             ELSE TRUNC(SYSDATE - CREATE_DATE) || '일전'
-        END AGO_TIME
-        FROM SELL_PRODUCT SELL
-        INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
-        WHERE IMG.IMG_CATE_SEQ = 2
-        AND ROWNUM <![CDATA[<]]> 31
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
+        END AGO_TIME,
+        ROWNUM AS RNUM
+    FROM 
+        MIN_IMG_SEQ
+    INNER JOIN 
+        SELL_PRODUCT SELL 
+    ON 
+        MIN_IMG_SEQ.ARTICLE_TITLE = SELL.ARTICLE_TITLE
+    INNER JOIN 
+        IMG_FILES IMG 
+    ON 
+        MIN_IMG_SEQ.MIN_IMG_SEQ = IMG.IMG_SEQ
+    WHERE 
+        IMG.IMG_CATE_SEQ = 2
+        AND SELL.PRO_STATUS NOT IN ('판매중지', '판매보류', '거래완료', '예약중')
         AND SELL.ID IS NOT NULL
         AND SELL.ID != #{userId}
-        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
-        ORDER BY DBMS_RANDOM.RANDOM
+    ORDER BY 
+        DBMS_RANDOM.RANDOM
+)
+SELECT *
+FROM SELECTED_ROWS
+WHERE RNUM <![CDATA[<]]> 31
+
 	</select>
 	
 	<select id="recently" resultType="com.shinhan.heehee.dto.response.MainProdRecentlyDTO">
-		SELECT MIN(IMG.IMG_SEQ) AS IMG_SEQ, IMG_NAME, SELL.ARTICLE_TITLE,
-            SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ, SELL.PRODUCT_SEQ,
-            CASE WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
+		WITH MIN_IMG_SEQ AS (
+    SELECT 
+        SELL.ARTICLE_TITLE,
+        MIN(IMG.IMG_SEQ) AS MIN_IMG_SEQ
+    FROM 
+        SELL_PRODUCT SELL
+    INNER JOIN 
+        IMG_FILES IMG 
+    ON 
+        SELL.PRODUCT_SEQ = IMG.TABLE_PK
+    WHERE 
+        IMG.IMG_CATE_SEQ = 2
+        AND SELL.PRO_STATUS NOT IN ('판매중지', '판매보류', '거래완료', '예약중')
+        AND SELL.ID IS NOT NULL
+    GROUP BY 
+        SELL.ARTICLE_TITLE
+)
+SELECT * FROM (
+    SELECT 
+        IMG.IMG_SEQ, 
+        IMG.IMG_NAME, 
+        SELL.ARTICLE_TITLE,
+        SELL.PRODUCT_PRICE, 
+        SELL.CREATE_DATE, 
+        SELL.PRODUCT_SEQ,
+        CASE 
+            WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 60 THEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) || '초전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 3600 THEN ROUND((SYSDATE - CREATE_DATE)*24*60) || '분전'
             WHEN ROUND((SYSDATE - CREATE_DATE)*24*60*60) <![CDATA[<]]> 86400 THEN ROUND((SYSDATE - CREATE_DATE)*24) || '시간전'
             ELSE TRUNC(SYSDATE - CREATE_DATE) || '일전'
-        END AGO_TIME
-        FROM SELL_PRODUCT SELL
-        INNER JOIN IMG_FILES IMG ON SELL.PRODUCT_SEQ = IMG.TABLE_PK
-        WHERE IMG.IMG_CATE_SEQ = 2
-        AND SELL.PRO_STATUS NOT IN('판매중지','판매보류','거래완료','예약중')
-        AND ROWNUM <![CDATA[<]]> 31
+        END AGO_TIME,
+        ROWNUM AS RNUM
+    FROM 
+        MIN_IMG_SEQ
+    INNER JOIN 
+        SELL_PRODUCT SELL 
+    ON 
+        MIN_IMG_SEQ.ARTICLE_TITLE = SELL.ARTICLE_TITLE
+    INNER JOIN 
+        IMG_FILES IMG 
+    ON 
+        MIN_IMG_SEQ.MIN_IMG_SEQ = IMG.IMG_SEQ
+    WHERE 
+        IMG.IMG_CATE_SEQ = 2
+        AND SELL.PRO_STATUS NOT IN ('판매중지', '판매보류', '거래완료', '예약중')
         AND SELL.ID IS NOT NULL
-        GROUP BY IMG.IMG_NAME, SELL.ARTICLE_TITLE, SELL.PRODUCT_PRICE, SELL.CREATE_DATE, SELL.PRODUCT_SEQ
-        ORDER BY (SYSDATE - CREATE_DATE)
+    ORDER BY 
+        (SYSDATE - CREATE_DATE)
+)
+WHERE RNUM <![CDATA[<]]> 31
 	</select>
 	
 	<select id="sellerInfo" parameterType="String" resultType="com.shinhan.heehee.dto.response.SellerProfileDTO">
