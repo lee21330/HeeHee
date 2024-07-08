@@ -117,6 +117,11 @@
 				$("body").css("overflow", "scroll"); /* 모달 닫히면 스크롤 가능 */
 			}
 		});
+		function maxLengthCheck(object) {
+	   	    if (object.value.length > object.maxLength) {
+	   	        object.value = object.value.slice(0, object.maxLength);
+	   	    }    
+	   	}
 	</script>
 
 	<div class="profileModal" id="deliveryModal">
@@ -139,7 +144,7 @@
 					</div>
 
 					<div class="Modal_delivery">
-						<input type="number" placeholder="운송장 번호 -없이 입력" name="dNumber" maxlength="10">
+						<input type="number" placeholder="운송장 번호 -없이 입력" name="dNumber"maxlength="10" oninput="maxLengthCheck(this)">
 					</div>
 					<input type="hidden" name="buyerId" value="${saleDetail.buyerId}">
 					<input type="hidden" name="sSeq" value="${saleDetail.SSeq}">

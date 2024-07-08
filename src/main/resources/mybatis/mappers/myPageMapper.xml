@@ -430,7 +430,7 @@
 
 	<update id="updateSecondDstatus">
 		UPDATE DELIVERY
-		SET D_STATUS = '발송완료'
+		SET D_STATUS = '배송완료'
 		WHERE D_SEQ IN (
 		SELECT D_SEQ
 		FROM DELIVERY d
