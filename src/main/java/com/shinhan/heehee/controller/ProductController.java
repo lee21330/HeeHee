@@ -175,9 +175,10 @@ public class ProductController {
 	
 	@GetMapping("/sellerProfile/{id}")
 	public String home(@PathVariable("id") String id, Model model, Principal principal) {
-		int alarmCount = alarmService.alarmCount(principal.getName());
-		model.addAttribute("alarmCount", alarmCount); // 알림 개수
-		
+		if(principal != null) {
+			int alarmCount = alarmService.alarmCount(principal.getName());
+			model.addAttribute("alarmCount", alarmCount); // 알림 개수
+		}
 		List<CategoryDTO> mainCateList = mainservice.mainCateList(); // 카테고리 서비스 호출
 		model.addAttribute("mainCateList", mainCateList);
 		

@@ -242,7 +242,7 @@
 	
 	<update id="updateWinningBId" parameterType="com.shinhan.heehee.dto.response.auction.SchedulerBidDTO">
 		UPDATE HH_USER
-		SET USER_POINT = USER_POINR + #{bidPrice}
+		SET USER_POINT = USER_POINT + #{bidPrice}
 		WHERE ID = #{sellerId}
 	</update>
 	
