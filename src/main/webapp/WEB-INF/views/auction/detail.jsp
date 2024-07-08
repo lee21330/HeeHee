@@ -50,7 +50,17 @@
 	                    	<p class="current_user">예상 낙찰자:<span id="current_user_nickname">${aucProdInfo.currentNick}</span></p>
 	                    </div>
                     </div>
-                    <button id="place_bid_btn">입찰하기</button>
+                    <c:choose>
+                    	<c:when test="${sellerInfo.id == userId}">
+                    		<button id="seller_btn">판매자는 입찰 불가</button>
+                    	</c:when>
+                    	<c:when test="${aucProdInfo.currentId == userId && aucProdInfo.aucStatus == '낙찰'}">
+                    		<button id="seller_chat_btn">판매자와 채팅하기</button>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<button id="place_bid_btn">입찰하기</button>
+                    	</c:otherwise>
+                    </c:choose>
                     <div id="my_point_area">
                     	<p class="my_point_text">나의 보유 포인트</p>
                     	<p class="my_point_amount_area"><span class="my_point_amount">
@@ -65,7 +75,7 @@
                 <div class="item-description">
                     <h3>물품 정보</h3>
                     <hr>
-                    <p>${aucProdInfo.introduce}</p>
+                    <div>${aucProdInfo.introduce}</div>
                 </div>
                 <div class="seller-info">
                     <h3>판매자 정보</h3>
@@ -136,12 +146,14 @@
 	    setInterval(function() {
 	    	remaindTime();
 		 },1000);
+	    
+	    
+	    $("#seller_chat_btn").on("click",sellerChat);
 	});
-	
-	
+	    
     var AucStompClient = null;
     
-    aucSeq = "${aucProdInfo.productSeq}";
+   	aucSeq = "${aucProdInfo.productSeq}";
 
     function connect() {
         var socket = new SockJS('/heehee/auctionws');
@@ -217,13 +229,13 @@
 	}
 	
 	//판매자와 채팅하기
-	function sellerChat(loginUserId, sellerId, sellSeq){
+	function sellerChat(){
 	     fetch("/heehee/chatting/auction",{
 	             method : "POST",
 	             headers : {"Content-Type": "application/json"},
-	             body : JSON.stringify({"sellerId" : ${sellerInfo.id},
-	                                    "loginUserId" : ${userId},
-	                                    "aucSeq" : ${aucProdInfo.productSeq}})
+	             body : JSON.stringify({"sellerId" : "${sellerInfo.id}",
+	                                    "loginUserId" : "${userId}",
+	                                    "aucSeq" : "${aucProdInfo.productSeq}"})
 	            })
 	            .then(resp => resp.text())
 	            .then(result => {

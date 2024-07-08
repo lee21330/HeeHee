@@ -23,7 +23,7 @@
 		$("#sms_send_btn").on("click",smsSend);
 		$("#sms_auth_btn").on("click",smsAuthCheck);
 		$("#reg_user_btn").on("click", signUp);
-		
+		getBankKind();
 		document.getElementById("phone_input").addEventListener("keyup", function(event) {
             $("#phone_input").val(inputPhoneNumber(event.target));
         });
@@ -310,6 +310,27 @@
 	
 	function signUp() {
 		var authNo = $("#sms_auth_input").val();
+		var userName =  $("#signId").val();
+		var realName = $("#realName").val();
+		var password = $("#password").val();
+		var email = $("#email").val();
+		var phoneNum = $("#phoneNum").val();
+		var accountNum = $("#accountNum").val();
+		var nickName = $("#nickName").val();
+		var address = $("#address").val();
+		var detailAddress = $("#detailAddress").val();
+		
+		if(realName == "") {showTost("이름을 입력해주세요."); return false;}
+		if(userName == "") {showTost("아이디를 입력해주세요."); return false;}
+		if(password == "") {showTost("비밀번호를 입력해주세요."); return false;}
+		if(nickName == "") {showTost("닉네임을 입력해주세요."); return false;}
+		if(email == "") {showTost("이메일을 입력해주세요."); return false;}
+		if(address == "") {showTost("주소를 입력해주세요."); return false;}
+		if(detailAddress == "") {showTost("상세주소를 입력해주세요."); return false;}
+		if(phoneNum == "") {showTost("핸드폰 번호를 입력해주세요."); return false;}
+		if(accountNum == "") {showTost("계좌번호를 입력해주세요."); return false;}
+		
+		
 		if(idFlag == false) {showTost("ID 중복 인증 해주세요"); return false;}
 		if(nickNameFlag == false) {showTost("닉네임 중복 인증을 해주세요"); return false;}
 		if(emailFlag == false) {showTost("이메일 중복 인증을 해주세요"); return false;}
@@ -319,15 +340,15 @@
 		    url: '/heehee/user/signup',
 		    method: 'POST',
 		    data: {
-		    	"username": $("#signId").val(),
-		    	"realName": $("#realName").val(),
-		    	"password": $("#signPw").val(),
-		    	"email": $("#signEmail").val(),
-		    	"phoneNum": $("#phone_input").val(),
-		    	"accountNum": $("#acc_num_input").val(),
-		    	"nickName": $("#signNickName").val(),
-		    	"address": $("#addr_input").val(),
-		    	"detailAddress": $("#detail_addr_input").val()
+		    	"username": userName,
+		    	"realName": realName,
+		    	"password": password,
+		    	"email": email,
+		    	"phoneNum": phoneNum,
+		    	"accountNum": accountNum,
+		    	"nickName": nickName,
+		    	"address": address,
+		    	"detailAddress": detailAddress
 		    	},
 		    success: function (data) {
 		    	console.log(data);
@@ -342,6 +363,23 @@
 		    	console.log(err);
 		    	closeLogin();
 		    	showTost("회원가입에 실패했습니다. 관리자에게 문의 바랍니다.");
+		    }
+		});
+	}
+	
+	function getBankKind() {
+		$.ajax({
+		    url: '/heehee/bank',
+		    method: 'GET',
+		    success: function (data) {
+		    	var str = "<select name='bankSeq'>";
+		    			for(let i = 0; i < data.length; i++) {
+		    				str += "<option value='" + data[i].BANK_SEQ + "'>" + data[i].BANK + "</option>"
+		    			}
+		    	str += "</select>";
+		    	$("#bankSel").html(str);
+		    },error: function (data, status, err) {
+		    	console.log(err);
 		    }
 		});
 	}
@@ -373,10 +411,12 @@
                         <div>비밀번호 찾기</div>
                     </div>
                     <div class="modal_btn save" id="log_btn" onclick="login()">로그인</div>
-                    
-                    <div class="modal_btn google_save" id="google_log_btn">구글 로그인</div>
-                    <div class="modal_btn kakao_save" id="kakao_log_btn">카카오 로그인</div>
-                    <div class="modal_btn naver_save" id="naver_log_btn">네이버 로그인</div>
+                    <p style="margin: 10px 0 0 0; text-align: center; color: lightgray;">소셜 로그인</p>
+                    <div id="login_btn_area">
+                    	<img id="google_log_btn" alt="googleLoginButton" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/logo/web_light_rd_na%404x.png">
+                    	<img id="naver_log_btn" alt="naverLoginButton" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/logo/btnG_%EC%95%84%EC%9D%B4%EC%BD%98%EC%9B%90%ED%98%95.png">
+                    	<img id="kakao_log_btn" alt="kakaoLoginButton" src="https://sh-heehee-bucket.s3.ap-northeast-2.amazonaws.com/images/logo/image.webp">
+                    </div>
                     <div id="signup_btn" class="signup" onclick="join('signup')">회원가입</div>
                 </div>
                 <%-- 본인인증 --%>
@@ -431,11 +471,8 @@
                         	<input type="button" id="sms_auth_btn" class="dup_btn sms_auth_btn" value="인증하기">
                         	<div id="sms_auth_result" class="dup_result"></div>
                         </div>
-                        <div class="modal_bank">
-                            <select>
-                                <option>은행</option>
-                                <option>신한은행</option>
-                            </select>
+                        <div id="bankSel"class="modal_bank">
+                           <!-- 비동기로 불러옵니다 -->
                         </div>
                         <div class="modal_bank">
                             <input id="acc_num_input"type="text" placeholder="계좌번호를 입력하세요">

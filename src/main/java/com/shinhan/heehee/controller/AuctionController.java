@@ -25,12 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shinhan.heehee.dto.request.auction.AuctionHistoryDTO;
 import com.shinhan.heehee.dto.request.auction.AuctionInsertDTO;
+import com.shinhan.heehee.dto.response.CategoryDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdDTO;
 import com.shinhan.heehee.dto.response.auction.AuctionProdInfoDTO;
 import com.shinhan.heehee.dto.response.auction.SellerInfoResponseDTO;
 import com.shinhan.heehee.exception.AucListZeroException;
 import com.shinhan.heehee.service.AlarmService;
 import com.shinhan.heehee.service.AuctionService;
+import com.shinhan.heehee.service.MainService;
 import com.shinhan.heehee.service.MyPageService;
 import com.shinhan.heehee.service.ProductModifyService;
 
@@ -53,6 +55,9 @@ public class AuctionController {
 	@Autowired
 	AlarmService alarmService;
 	
+	@Autowired
+	MainService mainService;
+	
 	// 동시성 문제를 방지
 	private final ReentrantLock bidLock = new ReentrantLock();
 	
@@ -69,6 +74,8 @@ public class AuctionController {
 			int alarmCount = alarmService.alarmCount(principal.getName());
 			model.addAttribute("alarmCount",alarmCount);
 		}
+		List<CategoryDTO> mainCateList = mainService.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		return "/main/auction";
 	}
 
@@ -77,6 +84,8 @@ public class AuctionController {
 		AuctionProdInfoDTO aucProdInfo = auctionService.aucProdInfo(aucSeq);
 		if (aucProdInfo == null)
 			return "redirect:/auc";
+		
+		aucProdInfo.setIntroduce(aucProdInfo.getIntroduce().replace(" ", "&nbsp;").replace("\n", "<br>"));
 
 		if (principal != null) {
 			model.addAttribute("userId", principal.getName());
@@ -91,6 +100,9 @@ public class AuctionController {
 		model.addAttribute("aucProdInfo", aucProdInfo);
 		model.addAttribute("aucImgs", auctionService.aucProdImgList(aucSeq));
 		model.addAttribute("sellerInfo", sellerInfo);
+		
+		List<CategoryDTO> mainCateList = mainService.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		return "/auction/detail";
 	}
 
@@ -100,7 +112,6 @@ public class AuctionController {
 		if(seqArr == null) throw new AucListZeroException();
 		List<AuctionProdDTO> aucPriceList =  auctionService.aucPriceList(seqArr);
 		return aucPriceList;
-
 	}
 
 	@GetMapping("/regi")
@@ -113,6 +124,9 @@ public class AuctionController {
 		model.addAttribute("alarmCount",alarmCount);
 		
 		model.addAttribute("categoryList", productmodifyservice.category());
+		
+		List<CategoryDTO> mainCateList = mainService.mainCateList();
+		model.addAttribute("mainCateList", mainCateList); // header 카테고리
 		
 		return "/auction/aucProductRegi";
 	}
