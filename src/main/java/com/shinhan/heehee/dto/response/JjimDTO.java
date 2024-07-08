@@ -14,6 +14,7 @@ import lombok.ToString;
 public class JjimDTO {
 	private int productSeq;
 	private String articleTitle;
+	private String introduce;
 	private int productPrice;
 	private String deal;
 	private String id;
