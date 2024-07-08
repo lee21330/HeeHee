@@ -194,7 +194,10 @@ public class AuctionService {
 			}
 		}
 		
-		logger.info("-------------- 낙찰, 유찰, 택배 스케줄러 끝 ---------------");
+		mypageDAO.updateFirstDstatus();
+		mypageDAO.updateSecondDstatus();
+		
+		logger.info("-------------- 낙찰, 유찰, 택배 스케줄러 ---------------");
 	}
 
 }
