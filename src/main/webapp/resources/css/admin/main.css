@@ -17,7 +17,7 @@
 
 body {
 	font-family: 'Arial', SEBANG_Gothic_Bold;
-	height: 1080px;
+	height: 1080px; /* 원본은 1080px */
 }
 
 #bodyContainer {
@@ -36,22 +36,46 @@ body {
 
 .mainTitle {
 	color: rgb(73,73,233);
-	font-size: 30px;
+	font-size: 25px;
 }
 
 .searchTitle {
 	margin-top: 15px;
 }
 
-.searchTitle, .detailTitle {
+.searchTitle {
 	color: black;
-	font-size: 25px;
+	font-size: 20px;
 	padding-bottom: 5px;
 }
 
-.searchContext {
+.detailTitle {
 	color: black;
 	font-size: 20px;
+}
+
+.detailTitleUser {
+	color: black;
+	font-size: 20px;
+	margin-bottom: 3px;
+}
+
+.searchContextUser {
+	color: black;
+	font-size: 16px;
+	margin-right: 23px;
+	}
+
+.searchContext {
+	color: black;
+	font-size: 16px;
+	margin-right: 8px;
+	}
+
+.searchPeriodContext {
+	color: black;
+	font-size: 16px;
+	margin-right: 8px;
 	}
 	
 /* main container 중 기간검색 radio버튼에 대한 적용사항 */
@@ -63,9 +87,14 @@ body {
 .radioContainer {
     display: inline-block;
     border: 1px solid gray;
-    border-radius: 5px;
+ /*   border-radius: 5px;*/
     cursor: pointer;
     text-align: center;
+    margin-right: 5px;
+    font-size: 13px;
+    padding: 3px;
+    background-color: rgb(73, 73, 233);
+    color: white;
 }
 
 .radioContainer input[type="radio"] {
@@ -78,37 +107,91 @@ body {
 }
 
 .radioContainer input[type="radio"]:checked + label {
-    background-color: rgb(73, 73, 233);
-    color: white;
-    /* border-radius: 5px; */
-    /* padding: 5px 10px; */
+    color: rgb(210,223,81);
 }
 
 /* redio버튼 적용사항 끝 */
 
-.containerHeadBlock {
-	padding: 0px 15px 0px 15px;
-	background-color: rgb(171,195,255);
-	margin-right: 10px;
-}
-
 .radios {
 	font-size: 15px;
-	}
+}
+
+#saveNewButton, #saveEditButton {
+	padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+	background-color: rgb(210,223,81);
+	color: rgb(73,73,233);
+}
 
 .commonSmallBtn {
-	font-size: 15px;
+	font-size: 13px;
 	font-weight: 400;
 	font-family: 'Arial', SEBANG_Gothic_Bold;
 	color: white;
 	background-color: rgb(73,73,233);
 	border: 0px;
-	padding: 5px;
-	margin: 5px;
+	padding: 3px;
+	margin: 3px;
 	cursor: pointer;
 }
 
-.questionsBtn, .productDetailBtn {
+.commonSmallDetailBtn1 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right:70px;
+}
+
+.commonSmallDetailBtn2 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right: 35px;
+}
+.commonSmallDetailBtn3 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right: 0px;
+}
+
+.commonSmallDetailBtn4 {
+	font-size: 13px;
+	font-weight: 400;
+	font-family: 'Arial', SEBANG_Gothic_Bold;
+	color: white;
+	background-color: rgb(73,73,233);
+	border: 0px;
+	padding: 3px;
+	margin: 3px 3px 7px 3px;
+	cursor: pointer;
+	position: absolute;
+	right: 97px;
+}
+
+.mainMenuBtn {
 	font-size: 15px;
 	font-weight: 400;
 	font-family: 'Arial', SEBANG_Gothic_Bold;
@@ -116,23 +199,33 @@ body {
 	background-color: rgb(73,73,233);
 	border: 0px;
 	padding: 5px;
-	margin: 5px;
 	position: absolute;
-	right: 5px;
+	right: 2px;
+	bottom: 2px;
 }
 
 /* 같은 블록에 컨텐츠 배치할때 사용 */
 #midContainer {
 	display: flex;
 	align-items: center;
-	margin-bottom: 1px;
-	}
+	margin: 5px 0px 5px 0px;
+}
 	
 #btmContainer {
 	display: flex;
 	align-items: center;
-	}
+	margin: 0px 0px 5px;
+}
 
+#detailContainer {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+#searchCategory, #dateCategory {
+	margin-right: 5px;
+}
 
 /* Table styles - 공통 , 수정시 통합 수정 */
 
@@ -144,9 +237,10 @@ table {
 
 table tbody {
 	display: block;
-	max-height: 600px;
+	max-height: 690px;
 	overflow-y: scroll;
 	width: 100%;
+	border-bottom: 1px solid  rgba(0, 0, 0, 0.05);
 }
 
 table thead, table tbody tr {
@@ -156,25 +250,19 @@ table thead, table tbody tr {
 
 table thead tr th {
 	background-color: rgb(171,195,255);
-	padding: 5px 5px 5px 5px;
+	padding: 7px 5px 7px 5px;
 	border: 1px solid rgb(233, 233, 233);
 	font-size: 14px;
-
 }
 
 table tbody tr td {
-	padding: 5px 5px 5px 5px;
+	padding: 7px 5px 7px 5px;
 	border: 1px solid rgb(233, 233, 233);
 	word-wrap: break-word;
 	font-size:13px;
 }
 
 /* table 하위 수정시 메뉴 css */
-
-.updateContainer {
-    display: inline-block;
-	margin: 2.5px 5px 2.5px 5px;
-}
 
 .editRow {
     background-color: rgb(171,195,255);
@@ -185,64 +273,109 @@ table tbody tr td {
     background-color: rgb(171,195,255);
 }
 
-.productUpdate {
+.tableSubTitle {
+	font-size: 15px;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.updateContainer {
+    display: inline-flex;
+	margin: 2.5px 5px 2.5px 5px;
+}
+
+.editTitle {
     font-weight: bold;
     font-size: 15px;
+    text-align: center;
+    margin: auto;
 }
 
 .saveEditButton {
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
+	position: relative;
+    left: 30px;
+}
+
+.saveEditButtonSingle {
+	position: relative;
+    left: 20px;
 }
 
 .saveNewButton {
-	padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
+    position: relative;
+    left: 30px;
 }
 
-.saveEditButton:hover {
-	background-color: #45a049;
-}
-
-.saveNewButton:hover {
+.saveEditButton:hover, .saveNewButton:hover {
 	background-color: #45a049;
 }
 
 .singleInput {
-	width: 730px;
+	width: 800px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
+}
+
+.selectStatus {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
 }
 
 .doubleInputSmall {
 	width: 150px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
 }
 
 .doubleInputBigger {
-	width: 600px;
-	
+	width: 640px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
+}
+
+.qnaImageSize{
+	width: 60%;
+}
+
+/* 페이징처리 영역 */
+
+.pageButton {
+	background-color: white;
+	border: 1px solid rgb (73,73,233);
+	padding:5px;
+	cursor: pointer;
+	margin: 2px;
+}
+
+.pageButton.active {
+	background-color: rgb(73,73,233);
+	color: white;
+}
+
+.pageButton:hover {
+	background-color: lightgray;
 }
 
 /* 공용영역 끝 */
+
 /* 페이지별 영역 시작 */
 
 /* main.jsp */
-
-#totalOrderCol table th {
-	padding-left: 20px;
-	padding-right: 20px;
-}
 
 #mainTitleContainer {
 	display: flex;
 	justify-content: flex-start;
 	position: relative;
 	border-bottom: 3px solid rgb(233, 233, 233);
-	margin:20px 0px 5px 0px;
+	margin:23px 0px 5px 0px;
 }
 
 #mainTitleContainerTop {
@@ -253,6 +386,202 @@ table tbody tr td {
 	margin:0px 0px 5px 0px;
 }
 
+.mainTopTableContainer {
+	display: inline-flex;
+	justify-content: space-between;
+}
+
+.totalOrderDiv {
+	width: 41%;
+}
+
+.proStatusDiv, .aucStatusDiv {
+	width: 29%;
+}
+
+.totalOrderTable, .proStatusTable, .aucStatusTable  {
+	width: 100%;
+	text-align: center;
+}
+
+/* 전체 주문통계 */
+	/* 일반 주문건수 */
+
+table.totalOrderTable thead tr th:nth-child(1) {
+	font-size: 13px;
+}
+table.totalOrderTable thead tr th:nth-child(1),
+table.totalOrderTable tbody tr td:nth-child(1) {
+	width: 23%;
+}
+	/* 일반 주문액 */
+table.totalOrderTable thead tr th:nth-child(2) {
+	width: 27%;
+	font-size: 13px;
+}
+table.totalOrderTable tbody tr td:nth-child(2) {
+	width: 27%;
+	text-align: right;
+}
+	/* 경매 주문건수 */
+table.totalOrderTable thead tr th:nth-child(3) {
+	font-size: 13px;
+}
+table.totalOrderTable thead tr th:nth-child(3),
+table.totalOrderTable tbody tr td:nth-child(3) {
+	width: 23%;
+}
+	/* 경매 주문액 */
+table.totalOrderTable thead tr th:nth-child(4) {
+	width: 27%;
+	font-size: 13px;
+}
+table.totalOrderTable tbody tr td:nth-child(4) {
+	width: 27%;
+	text-align: right;
+}
+	/* 상품 - 판매중 */
+table.proStatusTable thead tr th:nth-child(1),
+table.proStatusTable tbody tr td:nth-child(1) {
+	width: 20%;
+}
+	/* 상품 - 예약중 */
+table.proStatusTable thead tr th:nth-child(2),
+table.proStatusTable tbody tr td:nth-child(2) {
+	width: 20%;
+}
+	/* 상품 - 거래완료 */
+table.proStatusTable thead tr th:nth-child(3),
+table.proStatusTable tbody tr td:nth-child(3) {
+	width: 30%;
+}
+	/* 상품 - 판매중지 */
+table.proStatusTable thead tr th:nth-child(4),
+table.proStatusTable tbody tr td:nth-child(4) {
+	width: 30%;
+}
+	/* 경매 - 입찰 */
+table.aucStatusTable thead tr th:nth-child(1),
+table.aucStatusTable tbody tr td:nth-child(1) {
+	width: 20%;
+}
+	/* 경매 - 낙찰 */
+table.aucStatusTable thead tr th:nth-child(2),
+table.aucStatusTable tbody tr td:nth-child(2) {
+	width: 20%;
+}
+	/* 경매 - 거래완료 */
+table.aucStatusTable thead tr th:nth-child(3),
+table.aucStatusTable tbody tr td:nth-child(3) {
+	width: 30%;
+}
+	/* 경매 - 판매중지 */
+table.aucStatusTable thead tr th:nth-child(4),
+table.aucStatusTable tbody tr td:nth-child(4) {
+	width: 30%;
+}
+/* 전체 주문통계 끝 */
+
+/* 최근 등록내역 */
+	/* 등록번호 */
+table.recentProductTable thead tr th:nth-child(1),
+table.recentProductTable tbody tr td:nth-child(1) {
+	width: 8%;
+	text-align: center;
+}
+	/* 구매자ID */
+table.recentProductTable thead tr th:nth-child(2),
+table.recentProductTable tbody tr td:nth-child(2) {
+	width: 13%;
+}
+	/* 판매자ID */
+table.recentProductTable thead tr th:nth-child(3),
+table.recentProductTable tbody tr td:nth-child(3) {
+	width: 13%;
+}
+	/* 품목명 */
+table.recentProductTable thead tr th:nth-child(4),
+table.recentProductTable tbody tr td:nth-child(4) {
+	width: 37%;
+}
+	/* 거래상태 */
+table.recentProductTable thead tr th:nth-child(5),
+table.recentProductTable tbody tr td:nth-child(5) {
+	width: 8%;
+	text-align: center;
+}
+	/* 거래금액 */
+table.recentProductTable thead tr th:nth-child(6) {
+	width: 11%;
+	text-align: center;
+}
+table.recentProductTable tbody tr td:nth-child(6) {
+	width: 11%;
+	text-align: right;
+}
+	/* 등록일 */
+table.recentProductTable thead tr th:nth-child(7),
+table.recentProductTable tbody tr td:nth-child(7) {
+	width: 10%;
+	text-align: center;
+}
+/* 최근 주문내역 끝 */
+
+/* 최근 문의내역 */
+	/* 작성자ID */
+table.recentQuestionTable thead tr th:nth-child(1),
+table.recentQuestionTable tbody tr td:nth-child(1) {
+	width: 13%;
+}
+	/* 처리현황 */
+table.recentQuestionTable thead tr th:nth-child(2),
+table.recentQuestionTable tbody tr td:nth-child(2) {
+	width: 8%;
+	text-align: center;
+}
+	/* 제목 */
+table.recentQuestionTable thead tr th:nth-child(3),
+table.recentQuestionTable tbody tr td:nth-child(3) {
+	width: 69%;
+}
+	/* 작성일 */
+table.recentQuestionTable thead tr th:nth-child(4),
+table.recentQuestionTable tbody tr td:nth-child(4) {
+	width: 10%;
+	text-align: center;
+}
+/* 최근 문의내역 끝 */
+
+/* 최근 회원가입 */
+	/* 회원ID */
+table.recentJoinTable thead tr th:nth-child(1),
+table.recentJoinTable tbody tr td:nth-child(1) {
+	width: 13%;
+}
+	/* 회원명 */
+table.recentJoinTable thead tr th:nth-child(2),
+table.recentJoinTable tbody tr td:nth-child(2) {
+	width: 10%;
+}
+	/* 이메일 */
+table.recentJoinTable thead tr th:nth-child(3),
+table.recentJoinTable tbody tr td:nth-child(3) {
+	width: 54%;
+}
+	/* 전화번호 */
+table.recentJoinTable thead tr th:nth-child(4),
+table.recentJoinTable tbody tr td:nth-child(4) {
+	width: 13%;
+	text-align: center;
+}
+	/* 가입일 */
+table.recentJoinTable thead tr th:nth-child(5),
+table.recentJoinTable tbody tr td:nth-child(5) {
+	width: 10%;
+	text-align: center;
+}
+/* 최근 회원가입 끝 */
+
 /* main.jsp 끝 */
 
 /* user.jsp */
@@ -260,40 +589,39 @@ table tbody tr td {
 #searchContainer {
 	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 }
+
 	/* 회원명 */
 .userTable table thead tr th:nth-child(1),
-.userTable table tbody tr td:nth-child(1) {
-	width: 6%;
+.userTable tbody tr td:nth-child(1) {
+	width: 10%;
 	text-align: center;
-	
 }
 	/* 아이디 */
-.userTable table thead tr th:nth-child(2),
-.userTable table tbody tr td:nth-child(2) {
+.userTable thead tr th:nth-child(2),
+.userTable tbody tr td:nth-child(2) {
 	width: 13%;
-	text-align: center;
 }
 	/* 이메일 */
-.userTable table thead tr th:nth-child(3),
-.userTable table tbody tr td:nth-child(3) {
-	width: 20%;
+.userTable thead tr th:nth-child(3),
+.userTable tbody tr td:nth-child(3) {
+	width: 18%;
 }
 	/* 전화번호 */
-.userTable table thead tr th:nth-child(4),
-.userTable table tbody tr td:nth-child(4) {
+.userTable thead tr th:nth-child(4),
+.userTable tbody tr td:nth-child(4) {
 	width: 13%;
 	text-align: center;
 }
 	/* 주소 */
-.userTable table thead tr th:nth-child(5),
-.userTable table tbody tr td:nth-child(5) {
-	width: 38%;
+.userTable thead tr th:nth-child(5),
+.userTable tbody tr td:nth-child(5) {
+	width: 36%;
 }
 	/* 가입입 */
-.userTable table thead tr th:nth-child(6),
-.userTable table tbody tr td:nth-child(6) {
+.userTable thead tr th:nth-child(6),
+.userTable tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
 }
@@ -307,43 +635,104 @@ table tbody tr td {
 .userBanTable table tbody tr td:nth-child(1) {
 	width: 4%;
 }
-	/* 상태 */
+
+	/* 회원명 */
 .userBanTable table thead tr th:nth-child(2),
 .userBanTable table tbody tr td:nth-child(2) {
-	width: 4%;
-	text-align: center;
-}
-	/* 회원명 */
-.userBanTable table thead tr th:nth-child(3),
-.userBanTable table tbody tr td:nth-child(3) {
 	width: 6%;
 	text-align: center;
 }
+
 	/* 아이디 */
-.userBanTable table thead tr th:nth-child(4),
-.userBanTable table tbody tr td:nth-child(4) {
+.userBanTable table thead tr th:nth-child(3),
+.userBanTable table tbody tr td:nth-child(3) {
 	width: 13%;
 }
+
 	/* 정지내용 */
+.userBanTable table thead tr th:nth-child(4),
+.userBanTable table tbody tr td:nth-child(4) {
+	width: 57%;
+}
+
+	/* 시작일 */
 .userBanTable table thead tr th:nth-child(5),
 .userBanTable table tbody tr td:nth-child(5) {
-	width: 53%;
+	width: 10%;
+	text-align: center;
 }
-	/* 시작일 */
+
+	/* 종료일 */
 .userBanTable table thead tr th:nth-child(6),
 .userBanTable table tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
 }
-	/* 종료일 */
-.userBanTable table thead tr th:nth-child(7),
-.userBanTable table tbody tr td:nth-child(7) {
-	width: 10%;
-	text-align: center;
+
+/* userBan 수정 관련 */
+.userbanEditInput {
+	width:530px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 10px;
 }
 
-.userbanInput {
-	width:500px;
+.userBanStr {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
+}
+
+.userBanEnd {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 30px;
+}
+
+.saveEditButtonBan {
+	position: relative;
+    left: 40px;
+}
+
+/* userBan 신규등록 관련 */
+.userBanIdInput {
+	width: 135px;
+	height: 26px;
+	margin: auto;
+	align-items: center;
+	position: relative;
+	left: 10px;
+}
+
+.userBanContentInput {
+	width: 395px;
+	height: 26px;
+	margin: auto;
+    align-items: center;
+	position: relative;
+	left: 20px;
+}
+
+.userBanStr2 {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 30px;
+}
+
+.userBanEnd2 {
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 40px;
+}
+
+.saveNewButtonBan {
+	position: relative;
+    left: 50px;
 }
 
 /* user-ban.jsp 끝 */
@@ -369,7 +758,7 @@ table tbody tr td {
 	/* 세부 카테고리 */
 .productInfoTable table thead tr th:nth-child(4),
 .productInfoTable table tbody tr td:nth-child(4) {
-	width: 10%;
+	width: 20%;
 }
 	/* 아이디 */
 .productInfoTable table thead tr th:nth-child(5),
@@ -379,7 +768,7 @@ table tbody tr td {
 	/* 제목 */
 .productInfoTable table thead tr th:nth-child(6),
 .productInfoTable table tbody tr td:nth-child(6) {
-	width: 41%;
+	width: 31%;
 }
 	/* 게시일 */
 .productInfoTable table thead tr th:nth-child(7),
@@ -394,47 +783,77 @@ table tbody tr td {
 	text-align: center;
 }
 
+.singleInputPro {
+	width: 720px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
+}
+
 /* product.jsp, auction.jsp 끝 */
 
 /* category.jsp */
-.categoryTable table {
-	width: 70%;
+
+.categoryTable table tbody tr td:nth-child(1).rowCheckbox {
+	text-align: center;
 }
+
 	/* 선택 */
 .categoryTable table thead tr th:nth-child(1),
 .categoryTable table tbody tr td:nth-child(1) {
-	width: 8%;
+	width: 4%;
 }
+
 	/* 번호 */
 .categoryTable table thead tr th:nth-child(2),
 .categoryTable table tbody tr td:nth-child(2) {
-	width: 14%;
+	width: 8%;
 	text-align: center;
 }
 	/* 카테고리 */
 .categoryTable table thead tr th:nth-child(3),
 .categoryTable table tbody tr td:nth-child(3) {
-	width: 34%;
+	width: 21%;
 }
 	/* 세부 카테고리 */
 .categoryTable table thead tr th:nth-child(4),
 .categoryTable table tbody tr td:nth-child(4) {
-	width: 44%;
+	width: 47%;
+}
+
+	/* 작성자ID */
+.categoryTable table thead tr th:nth-child(5),
+.categoryTable table tbody tr td:nth-child(5) {
+	width: 10%;
+	text-align: center;
+}
+
+	/* 작성일 */
+.categoryTable table thead tr th:nth-child(6),
+.categoryTable table tbody tr td:nth-child(6) {
+	width: 10%;
+	text-align: center;
 }
 
 	/* 카테고리 수정, 신규등록 Input */
 .categoryInputSmall {
 	width: 150px;
-	margin-left: 5px;
+	height: 26px;
+	margin: auto;
 	align-items: center;
+	position: relative;
+	left: 10px;
 	
 }
 .categoryInputBigger {
-	width: 350px;
-    margin-right: 5px;
+	width: 640px;
+	height: 26px;
+	margin: auto;
     align-items: center;
+	position: relative;
+	left: 20px;
 }
-
 
 /* category.jsp 끝 */
 
@@ -451,24 +870,30 @@ table tbody tr td {
 	width: 7%;
 	text-align: center;
 }
-	/* 유형 */
+	/* 처리현황 */
 .qnaTable table thead tr th:nth-child(3),
 .qnaTable table tbody tr td:nth-child(3) {
+	width: 8%;
+	text-align: center;
+}
+	/* 유형 */
+.qnaTable table thead tr th:nth-child(4),
+.qnaTable table tbody tr td:nth-child(4) {
 	width: 14%;
 }
 	/* 제목 */
-.qnaTable table thead tr th:nth-child(4),
-.qnaTable table tbody tr td:nth-child(4) {
-	width: 52%;
-}
-	/* 아이디 */
 .qnaTable table thead tr th:nth-child(5),
 .qnaTable table tbody tr td:nth-child(5) {
+	width: 44%;
+}
+	/* 아이디 */
+.qnaTable table thead tr th:nth-child(6),
+.qnaTable table tbody tr td:nth-child(6) {
 	width: 13%;
 }
 	/* 작성일 */
-.qnaTable table thead tr th:nth-child(6),
-.qnaTable table tbody tr td:nth-child(6) {
+.qnaTable table thead tr th:nth-child(7),
+.qnaTable table tbody tr td:nth-child(7) {
 	width: 10%;
 	text-align: center;
 }
@@ -484,7 +909,6 @@ table tbody tr td {
 .qnaContentContainer {
 	margin-top: 20px;
 	display:inline-block;
-	
 }
 
 /* qnaManager.jsp 끝 */
@@ -510,18 +934,40 @@ table tbody tr td {
 	/* 제목 */
 .faqTable table thead tr th:nth-child(4),
 .faqTable table tbody tr td:nth-child(4) {
-	width: 52%;
+	width: 55%;
 }
 	/* 아이디 */
 .faqTable table thead tr th:nth-child(5),
 .faqTable table tbody tr td:nth-child(5) {
-	width: 13%;
+	width: 10%;
+	text-align: center;
 }
 	/* 작성일 */
 .faqTable table thead tr th:nth-child(6),
 .faqTable table tbody tr td:nth-child(6) {
 	width: 10%;
 	text-align: center;
+}
+
+.editFaqContentInput {
+	width: 200px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 20px;
+}
+
+.editFaqAnsInput {
+	width: 460px;
+	height: 26px;
+	margin: auto;
+	position: relative;
+	left: 30px;
+}
+
+.saveEditButtonFaq, .saveNewButtonFaq {
+	position: relative;
+    left: 40px;
 }
 
 /* faqManager.jsp 끝 */
@@ -547,7 +993,18 @@ table tbody tr td {
 	/* 내용 */
 .qnaManagerTable table thead tr th:nth-child(4),
 .qnaManagerTable table tbody tr td:nth-child(4) {
-	width: 72%;
+	width: 52%;
 }
-
+	/* 작성자ID */
+.qnaManagerTable table thead tr th:nth-child(5),
+.qnaManagerTable table tbody tr td:nth-child(5) {
+	width: 10%;
+	text-align: center;
+}
+	/* 작성일 */
+.qnaManagerTable table thead tr th:nth-child(6),
+.qnaManagerTable table tbody tr td:nth-child(6) {
+	width: 10%;
+	text-align: center;
+}
 /* questiomManager.jsp 끝 */

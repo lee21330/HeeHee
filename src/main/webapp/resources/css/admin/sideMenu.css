@@ -1,61 +1,89 @@
 @charset "UTF-8";
 
 @font-face {
-    font-family: 'SEBANG_Gothic_Bold';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'SEBANG_Gothic_Bold';
+	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 /* side mednu 관련 */
 
 #sideMenuContainer {
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: fixed;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 4px 0px;
+	width: 250px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	position: fixed;
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 4px 0px;
 }
 
-#sideMenuContainer ul {
-	margin-left: 15px;
-    width: 100%;
-    position: relative;
+ul {
+	width: 100%;
+	position: relative;
 }
 
-#sideMenuContainer ul li {
+li {
 	font-size: 25px;
+	margin: 3px 0;
+	list-style: none;
 }
 
-#sideMenuContainer li {
-    margin: 20px 0;
-    list-style: none;
-    font-size: 20px;
+li a {
+	text-decoration: none;
+	color: black;
+	display: block;
+	padding: 10px;
 }
 
-#sideMenuContainer li a {
-    text-decoration: none;
-    color: black;
+li a.movePage:hover {
+	background-color: rgb(63, 81, 161);
+	color: white;
 }
 
-/* #sideMenuContainer li a:hover {
-    background-color: lightgray;
-} */
+li a.dropdownMenu:hover {
+	background-color: rgb(63, 81, 161);
+	color: white;
+}
+
+/* 클릭된 메뉴에 대한 컬러 변경 */
+.click {
+	background-color: rgb(63, 81, 161);
+	color: white;
+}
 
 .dropdown > a {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .submenu {
-    display: none;
-    list-style-type: none;
-    padding-left: 20px;
+	display: none;
+	list-style-type: none;
 }
 
-.submenu li a {
-    font-size: 22px;
+.submenu li a.middleMenu {
+	font-size: 22px;
+	background-color: rgb(171, 195, 255);
 }
+
+.submenu li a.movePage {
+	font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

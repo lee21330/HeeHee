@@ -30,21 +30,27 @@ public class adminQuestionManagerDTO {
 	//작성일 - QNA_OPTION
 	private Date createDate;
 	
+	//페이징 처리를 위한 변수
+	private int size;
+	private int page;
+	
 	//삭제용 - 파라미터 1개 생성자 추가
 	public adminQuestionManagerDTO(int seqQnaOption) {
 		this.seqQnaOption = seqQnaOption;
 	}
 	
-	//신규등록용 - 파라미터 2개 생성자 추가
-	public adminQuestionManagerDTO(String qnaOption, String qnaOptionContent) {
+	//신규등록용 - 파라미터 3개 생성자 추가
+	public adminQuestionManagerDTO(String qnaOption, String qnaOptionContent, String id) {
 		this.qnaOption = qnaOption;
 		this.qnaOptionContent = qnaOptionContent;
+		this.id = id;
 	}
 	
-	//수정용 - 파라미터 3개 생성자 추가
-	public adminQuestionManagerDTO(int seqQnaOption, String qnaOption, String qnaOptionContent) {
+	//수정용 - 파라미터 4개 생성자 추가
+	public adminQuestionManagerDTO(int seqQnaOption, String qnaOption, String qnaOptionContent, String id) {
 		this.seqQnaOption = seqQnaOption;
 		this.qnaOption = qnaOption;
 		this.qnaOptionContent = qnaOptionContent;
+		this.id = id;
 	}
 }

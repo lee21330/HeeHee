@@ -132,9 +132,11 @@
 		    	location.reload();
 		    },
 		    error: function (xhr, status, err) {
-		    	if (xhr.status === 404) {
+				if (xhr.status === 404) {
 	                showTost("존재하지 않는 계정입니다.");
-	            } else {
+	            } else if (xhr.status === 403) {
+	            	location.href = "/heehee/ban?userId=" + userId;
+	            }else {
 	                showTost("로그인 중 오류가 발생했습니다. 다시 시도해 주세요.");
 	            }
 		    }

@@ -9,13 +9,71 @@
 	<!-- 관리자 홈 관련 SQL문 -->
 	
 	<!-- 전체 주문통계 조회 (기능: 전체 주문관련 모니터링용 대시보드 항목 조회) -->
+	<!-- 전체 주문현황 -->
+	<select id="searchTotalOrder" resultType="adminMainVO">
+		SELECT
+		    (SELECT COUNT(*) FROM SELL_PRODUCT) AS SELL_PRO_CTN,
+		    (SELECT SUM(PRODUCT_PRICE) FROM SELL_PRODUCT) AS SELL_PRO_PRICE_SUM,
+		    (SELECT COUNT(*) FROM AUC_PRODUCT) AS AUC_PRO_CTN,
+		    (SELECT SUM(START_PRICE) FROM AUC_PRODUCT) AS AUC_PRO_PRICE_SUM
+		FROM DUAL
+	</select>
 	
+	<!-- 일반상품 주문현황 -->
+	<select id="searchProStatus" resultType="adminMainVO">
+		SELECT 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='판매중') AS SELL_ING, 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='예약중') AS SELL_RES, 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='거래완료') AS SELL_END, 
+			(SELECT COUNT(*) FROM SELL_PRODUCT WHERE PRO_STATUS ='판매중지') AS SELL_STOP
+		FROM DUAL
+	</select>
 	
-	<!-- 최근 주문내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회) -->
+	<!-- 경매상품 주문현황 -->
+	<select id="searchAucStatus" resultType="adminMainVO">
+		SELECT 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='입찰') AS AUC_ING, 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='낙찰') AS AUC_RES, 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='거래완료') AS AUC_END, 
+			(SELECT COUNT(*) FROM AUC_PRODUCT WHERE AUC_STATUS ='판매중지') AS AUC_STOP
+		FROM DUAL
+	</select>
 	
+	<!-- 최근 등록내역 조회 (기능: 최근 주문관련 모니터링용 대시보드 항목 조회) -->
+	<select id="searchRecentProduct" resultType="adminProductVO">
+	<![CDATA[
+	SELECT PRODUCT_SEQ , BUYER_ID , ID , ARTICLE_TITLE , PRO_STATUS , PRODUCT_PRICE , CREATE_DATE
+	FROM (SELECT sq.PRODUCT_SEQ , dh.BUYER_ID , sq.ID , sq.ARTICLE_TITLE , sq.PRO_STATUS , sq.PRODUCT_PRICE , sq.CREATE_DATE
+			FROM SELL_PRODUCT sq
+			LEFT JOIN DEAL_HISTORY dh ON sq.PRODUCT_SEQ = dh.SELL_SEQ
+			ORDER BY CREATE_DATE DESC
+			)
+	WHERE ROWNUM <= 5
+	]]>
+	</select>
 	
 	<!-- 최근 문의내역 조회 (기능: 최근 문의관련 모니터링용 대시보드 항목 조회) -->
-	
+	<select id="searchRecentQuestion" resultType="adminQnaManagerVO">
+	<![CDATA[
+		SELECT ID , QNA_ANS , QNA_TITLE , QNA_TIME
+		FROM (SELECT ID , QNA_ANS , QNA_TITLE , QNA_TIME
+				FROM QNA_BOARD
+				ORDER BY QNA_TIME DESC
+				)
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
+	<!-- 최근 회원가입 조회 (기능: 최근 가입회원 모니터링용 대시보드 항목 조회) -->
+	<select id="searchRecentJoin" resultType="adminUserVO">
+		<![CDATA[
+		SELECT ID , NAME , EMAIL , PHONE_NUM , CREATE_DATE 
+		FROM (SELECT ID , NAME , EMAIL , PHONE_NUM , CREATE_DATE 
+				FROM HH_USER
+				ORDER BY CREATE_DATE DESC
+				)
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
 	
 	<!-- 관리자 홈 끝 -->
 	
@@ -50,33 +108,52 @@
 	
 	<!-- 회원정보 관리 - 이용상태 관리 - 조회 기능 (기능 : 키워드, 날짜로 필터검색 가능, 수정사항 : 시작일,종료일이 null 이거나 현재 날짜가 시작일과 종료일 사이에 포함되지 않는 회원은 조회되지 않도록 수정 예정) -->
 	<select id="userBanSearch" resultType="adminUserBanVO">
-		SELECT hh.NAME, hh.ID, bh.BAN_CONTENT, bh.BAN_STR , bh.BAN_END
-		FROM HH_USER hh
-		LEFT JOIN BAN_HISTORY bh ON hh.ID = bh.ID
-		WHERE 1=1
+		SELECT hh.NAME, hh.ID, bh.BAN_CONTENT, bh.BAN_STR, bh.BAN_END
+	    FROM HH_USER hh
+	    INNER JOIN BAN_HISTORY bh ON hh.ID = bh.ID
+		WHERE SYSDATE BETWEEN bh.BAN_STR AND bh.BAN_END
+				AND 1=1
         <if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
             <choose>
                 <when test="category == 'memberName'">
-                    AND NAME LIKE '%' || #{keyword} || '%'
+                    AND hh.NAME LIKE '%' || #{keyword} || '%'
                 </when>
                 <when test="category == 'userID'">
-                    AND ID LIKE '%' || #{keyword} || '%'
+                    AND bh.ID LIKE '%' || #{keyword} || '%'
                 </when>
             </choose>
         </if>
+        <!-- 향후 개선하여 추가 구현 예정
         <if test="startDate != null and !startDate.isEmpty()">
             AND CREATE_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
         </if>
         <if test="endDate != null and !endDate.isEmpty()">
             AND CREATE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
         </if>
+         -->
 	</select>
 	
 	<!-- 회원정보 관리 - 이용상태 관리 - 신규 등록 기능 (기능 : 정지사유, 정지 시작일, 종료일 신규입력, 정지하고자 하는 회원의 id를 입력 후 정지사유와 종료일을 입력하도록 구성한다. 시작일은 sysdate로 받아오면 좋을듯) -->
+	<insert id="insertBanUser">
+		INSERT INTO BAN_HISTORY (ID, BAN_CONTENT, BAN_STR, BAN_END)
+		VALUES (#{id}, #{banContent}, #{banStr}, #{banEnd})
+	</insert>
 	
+	<!-- 회원정보 관리 - 이용상태 관리 - 삭제 기능 (기능 : 선택된 회원의 정지기록을 삭제함) -->
+	<delete id="deleteUserBan">
+		DELETE FROM BAN_HISTORY bh 
+		WHERE ID = #{id} AND BAN_STR = TO_DATE(#{banStrSt} ,'YYYY-MM-DD')
+	</delete>
 	
-	<!-- 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 id를 가입된 회원의 아이디로 입력하여, 그 회원의 정지일을 변경할 수 있도록 구성 예정) -->
-	
+	<!-- 기능 변경 : 수정기능 삭제 후 삭제기능 추가 -->
+	<!-- 회원정보 관리 - 이용상태 관리 - 수정 기능 (기능 : 정지하고자 하는 회원의 정지일을 변경할 수 있도록 구성 예정) -->
+	<!--<update id="updateBanUser">
+		UPDATE BAN_HISTORY 
+		SET BAN_CONTENT = #{banContent}, 
+			BAN_STR = #{banStr},
+			BAN_END = #{banEnd}
+		WHERE ID = #{id}
+	</update>-->
 	
 	<!-- 회원정보 끝 -->
 	
@@ -118,7 +195,7 @@
 	</select>
 	
 	<!-- 상품 관리 - 일반상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능) -->
-	<select id="getProductBanReason" resultType="AdminProductVO">
+	<select id="getProductBanReason" resultType="adminProductVO">
 		SELECT PRODUCT_SEQ, PRODUCT_BAN_REASON
 		FROM SELL_PRODUCT
 		WHERE PRODUCT_SEQ = #{productSeq}
@@ -174,7 +251,7 @@
 	</select>
 	
 	<!-- 상품 관리 - 경매상품 상세조회 - 수정(정지사유 조회) 기능 (기능 : 관리자가 선택된 게시글의 판매중지 사유를 열람 가능) -->
-	<select id="getAucBanReason" resultType="AdminAuctionVO">
+	<select id="getAucBanReason" resultType="adminAuctionVO">
 		SELECT PRODUCT_SEQ, AUC_BAN_REASON
 		FROM AUC_PRODUCT
 		WHERE PRODUCT_SEQ = #{productSeq}
@@ -197,7 +274,7 @@
 						 
 	<!-- 상품 관리 - 카테고리 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) - 특이사항 : 향후 제품단위로 추가 상세분류가 필요하면 기능이 늘어날 수 있음 -->
 	<select id="searchCategoryInfo" resultType="adminCategoryVO">
-		SELECT pc.PRODUCT_CATE_SEQ AS PRODUCT_CATE_SEQ , pc.CATEGORY AS CATEGORY , pc.DETAIL_CATEGORY AS DETAIL_CATEGORY 
+		SELECT pc.PRODUCT_CATE_SEQ , pc.CATEGORY , pc.DETAIL_CATEGORY , pc.ID , pc.CREATE_DATE 
 		FROM PRODUCT_CATEGORY pc
 		WHERE 1=1
 		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
@@ -218,17 +295,27 @@
 	
 	<!-- 상품 관리 - 카테고리 관리 - 신규 등록 기능 (기능 : 수기 입력받은 카테고리와 세부 카테고리를 Insert 함) -->
 	<insert id="insertCategory">
-		INSERT INTO PRODUCT_CATEGORY pc 
-		VALUES (SEQ_PROD_CATE.NEXTVAL, #{category}, #{detailCategory})	
+		INSERT INTO PRODUCT_CATEGORY pc (PRODUCT_CATE_SEQ, CATEGORY, DETAIL_CATEGORY, ID, CREATE_DATE)
+		VALUES (SEQ_PROD_CATE.NEXTVAL, #{category}, #{detailCategory}, #{id}, SYSDATE)
 	</insert>
 	
 	<!-- 상품 관리 - 카테고리 관리 - 수정 기능 (기능 : 선택된 기존의 카테고리 항목의 카테고리와 세부 카테고리를 새로운 내용으로 Update 함) -->
 	<update id="updateCategory">
 		UPDATE PRODUCT_CATEGORY pc 
 		SET pc.CATEGORY = #{category}, 
-			pc.DETAIL_CATEGORY = #{detailCategory}
+			pc.DETAIL_CATEGORY = #{detailCategory},
+			pc.ID = #{id},
+			pc.CREATE_DATE = SYSDATE
 		WHERE pc.PRODUCT_CATE_SEQ = #{productCateSeq}
 	</update>
+	
+	<!-- id, date 추가용 임시-->
+	<!--<update id="dbset" parameterType="int">
+		UPDATE PRODUCT_CATEGORY 
+		SET CREATE_DATE = '2024-06-01',
+			ID = 'admin'
+		WHERE PRODUCT_CATE_SEQ = #{productCateSeq}
+	</update>-->
 	
 	<!-- 상품 관리 - 카테고리 관리 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
 	<delete id="deleteCategory">
@@ -243,7 +330,7 @@
 	
 	<!-- 고객 지원 - 1:1 상담문의 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
 	<select id="searchQnaAll" resultType="adminQnaManagerVO">
-		SELECT qb.SEQ_QNA_BNO , qo.QNA_OPTION , qb.QNA_TITLE , qb.ID , qb.QNA_TIME 
+		SELECT qb.SEQ_QNA_BNO , qo.QNA_OPTION , qb.QNA_TITLE , qb.ID , qb.QNA_TIME ,qb.QNA_ANS
 		FROM QNA_BOARD qb 
 		LEFT JOIN QNA_OPTION qo ON qb.SEQ_QNA_OPTION = qo.SEQ_QNA_OPTION
 		WHERE 1=1
@@ -266,11 +353,19 @@
 		ORDER BY qb.SEQ_QNA_BNO ASC
 	</select>
 	
-	<!-- 고객 지원 - 1:1 상담문의 - 열람/답변 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능) -->
+	<!-- 고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능) -->
 	<select id="getQnaContent" parameterType="int" resultType="adminQnaManagerVO">
 		SELECT qb.SEQ_QNA_BNO , qb.QNA_CONTENT , qb.QNA_ANS
 		FROM QNA_BOARD qb
 		WHERE qb.SEQ_QNA_BNO = #{seqQnaBno}
+	</select>
+	
+	<!-- 고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 열람(이미지) 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능) -->
+	<select id="getQnaImage" resultType="adminQnaManagerVO">
+		SELECT if2.IMG_NAME 
+		FROM IMG_FILES if2 
+		WHERE if2.TABLE_PK = #{seqQnaBno}
+			AND if2.IMG_CATE_SEQ = 4
 	</select>
 	
 	<!-- 고객 지원 - 1:1 상담문의 - 열람/답변 중 답변 기능 (기능 : 선택된 항목에 대한 답변내용 작성 및 Update 가능) -->
@@ -281,7 +376,7 @@
 	</update>
 	
 	<!-- 고객 지원 - 1:1 상담문의 - 삭제 기능 (기능 : 선택된 항목의 데이터 삭제) -->
-	<delete id="deleteQna">
+	<delete id="deleteQnaContent">
 		DELETE FROM QNA_BOARD qb
 		WHERE qb.SEQ_QNA_BNO = ${seqQnaBno}
 	</delete>
@@ -312,7 +407,10 @@
 	</select>
 	
 	<!-- 고객 지원 - FAQ 내용관리 - 신규 등록 기능 (기능 : 문의유형 관리에 등록되어있는 유형을 select하여 선택된 유형과, 수기 입력받은 FAQ 제목, 내용을 Insert 함) -->
-
+	<insert id="insertFaq">
+		INSERT INTO FAQ_BOARD fb (SEQ_FAQ_BNO, FAQ_CONTENT, FAQ_ANS, OPTION_SEQ, FAQ_TIME, ID)
+		VALUES(SEQ_FAQ_BNO.NEXTVAL, #{faqContent}, #{faqAns}, #{seqQnaOption}, SYSDATE, #{id})
+	</insert>
 	
 	<!-- 고객 지원 - FAQ 내용관리 - 열람/수정 중 열람 기능 (기능 : 선택된 항목의 문의 상세내용 열람 가능) -->
 	<select id="getFaqContent" resultType="adminFaqManagerVO">
@@ -326,13 +424,15 @@
 		UPDATE FAQ_BOARD 
 		SET OPTION_SEQ = #{seqQnaOption},
 			FAQ_CONTENT = #{faqContent},
-			FAQ_ANS = #{faqAns}
+			FAQ_ANS = #{faqAns},
+			ID = #{id},
+			FAQ_TIME = SYSDATE
 		WHERE SEQ_FAQ_BNO = #{seqFaqBno}
 	</update>
 	
-	<!-- 고객 지원 - FAQ 내용관리 - 열람/수정 중 수정 기능 (기능 : 문의유형을 동적으로 받아와 줌) -->
+	<!-- 고객 지원 - FAQ 내용관리 - 열람/수정 중 수정(문의유형 선택) 기능 (기능 : 문의유형을 동적으로 받아와 줌) -->
 	<select id="getQnaOptions" resultType="adminQuestionManagerVO">
-		SELECT SEQ_QNA_OPTION AS seqQnaOption, QNA_OPTION AS qnaOption, QNA_OPTION_CONTENT AS qnaOptionContent
+		SELECT SEQ_QNA_OPTION, QNA_OPTION, QNA_OPTION_CONTENT
 		FROM QNA_OPTION qo
 	</select>
 	
@@ -344,7 +444,7 @@
 	
 	<!-- 고객 지원 - 문의 유형 관리 - 조회 기능 (기능 : 키워드로 필터검색 가능) -->
 	<select id="searchQuestionCategory" resultType="adminQuestionManagerVO">
-		SELECT qo.SEQ_QNA_OPTION , qo.QNA_OPTION , qo.QNA_OPTION_CONTENT 
+		SELECT qo.SEQ_QNA_OPTION , qo.QNA_OPTION , qo.QNA_OPTION_CONTENT , qo.ID , qo.CREATE_DATE
 		FROM QNA_OPTION qo
 		WHERE 1=1
 		<if test="category != null and keyword != null and !category.isEmpty() and !keyword.isEmpty()">
@@ -363,14 +463,16 @@
 	<!-- 고객 지원 - 문의 유형 관리 - 신규 등록 (기능 : 수기 입력받은 유형과 내용을 Insert 함) -->
 	<insert id="insertQnaOption">
 		INSERT INTO QNA_OPTION qo 
-		VALUES (SEQ_QNA_OPTION.NEXTVAL, #{qnaOption}, #{qnaOptionContent})
+		VALUES (SEQ_QNA_OPTION.NEXTVAL, #{qnaOption}, #{qnaOptionContent}, #{id}, SYSDATE)
 	</insert>
 	
 	<!-- 고객 지원 - 문의 유형 관리 - 수정 기능 (기능 : 수기 입력받은 유형과 내용을 Update 함) -->
 	<update id="updateQnaOption">
 		UPDATE QNA_OPTION 
 		SET QNA_OPTION = #{qnaOption},
-			QNA_OPTION_CONTENT  = #{qnaOptionContent}
+			QNA_OPTION_CONTENT  = #{qnaOptionContent},
+			ID = #{id},
+			CREATE_DATE = SYSDATE
 		WHERE QNA_OPTION.SEQ_QNA_OPTION =  #{seqQnaOption}
 	</update>
 	

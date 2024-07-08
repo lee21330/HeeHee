@@ -183,15 +183,18 @@ public class MyPageController {
 
 	// 마이페이지 - 판매 상품 상세페이지_송장입력 모달
 	@PostMapping("/saledetail/{productSeq}/insertDelivery")
-	public String insertDelivery(InsertDeliveryDTO delivery, String buyerId, RedirectAttributes redirectAttr) {
-		delivery.setBuyerId(buyerId);
-		int result = mypageservice.insertDelivery(delivery);
+	public String insertDelivery(@PathVariable("productSeq") int productSeq,  InsertDeliveryDTO delivery, String buyerId, RedirectAttributes redirectAttr) {
+		delivery.setBuyerId(buyerId);  // 알림 insert 하려면 구매자 아이디 필요
+		int result = mypageservice.insertDelivery(delivery, productSeq); // 알림 insert 하려면 상품 시퀀스 필요
+		
 		String message;
+		
 		if (result > 0) {
 			message = "insert success";
 		} else {
 			message = "insert fail";
 		}
+		
 		redirectAttr.addFlashAttribute("result", message);
 		return "redirect:/mypage/saledetail/{productSeq}";
 	}

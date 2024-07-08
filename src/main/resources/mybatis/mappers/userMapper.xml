@@ -49,4 +49,15 @@
     <select id="dupEmailCheck" parameterType="String" resultType="int">
     	SELECT COUNT(*) FROM HH_USER WHERE EMAIL = #{email}
     </select>
+    
+    <select id="banCheck" parameterType="String" resultType="com.shinhan.heehee.dto.request.BanUserDTO">
+		SELECT BAN_CONTENT,
+					TO_CHAR(BAN_STR, 'YY/MM/DD') AS startDay,
+					TO_CHAR(BAN_END, 'YY/MM/DD') AS endDay
+		FROM HH_USER H, BAN_HISTORY B
+		WHERE H.ID = B.ID
+					AND B.ID = #{userId}
+					AND BAN_STR <![CDATA[<=]]> SYSDATE
+					AND BAN_END <![CDATA[>=]]> SYSDATE
+	</select>
 </mapper>

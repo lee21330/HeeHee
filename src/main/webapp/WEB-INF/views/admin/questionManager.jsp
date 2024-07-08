@@ -17,10 +17,8 @@
 	<p class="mainTitle">문의 유형 관리</p>
 		<p class="searchTitle">문의 유형 조회/편집</p>
 		<div id="searchContainer">
-			<div id="btmContainer">
-				<div class="containerHeadBlock">
-					<p class="searchContext">검색어</p>
-				</div>
+			<div id="midContainer">
+				<p class="searchContext">검색어</p>
 				<select id="searchCategory">
 					<option value="number">번호</option>
 					<option value="questioncategory">유형</option>
@@ -30,11 +28,11 @@
 				<button type="submit" class="commonSmallBtn" id="resetButton">초기화</button>
 			</div>
 		</div>
-		<div id="btmContainer">
+		<div id="detailContainer">
 		<p class="detailTitle">상세 내용</p>
-		<button class="commonSmallBtn" id="addButton">신규 등록</button> <!-- 기능구현 추가 필요함 -->
-		<button class="commonSmallBtn" id="editButton">수정</button>
-		<button class="commonSmallBtn" id="deleteButton">삭제</button>
+		<button class="commonSmallDetailBtn1" id="addButton">신규 등록</button> <!-- 기능구현 추가 필요함 -->
+		<button class="commonSmallDetailBtn2" id="editButton">수정</button>
+		<button class="commonSmallDetailBtn3" id="deleteButton">삭제</button>
 		</div>
 		<div class="qnaManagerTable">
 			<table>
@@ -44,6 +42,8 @@
 						<th>번호</th>
 						<th>유형</th>
 						<th>내용</th>
+						<th>작성자ID</th>
+						<th>작성일</th>
 					</tr>
 				</thead>
 				<tbody id="tableBody">

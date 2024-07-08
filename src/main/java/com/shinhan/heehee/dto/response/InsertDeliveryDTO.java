@@ -10,6 +10,6 @@ public class InsertDeliveryDTO {
 	private Integer dCompanySeq;
 	private String dNumber;
 	private String dStatus;
-	private String sSeq;
+	private int sSeq;
 	private String buyerId;
 }
