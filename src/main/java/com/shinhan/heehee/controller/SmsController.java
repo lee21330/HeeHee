@@ -31,7 +31,7 @@ public class SmsController {
 	Logger logger = LoggerFactory.getLogger(SmsController.class);
 	
 	public SmsController() {
-        this.messageService = NurigoApp.INSTANCE.initialize("NCSAEC7JVOESUIQH", "DBTV1LDXAMSQ017JWMGZI8696N1OEFGW", "https://api.coolsms.co.kr");
+        this.messageService = NurigoApp.INSTANCE.initialize("초기 설정값", "초기 설정값", "https://api.coolsms.co.kr");
     }
 	
 	@PostMapping("/send")
